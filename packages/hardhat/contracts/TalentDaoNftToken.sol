@@ -65,7 +65,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
     /// @param arweaveHash the hash of the article
     /// @param metadata the metadata uri for the nft
     /// @param token the token address of the asset to pay with
-    /// @param amountOfTDAO the amount of tdao tokens submitting
+    /// @param amount the amount of tdao tokens submitting
     function mintAuthorNFT(address author, bytes memory arweaveHash, string memory metadata, address token, uint256 amount)
         public
         returns (uint256)
