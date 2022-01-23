@@ -29,10 +29,16 @@ contract TalentDaoToken is Ownable, ERC20Burnable {
         
     }
 
-    function burnTokens(unt256 amount) public {
-      _burn(amount);
+    /// @dev Burn tokens from a user
+    /// @param amount the amount of tokens to burn
+    /// @param from the user the tokens are coming from, msg.sender could also work.
+    function burnTokens(uint256 amount, address from) public {
+      _burn(from, amount);
     }
 
+    /// @dev Mint tokens to an address
+    /// @param amount the amount of tokens to mint
+    /// @param to the user to mint to
     function mintTokens(uint256 amount, address to) public onlyOwner {
       _mint(to, amount);
     }

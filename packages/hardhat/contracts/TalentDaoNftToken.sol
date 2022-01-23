@@ -24,7 +24,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
 
     struct Article {
         address author; // the address of the author
-        string metadata; // token uri to metadata
+        string metadataPtr; // token uri to metadata
         uint256 tokenId; // the token id representing the authors article
         uint256 paid; // the amount paid for the article to be saved on the system
     }
@@ -41,8 +41,8 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
     /// @dev this is internal mint function
     /// @param author the user that is minting the token address
     /// @param arweaveHash the arweave hash for the article
-    /// @param metadata the metadata uri for the nft
-    function mintAuthorNFT(address author, bytes memory arweaveHash, string memory metadata)
+    /// @param metadataPtr the metadata uri for the nft
+    function mintAuthorNFT(address author, bytes memory arweaveHash, string memory metadataPtr)
         public
         returns (uint256)
     {
@@ -50,12 +50,12 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
 
         Article storage article = articles[arweaveHash];
         article.author = author;
-        article.metadata = metadata;
+        article.metadataPtr = metadataPtr;
         article.tokenId = _tokenIds.current();
 
         uint256 newItemId = _tokenIds.current();
         _mint(author, newItemId);
-        _setTokenURI(newItemId, metadata);
+        _setTokenURI(newItemId, metadataPtr);
 
         return newItemId;
     }
@@ -63,10 +63,10 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
     /// @dev this is internal mint function
     /// @param author the user that is minting the token address
     /// @param arweaveHash the hash of the article
-    /// @param metadata the metadata uri for the nft
+    /// @param metadataPtr the metadata uri for the nft
     /// @param token the token address of the asset to pay with
     /// @param amount the amount of tdao tokens submitting
-    function mintAuthorNFT(address author, bytes memory arweaveHash, string memory metadata, address token, uint256 amount)
+    function mintAuthorNFT(address author, bytes memory arweaveHash, string memory metadataPtr, address token, uint256 amount)
         public
         returns (uint256)
     {
@@ -77,12 +77,12 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
 
         Article storage article = articles[arweaveHash];
         article.author = author;
-        article.metadata = metadata;
+        article.metadataPtr = metadataPtr;
         article.paid = amount;
 
         uint256 newItemId = _tokenIds.current();
         _mint(author, newItemId);
-        _setTokenURI(newItemId, metadata);
+        _setTokenURI(newItemId, metadataPtr);
 
         return newItemId;
     }
