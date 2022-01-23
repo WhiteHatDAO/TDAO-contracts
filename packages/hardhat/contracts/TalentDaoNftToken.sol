@@ -12,6 +12,9 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
 
+/// @title Talent DAO NFT Contract
+/// @author Jaxcoder
+/// @dev ERC721 to represent articles submitted by authors
 contract TalentDaoNftToken is Ownable, ERC721URIStorage {
     using Counters for Counters.Counter;
     using SafeERC20 for IERC20;

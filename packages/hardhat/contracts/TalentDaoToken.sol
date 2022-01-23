@@ -8,6 +8,9 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
 
+/// @title Talent DAO Token
+/// @author Jaxcoder
+/// @dev A mintable/burable ERC20 token
 contract TalentDaoToken is Ownable, ERC20Burnable {
 
     address public treasury;
@@ -17,17 +20,15 @@ contract TalentDaoToken is Ownable, ERC20Burnable {
       _mint(treasury, 100000000 ether);
     }
 
-    /// @dev See {ERC20-_beforeTokenTransfer}
-    function _beforeTokenTransfer(address from, address to, uint256 amount)
-        internal
-        virtual
-        override
-    {
-        super._beforeTokenTransfer(from, to, amount);
-
-        // todo: what do we need to do before a transfer takes place?
-        
-    }
+    // /// @dev See {ERC20-_beforeTokenTransfer}
+    // function _beforeTokenTransfer(address from, address to, uint256 amount)
+    //     internal
+    //     virtual
+    //     override
+    // {
+    //     super._beforeTokenTransfer(from, to, amount);
+    //     // todo: what do we need to do before a transfer takes place?  
+    // }
 
     /// @dev Burn tokens from a user
     /// @param amount the amount of tokens to burn
