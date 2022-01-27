@@ -20,7 +20,6 @@ interface ITDAOToken {
     function balanceOf ( address account ) external view returns ( uint256 );
 }
 
-
 /// @title TokenRecover
 /// @author jaxcoder
 /// @dev Allow to recover any ERC20 sent into the contract for error
@@ -68,9 +67,9 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     }
     
     /// @dev transfer TDAO tokens
-    /// @param to the recipient of the tokens
-    function transferTokens (address to, uint256 amount) public onlyRole(MANAGER_ROLE) {
-        tDaoToken.transfer(to, amount);
+    /// @param from the sender(author) of the tokens
+    function transferTokens (address from, uint256 amount) public onlyRole(MANAGER_ROLE) {
+        tDaoToken.transferFrom(from, address(this), amount);
     }
 
     /// @dev admin function to update the contract manager

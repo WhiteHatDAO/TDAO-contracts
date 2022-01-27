@@ -26,7 +26,7 @@ contract ArticleEntity {
     /// @dev add a new article on-chain
     /// @param authorAddress the address of the author
     /// @param arweaveHash the arweave hash in bytes32
-    function addArticle(address authorAddress, bytes32 arweaveHash) public {
+    function addArticle(address authorAddress, bytes32 arweaveHash) public returns (uint256) {
         _articleIds.increment();
         uint256 id = _articleIds.current();
         Article storage article = articles[arweaveHash];
@@ -37,6 +37,7 @@ contract ArticleEntity {
         // How does the tokenomics work from here? 
         // Do they get tokens for submitting an article?
         
+        return id;
     }
     
     /// @dev edit an article on-chain

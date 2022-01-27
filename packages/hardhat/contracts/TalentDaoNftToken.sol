@@ -23,8 +23,6 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
 
     address public treasury;
 
-    
-
     constructor(address _owner) public ERC721("Talent DAO NFT", "TDAO") {
         _transferOwnership(_owner);
     }
@@ -43,13 +41,13 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         returns (uint256)
     {
         _tokenIds.increment();
-
+        uint256 newItemId = _tokenIds.current();
+        addArticle(author, arweaveHash);
         Article storage article = articles[arweaveHash];
         article.author = author;
         article.metadataPtr = metadataPtr;
-        article.tokenId = _tokenIds.current();
-
-        uint256 newItemId = _tokenIds.current();
+        article.tokenId = newItemId;
+        
         _mint(author, newItemId);
         _setTokenURI(newItemId, metadataPtr);
 
@@ -70,11 +68,14 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         IERC20(token).transferFrom(author, address(this), amount);
 
         _tokenIds.increment();
-
+        (uint256 articleId) = addArticle(author, arweaveHash);
         Article storage article = articles[arweaveHash];
         article.author = author;
         article.metadataPtr = metadataPtr;
         article.paid = amount;
+
+        addAuthor(author, articleId);
+        article = authorsArticlesById[author][articleId];
 
         uint256 newItemId = _tokenIds.current();
         _mint(author, newItemId);

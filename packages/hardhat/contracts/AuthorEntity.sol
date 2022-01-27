@@ -19,17 +19,20 @@ contract AuthorEntity is ArticleEntity {
     Author[] authorList;
 
     mapping(address => Author) public authors;
+    mapping(address => mapping(uint256 => Article)) public authorsArticlesById;
 
     constructor() public {}
 
     /// @dev add a new author on-chain
     /// @param authorAddress the address of the author
-    function addAuthor(address authorAddress) public {
+    function addAuthor(address authorAddress, uint256 articleId) public {
         _authorIds.increment();
         uint256 id = _authorIds.current();
         Author storage newAuthor = authors[authorAddress];
         newAuthor.id = id;
-        // ...
+        
+        
+        
 
     }
     /// @dev edit an author on-chain
