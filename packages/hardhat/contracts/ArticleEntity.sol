@@ -7,7 +7,12 @@ contract ArticleEntity {
 
     struct Article {
         uint256 id;
+        string title;
+        string description;
+        string body;
     }
+
+    Article[] articleList;
 
     constructor() public {}
 }

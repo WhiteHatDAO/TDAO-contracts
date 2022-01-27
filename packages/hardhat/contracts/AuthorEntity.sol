@@ -11,5 +11,7 @@ contract AuthorEntity is ArticleEntity {
         string name;
     }
 
+    Author[] authorList;
+
     constructor() public {}
 }
