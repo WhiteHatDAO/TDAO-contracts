@@ -22,36 +22,17 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     Counters.Counter private _tokenIds;
 
     address public treasury;
+    IERC20 private tDaoToken;
 
-    constructor(address _owner) public ERC721("Talent DAO NFT", "TDAO") {
+    constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO NFT", "TDAO") {
+        tDaoToken = IERC20(_tDaoToken);
+        
         _transferOwnership(_owner);
     }
 
     /// @dev we may not need this, for OpenSea
     function contractURI() public view returns (string memory) {
         return "";
-    }
-
-    /// @dev this is internal mint function
-    /// @param author the user that is minting the token address
-    /// @param arweaveHash the arweave hash for the article
-    /// @param metadataPtr the metadata uri for the nft
-    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr)
-        public
-        returns (uint256)
-    {
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
-        addArticle(author, arweaveHash);
-        Article storage article = articles[arweaveHash];
-        article.author = author;
-        article.metadataPtr = metadataPtr;
-        article.tokenId = newItemId;
-        
-        _mint(author, newItemId);
-        _setTokenURI(newItemId, metadataPtr);
-
-        return newItemId;
     }
 
     /// @dev this is internal mint function
@@ -64,7 +45,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         public
         returns (uint256)
     {
-        require(IERC20(token).balanceOf(msg.sender) > amount, "");
+        require(IERC20(token).balanceOf(msg.sender) > amount, "You don't have enough tokens");
         IERC20(token).transferFrom(author, address(this), amount);
 
         _tokenIds.increment();
@@ -96,5 +77,13 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         onlyOwner
     {
         _setTokenURI(_tokenId, _tokenURI);
+    }
+
+    function getContractBalance(address token) public onlyOwner returns (uint256) {
+        return IERC20(token).balanceOf(address(this));
+    }
+
+    function withdrawTDAOTokens() public onlyOwner {
+        tDaoToken.transferFrom(address(this), _msgSender(), tDaoToken.balanceOf(address(this)));
     }
 }
