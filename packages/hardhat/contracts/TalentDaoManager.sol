@@ -48,8 +48,11 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl {
 
     ITDAOToken public tDaoToken;
 
+    Counters.Counter private _authorIds;
+    Counters.Counter private _articleIds;
+
     mapping(address => Author) public authors;
-    mapping(address => Article) public articles;
+    mapping(address => mapping(uint256 => Article)) public articles;
 
     event ManagerRemoved(address indexed oldManager);
     event ManagerAdded(address indexed newManager);
@@ -63,9 +66,32 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl {
 
     // todo: 
     // 1. Add Author
+    function addAuthor(address authorAddress) public {
+        _authorIds.increment();
+        uint256 id = _authorIds.current();
+        Author storage newAuthor = authors[authorAddress];
+        newAuthor.id = id;
+        // ...
+
+    }
     // 2. Edit Author
+    function updateAuthor(address authorAddress) public {
+        Author storage newAuthor = authors[authorAddress];
+        // now edit...
+    }
     // 3. Add Article
+    function addArticle(address authorAddress) public {
+        _articleIds.increment();
+        uint256 id = _articleIds.current();
+        Article storage article = articles[authorAddress][id];
+        article.id = id;
+        // ...
+    }
     // 4. Edit Article
+    function updateArticle(address authorAddress, uint256 articleId) public {
+        Article storage article = articles[authorAddress][id];
+        // now edit...
+    }
     // 5. Any token transfers
 
     function transferTokens (address to) public onlyRole(MANAGER_ROLE) {}
@@ -75,6 +101,6 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl {
         emit ManagerRemoved(manager);
         manager = newManager;
         grantRole(MANAGER_ROLE, manager);
-        emit ManagerAdded(manger);
+        emit ManagerAdded(manager);
     }
 }
