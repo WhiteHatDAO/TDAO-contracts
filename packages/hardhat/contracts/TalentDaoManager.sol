@@ -89,7 +89,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl {
     }
     // 4. Edit Article
     function updateArticle(address authorAddress, uint256 articleId) public {
-        Article storage article = articles[authorAddress][id];
+        Article storage article = articles[authorAddress][articleId];
         // now edit...
     }
     // 5. Any token transfers

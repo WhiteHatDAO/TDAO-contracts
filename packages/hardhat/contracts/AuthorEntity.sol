@@ -8,6 +8,7 @@ contract AuthorEntity is ArticleEntity {
 
     struct Author {
         uint256 id;
+        string name;
     }
 
     constructor() public {}
