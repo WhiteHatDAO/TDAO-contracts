@@ -9,13 +9,13 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
+import "./AuthorEntity.sol";
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
 
 /// @title Talent DAO NFT Contract
 /// @author Jaxcoder
 /// @dev ERC721 to represent articles submitted by authors
-contract TalentDaoNftToken is Ownable, ERC721URIStorage {
+contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     using Counters for Counters.Counter;
     using SafeERC20 for IERC20;
 
@@ -23,14 +23,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
 
     address public treasury;
 
-    mapping(bytes => Article) public articles;
-
-    struct Article {
-        address author; // the address of the author
-        string metadataPtr; // token uri to metadata
-        uint256 tokenId; // the token id representing the authors article
-        uint256 paid; // the amount paid for the article to be saved on the system
-    }
+    
 
     constructor(address _owner) public ERC721("Talent DAO NFT", "TDAO") {
         _transferOwnership(_owner);
@@ -45,7 +38,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
     /// @param author the user that is minting the token address
     /// @param arweaveHash the arweave hash for the article
     /// @param metadataPtr the metadata uri for the nft
-    function mintAuthorNFT(address author, bytes memory arweaveHash, string memory metadataPtr)
+    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr)
         public
         returns (uint256)
     {
@@ -69,7 +62,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage {
     /// @param metadataPtr the metadata uri for the nft
     /// @param token the token address of the asset to pay with
     /// @param amount the amount of tdao tokens submitting
-    function mintAuthorNFT(address author, bytes memory arweaveHash, string memory metadataPtr, address token, uint256 amount)
+    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr, address token, uint256 amount)
         public
         returns (uint256)
     {

@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+
 import "./AuthorEntity.sol";
 
 /// @dev TDAO token interface
@@ -42,19 +42,12 @@ contract TokenRecover is Ownable {
 contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover {
     using SafeERC20 for IERC20;
     using SafeMath for uint256;
-    using Counters for Counters.Counter;
-
+    
     bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
 
     address public manager;
 
-    ITDAOToken public tDaoToken;
-
-    Counters.Counter private _authorIds;
-    Counters.Counter private _articleIds;
-
-    mapping(address => Author) public authors;
-    mapping(address => mapping(uint256 => Article)) public articles;
+    ITDAOToken public tDaoToken;   
 
     event ManagerRemoved(address indexed oldManager);
     event ManagerAdded(address indexed newManager);
@@ -66,49 +59,8 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         transferOwnership(_owner);
     }
 
-    /// @dev add a new author on-chain
-    /// @param authorAddress the address of the author
-    function addAuthor(address authorAddress) public {
-        _authorIds.increment();
-        uint256 id = _authorIds.current();
-        Author storage newAuthor = authors[authorAddress];
-        newAuthor.id = id;
-        // ...
-
-    }
-    /// @dev edit an author on-chain
-    /// @param authorAddress the address of the author
-    function updateAuthor(address authorAddress) public {
-        Author storage newAuthor = authors[authorAddress];
-        // now edit...
-    }
     
-    /// @dev add a new article on-chain
-    /// @param authorAddress the address of the author
-    function addArticle(address authorAddress, string memory title, string memory description, string memory body) public {
-        _articleIds.increment();
-        uint256 id = _articleIds.current();
-        Article storage article = articles[authorAddress][id];
-        article.id = id;
-        article.title = title;
-        article.description = description;
-        article.body = body;
-
-        articleList.push(article);
-
-        // How does the tokenomics work from here? 
-        // Do they get tokens for submitting an article?
-        _transferTokens(authorAddress, 100 ether);
-    }
     
-    /// @dev edit an article on-chain
-    /// @param authorAddress the address of the author
-    /// @param articleId the id of the article
-    function updateArticle(address authorAddress, uint256 articleId) public {
-        Article storage article = articles[authorAddress][articleId];
-        // now edit...
-    }
-
     /// @dev transfer TDAO tokens
     /// @param to the recipient of the tokens
     function _transferTokens (address to, uint256 amount) internal {
