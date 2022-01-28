@@ -34,9 +34,6 @@ contract ArticleEntity {
 
         articleList.push(article);
 
-        // How does the tokenomics work from here? 
-        // Do they get tokens for submitting an article?
-        
         return id;
     }
     

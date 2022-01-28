@@ -22,11 +22,12 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     Counters.Counter private _tokenIds;
 
     address public treasury;
+    address public tDaoTokenAddress;
     IERC20 private tDaoToken;
 
     constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO NFT", "TDAO") {
         tDaoToken = IERC20(_tDaoToken);
-        
+        tDaoTokenAddress = _tDaoToken;
         _transferOwnership(_owner);
     }
 
@@ -39,14 +40,13 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     /// @param author the user that is minting the token address
     /// @param arweaveHash the hash of the article
     /// @param metadataPtr the metadata uri for the nft
-    /// @param token the token address of the asset to pay with
     /// @param amount the amount of tdao tokens submitting
-    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr, address token, uint256 amount)
+    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount)
         public
         returns (uint256)
     {
-        require(IERC20(token).balanceOf(msg.sender) > amount, "You don't have enough tokens");
-        IERC20(token).transferFrom(author, address(this), amount);
+        require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
+        tDaoToken.transferFrom(author, address(this), amount);
 
         _tokenIds.increment();
         (uint256 articleId) = addArticle(author, arweaveHash);
