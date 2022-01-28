@@ -13,9 +13,9 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 /// @dev A mintable/burable ERC20 token
 contract TalentDaoToken is Ownable, ERC20Burnable {
 
-    address public treasury;
+    address public treasury = 0xA4ca1b15fE81F57cb2d3f686c7B13309906cd37B;
 
-    constructor(address _owner) public ERC20("Talent DAO Token", "TDAO") ERC20Burnable() {
+    constructor(address _owner) public ERC20("Talent DAO Token", "TALENT") ERC20Burnable() {
       _transferOwnership(_owner);
       _mint(treasury, 100000000 ether);
     }
