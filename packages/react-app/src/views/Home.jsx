@@ -1,5 +1,7 @@
 import { useContractReader } from "eth-hooks";
+import { ethers } from "ethers";
 import React from "react";
+import { Link } from "react-router-dom";
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
@@ -10,7 +12,7 @@ import React from "react";
 function Home({ yourLocalBalance, readContracts }) {
   // you can also use hooks locally in your component of choice
   // in this case, let's keep track of 'purpose' variable from our contract
-  const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  // const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
   return <div style={{ margin: 32 }}></div>;
 }

@@ -17,18 +17,19 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  await deploy("TalentDaoToken", {
+  const talentDaoTokenContract = await deploy("TalentDaoToken", {
     from: deployer,
-    args: [0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b],
+    args: ["0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b"],
     log: true,
-    waitConfirmations: 5,
   });
 
   await deploy("TalentDaoNftToken", {
     from: deployer,
-    args: [0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b],
+    args: [
+      "0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b",
+      talentDaoTokenContract.address,
+    ],
     log: true,
-    waitConfirmations: 5,
   });
 
   // Getting a previously deployed contract
@@ -45,8 +46,8 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   await deploy("TalentDaoManager", {
     from: deployer,
     args: [
-      0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b, // contract manager
-      0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b, // contract owner
+      "0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b", // contract manager
+      "0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b", // contract owner
       TalentDAOTokenContract.address, // TDAO token address
     ],
     log: true,
@@ -67,19 +68,19 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
       await run("verify:verify", {
         address: TalentDAOTokenContract.address,
         contract: "contracts/TalentDaoToken.sol:TalentDaoToken",
-        contractArguments: [0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b],
+        contractArguments: ["0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b"],
       });
       await run("verify:verify", {
         address: TalentDAONFTTokenContract.address,
         contract: "contracts/TalentDaoNftToken.sol:TalentDaoNftToken",
-        contractArguments: [0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b],
+        contractArguments: ["0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b"],
       });
       await run("verify:verify", {
         address: TalentDaoManagerContract.address,
         contract: "contracts/TalentDaoManager.sol:TalentDaoManager",
         contractArguments: [
-          0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b, // contract manager
-          0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b, // contract owner
+          "0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b", // contract manager
+          "0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b", // contract owner
           TalentDAOTokenContract.address, // TDAO token address
         ],
       });
@@ -88,4 +89,8 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     console.error(error);
   }
 };
-module.exports.tags = ["TalentDaoToken", "TalentDaoNftToken"];
+module.exports.tags = [
+  "TalentDaoToken",
+  "TalentDaoNftToken",
+  "TalentDaoManager",
+];
