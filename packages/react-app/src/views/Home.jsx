@@ -1,10 +1,9 @@
 import React from "react";
-import Head from 'next/head'
-import Navbar from '../components/HelperComponents/Navbar'
-import Footer from '../components/HelperComponents/Footer'
-import Newsletter from '../components/HelperComponents/Newsletter'
-import Splash from '../components/HelperComponents/Splash'
-import LatestArticles from '../components/HelperComponents/LatestArticles'
+import Footer from "../components/HelperComponents/Footer";
+import LatestArticles from "../components/HelperComponents/LatestArticles";
+import Navbar from "../components/HelperComponents/Navbar";
+import Newsletter from "../components/HelperComponents/Newsletter";
+import Splash from "../components/HelperComponents/Splash";
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
@@ -19,40 +18,35 @@ function Home({ yourLocalBalance, readContracts }) {
 
   return (
     <div className="max-w-screen-2xl mx-auto">
-      <Head>
-        <title>Talent DAO</title>
-        <meta name="talent dao" content="talent dao" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <hr />
-
       {/* Navbar Component Section */}
       <Navbar />
       <Splash />
 
       {/* Slider, Component not needed */}
-      <h3>Got Talent? <span className="text-red-700">Join Us.</span></h3>
+      <h3>
+        Got Talent? <span className="text-red-700">Join Us.</span>
+      </h3>
 
       {/* Article Component Section */}
       <LatestArticles />
 
       {/* Featured Author & Updates Section  */}
-      <div className='flex'>
-        <div className='w-1/2'>
+      <div className="flex">
+        <div className="w-1/2">
           <h2>Featured Author</h2>
         </div>
-        <div className='w-1/2'>
+        <div className="w-1/2">
           <h2>DAO Updates</h2>
         </div>
       </div>
-      
+
       {/* Newsletter Signup Component */}
       <Newsletter />
 
       {/* Footer Component Section */}
       <Footer />
     </div>
-  )
+  );
 }
 
 export default Home;
