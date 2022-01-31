@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import logo from "../public/talent-logo.png";
+import { Image } from "antd";
+import { Link } from "react-router-dom";
+import logo from "../../assets/talent-logo.png";
 
 function Footer() {
   return (

@@ -1,9 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
-import discord from "../public/discord.png";
-import profile from "../public/profile-icon.png";
-import logo from "../public/talent-logo.png";
-import twitter from "../public/twitter.png";
+import { Image } from "antd";
+import { Link } from "react-router-dom";
+import discord from "../../assets/discord.png";
+import profile from "../../assets/profile-icon.png";
+import logo from "../../assets/talent-logo.png";
+import twitter from "../../assets/twitter.png";
 
 {
   /* Image Import */

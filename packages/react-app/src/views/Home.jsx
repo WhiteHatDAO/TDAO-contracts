@@ -1,4 +1,3 @@
-import { useContractReader } from "eth-hooks";
 import React from "react";
 import Head from 'next/head'
 import Navbar from '../components/HelperComponents/Navbar'
@@ -16,7 +15,7 @@ import LatestArticles from '../components/HelperComponents/LatestArticles'
 function Home({ yourLocalBalance, readContracts }) {
   // you can also use hooks locally in your component of choice
   // in this case, let's keep track of 'purpose' variable from our contract
-  const purpose = useContractReader(readContracts, "YourContract", "purpose");
+  // const purpose = useContractReader(readContracts, "YourContract", "purpose");
 
   return (
     <div className="max-w-screen-2xl mx-auto">
