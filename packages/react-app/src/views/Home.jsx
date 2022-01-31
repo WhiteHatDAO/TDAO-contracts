@@ -1,7 +1,7 @@
 import React from "react";
 import Footer from "../components/HelperComponents/Footer";
 import LatestArticles from "../components/HelperComponents/LatestArticles";
-import Navbar from "../components/HelperComponents/Navbar";
+// import Navbar from "../components/HelperComponents/Navbar";
 import Newsletter from "../components/HelperComponents/Newsletter";
 import Splash from "../components/HelperComponents/Splash";
 
@@ -18,8 +18,7 @@ function Home({ yourLocalBalance, readContracts }) {
 
   return (
     <div className="max-w-screen-2xl mx-auto">
-      {/* Navbar Component Section */}
-      {/* Slider, Component not needed */}
+      <Splash />
       <h3>
         Got Talent? <span className="text-red-700">Join Us.</span>
       </h3>

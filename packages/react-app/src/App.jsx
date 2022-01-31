@@ -258,7 +258,7 @@ function App(props) {
         </Menu.Item>
       </Menu> */}
       <Navbar />
-      <Splash />
+      
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
