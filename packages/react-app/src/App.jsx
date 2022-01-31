@@ -12,6 +12,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
 import { Contract, ThemeSwitch } from "./components";
+import Navbar from "./components/HelperComponents/Navbar";
+import Splash from "./components/HelperComponents/Splash";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
@@ -255,7 +257,8 @@ function App(props) {
           <Link to="/subgraph">Subgraph</Link>
         </Menu.Item>
       </Menu> */}
-
+      <Navbar />
+      <Splash />
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}

@@ -19,19 +19,13 @@ function Navbar() {
         {/* Menu Items */}
         <ul className="flex items-center space-x-5 uppercase">
           <li>
-            <Link href="/">
-              <a>Home</a>
-            </Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link href="/about">
-              <a>About</a>
-            </Link>
+            <Link to="/about">About</Link>
           </li>
           <li>
-            <Link href="/contact">
-              <a>Contact Us</a>
-            </Link>
+            <Link to="/contact">Contact Us</Link>
           </li>
           <li>Browse</li>
         </ul>

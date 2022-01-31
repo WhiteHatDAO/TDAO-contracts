@@ -19,9 +19,6 @@ function Home({ yourLocalBalance, readContracts }) {
   return (
     <div className="max-w-screen-2xl mx-auto">
       {/* Navbar Component Section */}
-      <Navbar />
-      <Splash />
-
       {/* Slider, Component not needed */}
       <h3>
         Got Talent? <span className="text-red-700">Join Us.</span>
