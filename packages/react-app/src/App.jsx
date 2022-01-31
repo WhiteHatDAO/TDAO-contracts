@@ -1,4 +1,3 @@
-import { Button, Col, Row } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -12,18 +11,7 @@ import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import {
-  Account,
-  Contract,
-  Faucet,
-  FaucetHint,
-  GasGauge,
-  Header,
-  NetworkDisplay,
-  NetworkSwitch,
-  Ramp,
-  ThemeSwitch,
-} from "./components";
+import { Contract, ThemeSwitch } from "./components";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
@@ -248,14 +236,14 @@ function App(props) {
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
       {/* <Header /> */}
-      <NetworkDisplay
+      {/* <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
         selectedChainId={selectedChainId}
         targetNetwork={targetNetwork}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
-      />
+      /> */}
       {/* <Menu style={{ textAlign: "center", marginTop: 40 }} selectedKeys={[location.pathname]} mode="horizontal">
         <Menu.Item key="/">
           <Link to="/">App Home</Link>
