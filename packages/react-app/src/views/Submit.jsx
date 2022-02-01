@@ -21,6 +21,6 @@ const Submit = () => {
       </section>
     </div>
   );
-}
+};
 
 export default Submit;

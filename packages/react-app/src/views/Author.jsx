@@ -7,6 +7,6 @@ const Author = () => {
       <Navbar />
     </div>
   );
-}
+};
 
 export default Author;

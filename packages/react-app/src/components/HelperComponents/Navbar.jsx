@@ -13,11 +13,11 @@ function Navbar() {
   return (
     <nav className="flex flex-row items-center">
       {/* Navbar Left Items */}
-      <div className="py-6 basis-2/3 flex ">
-        <Image src={logo} alt="talent" width={150} height={35} layout="fixed" />
+      <div className="flex basis-2/3 px-16 py-6">
+        <Image src={logo} alt="talent" width={150} height={40} layout="fixed" />
 
         {/* Menu Items */}
-        <ul className="flex items-center space-x-5 uppercase">
+        <ul className="flex items-center px-12 py-2 space-x-5 uppercase">
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -35,9 +35,9 @@ function Navbar() {
       <div className="flex items-center justify-end space-x-3">
         {/* Social Media Icons */}
         <div className="flex space-x-5">
-          <Image className="pr-5" src={twitter} alt="twitter logo" width={30} height={30} layout="fixed" />
+          <Image src={twitter} alt="twitter logo" width={30} height={30} layout="fixed" />
           <Image src={discord} alt="discord logo" width={30} height={30} layout="fixed" />
-          <Image src={profile} alt="discord logo" width={30} height={30} layout="fixed" />
+          <Image src={profile} alt="profile icon" width={30} height={30} layout="fixed" />
         </div>
         {/* Button */}
         <a
