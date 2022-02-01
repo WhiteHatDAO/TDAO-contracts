@@ -61,7 +61,7 @@ export default function Account({
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <Button
+        <a
           key="logoutbutton"
           style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
           shape="round"
@@ -69,12 +69,11 @@ export default function Account({
           onClick={logoutOfWeb3Modal}
         >
           Logout
-        </Button>,
+        </a>,
       );
     } else {
       modalButtons.push(
-        <Button
-          className="inline-block bg-red-500 text-white hover:bg-red-600 px-8 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm"
+        <a style={{ textColor: "white" }}
           key="loginbutton"
           style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
           shape="round"
@@ -83,7 +82,7 @@ export default function Account({
           onClick={loadWeb3Modal}
         >
           Connect
-        </Button>,
+        </a>,
       );
     }
   }

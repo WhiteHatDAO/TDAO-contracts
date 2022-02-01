@@ -4,12 +4,26 @@ import discord from "../../assets/discord.png";
 import profile from "../../assets/profile-icon.png";
 import logo from "../../assets/talent-logo.png";
 import twitter from "../../assets/twitter.png";
+import { Account } from "../../components";
 
 {
   /* Image Import */
 }
 
-function Navbar() {
+function Navbar({
+  useBurner,
+  address,
+  localProvider,
+  userProvider,
+  userSigner,
+  mainnetProvider,
+  price,
+  web3Modal,
+  loadWeb3Modal,
+  logoutOfWeb3Modal,
+  blockExplorer,
+  isContract,
+}) {
   return (
     <nav className="flex flex-row items-center">
       {/* Navbar Left Items */}
@@ -40,12 +54,20 @@ function Navbar() {
           <Image src={profile} alt="discord logo" width={30} height={30} layout="fixed" />
         </div>
         {/* Button */}
-        <a
-          className="inline-block bg-red-500 text-white hover:bg-red-600 px-8 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm"
-          href="#"
-        >
-          Connect
-        </a>
+        <div className="inline-block bg-red-500 text-white hover:bg-red-600 px-8 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm">
+          <Account
+            useBurner={useBurner}
+            address={address}
+            localProvider={localProvider}
+            userSigner={userSigner}
+            mainnetProvider={mainnetProvider}
+            price={price}
+            web3Modal={web3Modal}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+            blockExplorer={blockExplorer}
+          />
+        </div>
       </div>
     </nav>
   );
