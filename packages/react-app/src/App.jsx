@@ -312,6 +312,9 @@ function App(props) {
             mainnetProvider={mainnetProvider}
           />
         </Route>
+        <Route path="/submit">
+
+        </Route>
       </Switch>
 
       <ThemeSwitch />
