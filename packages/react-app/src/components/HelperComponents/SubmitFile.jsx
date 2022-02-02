@@ -1,13 +1,10 @@
 import React from 'react';
 
-export const SubmitFile = ({buttonText, onChange, onClick}) => {
+export const SubmitFile = ({fileName, onChange}) => {
 
     return (
         <div>
-            <input type="file" onChange={onChange} />
-            <button onClick={onClick}>
-                {buttonText}
-            </button>
+            <input type="file" name={fileName} onChange={onChange} />
         </div>
     )
 }
