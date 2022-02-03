@@ -12,7 +12,9 @@ contract AuthorEntity is ArticleEntity {
     Counters.Counter public _authorIds;
 
     struct Author {
+        address authorAddress;
         uint256 id;
+        bytes32 arweaveProfileHash;
     }
 
     Author[] authorList;
@@ -24,11 +26,12 @@ contract AuthorEntity is ArticleEntity {
 
     /// @dev add a new author on-chain
     /// @param authorAddress the address of the author
-    function addAuthor(address authorAddress, uint256 articleId) public returns (uint256) {
+    function addAuthor(address authorAddress, uint256 articleId, bytes32 profileHash) public returns (uint256) {
         _authorIds.increment();
         uint256 id = _authorIds.current();
         Author storage newAuthor = authors[authorAddress];
         newAuthor.id = id;
+        newAuthor.arweaveProfileHash = profileHash;
         
         
     }
@@ -37,5 +40,6 @@ contract AuthorEntity is ArticleEntity {
     function updateAuthor(address authorAddress) public {
         Author storage newAuthor = authors[authorAddress];
         // now edit...
+        
     }
 }

@@ -39,11 +39,12 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     /// @dev this is internal mint function
     /// @param author the user that is minting the token address
     /// @param arweaveHash the hash of the article
+    /// @param profileHash the hash to the authors profile
     /// @param metadataPtr the metadata uri for the nft
     /// @param amount the amount of tdao tokens submitting
-    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount)
+    function mintAuthorNFTForArticle(address author, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount)
         public
-        returns (uint256)
+        returns (uint256, uint256)
     {
         require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
         tDaoToken.transferFrom(author, address(this), amount);
@@ -55,14 +56,14 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         article.metadataPtr = metadataPtr;
         article.paid = amount;
 
-        (uint256 authorId) = addAuthor(author, articleId);
+        (uint256 authorId) = addAuthor(author, articleId, profileHash);
         article = authorsArticlesById[author][articleId];
 
         uint256 newItemId = _tokenIds.current();
         _mint(author, newItemId);
         _setTokenURI(newItemId, metadataPtr);
 
-        return newItemId;
+        return (newItemId, authorId);
     }
 
     /// @dev public function to set the token URI
