@@ -1,22 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/HelperComponents/Navbar";
 import { SubmitFile } from "../components/HelperComponents/SubmitFile";
+import { AuthorForm } from "../components/HelperComponents/AuthorForm";
 
 const Submit = () => {
 
   const manuscriptFileLabel = "manuscript-label"
   const thumbnailFileLabel = "thumbnail-label"
-  const [selectedFile, setSelectedFile] = useState();
-  const [isFilePicked, setIsFilePicked] = useState(false);
+  const [selectedManuscriptFile, setSelectedManuscriptFile] = useState();
+  const [selectedArticleCover, setSelectedArticleCover] = useState();
+  const [articleTitle, setArticleTitle] = useState("")
+  const [blockchain, setBlockchain] = useState("")  
+  const [categories, setCategories] = useState("")
 
-  const changeHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
-    setIsFilePicked(true);
-  };
+  const changeSelectedManuscriptFile = (event) => {
+    setSelectedManuscriptFile(event.target.files[0])
+    console.log(selectedManuscriptFile)
+  }
 
-  const handleSubmission = () => {
-  };
+  const changeSelectedArticleCover = (event) => {
+    setSelectedArticleCover(event.target.files[0])
+    console.log(selectedArticleCover)
+  }
 
+  const changeArticleTitle = (event) => {
+    setArticleTitle(event.target.value)
+  }
+
+  const changeBlockchain = (event) => {
+    setBlockchain(event.target.value)
+  }
+
+  const changeCategories = (event) => {
+    var options = event.target.options;
+    var categoriesSelected = [];
+    for (var i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        categoriesSelected.push(options[i].value);
+      }
+    }
+    setCategories(categoriesSelected);  
+  }
+
+  const handleFormSubmission = (data) => {
+    data.preventDefault()
+    console.log(data)
+    //JSON.stringify(data, null, 4)
+  }
+
+  useEffect(() => {
+    console.log(articleTitle)
+  })
 
   return (
     <div className="m-4 max-w-screen-xl mx-auto">
@@ -26,7 +60,7 @@ const Submit = () => {
       </div>
 
       <div className="flex">
-        <form className="flex-1 space-y-6" action="#" method="POST">
+        <form className="flex-1 space-y-6" onSubmit={handleFormSubmission}>
           <div className="space-y-6">
             <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
               <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -51,11 +85,11 @@ const Submit = () => {
                         </svg>
                         <div className="flex text-sm text-gray-600">
                           <label
-                            htmlFor="file-upload"
+                            htmlFor="manuscript-upload"
                             className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                           >
                             <span>Upload a file</span>
-                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                            <input id="manuscript-upload" name="manuscript-upload" type="file" className="sr-only" onChange={changeSelectedManuscriptFile}/>
                           </label>
                           <p className="pl-1">or drag and drop</p>
                         </div>
@@ -83,11 +117,11 @@ const Submit = () => {
                         </svg>
                         <div className="flex text-sm text-gray-600">
                           <label
-                            htmlFor="file-upload"
+                            htmlFor="image-upload"
                             className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                           >
                             <span>Upload a file</span>
-                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                            <input id="image-upload" name="image-upload" type="file" className="sr-only" onChange={changeSelectedArticleCover}/>
                           </label>
                           <p className="pl-1">or drag and drop</p>
                         </div>
@@ -121,18 +155,15 @@ const Submit = () => {
                   name="article-title"
                   id="article-title"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  value={articleTitle}
+                  onChange={changeArticleTitle}
                 />
               </div>
               <div className="mt-10 col-span-6">
                 <label htmlFor="authors" className="block text-left text-sm font-medium text-gray-700">
                   Author(s)
                 </label>
-                <input
-                  type="text"
-                  name="authors"
-                  id="authors"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                />
+                <AuthorForm />
               </div>
               <div className="mt-10 col-span-6">
                 <label htmlFor="abstract" className="block text-left text-sm font-medium text-gray-700">
@@ -157,7 +188,8 @@ const Submit = () => {
                   id="location"
                   name="location"
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  defaultValue="Ethereum"
+                  value={blockchain}
+                  onChange={changeBlockchain}
                 >
                   <option>Ethereum</option>
                 </select>
@@ -171,8 +203,9 @@ const Submit = () => {
                   id="categories"
                   name="categories"
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  defaultValue="Decentralization"
                   multiple
+                  value={categories}
+                  onChange={changeCategories}
                 >
                   <option>Decentralization</option>
                   <option>The Future of Work</option>
