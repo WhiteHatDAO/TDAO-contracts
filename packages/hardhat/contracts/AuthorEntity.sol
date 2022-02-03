@@ -15,6 +15,7 @@ contract AuthorEntity is ArticleEntity {
         address authorAddress;
         uint256 id;
         bytes32 arweaveProfileHash;
+        Article[] articles;
     }
 
     Author[] authorList;
@@ -40,6 +41,6 @@ contract AuthorEntity is ArticleEntity {
     function updateAuthor(address authorAddress) public {
         Author storage newAuthor = authors[authorAddress];
         // now edit...
-        
+
     }
 }
