@@ -11,7 +11,7 @@ const Submit = () => {
   const [selectedArticleCover, setSelectedArticleCover] = useState();
   const [articleTitle, setArticleTitle] = useState("")
   const [blockchain, setBlockchain] = useState("")  
-  const [categories, setCategories] = useState("")
+  const [categories, setCategories] = useState([])
 
   const changeSelectedManuscriptFile = (event) => {
     setSelectedManuscriptFile(event.target.files[0])
@@ -44,8 +44,8 @@ const Submit = () => {
 
   const handleFormSubmission = (data) => {
     data.preventDefault()
-    console.log(data)
-    //JSON.stringify(data, null, 4)
+    console.log(data.target)
+    //JSON.stringify(data.target, null, 4)
   }
 
   useEffect(() => {
