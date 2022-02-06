@@ -11,7 +11,7 @@ import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Contract, ThemeSwitch } from "./components";
+import { Contract, ThemeSwitch, NetworkDisplay } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -235,8 +235,6 @@ function App(props) {
 
   return (
     <div className="App container-2xl mx-auto">
-      {/* ✏️ Edit the header and change the title to your project name */}
-      {/* <Header /> */}
       {/* <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
@@ -245,17 +243,6 @@ function App(props) {
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
       /> */}
-      {/* <Menu style={{ textAlign: "center", marginTop: 40 }} selectedKeys={[location.pathname]} mode="horizontal">
-        <Menu.Item key="/">
-          <Link to="/">App Home</Link>
-        </Menu.Item>
-        <Menu.Item key="/debug">
-          <Link to="/debug">Debug Contracts</Link>
-        </Menu.Item>
-        <Menu.Item key="/subgraph">
-          <Link to="/subgraph">Subgraph</Link>
-        </Menu.Item>
-      </Menu> */}
       <Navbar
         useBurner={false}
         address={address}

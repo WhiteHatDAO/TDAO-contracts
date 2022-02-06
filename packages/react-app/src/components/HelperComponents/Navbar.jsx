@@ -25,10 +25,10 @@ function Navbar({
   isContract,
 }) {
   return (
-    <nav className="flex">
+    <nav className="flex place-content-evenly -ml-11">
       {/* Navbar Left Items */}
       <div className="flex px-16 py-5">
-        <Image src={logo} alt="talent" width={150} height={40} layout="fixed" />
+        <Image src={logo} alt="Talent DAO Logo" width={150} height={40} layout="fixed" />
         <span className="font-bold ml-10 text-3xl">|</span>
         {/* Menu Items */}
         <ul className="flex items-center px-12 py-2 space-x-5 uppercase">
@@ -41,7 +41,9 @@ function Navbar({
           <li>
             <Link to="/contact">Contact</Link>
           </li>
-          <li>Browse</li>
+          <li>
+            <Link to="/browse">Browse</Link>
+          </li>
         </ul>
       </div>
 
@@ -54,7 +56,7 @@ function Navbar({
           <Image src={profile} alt="profile icon" width={30} height={30} layout="fixed" />
         </div>
         {/* Button */}
-        <div className="inline-block bg-red-500 text-white hover:bg-red-600 px-6 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm">
+        <div className="flex bg-red-500 text-white hover:bg-red-600 px-6 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm">
           <Account
             useBurner={useBurner}
             address={address}
