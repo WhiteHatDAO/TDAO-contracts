@@ -2,7 +2,6 @@ import React from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
 import Balance from "./Balance";
-import Wallet from "./Wallet";
 
 /*
   ~ What it does? ~
@@ -60,23 +59,15 @@ export default function Account({
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <a
-          key="logoutbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4, color: "white" }}
-          onClick={logoutOfWeb3Modal}
-        >
+        <div className="" key="logoutbutton" style={{ color: "white" }} onClick={logoutOfWeb3Modal}>
           Logout
-        </a>,
+        </div>,
       );
     } else {
       modalButtons.push(
-        <a
-          key="loginbutton"
-          style={{ verticalAlign: "middle", marginLeft: 8, marginTop: 4, color: "white" }}
-          onClick={loadWeb3Modal}
-        >
+        <div className="" key="loginbutton" style={{ color: "white", cursor: "pointer" }} onClick={loadWeb3Modal}>
           Connect
-        </a>,
+        </div>,
       );
     }
   }
