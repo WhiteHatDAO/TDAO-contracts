@@ -25,9 +25,9 @@ const responsive = {
 
 const LatestArticles = () => {
   return (
-    <div className="w-full">
+    <div className="">
       <Row className="">
-        <Col span={4} className="mb-2 text-3xl">
+        <Col span={4} className="mb-2 text-3xl ml-3">
           <span className="flex">Latest Articles</span>
           <hr
             className="max-w-xs font-bold mb-6"
@@ -36,7 +36,15 @@ const LatestArticles = () => {
         </Col>
         <Col span={4}>
           <span
-            className="cursor-pointer"
+            onClick={() => {
+              console.log("favorites clicked");
+            }}
+            className="-mt-5 cursor-pointer rounded-lg bg-red-100 border-2 border-red-200 py-1 px-1"
+          >
+            favorites
+          </span>{" "}
+          <span
+            className="cursor-pointer rounded-lg bg-blue-100 border-2 border-blue-200 py-1 px-1"
             onClick={() => {
               console.log("following clicked");
             }}
@@ -44,17 +52,8 @@ const LatestArticles = () => {
             following
           </span>
         </Col>
-        <Col span={4}>
-          <span
-            onClick={() => {
-              console.log("favorites clicked");
-            }}
-            className="-mt-5 cursor-pointer"
-          >
-            favorites
-          </span>
-        </Col>
-        <Col span={4}>
+        <Col span={4}> </Col>
+        <Col span={4} className="">
           <span
             className="cursor-pointer"
             onClick={() => {
