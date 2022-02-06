@@ -18,7 +18,7 @@ function Home({ yourLocalBalance, readContracts }) {
     <div className="max-w-screen-2xl mx-auto">
       <Splash />
       <h3>
-        Got Talent? <span className="text-red-700">Join Us.</span>
+        Got Talent? <span className="text-red-700">Join Us</span>
       </h3>
 
       {/* Article Component Section */}

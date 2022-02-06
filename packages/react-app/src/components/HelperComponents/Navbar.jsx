@@ -27,9 +27,9 @@ function Navbar({
   return (
     <nav className="flex flex-row items-center">
       {/* Navbar Left Items */}
-      <div className="flex basis-2/3 px-16 py-6">
+      <div className="flex px-16 py-5">
         <Image src={logo} alt="talent" width={150} height={40} layout="fixed" />
-
+        <span className="font-bold ml-10 text-3xl">|</span>
         {/* Menu Items */}
         <ul className="flex items-center px-12 py-2 space-x-5 uppercase">
           <li>
@@ -39,22 +39,22 @@ function Navbar({
             <Link to="/about">About</Link>
           </li>
           <li>
-            <Link to="/contact">Contact Us</Link>
+            <Link to="/contact">Contact</Link>
           </li>
           <li>Browse</li>
         </ul>
       </div>
 
       {/* Navbar Right Items */}
-      <div className="flex items-center justify-end space-x-60">
+      <div className="flex items-center justify-end space-x-20">
         {/* Social Media Icons */}
-        <div className="flex space-x-5">
+        <div className="flex space-x-10">
           <Image src={twitter} alt="twitter logo" width={30} height={30} layout="fixed" />
           <Image src={discord} alt="discord logo" width={30} height={30} layout="fixed" />
           <Image src={profile} alt="profile icon" width={30} height={30} layout="fixed" />
         </div>
         {/* Button */}
-        <div className="inline-block bg-red-500 text-white hover:bg-red-600 px-8 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm">
+        <div className="inline-block bg-red-500 text-white hover:bg-red-600 px-6 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm">
           <Account
             useBurner={useBurner}
             address={address}

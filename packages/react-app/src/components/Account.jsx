@@ -60,7 +60,11 @@ export default function Account({
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <a key="logoutbutton" style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4, color: "white" }} onClick={logoutOfWeb3Modal}>
+        <a
+          key="logoutbutton"
+          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4, color: "white" }}
+          onClick={logoutOfWeb3Modal}
+        >
           Logout
         </a>,
       );
@@ -79,11 +83,11 @@ export default function Account({
   const display = minimized ? (
     ""
   ) : (
-    <span>
+    <div className="">
       {web3Modal && web3Modal.cachedProvider ? (
-        <>
+        <div className="">
           {address && <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />}
-          <Balance address={address} provider={localProvider} price={price} />
+          {/* <Balance address={address} provider={localProvider} price={price} />
           <Wallet
             address={address}
             provider={localProvider}
@@ -91,8 +95,8 @@ export default function Account({
             ensProvider={mainnetProvider}
             price={price}
             color={currentTheme === "light" ? "#1890ff" : "#2caad9"}
-          />
-        </>
+          /> */}
+        </div>
       ) : useBurner ? (
         ""
       ) : isContract ? (
@@ -106,7 +110,7 @@ export default function Account({
       {useBurner && web3Modal && !web3Modal.cachedProvider ? (
         <>
           <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
-          <Balance address={address} provider={localProvider} price={price} />
+          {/* <Balance address={address} provider={localProvider} price={price} />
           <Wallet
             address={address}
             provider={localProvider}
@@ -114,12 +118,12 @@ export default function Account({
             ensProvider={mainnetProvider}
             price={price}
             color={currentTheme === "light" ? "#1890ff" : "#2caad9"}
-          />
+          /> */}
         </>
       ) : (
         <></>
       )}
-    </span>
+    </div>
   );
 
   return (
