@@ -26,8 +26,10 @@ const LatestArticles = () => {
   return (
     <div className="w-full">
       <div className="">
-        <h2 className="flex ml-5 text-3xl">Latest Articles</h2>
-        {/* <span className="">favorites</span>
+        <div className="flex ml-5 mb-2 text-3xl">
+          Latest Articles
+        </div>
+        {/* <span className="-mt-5">favorites</span>
         <span>following</span>
         <span>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
