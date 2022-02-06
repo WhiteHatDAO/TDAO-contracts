@@ -1,3 +1,4 @@
+import { HeartOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -41,7 +42,7 @@ const LatestArticles = () => {
             }}
             className="-mt-5 cursor-pointer rounded-lg bg-red-100 border-2 border-red-200 py-1 px-1"
           >
-            favorites
+            <HeartOutlined className="" /> favorites
           </span>{" "}
           <span
             className="cursor-pointer rounded-lg bg-blue-100 border-2 border-blue-200 py-1 px-1"
