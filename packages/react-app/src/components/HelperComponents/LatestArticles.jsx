@@ -36,6 +36,7 @@ const LatestArticles = () => {
         </Col>
         <Col span={4}>
           <span
+            className="cursor-pointer"
             onClick={() => {
               console.log("following clicked");
             }}
@@ -48,13 +49,14 @@ const LatestArticles = () => {
             onClick={() => {
               console.log("favorites clicked");
             }}
-            className="-mt-5"
+            className="-mt-5 cursor-pointer"
           >
             favorites
           </span>
         </Col>
         <Col span={4}>
           <span
+            className="cursor-pointer"
             onClick={() => {
               console.log("click left");
             }}
@@ -71,6 +73,7 @@ const LatestArticles = () => {
         </Col>
         <Col span={4}>
           <span
+            className="cursor-pointer"
             onClick={() => {
               console.log("click right");
             }}

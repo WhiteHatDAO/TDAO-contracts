@@ -234,7 +234,7 @@ function App(props) {
   const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
-    <div className="App">
+    <div className="App container-2xl mx-auto">
       {/* ✏️ Edit the header and change the title to your project name */}
       {/* <Header /> */}
       {/* <NetworkDisplay
