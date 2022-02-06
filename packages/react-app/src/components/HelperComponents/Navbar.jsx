@@ -25,7 +25,7 @@ function Navbar({
   isContract,
 }) {
   return (
-    <nav className="flex ml-11">
+    <nav className="flex">
       {/* Navbar Left Items */}
       <div className="flex px-16 py-5">
         <Image src={logo} alt="talent" width={150} height={40} layout="fixed" />

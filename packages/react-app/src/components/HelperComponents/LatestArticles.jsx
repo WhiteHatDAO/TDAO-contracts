@@ -35,13 +35,30 @@ const LatestArticles = () => {
           />
         </Col>
         <Col span={4}>
-          <span>following</span>
+          <span
+            onClick={() => {
+              console.log("following clicked");
+            }}
+          >
+            following
+          </span>
         </Col>
         <Col span={4}>
-          <span className="-mt-5">favorites</span>
+          <span
+            onClick={() => {
+              console.log("favorites clicked");
+            }}
+            className="-mt-5"
+          >
+            favorites
+          </span>
         </Col>
         <Col span={4}>
-          <span>
+          <span
+            onClick={() => {
+              console.log("click left");
+            }}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
               <path
                 strokeLinecap="round"
@@ -53,7 +70,11 @@ const LatestArticles = () => {
           </span>
         </Col>
         <Col span={4}>
-          <span>
+          <span
+            onClick={() => {
+              console.log("click right");
+            }}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
               <path
                 strokeLinecap="round"
