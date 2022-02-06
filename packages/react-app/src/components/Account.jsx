@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import React from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import Address from "./Address";
@@ -61,24 +60,15 @@ export default function Account({
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <a
-          key="logoutbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          onClick={logoutOfWeb3Modal}
-        >
+        <a key="logoutbutton" style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4, color: "white" }} onClick={logoutOfWeb3Modal}>
           Logout
         </a>,
       );
     } else {
       modalButtons.push(
-        <a style={{ textColor: "white" }}
+        <a
           key="loginbutton"
-          style={{ verticalAlign: "top", marginLeft: 8, marginTop: 4 }}
-          shape="round"
-          size="large"
-          /* type={minimized ? "default" : "primary"}     too many people just defaulting to MM and having a bad time */
+          style={{ verticalAlign: "middle", marginLeft: 8, marginTop: 4, color: "white" }}
           onClick={loadWeb3Modal}
         >
           Connect

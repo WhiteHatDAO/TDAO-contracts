@@ -37,32 +37,36 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     }
 
     /// @dev this is internal mint function
-    /// @param author the user that is minting the token address
+    /// @param authorAddress the user that is minting the token address
     /// @param arweaveHash the hash of the article
+    /// @param profileHash the hash to the authors profile
     /// @param metadataPtr the metadata uri for the nft
     /// @param amount the amount of tdao tokens submitting
-    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount)
+    function mintAuthorNFTForArticle(address authorAddress, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount)
         public
-        returns (uint256)
+        returns (uint256, uint256)
     {
         require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
-        tDaoToken.transferFrom(author, address(this), amount);
+        tDaoToken.transferFrom(authorAddress, address(this), amount);
 
         _tokenIds.increment();
-        (uint256 articleId) = addArticle(author, arweaveHash);
+        (uint256 articleId) = addArticle(authorAddress, arweaveHash);
         Article storage article = articles[arweaveHash];
-        article.author = author;
+        article.author = authorAddress;
         article.metadataPtr = metadataPtr;
         article.paid = amount;
 
-        (uint256 authorId) = addAuthor(author, articleId);
-        article = authorsArticlesById[author][articleId];
+        (uint256 authorId) = addAuthor(authorAddress, articleId, profileHash);
+        article = authorsArticlesById[authorAddress][articleId];
+
+        Author storage author = authors[authorAddress];
+        author.articles.push(article);
 
         uint256 newItemId = _tokenIds.current();
-        _mint(author, newItemId);
+        _mint(authorAddress, newItemId);
         _setTokenURI(newItemId, metadataPtr);
 
-        return newItemId;
+        return (newItemId, authorId);
     }
 
     /// @dev public function to set the token URI

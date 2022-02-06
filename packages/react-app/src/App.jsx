@@ -302,19 +302,14 @@ function App(props) {
             contractConfig={contractConfig}
           />
         </Route>
-        <Route path="/hints"></Route>
-        <Route path="/exampleui"></Route>
-        <Route path="/subgraph">
+        {/* <Route path="/subgraph">
           <Subgraph
             subgraphUri={props.subgraphUri}
             tx={tx}
             writeContracts={writeContracts}
             mainnetProvider={mainnetProvider}
           />
-        </Route>
-        <Route path="/submit" component={Submit}>
-
-        </Route>
+        </Route> */}
       </Switch>
 
       <ThemeSwitch />

@@ -20,6 +20,10 @@ interface ITDAOToken {
     function balanceOf ( address account ) external view returns ( uint256 );
 }
 
+interface ITDAONFTToken {
+    function mintAuthorNFTForArticle(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount) external returns(uint256);
+}
+
 /// @title TokenRecover
 /// @author jaxcoder
 /// @dev Allow to recover any ERC20 sent into the contract for error
@@ -46,15 +50,17 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
 
     address public manager;
 
-    ITDAOToken public tDaoToken;   
+    ITDAOToken public tDaoToken;
+    ITDAONFTToken public tDaoNftToken;
 
     event ManagerRemoved(address indexed oldManager);
     event ManagerAdded(address indexed newManager);
    
-    constructor(address _manager, address _owner, address _TDAOToken) public {
+    constructor(address _manager, address _owner, address _TDAOToken, address _TDAONFTToken) public {
         manager = _manager;
         _setupRole(MANAGER_ROLE, _manager);
         tDaoToken = ITDAOToken(_TDAOToken);
+        tDaoNftToken = ITDAONFTToken(_TDAONFTToken);
         transferOwnership(_owner);
     }
 
@@ -80,5 +86,33 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         manager = newManager;
         grantRole(MANAGER_ROLE, manager);
         emit ManagerAdded(manager);
+    }
+
+    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount)
+        public
+        returns (uint256)
+    {
+        require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
+        tDaoToken.transferFrom(author, address(this), amount);
+
+        (uint256 newItemId) = tDaoNftToken.mintAuthorNFTForArticle(author, arweaveHash, metadataPtr, amount);
+
+        return newItemId;
+    }
+
+    function getAuthor(address authorAddress)
+        public
+        returns(address, uint256, bytes32)
+    {
+        Author storage author = authors[authorAddress];
+
+        return (author.authorAddress, author.id, author.arweaveProfileHash);
+    }
+
+    function addAuthor(address author, bytes32 arweaveHash, string memory metadataPtr)
+        public 
+        returns(uint256)
+    {
+
     }
 }

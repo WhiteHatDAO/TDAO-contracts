@@ -49,6 +49,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
       "0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b", // contract manager
       "0xa4ca1b15fe81f57cb2d3f686c7b13309906cd37b", // contract owner
       TalentDAOTokenContract.address, // TDAO token address
+      TalentDAONFTTokenContract.address, // TDAO NFT token address
     ],
     log: true,
     waitConfirmations: 5,

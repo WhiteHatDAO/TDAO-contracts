@@ -596,6 +596,11 @@
                   "internalType": "uint256",
                   "name": "articleId",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "profileHash",
+                  "type": "bytes32"
                 }
               ],
               "name": "addAuthor",
@@ -677,9 +682,19 @@
               "name": "authors",
               "outputs": [
                 {
+                  "internalType": "address",
+                  "name": "authorAddress",
+                  "type": "address"
+                },
+                {
                   "internalType": "uint256",
                   "name": "id",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "arweaveProfileHash",
+                  "type": "bytes32"
                 }
               ],
               "stateMutability": "view",
@@ -836,6 +851,11 @@
                   "type": "bytes32"
                 },
                 {
+                  "internalType": "bytes32",
+                  "name": "profileHash",
+                  "type": "bytes32"
+                },
+                {
                   "internalType": "string",
                   "name": "metadataPtr",
                   "type": "string"
@@ -846,8 +866,13 @@
                   "type": "uint256"
                 }
               ],
-              "name": "mintAuthorNFT",
+              "name": "mintAuthorNFTForArticle",
               "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
                 {
                   "internalType": "uint256",
                   "name": "",
@@ -1168,6 +1193,11 @@
                   "internalType": "address",
                   "name": "_TDAOToken",
                   "type": "address"
+                },
+                {
+                  "internalType": "address",
+                  "name": "_TDAONFTToken",
+                  "type": "address"
                 }
               ],
               "stateMutability": "nonpayable",
@@ -1373,6 +1403,35 @@
               "inputs": [
                 {
                   "internalType": "address",
+                  "name": "author",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "arweaveHash",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "string",
+                  "name": "metadataPtr",
+                  "type": "string"
+                }
+              ],
+              "name": "addAuthor",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
                   "name": "authorAddress",
                   "type": "address"
                 },
@@ -1380,6 +1439,11 @@
                   "internalType": "uint256",
                   "name": "articleId",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "profileHash",
+                  "type": "bytes32"
                 }
               ],
               "name": "addAuthor",
@@ -1443,9 +1507,19 @@
               "name": "authors",
               "outputs": [
                 {
+                  "internalType": "address",
+                  "name": "authorAddress",
+                  "type": "address"
+                },
+                {
                   "internalType": "uint256",
                   "name": "id",
                   "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "arweaveProfileHash",
+                  "type": "bytes32"
                 }
               ],
               "stateMutability": "view",
@@ -1493,6 +1567,35 @@
                 }
               ],
               "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "authorAddress",
+                  "type": "address"
+                }
+              ],
+              "name": "getAuthor",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "",
+                  "type": "bytes32"
+                }
+              ],
+              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -1567,6 +1670,40 @@
                 }
               ],
               "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
+                  "name": "author",
+                  "type": "address"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "arweaveHash",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "string",
+                  "name": "metadataPtr",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "mintAuthorNFT",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -1657,6 +1794,19 @@
                   "internalType": "bool",
                   "name": "",
                   "type": "bool"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "tDaoNftToken",
+              "outputs": [
+                {
+                  "internalType": "contract ITDAONFTToken",
+                  "name": "",
+                  "type": "address"
                 }
               ],
               "stateMutability": "view",

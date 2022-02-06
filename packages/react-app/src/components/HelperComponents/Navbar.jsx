@@ -46,7 +46,7 @@ function Navbar({
       </div>
 
       {/* Navbar Right Items */}
-      <div className="flex items-center justify-end space-x-3">
+      <div className="flex items-center justify-end space-x-60">
         {/* Social Media Icons */}
         <div className="flex space-x-5">
           <Image src={twitter} alt="twitter logo" width={30} height={30} layout="fixed" />
