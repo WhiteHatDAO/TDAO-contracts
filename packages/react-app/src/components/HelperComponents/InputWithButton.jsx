@@ -3,12 +3,12 @@ import { SearchCircleIcon } from "@heroicons/react/solid";
 export default function InputWithButton() {
   return (
     <div className="mt-1 flex rounded-md shadow-sm">
-      <div className="relative flex items-stretch focus-within:z-10">
+      <div className="relative items-stretch focus-within:z-10">
         <input
           type="text"
           name="searchbar"
           id="searchbar"
-          className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-10 sm:text-sm border-gray-300"
+          className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-10 sm:text-sm border-gray-300 content-center"
           placeholder="Articles, Journals, Documents..."
         />
       </div>

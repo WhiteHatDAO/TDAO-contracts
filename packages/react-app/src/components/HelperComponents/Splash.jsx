@@ -3,7 +3,7 @@ import InputWithButton from "./InputWithButton";
 /* This example requires Tailwind CSS v2.0+ */
 export default function Splash() {
   return (
-    <div className="relative bg-indigo-800 justify-center">
+    <div className="relative bg-indigo-800 content-center">
       <div className="absolute inset-0">
         {/* <img
                     className="w-full h-full object-cover"
@@ -12,15 +12,15 @@ export default function Splash() {
                 /> */}
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-800 to-fuchsia-700" aria-hidden="true" />
       </div>
-      <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+      <div className="relative max-w-5xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
           Journal of Decentralized Work
         </h1>
-        <h5 className="mt-6 text-xl text-indigo-100 max-w-3xl text-center mb-8">
+        <h5 className="mt-6 text-xl text-indigo-100 text-center mb-8">
           We are a new generation of researchers building the world's first decentralized community-reviewed publication
           protocol for the social sciences.
         </h5>
-        <div className="flex -mb-10">
+        <div className="flex -mb-10 content-center">
           <InputWithButton />
           <button
             type="button"
