@@ -1,9 +1,10 @@
 import { SearchCircleIcon } from "@heroicons/react/solid";
+import React from "react";
 
-export default function InputWithButton() {
+const InputWithButton = ({}) => {
   return (
     <div className="mt-1 flex rounded-md shadow-sm">
-      <div className="relative items-stretch focus-within:z-10">
+      <div className="relative focus-within:z-10">
         <input
           type="text"
           name="searchbar"
@@ -21,4 +22,6 @@ export default function InputWithButton() {
       </button>
     </div>
   );
-}
+};
+
+export default InputWithButton;

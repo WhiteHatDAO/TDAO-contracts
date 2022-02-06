@@ -20,7 +20,7 @@ export default function Splash() {
           We are a new generation of researchers building the world's first decentralized community-reviewed publication
           protocol for the social sciences.
         </h5>
-        <div className="flex -mb-10 content-center">
+        <div className="flex -mb-10 justify-center">
           <InputWithButton />
           <button
             type="button"
