@@ -4,7 +4,7 @@ import Navbar from "../components/HelperComponents/Navbar";
 
 function about() {
   return (
-    <div className="max-w-screen-2xl mx-auto">
+    <div className="max-w-screen-2xl mx-auto text-gray-400">
       <Navbar />
 
       <Footer />
