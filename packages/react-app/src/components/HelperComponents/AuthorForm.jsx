@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 
-export const AuthorForm = () => {
+export const AuthorForm = ( { register, control, handleSubmit, reset, formState, watch } ) => {
     // functions to build form returned by useForm() and useFieldArray() hooks
-    const { register, control, handleSubmit, reset, formState, watch } = useForm();
     const { errors } = formState;
     const { fields, append, remove } = useFieldArray({ name: 'tickets', control });
 

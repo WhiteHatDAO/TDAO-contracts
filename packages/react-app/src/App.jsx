@@ -302,6 +302,9 @@ function App(props) {
             contractConfig={contractConfig}
           />
         </Route>
+        <Route exact path="/submit">
+          <Submit/>
+        </Route>
         {/* <Route path="/subgraph">
           <Subgraph
             subgraphUri={props.subgraphUri}

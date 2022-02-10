@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/HelperComponents/Navbar";
 import { SubmitFile } from "../components/HelperComponents/SubmitFile";
 import { AuthorForm } from "../components/HelperComponents/AuthorForm";
+import { useForm } from "react-hook-form";
 
 const Submit = () => {
 
@@ -42,15 +43,13 @@ const Submit = () => {
     setCategories(categoriesSelected);  
   }
 
+  const { register, control, handleSubmit, reset, formState, watch, errors } = useForm()
+
   const handleFormSubmission = (data) => {
     data.preventDefault()
     console.log(data.target)
     //JSON.stringify(data.target, null, 4)
   }
-
-  useEffect(() => {
-    console.log(articleTitle)
-  })
 
   return (
     <div className="m-4 max-w-screen-xl mx-auto">
@@ -60,7 +59,7 @@ const Submit = () => {
       </div>
 
       <div className="flex">
-        <form className="flex-1 space-y-6" onSubmit={handleFormSubmission}>
+        <form className="flex-1 space-y-6" onSubmit={handleSubmit(handleFormSubmission)}>
           <div className="space-y-6">
             <div className="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
               <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -89,7 +88,7 @@ const Submit = () => {
                             className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                           >
                             <span>Upload a file</span>
-                            <input id="manuscript-upload" name="manuscript-upload" type="file" className="sr-only" onChange={changeSelectedManuscriptFile}/>
+                            <input {...register('manuscript-upload', {required: true})} id="manuscript-upload" name="manuscript-upload" type="file" className="sr-only" onChange={changeSelectedManuscriptFile} />
                           </label>
                           <p className="pl-1">or drag and drop</p>
                         </div>
@@ -121,7 +120,7 @@ const Submit = () => {
                             className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                           >
                             <span>Upload a file</span>
-                            <input id="image-upload" name="image-upload" type="file" className="sr-only" onChange={changeSelectedArticleCover}/>
+                            <input {...register('image-upload', {required: true})} id="image-upload" name="image-upload" type="file" className="sr-only" onChange={changeSelectedArticleCover} />
                           </label>
                           <p className="pl-1">or drag and drop</p>
                         </div>
@@ -137,7 +136,7 @@ const Submit = () => {
                       name="price"
                       id="price"
                       className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    />
+                   />
                   </div>
                 </div>
 
@@ -155,15 +154,14 @@ const Submit = () => {
                   name="article-title"
                   id="article-title"
                   className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                  value={articleTitle}
-                  onChange={changeArticleTitle}
+                  {...register('article-text', {required: true})} 
                 />
               </div>
               <div className="mt-10 col-span-6">
                 <label htmlFor="authors" className="block text-left text-sm font-medium text-gray-700">
                   Author(s)
                 </label>
-                <AuthorForm />
+                <AuthorForm register={register} control={control} handleSubmit={handleSubmit} reset={reset} formState={formState} watch={watch}/>
               </div>
               <div className="mt-10 col-span-6">
                 <label htmlFor="abstract" className="block text-left text-sm font-medium text-gray-700">
@@ -175,21 +173,20 @@ const Submit = () => {
                     name="abstract"
                     id="abstract"
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                    defaultValue={''}
+                    {...register('abstract', {required: true})} 
                   />
                 </div>
               </div>
 
               <div className="mt-10 col-span-6">
-                <label htmlFor="location" className="block text-left text-sm font-medium text-gray-700">
+                <label htmlFor="select-blockchain" className="block text-left text-sm font-medium text-gray-700">
                   Select Blockchain
                 </label>
                 <select
-                  id="location"
-                  name="location"
+                  id="select-blockchain"
+                  name="select-blockchain"
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  value={blockchain}
-                  onChange={changeBlockchain}
+                  {...register('select-blockchain', {required: true})} 
                 >
                   <option>Ethereum</option>
                 </select>
@@ -204,8 +201,7 @@ const Submit = () => {
                   name="categories"
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                   multiple
-                  value={categories}
-                  onChange={changeCategories}
+                  {...register('select-blockchain', {required: true})} 
                 >
                   <option>Decentralization</option>
                   <option>The Future of Work</option>
