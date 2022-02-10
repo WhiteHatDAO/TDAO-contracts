@@ -56,7 +56,7 @@ function Navbar({
           <Image src={profile} alt="profile icon" width={30} height={30} layout="fixed" />
         </div>
         {/* Button */}
-        <div className="flex bg-red-500 text-white hover:bg-red-600 px-6 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm">
+        <div className="flex bg-red-800 text-white hover:bg-red-600 px-6 py-2 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm">
           <Account
             useBurner={useBurner}
             address={address}

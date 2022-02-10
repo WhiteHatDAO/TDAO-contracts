@@ -61,7 +61,7 @@ const LatestArticles = () => {
               console.log("click left");
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="red" viewBox="0 0 24 24" stroke="white">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="#B41C2E" viewBox="0 0 24 24" stroke="white">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -78,7 +78,7 @@ const LatestArticles = () => {
               console.log("click right");
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="red" viewBox="0 0 24 24" stroke="white">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="#B41C2E" viewBox="0 0 24 24" stroke="white">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

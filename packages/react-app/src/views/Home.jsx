@@ -22,7 +22,7 @@ function Home({ yourLocalBalance, readContracts }) {
         className="h-6 w-6 mt-1 ml-1"
         fill="none"
         viewBox="0 0 24 24"
-        stroke="red"
+        stroke="red-800"
       >
         <path
           strokeLinecap="round"
@@ -32,7 +32,7 @@ function Home({ yourLocalBalance, readContracts }) {
         />
       </svg>
       <h3 className="flex ml-8 -mt-6">
-        Got Talent? <span className="text-red-700 ml-2">Join Us</span>
+        Got Talent? <span className="text-red-800 ml-2">Join Us</span>
       </h3>
 
       {/* Article Component Section */}
