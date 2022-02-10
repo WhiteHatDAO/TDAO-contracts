@@ -29,7 +29,7 @@ function Navbar({
       {/* Navbar Left Items */}
       <div className="flex px-16 py-5">
         <Image src={logo} alt="Talent DAO Logo" width={150} height={40} layout="fixed" />
-        <span className="font-bold ml-10 text-3xl">|</span>
+        <span className="font-bold ml-10 text-3xl text-gray-400">|</span>
         {/* Menu Items */}
         <ul className="flex items-center px-12 py-2 space-x-5 uppercase">
           <li>
