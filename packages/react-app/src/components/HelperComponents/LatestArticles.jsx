@@ -45,7 +45,7 @@ const LatestArticles = () => {
             <HeartOutlined className="" /> favorites
           </span>{" "}
           <span
-            className="cursor-pointer rounded-lg bg-blue-100 border-2 border-blue-200 py-1 px-1"
+            className="cursor-pointer rounded-lg bg-gray-100 border-2 border-gray-200 py-1 px-1"
             onClick={() => {
               console.log("following clicked");
             }}
@@ -61,7 +61,7 @@ const LatestArticles = () => {
               console.log("click left");
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="red" viewBox="0 0 24 24" stroke="white">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -78,7 +78,7 @@ const LatestArticles = () => {
               console.log("click right");
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="red" viewBox="0 0 24 24" stroke="white">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
