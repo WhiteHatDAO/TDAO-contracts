@@ -5,7 +5,7 @@ import React from "react";
 
 const InputWithButton = ({}) => {
   return (
-    <div className="mt-1 flex rounded-md shadow-sm">
+    <div className="flex rounded-md shadow-sm">
       <div className="relative focus-within:z-10">
         <input
           type="text"
@@ -17,7 +17,7 @@ const InputWithButton = ({}) => {
       </div>
       <button
         type="button"
-        className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+        className="relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
       >
         <SearchCircleIcon className="h-5 w-5 text-red-800" aria-hidden="true" />
         <span></span>

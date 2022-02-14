@@ -5,10 +5,13 @@ import LinkButton from "./LinkButton";
 /* This example requires Tailwind CSS v2.0+ */
 export default function Splash() {
   return (
-    <div className="relative bg-indigo-800">
+    <div className="relative">
       <div className="absolute inset-0">
         <img className="w-full h-full object-cover" src={globeImg} alt="" />
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-800 to-fuchsia-700" aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-indigo-800 to-fuchsia-700 rounded-3xl ml-5 mr-5"
+          aria-hidden="true"
+        />
       </div>
       <div className="relative max-w-5xl sm:py-32 sm:px-6 lg:px-8">
         <h1 className="text-left text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">

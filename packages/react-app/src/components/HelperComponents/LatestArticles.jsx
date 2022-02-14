@@ -26,9 +26,9 @@ const responsive = {
 
 const LatestArticles = () => {
   return (
-    <div className="">
+    <div className="ml-5 ml-5">
       <Row className="">
-        <Col span={4} className="mb-2 text-3xl ml-3">
+        <Col span={4} className="mb-2 text-3xl ml-2">
           <span className="flex">Latest Articles</span>
           <hr
             className="max-w-xs font-bold mb-6"
@@ -42,10 +42,13 @@ const LatestArticles = () => {
             }}
             className="-mt-5 cursor-pointer rounded-lg bg-red-100 border-2 border-red-200 py-1 px-1"
           >
-            <HeartOutlined className="px-1 self-center" /> favorites
+            <span className="">
+              {" "}
+              <HeartOutlined className="" /> favorites
+            </span>
           </span>{" "}
           <span
-            className="cursor-pointer rounded-lg bg-gray-100 border-2 border-gray-200 py-1 px-1"
+            className="cursor-pointer rounded-lg bg-blue-100 border-2 border-blue-200 py-1 px-1"
             onClick={() => {
               console.log("following clicked");
             }}
@@ -53,15 +56,21 @@ const LatestArticles = () => {
             following
           </span>
         </Col>
-        <Col span={4}> </Col>
-        <Col span={4} className="">
+        <Col span={10}> </Col>
+        <Col span={1} className="ml-11">
           <span
             className="cursor-pointer"
             onClick={() => {
               console.log("click left");
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="#B41C2E" viewBox="0 0 24 24" stroke="white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-80"
+              fill="#B41C2E"
+              viewBox="0 0 24 24"
+              stroke="white"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -71,14 +80,20 @@ const LatestArticles = () => {
             </svg>
           </span>
         </Col>
-        <Col span={4}>
+        <Col span={1} className="-ml-11">
           <span
             className="cursor-pointer"
             onClick={() => {
               console.log("click right");
             }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-80" fill="#B41C2E" viewBox="0 0 24 24" stroke="white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-80"
+              fill="#B41C2E"
+              viewBox="0 0 24 24"
+              stroke="white"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
