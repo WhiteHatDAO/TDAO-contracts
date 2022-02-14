@@ -42,7 +42,7 @@ const LatestArticles = () => {
             }}
             className="-mt-5 cursor-pointer rounded-lg bg-red-100 border-2 border-red-200 py-1 px-1"
           >
-            <HeartOutlined className="" /> favorites
+            <HeartOutlined className="px-1 self-center" /> favorites
           </span>{" "}
           <span
             className="cursor-pointer rounded-lg bg-gray-100 border-2 border-gray-200 py-1 px-1"
