@@ -1,4 +1,5 @@
 export { default as ArticleCard } from "./ArticleCard";
+export { default as AuthorCard } from "./AuthorCard";
 export { default as Carousel } from "./Carousel";
 export { default as Footer } from "./Footer";
 export { default as InputWithButton } from "./InputWithButton";

@@ -26,9 +26,9 @@ const responsive = {
 
 const LatestArticles = () => {
   return (
-    <div className="ml-5 ml-5">
+    <div className="ml-5">
       <Row className="">
-        <Col span={4} className="mb-2 text-3xl ml-2">
+        <Col span={4} className="mb-2 text-4xl ml-2">
           <span className="flex">Latest Articles</span>
           <hr
             className="max-w-xs font-bold mb-6"
