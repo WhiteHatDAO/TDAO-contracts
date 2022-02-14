@@ -7,7 +7,7 @@ export default function Splash() {
   return (
     <div className="relative">
       <div className="absolute inset-0">
-        <img className="w-full h-full object-cover" src={globeImg} alt="" />
+        <img className="w-full h-full object-cover" src={globeImg} alt="Journall of Decentralized Work" />
         <div
           className="absolute inset-0 bg-gradient-to-r from-indigo-800 to-fuchsia-700 rounded-3xl ml-5 mr-5"
           aria-hidden="true"
