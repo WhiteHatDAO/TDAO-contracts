@@ -1,4 +1,4 @@
-import globeImg from "../../assets/decentralized-globe.jpg";
+import globeImg from "../../assets/globe.jpeg";
 import InputWithButton from "./InputWithButton";
 import LinkButton from "./LinkButton";
 
