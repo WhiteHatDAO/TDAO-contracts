@@ -2,7 +2,7 @@ import React from "react";
 
 export const ArticleCard = () => {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mx-2">
       <div className="rounded-lg shadow-lg bg-white max-w-sm">
         <a href="#!">
           <img className="rounded-t-lg" src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" alt="" />
