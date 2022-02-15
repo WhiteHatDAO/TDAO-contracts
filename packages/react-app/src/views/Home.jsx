@@ -18,7 +18,7 @@ function Home({ yourLocalBalance, readContracts }) {
   // you can also use hooks locally in your component of choice
 
   return (
-    <div className="max-w-screen-2xl mx-auto">
+    <div className="mx-20">
       <Splash />
       <svg
         xmlns="http://www.w3.org/2000/svg"
