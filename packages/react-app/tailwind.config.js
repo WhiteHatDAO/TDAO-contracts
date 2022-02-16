@@ -5,6 +5,10 @@ module.exports = {
     colors: {
       'primary': '#B41C2E',
       'white': '#ffffff',
+      'lightgray': '#A7A7A7',
+      'darkgray': '#424242',
+      'green': '#3CBC00',
+      'purple': '#8501ff',
     }
   },
   plugins: [

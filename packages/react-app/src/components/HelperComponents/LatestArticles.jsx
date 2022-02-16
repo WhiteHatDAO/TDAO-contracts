@@ -2,10 +2,11 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {ArticleCard} from "./ArticleCard.jsx";
+import { ArticleCard } from "./ArticleCard.jsx";
 import { Component } from "react";
 import prevImage from "../../assets/prev.png";
 import nextImage from "../../assets/next.png";
+import favImage from "../../assets/favourite.png";
 
 export default class LatestArticles extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ export default class LatestArticles extends Component {
       accessibility: false,
       responsive: [
         {
-          breakpoint: 1300,
+          breakpoint: 1576,
           settings: {
             slidesToShow: 4,
           },
@@ -46,7 +47,7 @@ export default class LatestArticles extends Component {
           },
         },
         {
-          breakpoint: 600,
+          breakpoint: 800,
           settings: {
             slidesToShow: 2,
           },
@@ -62,16 +63,23 @@ export default class LatestArticles extends Component {
 
     return (
       <>
-        <div className="flex justify-between pt-10 mb-4">
+        <div className="flex justify-between pt-16 mb-4">
           <div className="flex flex-row items-center">
-            <div className="font-bold text-4xl">Latest Articles</div>
+            <div className="font-bold text-3xl sm:text-4xl pr-4">Latest Articles</div>
+            <div className="rounded-md flex flex-row items-center py-1 px-2 mt-2 mr-4 cursor-pointer" style={{ background: 'rgba(180, 28, 46, 0.06)' }}>
+              <img src={favImage} className="pr-1"></img>
+              <div className="text-primary">Favourites</div>
+            </div>
+            <div className="rounded-md flex flex-row items-center py-1 px-2 mt-2 cursor-pointer" style={{ background: '#EDEDED' }}>
+              <div>Following</div>
+            </div>
           </div>
-          <div className="flex justify-center space-x-2 sm:space-x-5 sm:mt-2">
+          <div className="hidden md:flex justify-center space-x-2 sm:space-x-5 sm:mt-2">
             <img className="w-12" src={prevImage} onClick={this.goPrevious}></img>
             <img className="w-12" src={nextImage} onClick={this.goNext}></img>
           </div>
         </div>
-        <div className="roadmap_container">
+        <div className="relative roadmap_container">
           <Slider ref={c => (this.slider = c)} {...settings}>
             <ArticleCard></ArticleCard>
             <ArticleCard></ArticleCard>
@@ -83,6 +91,12 @@ export default class LatestArticles extends Component {
             <ArticleCard></ArticleCard>
             <ArticleCard></ArticleCard>
           </Slider>
+          <div className="md:hidden absolute top-1/2 left-0">
+            <img className="w-12" src={prevImage} onClick={this.goPrevious}></img>
+          </div>
+          <div className="md:hidden absolute top-1/2 right-0">
+            <img className="w-12" src={nextImage} onClick={this.goNext}></img>
+          </div>
         </div>
       </>
     );
