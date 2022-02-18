@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/talent-logo.png";
 import discord from "../../assets/discord.png";
 import twitter from "../../assets/twitter.png";
+import plus from "../../assets/plus.png";
+import minus from "../../assets/minus.png";
 
 function Footer() {
   const [show, setShow] = useState(false);
+  const [talentShow, setTalentShow] = useState(false);
+  const [communityShow, setCommunityShow] = useState(false);
 
   return (
     <footer className="mt-16 mx-4 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden">
@@ -50,7 +54,7 @@ function Footer() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 text-left">
+        <div className="flex flex-col lg:flex-row justify-between text-left">
           <div className="hidden lg:flex flex-row space-x-16">
             <div className="flex flex-col space-y-4">
               <div className="text-2xl font-bold border-b pb-4">TALENTDAO</div>
@@ -65,17 +69,57 @@ function Footer() {
               <div className="text-lg font-semibold">SUGGEST FEATURE</div>
             </div>
           </div>
-          <div className="rounded-2xl bg-gray px-8 flex flex-col space-y-4 justify-center">
+          <div className="flex lg:hidden flex-col space-y-4">
+            <div className="flex flex-row justify-between items-center">
+              <div className="text-xl font-bold">TALENTDAO</div>
+              {
+                talentShow === false ? (
+                  <img className="w-4" src={plus} onClick={() => setTalentShow(true)}></img>
+                ) : (
+                  <img className="w-4" src={minus} onClick={() => setTalentShow(false)}></img>
+                )
+              }
+            </div>
+            {
+              talentShow && (
+                <>
+                  <div className="text-lg font-semibold">ABOUT</div>
+                  <div className="text-lg font-semibold">CONTACT US</div>
+                  <div className="text-lg font-semibold">SUBSCRIBE</div>
+                </>
+              )
+            }
+            <div className="flex flex-row justify-between items-center">
+              <div className="text-xl font-bold">COMMUNITY</div>
+              {
+                communityShow === false ? (
+                  <img className="w-4" src={plus} onClick={() => setCommunityShow(true)}></img>
+                ) : (
+                  <img className="w-4" src={minus} onClick={() => setCommunityShow(false)}></img>
+                )
+              }
+            </div>
+            {
+              communityShow && (
+                <>
+                  <div className="text-lg font-semibold">ABOUT</div>
+                  <div className="text-lg font-semibold">CONTACT US</div>
+                  <div className="text-lg font-semibold">SUBSCRIBE</div>
+                </>
+              )
+            }
+          </div>
+          <div className="mt-4 lg:mt-0 rounded-2xl bg-gray px-8 flex flex-col space-y-4 py-4 justify-center">
             <div className="text-xl font-bold">LET'S GET STARTED</div>
             <div className="text-lg">Explore the journal of decentralized work</div>
-            <div className="flex flex-row items-center space-x-4">
-              <div className="rounded-full bg-primary text-white text-xl px-4 py-2">CONTACT US</div>
-              <div className="rounded-full bg-primary text-white text-xl px-4 py-2">JOIN US</div>
+            <div className="flex flex-col lg:flex-row items-center lg:space-x-4 space-y-4 lg:space-y-0 text-center">
+              <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2">CONTACT US</div>
+              <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2">JOIN US</div>
             </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-between px-8 lg:px-32 py-10">
+      <div className="flex flex-col lg:flex-row justify-between px-0 lg:px-32 text-left space-y-2 lg:py-10">
         <div className="text-lg text-primary">© TALENTDAO ALL RIGHTS RESERVED</div>
         <div className="flex flex-row items-center space-x-4">
           <div className="text-lg text-primary">TERMS</div>
