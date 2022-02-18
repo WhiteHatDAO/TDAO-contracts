@@ -13,6 +13,8 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
 import { Contract, ThemeSwitch, NetworkDisplay } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
+import Footer from "./components/HelperComponents/Footer";
+
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
@@ -302,6 +304,7 @@ function App(props) {
         </Route> */}
       </Switch>
 
+      <Footer />
       <ThemeSwitch />
 
       {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}

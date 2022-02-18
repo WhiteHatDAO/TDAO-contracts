@@ -59,13 +59,13 @@ export default function Account({
   if (web3Modal) {
     if (web3Modal.cachedProvider) {
       modalButtons.push(
-        <div className="" key="logoutbutton" style={{ color: "white" }} onClick={logoutOfWeb3Modal}>
+        <div className="flex bg-primary text-white hover:bg-red-600 px-8 py-3 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm" key="logoutbutton" style={{ color: "white" }} onClick={logoutOfWeb3Modal}>
           Logout
         </div>,
       );
     } else {
       modalButtons.push(
-        <div className="" key="loginbutton" style={{ color: "white", cursor: "pointer" }} onClick={loadWeb3Modal}>
+        <div className="flex bg-primary text-white hover:bg-red-600 px-8 py-3 rounded-3xl shadow-lg uppercase tracking-wider font-semibold text-sm" key="loginbutton" style={{ color: "white", cursor: "pointer" }} onClick={loadWeb3Modal}>
           Connect
         </div>,
       );

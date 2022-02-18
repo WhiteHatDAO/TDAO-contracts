@@ -2,7 +2,6 @@ import { UserOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import React from "react";
 import { AuthorCard } from "../components/HelperComponents/AuthorCard";
-import Footer from "../components/HelperComponents/Footer";
 import LatestArticles from "../components/HelperComponents/LatestArticles";
 // import Navbar from "../components/HelperComponents/Navbar";
 import Newsletter from "../components/HelperComponents/Newsletter";
@@ -42,7 +41,7 @@ function Home({ yourLocalBalance, readContracts }) {
             <img className="pt-2" src={lineImage}></img>
           </div>
           <div className="pt-8 grid grid-cols-1 md:grid-cols-2 items-center">
-            <div className="rounded-2xl p-4 mr-0 md:mr-8" style={{ boxShadow: '2px 0px 9px rgba(0, 0, 0, 0.15)' }}>
+            <div className="rounded-2xl p-4 mr-0 md:mr-8 ml-0 md:ml-4" style={{ boxShadow: '2px 0px 9px rgba(0, 0, 0, 0.15)' }}>
               <img src={featuredImage} className="rounded-xl w-full h-full"></img>
             </div>
             <div className="flex flex-col items-start text-left">
@@ -57,7 +56,7 @@ function Home({ yourLocalBalance, readContracts }) {
             </div>
           </div>
         </div>
-        <div className="ml-0 md:ml-4 flex flex-col">
+        <div className="mx-0 md:mx-4 flex flex-col">
           <div className="text-3xl xl:text-4xl font-bold text-left">
             DAO Updates
             <img className="pt-2" src={lineImage}></img>
@@ -95,7 +94,6 @@ function Home({ yourLocalBalance, readContracts }) {
       </div>
 
       {/* Footer Component Section */}
-      <Footer />
     </div>
   );
 }

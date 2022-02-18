@@ -6,7 +6,7 @@ import heartImage from "../../assets/heart.png";
 
 export const ArticleCard = () => {
   return (
-    <div className="flex justify-center mx-2">
+    <div className="flex justify-center mx-2 my-4">
       <div className="rounded-2xl shadow-lg max-w-sm p-4" style={{background: '#F1F1F1'}}>
         <a href="#!">
           <img className="rounded-xl" src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" alt="" />
