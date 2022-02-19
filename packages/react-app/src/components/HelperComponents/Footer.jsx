@@ -70,13 +70,13 @@ function Footer() {
             </div>
           </div>
           <div className="flex lg:hidden flex-col space-y-4">
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row justify-between items-center"  onClick={() => setTalentShow(!talentShow)}>
               <div className="text-xl font-bold">TALENTDAO</div>
               {
                 talentShow === false ? (
-                  <img className="w-4" src={plus} onClick={() => setTalentShow(true)}></img>
+                  <img className="w-4" src={plus}></img>
                 ) : (
-                  <img className="w-4" src={minus} onClick={() => setTalentShow(false)}></img>
+                  <img className="w-4" src={minus}></img>
                 )
               }
             </div>
@@ -89,13 +89,13 @@ function Footer() {
                 </>
               )
             }
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row justify-between items-center" onClick={() => setCommunityShow(!talentShow)}>
               <div className="text-xl font-bold">COMMUNITY</div>
               {
                 communityShow === false ? (
-                  <img className="w-4" src={plus} onClick={() => setCommunityShow(true)}></img>
+                  <img className="w-4" src={plus}></img>
                 ) : (
-                  <img className="w-4" src={minus} onClick={() => setCommunityShow(false)}></img>
+                  <img className="w-4" src={minus}></img>
                 )
               }
             </div>
