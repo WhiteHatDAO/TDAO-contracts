@@ -14,7 +14,7 @@ const Author = () => {
         <img src={author_back} className="rounded-2xl w-full h-auto"></img>
         <div className="flex flex-col px-12 pb-12">
           <div className="flex flex-col lg:flex-row items-center">
-            <img src={author_pro} className="rounded-full border-2 border-white w-28 lg:w-56 -mt-14 lg:-mt-28"></img>
+            <img src={author_pro} className="rounded-full outline-white border-4 border-white w-28 lg:w-56 -mt-14 lg:-mt-28" style={{outlineStyle: 'solid', outlineWidth: '4px', outlineOffset: '0'}}></img>
             <div className="pl-0 lg:pl-8 flex flex-col lg:flex-row w-full items-center justify-between">
               <div className="flex flex-col text-center lg:text-left">
                 <div className="pb-4 text-4xl font-bold">James Andrew</div>
