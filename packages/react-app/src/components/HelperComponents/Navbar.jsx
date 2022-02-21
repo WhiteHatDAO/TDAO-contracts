@@ -36,6 +36,7 @@ function Navbar({
             <div onClick={() => history.push("/")} className={location.pathname === '/' ? 'text-xl text-primary font-semibold cursor-pointer' : 'text-xl cursor-pointer'}>HOME</div>
             <div onClick={() => history.push("/about")} className={location.pathname === '/about' ? 'text-xl text-primary font-semibold cursor-pointer' : 'text-xl cursor-pointer'}>ABOUT</div>
             <div onClick={() => history.push("/contact")} className={location.pathname === '/contact' ? 'text-xl text-primary font-semibold cursor-pointer' : 'text-xl cursor-pointer'}>CONTACT US</div>
+            <div onClick={() => history.push("/author")} className={location.pathname === '/author' ? 'text-xl text-primary font-semibold cursor-pointer' : 'text-xl cursor-pointer'}>Author Profile</div>
             <div onClick={() => history.push("/browse")} className={location.pathname === '/browse' ? 'text-xl text-primary font-semibold cursor-pointer' : 'text-xl cursor-pointer'}>BROWSE</div>
           </div>
         </div>

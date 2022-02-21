@@ -10,6 +10,9 @@ module.exports = {
       'darkgray': '#424242',
       'green': '#3CBC00',
       'purple': '#8501ff',
+      'cyan': '#008272',
+      'red': '#ff0101',
+      
     }
   },
   plugins: [

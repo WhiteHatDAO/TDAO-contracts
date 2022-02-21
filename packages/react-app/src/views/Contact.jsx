@@ -5,7 +5,7 @@ import lineImage from "../assets/line.png";
 import contact_join_us from "../assets/contact_join_us.png";
 const Contact = () => {
   return (
-    <div className="flex flex-col bg-white">
+    <div className="flex flex-col" style={{backgroundImage: 'linear-gradient(#fff, #EEEE'}} >
       <div className="relative">
         <img className="absolute top-0 left-0 w-full h-full" src={contact_rect} style={{ transform: 'matrix(-1, 0, 0, 1, 0, 0)' }}></img>
         <div className="mx-4 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden relative flex flex-col items-start text-left text-white space-y-8 py-16">
