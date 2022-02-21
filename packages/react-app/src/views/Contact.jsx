@@ -69,7 +69,7 @@ const Contact = () => {
             </div>
             <div className="flex flex-col text-left">
               <div className="px-4 py-2 text-lg">Message <span className="text-primary">*</span></div>
-              <textarea className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none focus:outline-none  lg:h-56"></textarea>
+              <textarea className="p-4 text-lg bg-transparent rounded-xl border border-gray appearance-none focus:outline-none  lg:h-56"></textarea>
             </div>
 
             <div className="flex flex-col items-center space-y-4">
@@ -81,8 +81,8 @@ const Contact = () => {
                 onto third parties.<br />
                 <span className="text-primary">Privacy Policy</span>
               </div>
-              <div className="w-56 cursor-pointer flex justify-center bg-primary text-white rounded-full px-8 py-2">
-                SUBMIT
+              <div className="flex justify-center">
+                <div className="cursor-pointer bg-primary text-white rounded-full px-8 py-2">SUBMIT</div>
               </div>
             </div>
           </div>
