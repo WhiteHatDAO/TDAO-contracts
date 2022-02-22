@@ -12,7 +12,7 @@ module.exports = {
       'purple': '#8501ff',
       'cyan': '#008272',
       'red': '#ff0101',
-      
+      'black': '#000'
     }
   },
   plugins: [
