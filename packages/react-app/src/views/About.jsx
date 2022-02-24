@@ -6,10 +6,11 @@ import people_at from "../assets/people_at.png";
 import tradition from "../assets/tradition.png";
 import know from "../assets/know.png";
 import BlueTechBanner from "../assets/BlueTechBanner.png";
+import Footer from "../components/HelperComponents/Footer";
 
 function about() {
   return (
-    <div className="mx-0 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden">
+    <div className="px-0 sm:px-8 md:px-10 xl:px-20 overflow-hidden" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }}>
       <div className="flex flex-col items-center space-y-8">
         <div className="text-4xl text-primary font-bold">The world of work <br /> just got so much better</div>
         <img src={aboutImage} className="hidden lg:flex w-1/2 pt-4"></img>
@@ -56,6 +57,9 @@ function about() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="mx-4 md:mx-0">
+        <Footer></Footer>
       </div>
     </div>
   );

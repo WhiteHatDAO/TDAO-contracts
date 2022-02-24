@@ -14,7 +14,7 @@ export const SimilarArticleCard = () => {
             </div>
             <img className="rounded-xl" src={article_back}></img>
             <div className="text-lg">Metaverse, NFT & DEFI, the New Wave</div>
-            <div className="mx-4 rounded-xl border border-black py-2 text-xl font-bold">VIEW</div>
+            <div className="mx-8 rounded-xl border border-black py-2 text-xl font-bold">VIEW</div>
         </div>
     );
 };

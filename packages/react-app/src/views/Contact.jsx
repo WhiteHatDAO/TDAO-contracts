@@ -3,9 +3,10 @@ import contact_rect from "../assets/contact_rect.png";
 import faqArrow from "../assets/faqArrow.png";
 import lineImage from "../assets/line.png";
 import contact_join_us from "../assets/contact_join_us.png";
+import Footer from "../components/HelperComponents/Footer";
 const Contact = () => {
   return (
-    <div className="flex flex-col" style={{backgroundImage: 'linear-gradient(#fff, #EEEE'}} >
+    <div className="flex flex-col" style={{backgroundImage: 'linear-gradient(#fff, #EEE'}} >
       <div className="relative">
         <img className="absolute top-0 left-0 w-full h-full" src={contact_rect} style={{ transform: 'matrix(-1, 0, 0, 1, 0, 0)' }}></img>
         <div className="mx-4 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden relative flex flex-col items-start text-left text-white space-y-8 py-16">
@@ -100,6 +101,9 @@ const Contact = () => {
             GET STARTED
           </div>
         </div>
+      </div>
+      <div className="mx-4 sm:mx-8 md:mx-10 xl:mx-20">
+        <Footer></Footer>
       </div>
     </div>
   );

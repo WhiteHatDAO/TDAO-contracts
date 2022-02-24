@@ -3,6 +3,7 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
+      'transparent': 'transparent',
       'primary': '#B41C2E',
       'white': '#ffffff',
       'lightgray': '#A7A7A7',

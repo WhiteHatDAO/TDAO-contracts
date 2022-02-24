@@ -13,7 +13,7 @@ function Footer() {
   const [communityShow, setCommunityShow] = useState(false);
 
   return (
-    <footer className="mt-16 mx-4 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden">
+    <footer className="mt-16">
       <div className="rounded-2xl bg-none lg:bg-white px-0 lg:px-32 py-10 flex flex-col space-y-10">
         <div className="flex flex-col lg:flex-row justify-between space-x-0 lg:space-x-4 space-y-4 lg:space-y-0">
           <img src={logo} width={270} height={65}></img>

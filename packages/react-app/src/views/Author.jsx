@@ -6,6 +6,7 @@ import twitter from "../assets/twitter.png";
 import linkedin from "../assets/linkedin.png";
 import AuthorMark from "../components/HelperComponents/AuthorMark";
 import article_image from "../assets/article_img.png";
+import Footer from "../components/HelperComponents/Footer";
 
 const Author = () => {
   return (
@@ -90,6 +91,9 @@ const Author = () => {
       </div>
       <div className="mx-4 border border-primary rounded-2xl bg-white text-lg font-bold text-primary py-3">
         SHOW MORE
+      </div>
+      <div className="mx-4 md:mx-0">
+        <Footer></Footer>
       </div>
     </div>
   );

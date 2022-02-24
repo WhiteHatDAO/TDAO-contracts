@@ -13,6 +13,8 @@ import partnershipImage from "../assets/partnership.png";
 import arrowRightImage from "../assets/ArrowRight.png";
 import authorImage from "../assets/author.png";
 import lineImage from "../assets/line.png";
+
+import Footer from "../components/HelperComponents/Footer";
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
  * @param {*} yourLocalBalance balance on current network
@@ -23,7 +25,7 @@ function Home({ yourLocalBalance, readContracts }) {
   // you can also use hooks locally in your component of choice
 
   return (
-    <div className="mx-4 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden">
+    <div className="px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden" style={{backgroundImage: 'linear-gradient(#fff, #EEEE'}}>
       <Splash />
       <div className="flex flex-row items-center pt-6">
         <img src={profileImage} className="pr-2"></img>
@@ -94,6 +96,7 @@ function Home({ yourLocalBalance, readContracts }) {
       </div>
 
       {/* Footer Component Section */}
+      <Footer />
     </div>
   );
 }
