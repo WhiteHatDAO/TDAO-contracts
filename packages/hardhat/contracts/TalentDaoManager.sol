@@ -22,7 +22,7 @@ interface ITDAOToken {
 }
 
 interface ITDAONFTToken {
-    function mintAuthorNFTForArticle(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount) external returns(uint256);
+    function mintNFTForArticle(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount) external returns(uint256);
 }
 
 /// @title TokenRecover
@@ -89,25 +89,24 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         emit ManagerAdded(manager);
     }
 
-    function mintAuthorNFT(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount)
+    function mintArticleNFT(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount)
         public
         returns (uint256)
     {
         require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
         tDaoToken.transferFrom(author, address(this), amount);
 
-        (uint256 newItemId) = tDaoNftToken.mintAuthorNFTForArticle(author, arweaveHash, metadataPtr, amount);
+        (uint256 newItemId) = tDaoNftToken.mintNFTForArticle(author, arweaveHash, metadataPtr, amount);
 
         return newItemId;
     }
 
     function getAuthor(address authorAddress)
         public
+        view
         returns(address, uint256, bytes32)
     {
-        Author storage author = authors[authorAddress];
-
-        return (author.authorAddress, author.id, author.arweaveProfileHash);
+        return (authors[authorAddress].authorAddress, authors[authorAddress].id, authors[authorAddress].arweaveProfileHash);
     }
 
     function addAuthor(address author, bytes32 arweaveHash, string memory metadataPtr)

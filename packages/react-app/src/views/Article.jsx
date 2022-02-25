@@ -16,14 +16,14 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   const [tab, setTab] = useState(tabType.detail);
   const [article, setArticle] = useState({});
 
-  useEffect(() => {
-    const getArticle = () => {
-      // tx(
-      //   readContracts &&
-      //   readContracts.
-      // )
-    };
+  const getArticle = () => {
+    // tx(
+    //   readContracts &&
+    //   readContracts.
+    // )
+  };
 
+  useEffect(() => {
     getArticle();
   }, [address]);
 
