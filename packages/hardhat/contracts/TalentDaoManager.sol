@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 import "./AuthorEntity.sol";
+import "./ArticleEntity.sol";
 
 /// @dev TDAO token interface
 interface ITDAOToken {
@@ -115,4 +116,6 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     {
 
     }
+
+    
 }
