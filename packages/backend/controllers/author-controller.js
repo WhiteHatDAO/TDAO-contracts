@@ -21,7 +21,8 @@ getAuthors = async (req, res) => {
 };
 
 getAuthorByWalletId = async (req, res) => {
-  await Author.findOne({ walletId: req.params.walletId }, (err, author) => {
+  await Author.findOne({ walletId: req.params.id }, (err, author) => {
+    console.log(req.params.id);
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
