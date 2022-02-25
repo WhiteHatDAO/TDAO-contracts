@@ -842,7 +842,7 @@
               "inputs": [
                 {
                   "internalType": "address",
-                  "name": "author",
+                  "name": "authorAddress",
                   "type": "address"
                 },
                 {

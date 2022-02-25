@@ -49,7 +49,7 @@ const Submit = () => {
   };
 
   return (
-    <div className="" style={{backgroundImage: 'linear-gradient(#fff, #EEEE'}}>
+    <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>
       <div className="m-4 p-4 max-w-screen-lg lg:max-w-screen-xl mx-auto">
         <div>
           <h2 className="text-4xl font-bold text-left">Submit Article</h2>
@@ -206,7 +206,10 @@ const Submit = () => {
                     <label htmlFor="abstract" className="block text-left text-lg font-bold">
                       Abstract <span className="pl-1 text-primary">*</span>
                     </label>
-                    <p>Each submission should have exactly one abstract. Submissions with multiple articles will be disqualified from the marketplace.</p>
+                    <p>
+                      Each submission should have exactly one abstract. Submissions with multiple articles will be
+                      disqualified from the marketplace.
+                    </p>
                   </div>
                   <div className="mt-1">
                     <textarea
@@ -252,7 +255,12 @@ const Submit = () => {
                   <option>DAOs</option>
                 </select> */}
                   <div className="mt-1 w-full p-4 text-lg rounded-lg border flex flex-row flex-wrap items-center space-x-4">
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border border-primary cursor-pointer" style={{ backgroundColor: 'rgba(180, 28, 46, 0.13)' }}>Technology</div>
+                    <div
+                      className="my-2 px-4 py-2 rounded-full text-lg border border-primary cursor-pointer"
+                      style={{ backgroundColor: "rgba(180, 28, 46, 0.13)" }}
+                    >
+                      Technology
+                    </div>
                     <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">History</div>
                     <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Romance</div>
                     <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Comedy</div>
@@ -262,10 +270,7 @@ const Submit = () => {
               </div>
 
               <div className="flex justify-center">
-                <button
-                  type="button"
-                  className="bg-primary text-white py-2 px-6 rounded-full text-lg"
-                >
+                <button type="button" className="bg-primary text-white py-2 px-6 rounded-full text-lg">
                   SUBMIT
                 </button>
                 {/* <button

@@ -1,12 +1,11 @@
-import { Image } from "antd";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import discord from "../../assets/discord.png";
-import twitter from "../../assets/twitter.png";
-import profile from "../../assets/profile.png";
-import logo from "../../assets/talent-logo.png";
-import { Account } from "../../components";
 import divideImage from "../../assets/divide.png";
 import menuIconImage from "../../assets/menu_icon.png";
+import profile from "../../assets/profile.png";
+import logo from "../../assets/talent-logo.png";
+import twitter from "../../assets/twitter.png";
+import { Account } from "../../components";
 
 function Navbar({
   useBurner,
@@ -33,11 +32,56 @@ function Navbar({
         <div className="hidden xl:flex items-center">
           <img className="px-8" src={divideImage} alt="div"></img>
           <div className="flex items-center space-x-7">
-            <div onClick={() => history.push("/")} className={location.pathname === '/' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>HOME</div>
-            <div onClick={() => history.push("/about")} className={location.pathname === '/about' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>ABOUT</div>
-            <div onClick={() => history.push("/contact")} className={location.pathname === '/contact' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>CONTACT US</div>
-            <div onClick={() => history.push("/author")} className={location.pathname === '/author' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Author Profile</div>
-            <div onClick={() => history.push("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div>
+            <div
+              onClick={() => history.push("/")}
+              className={
+                location.pathname === "/"
+                  ? "text-lg text-primary font-semibold cursor-pointer"
+                  : "text-lg cursor-pointer"
+              }
+            >
+              Home
+            </div>
+            <div
+              onClick={() => history.push("/about")}
+              className={
+                location.pathname === "/about"
+                  ? "text-lg text-primary font-semibold cursor-pointer"
+                  : "text-lg cursor-pointer"
+              }
+            >
+              About
+            </div>
+            <div
+              onClick={() => history.push("/contact")}
+              className={
+                location.pathname === "/contact"
+                  ? "text-lg text-primary font-semibold cursor-pointer"
+                  : "text-lg cursor-pointer"
+              }
+            >
+              Contact Us
+            </div>
+            <div
+              onClick={() => history.push("/author")}
+              className={
+                location.pathname === "/author"
+                  ? "text-lg text-primary font-semibold cursor-pointer"
+                  : "text-lg cursor-pointer"
+              }
+            >
+              Author Profile
+            </div>
+            <div
+              onClick={() => history.push("/article")}
+              className={
+                location.pathname === "/article"
+                  ? "text-lg text-primary font-semibold cursor-pointer"
+                  : "text-lg cursor-pointer"
+              }
+            >
+              Article
+            </div>
             {/* <div onClick={() => history.push("/browse")} className={location.pathname === '/browse' ? 'text-xl text-primary font-semibold cursor-pointer' : 'text-xl cursor-pointer'}>BROWSE</div> */}
           </div>
         </div>
