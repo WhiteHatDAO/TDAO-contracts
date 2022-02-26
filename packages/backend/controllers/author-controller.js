@@ -1,10 +1,16 @@
 const Author = require("../models/author-model");
 
-createAuthor = (req, res) => {};
+createAuthor = (req, res) => {
+    
+};
 
-deleteAuthor = (req, res) => {};
+deleteAuthor = (req, res) => {
 
-updateAuthor = (req, res) => {};
+};
+
+updateAuthor = (req, res) => {
+    
+};
 
 getAuthors = async (req, res) => {
   await Author.find({}, (err, authors) => {
@@ -21,7 +27,7 @@ getAuthors = async (req, res) => {
 };
 
 getAuthorByWalletId = async (req, res) => {
-  await Author.findOne({ walletId: req.params.id }, (err, author) => {
+  await Author.find({ walletId: req.params.id }, (err, author) => {
     console.log(req.params.id);
     if (err) {
       return res.status(400).json({ success: false, error: err });
