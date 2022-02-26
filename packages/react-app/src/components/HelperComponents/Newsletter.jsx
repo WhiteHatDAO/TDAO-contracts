@@ -1,32 +1,33 @@
 import { Button, Col, Input, Row } from "antd";
+import technologyDataImage from "../../assets/technology-data.png";
+import stepImage from "../../assets/step.png";
+import handImage from "../../assets/hand.png";
 
 function Newsletter() {
   return (
-    <div className="relative">
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-black to-red-900 rounded-3xl ml-5 mr-5"
-          aria-hidden="true"
-        />
-      </div>
-      <Row className="py-8">
-        <Col span={12}>Image</Col>
-        <Col span={12}>
-          <h1 className="text-right mr-11 text-red-100 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-            Sign up for the updates
-          </h1>
-          <p className="mt-6 mr-11 text-2xl text-right text-red-200 mb-1">
-            We’ll keep you up to date with our latest news,<br/> announcements, and development plans.
-          </p>
-          <p className="text-right text-red-200 mb-8 mr-11">No Spam Policy!</p>
-          <div className="text-right mr-11">
-            <Input type="email" className="max-w-sm mr-2" />
-            <Button className="ml-8" onClick={() => {}}>
-              Tumb
-            </Button>
+    // <div className="newsletter" style={{background: 'linear-gradient(90deg, #090909 0%, #3F040B 100%)'}}>
+    // </div>
+
+    <div className="demo-wrap rounded-3xl p-6 lg:p-16">
+      <img
+        className="demo-bg"
+        src={technologyDataImage}
+        alt=""
+      />
+      <div className="relative flex flex-col lg:flex-row justify-between">
+        <img src={stepImage}></img>
+        <div className="flex flex-col justify-center text-right">
+          <div className="text-4xl text-white font-bold pt-4">Sign up for the updates</div>
+          <div className="pt-4 text-lg text-lightgray">We’ll keep you up to date with our latest news, announcements, and development plans</div>
+          <span className="pt-2 text-white text-lg font-bold">No-spam policy!</span>
+          <div className="pt-4 flex flex-row items-center">
+            <input type="search" name="query" className="flex-1 h-10 px-4 m-1 text-lg text-gray-700 placeholder-gray-400 bg-white rounded-xl border-none appearance-none lg:h-12 dark:text-gray-200 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="Email Address" required="" />
+            <div className="ml-2 rounded-xl bg-primary px-4 py-2">
+              <img width={32} src={handImage}></img>
+            </div>
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 }

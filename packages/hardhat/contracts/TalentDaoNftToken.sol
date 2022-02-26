@@ -42,7 +42,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     /// @param profileHash the hash to the authors profile
     /// @param metadataPtr the metadata uri for the nft
     /// @param amount the amount of tdao tokens submitting
-    function mintAuthorNFTForArticle(address authorAddress, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount)
+    function mintNFTForArticle(address authorAddress, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount, string memory tokenURI)
         public
         returns (uint256, uint256)
     {
@@ -64,7 +64,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
 
         uint256 newItemId = _tokenIds.current();
         _mint(authorAddress, newItemId);
-        _setTokenURI(newItemId, metadataPtr);
+        _setTokenURI(newItemId, tokenURI);
 
         return (newItemId, authorId);
     }

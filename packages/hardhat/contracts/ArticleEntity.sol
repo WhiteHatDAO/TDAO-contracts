@@ -44,4 +44,9 @@ contract ArticleEntity {
         Article storage article = articles[arweaveHash];
         // now edit...
     }
+
+
+    function getArticle (bytes32 arweaveHash) public returns(Article memory) {
+        return articles[arweaveHash];
+    }
 }

@@ -5,3 +5,5 @@ export { default as Article } from "./Article";
 export { default as Author } from "./Author";
 export { default as Contact } from "./Contact";
 export { default as Submit } from "./Submit";
+export { default as Search } from "./Search";
+export { default as AdvancedSearch } from "./AdvancedSearch";

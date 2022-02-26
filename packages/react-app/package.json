@@ -1,5 +1,5 @@
 {
-  "name": "@scaffold-eth/react-app",
+  "name": "@talentdao/react-app",
   "version": "1.0.0",
   "homepage": ".",
   "browserslist": {
@@ -44,6 +44,8 @@
     "graphiql": "^1.4.7",
     "graphql": "^15.3.0",
     "isomorphic-fetch": "^3.0.0",
+    "mongodb": "^4.4.0",
+    "mongoose": "^6.2.3",
     "node-watch": "^0.7.1",
     "postcss": "^7",
     "qrcode.react": "^1.0.0",
@@ -56,6 +58,8 @@
     "react-qr-reader": "^2.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "react-slick": "^0.28.1",
+    "slick-carousel": "^1.8.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "tw-elements": "^1.0.0-alpha10",
     "walletlink": "^2.1.5",

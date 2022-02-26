@@ -1,7 +1,10 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Col, Row } from "antd";
 import React from "react";
-import { AuthorCard } from "../components/HelperComponents/AuthorCard";
+import arrowRightImage from "../assets/ArrowRight.png";
+import authorImage from "../assets/author.png";
+import featuredImage from "../assets/featured_author.png";
+import lineImage from "../assets/line.png";
+import partnershipImage from "../assets/partnership.png";
+import profileImage from "../assets/profile.png";
 import Footer from "../components/HelperComponents/Footer";
 import LatestArticles from "../components/HelperComponents/LatestArticles";
 // import Navbar from "../components/HelperComponents/Navbar";
@@ -18,89 +21,96 @@ function Home({ yourLocalBalance, readContracts }) {
   // you can also use hooks locally in your component of choice
 
   return (
-    <div className="max-w-screen-2xl mx-auto">
+    <div
+      className="px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden"
+      style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}
+    >
       <Splash />
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6 mt-1 ml-1"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="red-800"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-      <h3 className="flex ml-7 -mt-6">
-        <UserOutlined className="mt-1 mr-2 mb-11" />
-        <span className="text-2xl"> Got Talent? </span>
-        <span className="text-2xl text-red-800 ml-2">Join Us.</span>
-      </h3>
+      <div className="flex flex-row items-center pt-6">
+        <img src={profileImage} alt="profile" className="pr-2"></img>
+        <div className="text-black font-semibold text-2xl">
+          Got Talent? <span className="text-primary">Join Us.</span>
+        </div>
+      </div>
 
       {/* Article Component Section */}
       <LatestArticles />
 
       {/* Featured Author & Updates Section  */}
-      <div className="">
-        <Row className="mt-8 mb-4">
-          <Col span={12}>
-            <div className="text-left ml-8 text-4xl ">
-              <span className="">Featured Author</span>
-              <hr
-                className="max-w-xs font-bold mb-6"
-                style={{ height: "1px", border: "none", color: "#333", backgroundColor: "#333" }}
-              />
-              <Row className="mt-5">
-                <Col span={12}>
-                  <AuthorCard />
-                </Col>
-              </Row>
+      <div className="pt-16 grid grid-cols-1 xl:grid-cols-2">
+        <div className="flex flex-col">
+          <div className="text-3xl xl:text-4xl font-bold text-left">
+            Featured Author
+            <img className="pt-2" alt="featured author" src={lineImage}></img>
+          </div>
+          <div className="pt-8 grid grid-cols-1 md:grid-cols-2 items-center">
+            <div
+              className="rounded-2xl p-4 mr-0 md:mr-8 ml-0 md:ml-4"
+              style={{ boxShadow: "2px 0px 9px rgba(0, 0, 0, 0.15)" }}
+            >
+              <img src={featuredImage} alt="featured" className="rounded-xl w-full h-full"></img>
             </div>
-          </Col>
-          <Col span={12}>
-            <div className="text-left ml-8 text-4xl ">
-              <Row>
-                <Col span={24}>
-                  <span>DAO Updates</span>
-                  <hr
-                    className="max-w-xs font-bold mb-6"
-                    style={{ height: "1px", border: "none", color: "#333", backgroundColor: "#333" }}
-                  />
-                  <div className="flex ml-11 mt-5">
-                    <div className="rounded-lg shadow-lg bg-white max-w-sm">
-                      <a href="#!">
-                        <img
-                          className="rounded-t-lg"
-                          src="https://mdbootstrap.com/img/new/standard/nature/184.jpg"
-                          alt=""
-                        />
-                      </a>
-                      <div className="p-6">
-                        <h5 className="text-gray-900 text-xl font-medium mb-2">Card title</h5>
-                        <p className="text-gray-700 text-base mb-4">
-                          Some quick example text to build on the card title and make up the bulk of the card's content.
-                        </p>
-                        <button
-                          type="button"
-                          className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                        >
-                          Visit Page
-                        </button>
-                      </div>
-                    </div>
+            <div className="flex flex-col items-start text-left">
+              <div className="text-sm xl:text-lg text-primary hidden md:block">Author</div>
+              <div className="pt-2 text-3xl xl:text-4xl font-bold">James Andrew</div>
+              <div className="pt-4 text-lg xl:text-xl text-darkgray hidden md:block">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut{" "}
+              </div>
+              <div className="pt-4 flex flex-row items-center text-lg">
+                <div
+                  className="cursor-pointer rounded-lg font-semibold text-green px-3 py-1 mr-4"
+                  style={{ background: "rgba(60, 188, 0, 0.22)" }}
+                >
+                  History
+                </div>
+                <div
+                  className="cursor-pointer rounded-lg font-semibold text-purple px-3 py-1"
+                  style={{ background: "rgba(113, 1, 255, 0.22)" }}
+                >
+                  Romance
+                </div>
+              </div>
+              <div className="mt-4 cursor-pointer text-2xl text-white bg-primary rounded-full px-8 py-2">
+                VISIT PAGE
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mx-0 md:mx-4 flex flex-col">
+          <div className="text-3xl xl:text-4xl font-bold text-left">
+            DAO Updates
+            <img className="pt-2" src={lineImage} alt="DAO Updates"></img>
+          </div>
+          <div className="relative mt-8 rounded-2xl" style={{ boxShadow: "2px 0px 9px rgba(0, 0, 0, 0.15)" }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+              <div className="demo-dao-update rounded-3xl p-6 lg:p-16">
+                <img className="demo-dao-image" src={partnershipImage} alt="" />
+                <div className="relative flex flex-col">
+                  <div className="text-2xl font-bold text-white text-left pt-56">TalentDAO partners with Consensys</div>
+                </div>
+              </div>
+              <div className="px-6 flex flex-col">
+                <div className="pt-4 text-left text-xl text-darkgray">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                  aliquip ex ea commodo consequat. Duis aute irure dolor in{" "}
+                </div>
+                <div className="pb-4 flex flex-row justify-between lg:flex-col">
+                  <div className="pt-4 flex flex-row items-center text-primary font-semibold text-xl cursor-pointer">
+                    <div className="pr-2">Read more</div>
+                    <img className="pt-1" src={arrowRightImage} alt="right arrow"></img>
                   </div>
-                </Col>
-              </Row>
+                  <img className="w-8 pt-4" src={authorImage} alt="author"></img>
+                </div>
+              </div>
             </div>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </div>
 
       {/* Newsletter Signup Component */}
-      <div>
+      <div className="mt-10">
         <Newsletter />
       </div>
 
