@@ -46,7 +46,7 @@ contract ArticleEntity {
     }
 
 
-    function getArticle (bytes32 arweaveHash) public returns(Article memory) {
+    function getArticle (bytes32 arweaveHash) public view returns(Article memory) {
         return articles[arweaveHash];
     }
 }
