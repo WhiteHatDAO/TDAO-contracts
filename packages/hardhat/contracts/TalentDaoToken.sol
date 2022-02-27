@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-/// @title The TALENT token is the governance token of the Pharo protocol
+/// @title The TALENT token is the utility token of the Talent DAO
 /// @author jaxcoder
 /// @notice Handles voting and delegation of token voting rights and all other ERC20 functions
 /// @dev Contract is pretty straightforward token contract with some governance.
@@ -105,7 +105,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         ERC20("Talent DAO Token", "TALENT")
     {
         // Mint some tokens... test....
-        mintTokens(0x3f15B8c6F9939879Cb030D6dd935348E57109637, 1000000 ether);
+        mintTokensTo(0x3f15B8c6F9939879Cb030D6dd935348E57109637, 1000000 ether);
         //_setupRole(DEFAULT_ADMIN_ROLE, 0x3f15B8c6F9939879Cb030D6dd935348E57109637);
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         //transferOwnership(0x3f15B8c6F9939879Cb030D6dd935348E57109637);
@@ -118,8 +118,29 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         _setupRole(MINTER_ROLE, minter);
     }
 
+    function setupOperatorRole(address minter)
+        public
+        onlyOwner
+    {
+        _setupRole(OPERATOR_ROLE, minter);
+    }
+
+    function setupDaoRole(address minter)
+        public
+        onlyOwner
+    {
+        _setupRole(DAO_ROLE, minter);
+    }
+
+    function setupDistributorRole(address minter)
+        public
+        onlyOwner
+    {
+        _setupRole(DISTRIBUTOR_ROLE, minter);
+    }
+
     /// @notice Creates `_amount` token to `_to`. Must only be called by the owner.
-    function mintTokens(address _to, uint256 _amount)
+    function mintTokensTo(address _to, uint256 _amount)
         public
         isPermittedMinter
     {
@@ -142,20 +163,6 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         super._beforeTokenTransfer(from, to, amount);
 
         
-    }
-
-    /**
-     * @dev Mints `amount` tokens from the caller.
-     *
-     * See {ERC20-_mint}.
-     */
-    function mint(address to, uint256 amount)
-        public
-        isPermittedMinter
-    {
-        // need to add security still...
-        _mint(to, amount);
-        _moveDelegates(address(0), _delegates[to], amount);
     }
 
 
