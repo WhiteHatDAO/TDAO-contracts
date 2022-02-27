@@ -47,6 +47,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     /// @notice An event thats emitted when a delegate account's vote balance changes
     event DelegateVotesChanged(address indexed delegate, uint256 previousBalance, uint256 newBalance);
 
+    /// @notice An event thats emitted when a snapshot has been done
     event SnapshotDone(address owner, uint128 oldValue, uint128 newValue);    
 
     struct Checkpoint {
@@ -54,10 +55,10 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         uint256 votes;
     }
 
-    // Modifiers
+    /// @notice Modifiers for Access Control
     modifier isPermittedMinter() {
         require(
-            hasRole(MINTER_ROLE, msg.sender) || owner() == msg.sender,
+            hasRole(MINTER_ROLE, msg.sender),
             "Not an approved minter"
         );
         _;
@@ -65,7 +66,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
 
     modifier isPermittedDao() {
         require(
-            hasRole(DAO_ROLE, msg.sender) || owner() == msg.sender,
+            hasRole(DAO_ROLE, msg.sender),
             "Not an approved DAO"
         );
         _;
@@ -73,7 +74,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
 
     modifier isPermittedOperator() {
         require(
-            hasRole(OPERATOR_ROLE, msg.sender) || owner() == msg.sender,
+            hasRole(OPERATOR_ROLE, msg.sender),
             "Not an approved minter"
         );
         _;
@@ -81,7 +82,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
 
     modifier isPermittedDistributor() {
         require(
-            hasRole(DISTRIBUTOR_ROLE, msg.sender) || owner() == msg.sender,
+            hasRole(DISTRIBUTOR_ROLE, msg.sender),
             "Not an approved distributor"
         );
         _;
@@ -90,7 +91,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     modifier isAdminOrOwner() {
         require(
             hasRole(DEFAULT_ADMIN_ROLE, msg.sender) || owner() == msg.sender,
-            "You can't perform admin actions"
+            "You can't perform admin or owner actions"
         );
         _;
     }
@@ -100,15 +101,18 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         _;
     }
 
-    constructor()
+    constructor(address owner_)
         public
         ERC20("Talent DAO Token", "TALENT")
     {
         // Mint some tokens... test....
-        mintTokensTo(0x3f15B8c6F9939879Cb030D6dd935348E57109637, 1000000 ether);
-        //_setupRole(DEFAULT_ADMIN_ROLE, 0x3f15B8c6F9939879Cb030D6dd935348E57109637);
+        
+        _setupRole(DEFAULT_ADMIN_ROLE, owner_);
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        //transferOwnership(0x3f15B8c6F9939879Cb030D6dd935348E57109637);
+        _setupRole(MINTER_ROLE, msg.sender);
+        mintTokensTo(owner_, 1000000 ether);
+        transferOwnership(owner_);
+        
     }
 
     function setupMinterRole(address minter)

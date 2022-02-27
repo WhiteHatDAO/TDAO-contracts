@@ -10,11 +10,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./AuthorEntity.sol";
-// https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
 
 /// @title Talent DAO NFT Contract
 /// @author Jaxcoder
-/// @dev ERC721 to represent articles submitted by authors
+/// @dev ERC721 to represent articles submitted by authors as the IP and license
 contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     using Counters for Counters.Counter;
     using SafeERC20 for IERC20;
@@ -25,7 +24,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     address public tDaoTokenAddress;
     IERC20 private tDaoToken;
 
-    constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO NFT", "TDAO") {
+    constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO IP NFT", "TDAO-IPNFT") {
         tDaoToken = IERC20(_tDaoToken);
         tDaoTokenAddress = _tDaoToken;
         _transferOwnership(_owner);
