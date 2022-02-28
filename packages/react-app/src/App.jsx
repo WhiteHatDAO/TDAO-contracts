@@ -21,7 +21,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-import { Home, Subgraph, Submit, About, Contact, Author, Article, Search, AdvancedSearch } from "./views";
+import { Home, Subgraph, Submit, About, Contact, Author, Article, Search, AdvancedSearch, User } from "./views";
 
 const { ethers } = require("ethers");
 /*
@@ -279,6 +279,9 @@ function App(props) {
         </Route>
         <Route exact path="/advancedsearch">
           <AdvancedSearch></AdvancedSearch>
+        </Route>
+        <Route exact path="/user">
+          <User></User>
         </Route>
         <Route exact path="/debug">
           <Contract
