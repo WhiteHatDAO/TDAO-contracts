@@ -200,7 +200,10 @@ const Submit = () => {
                     <label htmlFor="abstract" className="block text-left text-lg font-bold">
                       Abstract <span className="pl-1 text-primary">*</span>
                     </label>
-                    <p>Each submission should have exactly one abstract. Submissions with multiple articles will be disqualified from the marketplace.</p>
+                    <p>
+                      Each submission should have exactly one abstract. Submissions with multiple articles will be
+                      disqualified from the marketplace.
+                    </p>
                   </div>
                   <div className="mt-1">
                     <textarea

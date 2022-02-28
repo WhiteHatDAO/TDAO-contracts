@@ -1,10 +1,5 @@
-import { Image } from "antd";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import discord from "../../assets/discord.png";
-import twitter from "../../assets/twitter.png";
-import profile from "../../assets/profile.png";
-import logo from "../../assets/talent-logo.png";
-import { Account } from "../../components";
 import divideImage from "../../assets/divide.png";
 import menuIconImage from "../../assets/menu_icon.png";
 import { useState } from "react";
