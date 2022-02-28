@@ -21,10 +21,7 @@ function Home({ yourLocalBalance, readContracts }) {
   // you can also use hooks locally in your component of choice
 
   return (
-    <div
-      className="px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden"
-      style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}
-    >
+    <div className="pt-4 px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden" style={{backgroundImage: 'linear-gradient(#fff, #EEEE'}}>
       <Splash />
       <div className="flex flex-row items-center pt-6">
         <img src={profileImage} alt="profile" className="pr-2"></img>
@@ -53,26 +50,10 @@ function Home({ yourLocalBalance, readContracts }) {
             <div className="flex flex-col items-start text-left">
               <div className="text-sm xl:text-lg text-primary hidden md:block">Author</div>
               <div className="pt-2 text-3xl xl:text-4xl font-bold">James Andrew</div>
-              <div className="pt-4 text-lg xl:text-xl text-darkgray hidden md:block">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut{" "}
-              </div>
+              <div className="pt-4 text-lg xl:text-xl text-darkgray hidden md:block">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut </div>
               <div className="pt-4 flex flex-row items-center text-lg">
-                <div
-                  className="cursor-pointer rounded-lg font-semibold text-green px-3 py-1 mr-4"
-                  style={{ background: "rgba(60, 188, 0, 0.22)" }}
-                >
-                  History
-                </div>
-                <div
-                  className="cursor-pointer rounded-lg font-semibold text-purple px-3 py-1"
-                  style={{ background: "rgba(113, 1, 255, 0.22)" }}
-                >
-                  Romance
-                </div>
-              </div>
-              <div className="mt-4 cursor-pointer text-2xl text-white bg-primary rounded-full px-8 py-2">
-                VISIT PAGE
+                <div className="cursor-pointer rounded-lg text-green px-3 py-1 mr-4" style={{ background: 'rgba(60, 188, 0, 0.22)' }}>History</div>
+                <div className="cursor-pointer rounded-lg text-purple px-3 py-1" style={{ background: 'rgba(113, 1, 255, 0.22)' }}>Romance</div>
               </div>
             </div>
           </div>

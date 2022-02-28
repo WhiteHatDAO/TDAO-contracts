@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import contact_rect from "../assets/contact_rect.png";
 import faqArrow from "../assets/faqArrow.png";
 import lineImage from "../assets/line.png";
 import contact_join_us from "../assets/contact_join_us.png";
 import Footer from "../components/HelperComponents/Footer";
 const Contact = () => {
+  const scrollTop = () => {
+    document.documentElement.scrollTo({
+      // @ts-ignore
+      top: 0,
+      behavior: "smooth",
+    })
+  };
+
+  useEffect(() => {
+    scrollTop();
+  }, [])
+  
   return (
     <div className="flex flex-col" style={{backgroundImage: 'linear-gradient(#fff, #EEE'}} >
       <div className="relative">

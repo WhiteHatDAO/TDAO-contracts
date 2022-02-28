@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import aboutImage from "../assets/about.png";
 import lineImage from "../assets/line.png";
 import abstract from "../assets/abstract.png";
@@ -8,9 +8,21 @@ import know from "../assets/know.png";
 import BlueTechBanner from "../assets/BlueTechBanner.png";
 import Footer from "../components/HelperComponents/Footer";
 
-function about() {
+const About = () => {
+  const scrollTop = () => {
+    document.documentElement.scrollTo({
+      // @ts-ignore
+      top: 0,
+      behavior: "smooth",
+    })
+  };
+
+  useEffect(() => {
+    scrollTop();
+  }, [])
+
   return (
-    <div className="px-0 sm:px-8 md:px-10 xl:px-20 overflow-hidden" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }}>
+    <div className="pt-4 md:pt-8 px-0 sm:px-8 md:px-10 xl:px-20 overflow-hidden" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }}>
       <div className="flex flex-col items-center space-y-8">
         <div className="text-4xl text-primary font-bold">The world of work <br /> just got so much better</div>
         <img src={aboutImage} className="hidden lg:flex w-1/2 pt-4"></img>
@@ -65,4 +77,4 @@ function about() {
   );
 }
 
-export default about;
+export default About;

@@ -7,3 +7,4 @@ export { default as Contact } from "./Contact";
 export { default as Submit } from "./Submit";
 export { default as Search } from "./Search";
 export { default as AdvancedSearch } from "./AdvancedSearch";
+export { default as User } from "./User";
