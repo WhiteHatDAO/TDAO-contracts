@@ -1,5 +1,10 @@
-import { useHistory, useLocation } from "react-router-dom";
+import { Image } from "antd";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import discord from "../../assets/discord.png";
+import twitter from "../../assets/twitter.png";
+import profile from "../../assets/profile.png";
+import logo from "../../assets/talent-logo.png";
+import { Account } from "../../components";
 import divideImage from "../../assets/divide.png";
 import menuIconImage from "../../assets/menu_icon.png";
 import { useState } from "react";
@@ -33,7 +38,7 @@ function Navbar({
       <nav className="mx-4 sm:mx-8 md:mx-10 xl:mx-20 flex flex-row items-center justify-between">
         {/* Navbar Left Items */}
         <div className="flex items-center py-5">
-          <img src={logo} alt="Talent DAO Logo" layout="fixed" />
+          <img className="cursor-pointer" src={logo} alt="Talent DAO Logo" layout="fixed" onClick={() => goToPage('/')} />
           <div className="hidden xl:flex items-center">
             <img className="px-8" src={divideImage} alt="div"></img>
             <div className="flex items-center space-x-7">
