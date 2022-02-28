@@ -1,9 +1,9 @@
 import { Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import article_back from "../assets/article_back.png";
+import matic from "../assets/matic.png"
+import ethereum from "../assets/ethereum.png"
 import author_pro from "../assets/author_pro.png";
-import ethereum from "../assets/ethereum.png";
-import matic from "../assets/matic.png";
 import { SimilarArticleCard } from "../components/HelperComponents/SimilarArticleCard";
 
 const tabType = {
@@ -32,9 +32,21 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     console.log("Mint clicked: ", article);
   };
 
+  const scrollTop = () => {
+    document.documentElement.scrollTo({
+      // @ts-ignore
+      top: 0,
+      behavior: "smooth",
+    })
+  };
+
+  useEffect(() => {
+    scrollTop();
+  }, [])
+
   return (
     <div>
-      <div className="px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden">
+      <div className="p-4 sm:p-8 md:p-10 xl:p-20 overflow-hidden">
         <div className="flex flex-col 2xl:flex-row items-start justify-between text-left space-x-8">
           <div className="pt-4 flex flex-col items-start space-y-4">
             <div className="flex flex-col-reverse lg:flex-col items-start space-y-4">
@@ -215,8 +227,8 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           lorem sapien. Aenean ultricies id turpis quis congue. Nam rutrum tellus ac nunc accumsan, vel faucibus ipsum
           euismod. Suspendisse commodo.
         </div>
-        <div className="w-full border-b border-darkgray font-bold text-sm text-left py-2 my-8">Similar article</div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="pb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
           <SimilarArticleCard></SimilarArticleCard>
           <SimilarArticleCard></SimilarArticleCard>
           <SimilarArticleCard></SimilarArticleCard>

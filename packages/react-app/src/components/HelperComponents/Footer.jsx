@@ -6,11 +6,13 @@ import discord from "../../assets/discord.png";
 import twitter from "../../assets/twitter.png";
 import plus from "../../assets/plus.png";
 import minus from "../../assets/minus.png";
+import { useHistory } from "react-router-dom";
 
 function Footer() {
   const [show, setShow] = useState(false);
   const [talentShow, setTalentShow] = useState(false);
   const [communityShow, setCommunityShow] = useState(false);
+  const history = useHistory();
 
   return (
     <footer className="mt-16">
@@ -58,15 +60,15 @@ function Footer() {
           <div className="hidden lg:flex flex-row space-x-16">
             <div className="flex flex-col space-y-4">
               <div className="text-2xl font-bold border-b pb-4">TALENTDAO</div>
-              <div className="text-lg font-semibold">ABOUT</div>
-              <div className="text-lg font-semibold">CONTACT US</div>
-              <div className="text-lg font-semibold">SUBSCRIBE</div>
+              <div className="text-lg font-semibold cursor-pointer" onClick={() => history.push('/about')}>ABOUT</div>
+              <div className="text-lg font-semibold cursor-pointer whitespace-nowrap" onClick={() => history.push('/contact')}>CONTACT US</div>
+              <div className="text-lg font-semibold cursor-pointer">SUBSCRIBE</div>
             </div>
             <div className="flex flex-col space-y-4">
               <div className="text-2xl font-bold border-b pb-4">COMMUNITY</div>
-              <div className="text-lg font-semibold">TOKEN</div>
-              <div className="text-lg font-semibold">GOVERNANCE</div>
-              <div className="text-lg font-semibold">SUGGEST FEATURE</div>
+              <div className="text-lg font-semibold cursor-pointer">TOKEN</div>
+              <div className="text-lg font-semibold cursor-pointer">GOVERNANCE</div>
+              <div className="text-lg font-semibold cursor-pointer">SUGGEST FEATURE</div>
             </div>
           </div>
           <div className="flex lg:hidden flex-col space-y-4">
@@ -83,13 +85,13 @@ function Footer() {
             {
               talentShow && (
                 <>
-                  <div className="text-lg font-semibold">ABOUT</div>
-                  <div className="text-lg font-semibold">CONTACT US</div>
-                  <div className="text-lg font-semibold">SUBSCRIBE</div>
+                  <div className="text-lg font-semibold cursor-pointer" onClick={() => history.push('/about')}>ABOUT</div>
+                  <div className="text-lg font-semibold cursor-pointer whitespace-nowrap" onClick={() => history.push('/contact')}>CONTACT US</div>
+                  <div className="text-lg font-semibold cursor-pointer">SUBSCRIBE</div>
                 </>
               )
             }
-            <div className="flex flex-row justify-between items-center" onClick={() => setCommunityShow(!talentShow)}>
+            <div className="flex flex-row justify-between items-center" onClick={() => setCommunityShow(!communityShow)}>
               <div className="text-xl font-bold">COMMUNITY</div>
               {
                 communityShow === false ? (
@@ -102,9 +104,9 @@ function Footer() {
             {
               communityShow && (
                 <>
-                  <div className="text-lg font-semibold">ABOUT</div>
-                  <div className="text-lg font-semibold">CONTACT US</div>
-                  <div className="text-lg font-semibold">SUBSCRIBE</div>
+                  <div className="text-lg font-semibold cursor-pointer" onClick={() => history.push('/about')}>ABOUT</div>
+                  <div className="text-lg font-semibold cursor-pointer whitespace-nowrap" onClick={() => history.push('/contact')}>CONTACT US</div>
+                  <div className="text-lg font-semibold cursor-pointer">SUBSCRIBE</div>
                 </>
               )
             }
@@ -113,8 +115,8 @@ function Footer() {
             <div className="text-xl font-bold">LET'S GET STARTED</div>
             <div className="text-lg">Explore the journal of decentralized work</div>
             <div className="flex flex-col lg:flex-row items-center lg:space-x-4 space-y-4 lg:space-y-0 text-center">
-              <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2">CONTACT US</div>
-              <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2">JOIN US</div>
+              <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2 cursor-pointer whitespace-nowrap" onClick={() => history.push('/contact')}>CONTACT US</div>
+              <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2 cursor-pointer whitespace-nowrap">JOIN US</div>
             </div>
           </div>
         </div>
@@ -122,8 +124,8 @@ function Footer() {
       <div className="flex flex-col lg:flex-row justify-between px-0 lg:px-32 text-left space-y-2 lg:py-10">
         <div className="text-lg text-primary">© TALENTDAO ALL RIGHTS RESERVED</div>
         <div className="flex flex-row items-center space-x-4">
-          <div className="text-lg text-primary">TERMS</div>
-          <div className="text-lg text-primary">PRIVACY POLICY</div>
+          <div className="text-lg text-primary cursor-pointer">TERMS</div>
+          <div className="text-lg text-primary cursor-pointer">PRIVACY POLICY</div>
         </div>
       </div>
     </footer>

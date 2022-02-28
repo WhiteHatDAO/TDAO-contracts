@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { AuthorForm } from "../components/HelperComponents/AuthorForm";
 
@@ -7,14 +8,24 @@ const Submit = () => {
   const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState();
   const [selectedArticleCover, setSelectedArticleCover] = useState();
+  const [talentPrice, setTalentPrice] = useState(0);
   const [articleTitle, setArticleTitle] = useState("");
   const [blockchain, setBlockchain] = useState("");
   const [categories, setCategories] = useState([]);
+  const [optionTech, setOptionTech] = useState(false);
+  const [optionHistory, setOptionHistory] = useState(false);
+  const [optionRomance, setOptionRomance] = useState(false);
+  const [optionComedy, setOptionComedy] = useState(false);
+  const [optionPolitics, setOptionPolitics] = useState(false);
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
     console.log(selectedManuscriptFile);
   };
+
+  const changeTalentPrice = event => {
+    setTalentPrice(event.target.value);
+  }
 
   const changeSelectedArticleCover = event => {
     setSelectedArticleCover(event.target.files[0]);
@@ -48,8 +59,16 @@ const Submit = () => {
     //JSON.stringify(data.target, null, 4)
   };
 
+  useEffect(() => {
+    if (!selectedArticleCover) return;
+    var src = URL.createObjectURL(selectedArticleCover);
+    var preview = document.getElementById("preview");
+    preview.src = src;
+    preview.style.display = "block";
+  }, [selectedArticleCover])
+
   return (
-    <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>
+    <div className="" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }}>
       <div className="m-4 p-4 max-w-screen-lg lg:max-w-screen-xl mx-auto">
         <div>
           <h2 className="text-4xl font-bold text-left">Submit Article</h2>
@@ -63,101 +82,76 @@ const Submit = () => {
             <div className="space-y-6">
               <div className="py-5 sm:rounded-lg">
                 <div className="md:grid md:grid-cols-10 md:gap-6">
-                  <div className="mt-5 md:mt-0 md:col-span-6">
-                    <div>
-                      <label className="block text-left text-lg font-bold text-gray-700">Article Manuscript</label>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="manuscript-upload"
-                              className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                {...register("manuscript-upload", { required: true })}
-                                id="manuscript-upload"
-                                name="manuscript-upload"
-                                type="file"
-                                className="sr-only"
-                                onChange={changeSelectedManuscriptFile}
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs text-gray-500">pdf, md, doc, docs, or txt up to 10MB</p>
-                        </div>
-                      </div>
+                  <div className="mt-5 md:mt-0 md:col-span-6 flex flex-col place-content-between">
+                    <label className="block text-left text-lg font-bold text-gray-700">Article Manuscript</label>
+                    <div className="mt-1 h-full flex flex-col justify-center items-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
+                      {
+                        selectedManuscriptFile ? (
+                          <div className="py-5 text-lg text-lightgray">{selectedManuscriptFile.name}</div>
+                        ) : (
+                          <div className="py-5 text-lg text-lightgray">File formats: pdf, md, doc, docx, txt.</div>
+                        )
+                      }
+                      <label htmlFor="manuscript-upload" className="w-56 py-2 font-bold text-sm text-primary rounded-full cursor-pointer" style={{ backgroundColor: '#FFD6DA' }}>
+                        <span>Choose File</span>
+                        <input
+                          accept=".pdf, .md, .doc, .docx, .txt"
+                          {...register("manuscript-upload", { required: true })}
+                          id="manuscript-upload"
+                          name="manuscript-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={changeSelectedManuscriptFile}
+                        />
+                      </label>
                     </div>
-
-                    <div>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="image-upload"
-                              className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                {...register("image-upload", { required: true })}
-                                id="image-upload"
-                                name="image-upload"
-                                type="file"
-                                className="sr-only"
-                                onChange={changeSelectedArticleCover}
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs text-gray-500">jpg or png up to 10 MB</p>
-                        </div>
-                      </div>
+                    <div className="mt-1 h-full flex flex-col justify-center items-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
+                      {
+                        selectedArticleCover ? (
+                          <div className="py-5 text-lg text-lightgray">{selectedArticleCover.name}</div>
+                        ) : (
+                          <div className="py-5 text-lg text-lightgray">Cover Image formats: jpeg, png.</div>
+                        )
+                      }
+                      <label htmlFor="articlecover-upload" className="w-56 py-2 font-bold text-sm text-primary rounded-full cursor-pointer" style={{ backgroundColor: '#FFD6DA' }}>
+                        <span>Choose Image</span>
+                        <input
+                          accept=".jpeg, .png"
+                          {...register("articlecover-upload", { required: true })}
+                          id="articlecover-upload"
+                          name="articlecover-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={changeSelectedArticleCover}
+                        />
+                      </label>
                     </div>
-
                     <div className="mt-2">
                       <label className="block text-left text-lg font-bold">Price</label>
-                      <input
-                        type="text"
-                        name="price"
-                        id="price"
-                        className="mt-1 mb-0 p-2 bg-transparent block w-full shadow-sm focus:outline-none text-lg border-b border-black "
-                      />
+                      <div className="flex flex-row items-end border-b border-black ">
+                        <input
+                          type="number"
+                          name="price"
+                          id="price"
+                          className="mt-1 mb-0 p-2 bg-transparent block w-full shadow-sm focus:outline-none text-lg"
+                          value={talentPrice}
+                          onChange={changeTalentPrice}
+                        />
+                        <div className="pb-2 text-lightgray text-lg">$TALENT</div>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="md:col-span-4 flex flex-col">
+                  <div className="hidden md:col-span-4 md:flex flex-col">
                     <h3 className="text-left text-lg font-bold leading-6 text-gray-900">Preview</h3>
                     <div className="my-0 border border-gray-300 rounded-md w-full h-full flex items-center justify-center text-center">
-                      <p>Upload image to preview your article image</p>
+                      {
+                        selectedArticleCover ? (
+                          <img id='preview'></img>
+                        ) : (
+                          <p>Upload image to preview your article image</p>
+                        )
+                      }
                     </div>
                   </div>
                 </div>
@@ -171,7 +165,7 @@ const Submit = () => {
                     name="article-title"
                     id="article-title"
                     placeholder="e.g Decentralised finance"
-                    className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
+                    className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black"
                     {...register("article-text", { required: true })}
                   />
                 </div>
@@ -216,7 +210,7 @@ const Submit = () => {
                       rows={4}
                       name="abstract"
                       id="abstract"
-                      className="block w-full bg-transparent text-lg rounded-xl border border-black"
+                      className="p-4 block w-full bg-transparent text-lg rounded-xl focus:outline-none border border-black"
                       {...register("abstract", { required: true })}
                     />
                   </div>
@@ -256,29 +250,101 @@ const Submit = () => {
                 </select> */}
                   <div className="mt-1 w-full p-4 text-lg rounded-lg border flex flex-row flex-wrap items-center space-x-4">
                     <div
-                      className="my-2 px-4 py-2 rounded-full text-lg border border-primary cursor-pointer"
-                      style={{ backgroundColor: "rgba(180, 28, 46, 0.13)" }}
+                      className={
+                        optionTech ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={ optionTech ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      onClick={() => setOptionTech(!optionTech)}
                     >
-                      Technology
+                      {
+                        optionTech && (
+                          <svg className="mr-2" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z" fill="#B41C2E" />
+                          </svg>
+                        )
+                      }
+                      <div>Technology</div>
                     </div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">History</div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Romance</div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Comedy</div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Politics</div>
+                    <div
+                      className={
+                        optionHistory ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={ optionHistory ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      onClick={() => setOptionHistory(!optionHistory)}
+                    >
+                      {
+                        optionHistory && (
+                          <svg className="mr-2" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z" fill="#B41C2E" />
+                          </svg>
+                        )
+                      }
+                      <div>History</div>
+                    </div>
+                    <div
+                      className={
+                        optionRomance ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={ optionRomance ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      onClick={() => setOptionRomance(!optionRomance)}
+                    >
+                      {
+                        optionRomance && (
+                          <svg className="mr-2" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z" fill="#B41C2E" />
+                          </svg>
+                        )
+                      }
+                      <div>Romance</div>
+                    </div>
+                    <div
+                      className={
+                        optionComedy ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={ optionComedy ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      onClick={() => setOptionComedy(!optionComedy)}
+                    >
+                      {
+                        optionComedy && (
+                          <svg className="mr-2" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z" fill="#B41C2E" />
+                          </svg>
+                        )
+                      }
+                      <div>Comedy</div>
+                    </div>
+                    <div
+                      className={
+                        optionPolitics ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={ optionPolitics ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      onClick={() => setOptionPolitics(!optionPolitics)}
+                    >
+                      {
+                        optionPolitics && (
+                          <svg className="mr-2" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z" fill="#B41C2E" />
+                          </svg>
+                        )
+                      }
+                      <div>Politics</div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="flex justify-center">
-                <button type="button" className="bg-primary text-white py-2 px-6 rounded-full text-lg">
+                <button
+                  type="submit"
+                  className="bg-primary text-white py-2 px-6 rounded-full text-lg"
+                >
                   SUBMIT
                 </button>
-                {/* <button
-                type="submit"
-                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Save
-              </button> */}
               </div>
             </div>
           </form>
