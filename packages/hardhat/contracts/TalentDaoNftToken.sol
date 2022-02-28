@@ -10,11 +10,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./AuthorEntity.sol";
-// https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol
 
 /// @title Talent DAO NFT Contract
 /// @author Jaxcoder
-/// @dev ERC721 to represent articles submitted by authors
+/// @dev ERC721 to represent articles submitted by authors as the IP and license
 contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     using Counters for Counters.Counter;
     using SafeERC20 for IERC20;
@@ -25,7 +24,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     address public tDaoTokenAddress;
     IERC20 private tDaoToken;
 
-    constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO NFT", "TDAO") {
+    constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO IP NFT", "TDAO-IPNFT") {
         tDaoToken = IERC20(_tDaoToken);
         tDaoTokenAddress = _tDaoToken;
         _transferOwnership(_owner);
@@ -42,7 +41,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
     /// @param profileHash the hash to the authors profile
     /// @param metadataPtr the metadata uri for the nft
     /// @param amount the amount of tdao tokens submitting
-    function mintAuthorNFTForArticle(address authorAddress, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount)
+    function mintNFTForArticle(address authorAddress, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount)
         public
         returns (uint256, uint256)
     {
@@ -83,7 +82,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         _setTokenURI(_tokenId, _tokenURI);
     }
 
-    function getContractBalance(address token) public onlyOwner returns (uint256) {
+    function getContractBalance(address token) public view onlyOwner returns (uint256) {
         return IERC20(token).balanceOf(address(this));
     }
 

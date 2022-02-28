@@ -1,20 +1,11 @@
 import "antd/dist/antd.css";
-import {
-  useBalance,
-  useContractLoader,
-  useContractReader,
-  useGasPrice,
-  useOnBlock,
-  useUserProviderAndSigner,
-} from "eth-hooks";
+import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Contract, ThemeSwitch, NetworkDisplay } from "./components";
+import { Contract } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
-import Footer from "./components/HelperComponents/Footer";
-
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
@@ -22,6 +13,7 @@ import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
 import { Home, Subgraph, Submit, About, Contact, Author, Article, Search, AdvancedSearch, User } from "./views";
+
 
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
@@ -250,8 +242,8 @@ function App(props) {
         <Route exact path="/author">
           <Author></Author>
         </Route>
-        <Route exact path="/article" >
-          <Article></Article>
+        <Route exact path="/article">
+          <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
         </Route>
         <Route exact path="/search">
           <Search></Search>
@@ -292,7 +284,7 @@ function App(props) {
           />
         </Route>
         <Route exact path="/submit">
-          <Submit/>
+          <Submit />
         </Route>
         {/* <Route path="/subgraph">
           <Subgraph
