@@ -6,6 +6,24 @@ mongoose
         console.error('Connection error', e.message)
     })
 
-const db = mongoose.connection
+// mongoose
+//     .connect('mongodb+srv://JunielLiu:donotaccept@cluster0.vgnpa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true })
+//     .catch(e => {
+//         console.error('Connection error', e.message)
+//     })
 
-module.exports = db
+const connection = mongoose.connection
+let collections = []
+
+connection.on('open', function(ref) {
+    console.log('Connected to mongo server.');
+    connection.db.listCollections().toArray(function(err, names) {
+        console.log('names', names);
+        collections = names;
+    })
+})
+
+module.exports = {
+    connection,
+    collections
+}
