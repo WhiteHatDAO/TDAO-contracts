@@ -228,7 +228,6 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           euismod. Suspendisse commodo.
         </div>
         <div className="pb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-
           <SimilarArticleCard></SimilarArticleCard>
           <SimilarArticleCard></SimilarArticleCard>
           <SimilarArticleCard></SimilarArticleCard>

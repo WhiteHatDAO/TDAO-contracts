@@ -20,6 +20,7 @@
     "fork": "yarn workspace @talentdao/hardhat fork",
     "node": "yarn workspace @talentdao/hardhat chain",
     "test": "yarn workspace @talentdao/hardhat test",
+    "server": "yarn workspace @talentdao/backend server",
     "start": "yarn workspace @talentdao/react-app start",
     "compile": "yarn workspace @talentdao/hardhat compile",
     "deploy": "yarn workspace @talentdao/hardhat deploy",
