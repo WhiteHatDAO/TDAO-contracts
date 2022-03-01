@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -40,6 +41,21 @@ const EditUserProfile = () => {
         coverImage.src = src;
         coverImage.style.display = "block";
     }, [selectedCoverImage])
+
+
+
+    const handleSave = async() => {
+        const serverURL = "http://localhost:4000";
+
+        try {
+            console.log('username', name);
+            console.log('tip', tipAddress);
+            const res = await axios.post(serverURL + '/api/author', {username: name, walletId: tipAddress})
+            console.log('res', res);
+        } catch(e) {
+            console.log(e);
+        }
+    }
 
     return (
         <div className="flex flex-col space-y-4">
@@ -184,7 +200,7 @@ const EditUserProfile = () => {
                     />
                 </div>
                 <div className="flex items-center justify-center">
-                    <div className="mt-4 px-8 py-2 rounded-full bg-primary text-white text-lg w-56 cursor-pointer">SAVE</div>
+                    <div className="mt-4 px-8 py-2 rounded-full bg-primary text-white text-lg w-56 cursor-pointer" onClick={handleSave}>SAVE</div>
                 </div>
             </div>
         </div>
