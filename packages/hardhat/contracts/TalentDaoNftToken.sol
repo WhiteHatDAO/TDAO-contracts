@@ -49,7 +49,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         tDaoToken.transferFrom(authorAddress, address(this), amount);
 
         _tokenIds.increment();
-        (uint256 articleId) = addArticle(authorAddress, arweaveHash);
+        (uint256 articleId) = addArticle(authorAddress, arweaveHash, metadataPtr, amount);
         Article storage article = articles[arweaveHash];
         article.author = authorAddress;
         article.metadataPtr = metadataPtr;

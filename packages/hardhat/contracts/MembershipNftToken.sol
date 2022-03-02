@@ -1,7 +1,6 @@
 pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
 
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -22,7 +21,7 @@ contract MembershipNftToken is Ownable, ERC721URIStorage {
     address public tDaoTokenAddress;
     IERC20 private tDaoToken;
 
-    constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO IP NFT", "TDAO-IPNFT") {
+    constructor(address _owner, address _tDaoToken) public ERC721("Talent DAO MEMBER NFT", "TDAO-MEMBER") {
         tDaoToken = IERC20(_tDaoToken);
         tDaoTokenAddress = _tDaoToken;
         _transferOwnership(_owner);
@@ -30,7 +29,7 @@ contract MembershipNftToken is Ownable, ERC721URIStorage {
 
     /// @dev we may not need this, for OpenSea
     function contractURI() public view returns (string memory) {
-        return "";
+        return "your contract metadata uri";
     }
 
     /// @dev this is internal mint function
@@ -42,7 +41,7 @@ contract MembershipNftToken is Ownable, ERC721URIStorage {
         returns (uint256)
     {
         require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
-        tDaoToken.transferFrom(authorAddress, address(this), amount);
+        tDaoToken.transferFrom(authorAddress, treasury, amount);
 
         _tokenIds.increment();
         

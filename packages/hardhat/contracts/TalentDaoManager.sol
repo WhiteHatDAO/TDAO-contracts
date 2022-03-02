@@ -130,6 +130,13 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         return authorId;
     }
 
+    // function addArticle(address authorAddress, bytes32 arweaveHash, string memory metadataPtr, uint256 paid)
+    //     public
+    //     returns(uint256 articleId)
+    // {
+    //     (articleId) = addArticle(authorAddress, arweaveHash, metadataPtr, paid);
+    // }
+
     function tipAuthor(address author, uint256 amount) public {
         require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
         tDaoToken.transferFrom(msg.sender, author, amount);
