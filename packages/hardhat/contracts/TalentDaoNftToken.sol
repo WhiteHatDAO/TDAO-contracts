@@ -46,24 +46,36 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         returns (uint256, uint256)
     {
         require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
+        // todo: How much TALENT token do we ask for?
+        // take their money
         tDaoToken.transferFrom(authorAddress, address(this), amount);
 
         _tokenIds.increment();
+        uint256 authorId;
+
         (uint256 articleId) = addArticle(authorAddress, arweaveHash, metadataPtr, amount);
         Article storage article = articles[arweaveHash];
         article.author = authorAddress;
         article.metadataPtr = metadataPtr;
         article.paid = amount;
 
-        (uint256 authorId) = addAuthor(authorAddress, articleId, profileHash);
-
+        // todo: check if author exists first
         Author storage author = authors[authorAddress];
+        if(author.authorAddress != authorAddress){
+            (authorId) = addAuthor(authorAddress, articleId, profileHash);
+        }
+        authorId = author.id;
+        // add the article to the author
+       
         author.articles[articleId] = article;
 
+        // mint the nft to the author/owner
         uint256 newItemId = _tokenIds.current();
         _mint(authorAddress, newItemId);
         _setTokenURI(newItemId, metadataPtr);
 
+        // return the tokenId and the authorId it was minted to
+        // the authorId will be 
         return (newItemId, authorId);
     }
 
