@@ -25,6 +25,10 @@ interface ITDAONFTToken {
     function mintNFTForArticle(address author, bytes32 arweaveHash, string memory metadataPtr, uint256 amount) external returns(uint256);
 }
 
+interface ITDAOMemberToken{
+    function mintMembershipToken(address authorAddress, string memory metadataPtr, uint256 amount) external returns(uint256);
+}
+
 /// @title TokenRecover
 /// @author jaxcoder
 /// @dev Allow to recover any ERC20 sent into the contract for error
@@ -53,18 +57,23 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
 
     ITDAOToken public tDaoToken;
     ITDAONFTToken public tDaoNftToken;
+    ITDAOMemberToken public tDaoMemberToken;
 
     event ManagerRemoved(address indexed oldManager);
     event ManagerAdded(address indexed newManager);
    
-    constructor(address _manager, address _owner, address _TDAOToken, address _TDAONFTToken) public {
+    constructor(address _manager, address _owner, address _TDAOToken, address _TDAONFTToken, address _TDAOMemberToken) public {
         manager = _manager;
         _setupRole(MANAGER_ROLE, _manager);
         tDaoToken = ITDAOToken(_TDAOToken);
         tDaoNftToken = ITDAONFTToken(_TDAONFTToken);
+        tDaoMemberToken = ITDAOMemberToken(_TDAOMemberToken);
         transferOwnership(_owner);
     }
 
+    function mintMemberToken (address to, string memory metadataPtr, uint256 amount) public {
+        tDaoMemberToken.mintMembershipToken(to, metadataPtr, amount);
+    }
     
     
     /// @dev transfer TDAO tokens
@@ -114,9 +123,16 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
 
     function addAuthor(address author, bytes32 arweaveHash, string memory metadataPtr)
         public 
-        returns(uint256)
+        returns(uint256 authorId)
     {
+        (authorId) = addAuthor(author, arweaveHash, metadataPtr);
 
+        return authorId;
+    }
+
+    function tipAuthor(address author, uint256 amount) public {
+        require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
+        tDaoToken.transferFrom(msg.sender, author, amount);
     }
 
     
