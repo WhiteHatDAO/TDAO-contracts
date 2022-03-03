@@ -21,7 +21,6 @@ contract AuthorEntity is ArticleEntity {
     Author[] authorList;
 
     mapping(address => Author) public authors;
-    mapping(address => mapping(uint256 => Article)) public authorsArticlesById;
 
     constructor() public {}
 
@@ -33,7 +32,9 @@ contract AuthorEntity is ArticleEntity {
         Author storage newAuthor = authors[authorAddress];
         newAuthor.id = id;
         newAuthor.arweaveProfileHash = profileHash;
-        
+
+        //Article storage articleRef = articleList[articleId];
+        //newAuthor.articles[articleId].author = authorAddress;
         
     }
     /// @dev edit an author on-chain

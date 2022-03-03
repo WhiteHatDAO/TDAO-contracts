@@ -32,6 +32,15 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     log: true,
   });
 
+  await deploy("MembershipNftToken", {
+    from: deployer,
+    args: [
+      "0x3f15B8c6F9939879Cb030D6dd935348E57109637",
+      talentDaoTokenContract.address,
+    ],
+    log: true,
+  });
+
   // Getting a previously deployed contract
   const TalentDAOTokenContract = await ethers.getContract(
     "TalentDaoToken",
@@ -43,6 +52,11 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     deployer
   );
 
+  const MembershipNftToken = await ethers.getContract(
+    "MembershipNftToken",
+    deployer
+  );
+
   await deploy("TalentDaoManager", {
     from: deployer,
     args: [
@@ -50,6 +64,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
       "0x3f15B8c6F9939879Cb030D6dd935348E57109637", // contract owner
       TalentDAOTokenContract.address, // TDAO token address
       TalentDAONFTTokenContract.address, // TDAO NFT token address
+      MembershipNftToken.address, // TDAO Member token address
     ],
     log: true,
     waitConfirmations: 5,
@@ -74,7 +89,18 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
       await run("verify:verify", {
         address: TalentDAONFTTokenContract.address,
         contract: "contracts/TalentDaoNftToken.sol:TalentDaoNftToken",
-        constructorArguments: ["0x3f15B8c6F9939879Cb030D6dd935348E57109637"],
+        constructorArguments: [
+          "0x3f15B8c6F9939879Cb030D6dd935348E57109637",
+          talentDaoTokenContract.address,
+        ],
+      });
+      await run("verify:verify", {
+        address: MembershipNftToken.address,
+        contract: "contracts/MembershipNftToken.sol:MembershipNftToken",
+        constructorArguments: [
+          "0x3f15B8c6F9939879Cb030D6dd935348E57109637",
+          talentDaoTokenContract.address,
+        ],
       });
       await run("verify:verify", {
         address: TalentDaoManagerContract.address,
@@ -84,6 +110,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
           "0x3f15B8c6F9939879Cb030D6dd935348E57109637", // contract owner
           TalentDAOTokenContract.address, // TDAO token address
           TalentDAONFTTokenContract.address, // TDAO IP NFT token address
+          MembershipNftToken.address, // TDAO Member token address
         ],
       });
     }
