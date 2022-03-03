@@ -75,8 +75,17 @@ export default class LatestArticles extends Component {
             </div>
           </div>
           <div className="hidden md:flex justify-center space-x-2 sm:space-x-5 sm:mt-2">
-            <img className="w-12" src={prevImage} onClick={this.goPrevious}></img>
-            <img className="w-12" src={nextImage} onClick={this.goNext}></img>
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="29.5" transform="rotate(-180 30 30)" stroke="#B41C2E" />
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M36 20.3736L25.1854 29.6433L36 38.9129L36 44.0004L19.25 29.6433L36 15.2861L36 20.3736Z" fill="#B41C2E" />
+            </svg>
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="30" fill="#B41C2E" />
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M24 39.6264L34.8146 30.3567L24 21.0871L24 15.9996L40.75 30.3567L24 44.7139L24 39.6264Z" fill="white" />
+            </svg>
+
+            {/* <img className="w-12" src={prevImage} onClick={this.goPrevious}></img>
+            <img className="w-12" src={nextImage} onClick={this.goNext}></img> */}
           </div>
         </div>
         <div className="relative roadmap_container">

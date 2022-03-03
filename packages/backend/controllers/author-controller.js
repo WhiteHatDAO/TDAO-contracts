@@ -4,9 +4,14 @@ createAuthor = async (req, res) => {
   console.log('username', req.body.username)
   console.log('walletId', req.body.walletId)
 
-  await Author.create({ username: req.body.username, walletId: req.body.walletId }, (err) => {
-    console.log(req.params.username);
-    console.log(req.params.walletId);
+  await Author.create({
+    username: req.body.username,
+    bio: req.body.bio,
+    aboutme: req.body.aboutme,
+    twitter: req.body.twitter,
+    linkedin: req.body.linkedin,
+    walletId: req.body.walletId
+  }, (err) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
@@ -26,7 +31,7 @@ deleteAuthor = async (req, res) => {
 
 updateAuthor = async (req, res) => {
   await Author.updateOne({ username: req.params.username }, (err, author) => {
-    if(err) {
+    if (err) {
       return res.status(400).json({ success: false, error: err })
     }
     return res.status(200).json({ success: true, data: author });

@@ -204,6 +204,12 @@ function App(props) {
     }
   }, [loadWeb3Modal]);
 
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+
+  const handleUserMenuOpen = (state) => {
+    setUserMenuOpen(state);
+  }
+
   // const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
@@ -227,6 +233,8 @@ function App(props) {
         loadWeb3Modal={loadWeb3Modal}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         blockExplorer={blockExplorer}
+        userMenuOpen={userMenuOpen}
+        handleUserMenuOpen={handleUserMenuOpen}
       />
       <Switch>
         <Route exact path="/">
@@ -252,7 +260,7 @@ function App(props) {
           <AdvancedSearch></AdvancedSearch>
         </Route>
         <Route exact path="/user">
-          <User></User>
+          <User userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
         </Route>
         <Route exact path="/debug">
           <Contract

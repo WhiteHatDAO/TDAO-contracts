@@ -29,6 +29,9 @@ const EditUserProfile = () => {
     useEffect(() => {
         if (!selectedUserImage) return;
         var src = URL.createObjectURL(selectedUserImage);
+
+        console.log('src', selectedUserImage);
+
         var userImage = document.getElementById("user-image");
         userImage.src = src;
         userImage.style.display = "block";
@@ -44,15 +47,19 @@ const EditUserProfile = () => {
 
 
 
-    const handleSave = async() => {
+    const handleSave = async () => {
         const serverURL = "http://localhost:4000";
 
         try {
-            console.log('username', name);
-            console.log('tip', tipAddress);
-            const res = await axios.post(serverURL + '/api/author', {username: name, walletId: tipAddress})
+            const res = await axios.post(serverURL + '/api/author', { 
+                username: name,
+                bio: bio,
+                aboutme: aboutMe,
+                twitter: twitter,
+                linkedin: linkedin,
+                walletId: tipAddress })
             console.log('res', res);
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
