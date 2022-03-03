@@ -6,7 +6,11 @@ const Schema = mongoose.Schema;
 const Author = new Schema(
   {
     username: { type: String, required: true },
-    walletId: { type: String, required: true },
+    bio: { type: String, required: true },
+    walletId: { type: String, required: false },
+    aboutme: { type: String, required: true },
+    twitter: { type: String, required: false },
+    linkedin: { type: String, required: false }
     //articles: { type: Array, required: false },
   },
   { timestamps: true }

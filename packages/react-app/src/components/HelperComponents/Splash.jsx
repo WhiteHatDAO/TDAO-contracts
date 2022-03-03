@@ -9,7 +9,7 @@ import earth_mobileImage from "../../assets/earth_mobile.png";
 /* This example requires Tailwind CSS v2.0+ */
 export default function Splash() {
   return (
-    <div className="flex flex-col lg:flex-row place-content-between items-center rounded-3xl" style={{ background: 'linear-gradient(100.23deg, #0037B5 3.84%, #B41C2E 108.44%)' }}>
+    <div className="relative flex flex-col lg:flex-row place-content-between items-center rounded-3xl" style={{ background: 'linear-gradient(100.23deg, #0037B5 3.84%, #B41C2E 108.44%)' }}>
       <img src={earth_mobileImage} className="lg:hidden w-full mix-blend-screen px-10"></img>
       <div className="flex flex-col text-left mt-4 lg:mt-32 mb-20 ml-0 lg:ml-20">
         <div className="text-white font-bold text-4xl md:text-6xl lg:text-8xl items-center" style={{ color: '#ffffff' }}>Journal of</div>
@@ -29,7 +29,7 @@ export default function Splash() {
           </div>
         </div>
       </div>
-      <img src={earthImage} className="hidden 2xl:block mix-blend-screen pr-8"></img>
+      <img src={earthImage} className="absolute top-0 right-0 hidden lg:block mix-blend-screen pr-8"></img>
     </div>
   );
 }

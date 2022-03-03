@@ -58,7 +58,7 @@ function Home({ yourLocalBalance, readContracts }) {
             </div>
           </div>
         </div>
-        <div className="mx-0 md:mx-4 flex flex-col">
+        <div className="mx-0 md:mx-4 mt-4 md:mt-0 flex flex-col">
           <div className="text-3xl xl:text-4xl font-bold text-left">
             DAO Updates
             <img className="pt-2" src={lineImage} alt="DAO Updates"></img>
