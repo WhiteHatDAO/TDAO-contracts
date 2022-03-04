@@ -60,8 +60,9 @@ function Navbar({
               <div onClick={() => goToPage("/")} className={location.pathname === '/' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>HOME</div>
               <div onClick={() => goToPage("/about")} className={location.pathname === '/about' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>ABOUT</div>
               <div onClick={() => goToPage("/contact")} className={location.pathname === '/contact' ? 'text-lg text-primary font-semibold cursor-pointer whitespace-nowrap' : 'text-lg whitespace-nowrap cursor-pointer'}>CONTACT US</div>
-              <div onClick={() => goToPage("/author")} className={location.pathname === '/author' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Author</div>
-              <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div>
+              <div onClick={() => goToPage("/browse")} className={location.pathname === '/browse' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>BROWSE</div>
+              {/* <div onClick={() => goToPage("/author")} className={location.pathname === '/author' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Author</div>
+              <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div> */}
             </div>
           </div>
         </div>
@@ -96,8 +97,9 @@ function Navbar({
               <div onClick={() => goToPage("/")} className={location.pathname === '/' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>HOME</div>
               <div onClick={() => goToPage("/about")} className={location.pathname === '/about' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>ABOUT</div>
               <div onClick={() => goToPage("/contact")} className={location.pathname === '/contact' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>CONTACT US</div>
-              <div onClick={() => goToPage("/author")} className={location.pathname === '/author' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Author</div>
-              <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div>
+              <div onClick={() => goToPage("/browse")} className={location.pathname === '/browse' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>BROWSE</div>
+              {/* <div onClick={() => goToPage("/author")} className={location.pathname === '/author' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Author</div>
+              <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div> */}
             </div>
             <div className="pt-4 flex flex-row items-center space-x-4">
               <img src={twitter} alt="twitter logo" width={40} height={40} layout="fixed" />
