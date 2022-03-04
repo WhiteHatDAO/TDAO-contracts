@@ -1,30 +1,37 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { AuthorForm } from "../components/HelperComponents/AuthorForm";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const Submit = () => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
-  const [selectedManuscriptFile, setSelectedManuscriptFile] = useState();
+  const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
+  const [authors, setAuthors] = useState('');
   const [selectedArticleCover, setSelectedArticleCover] = useState();
   const [talentPrice, setTalentPrice] = useState(0);
   const [articleTitle, setArticleTitle] = useState("");
-  const [blockchain, setBlockchain] = useState("");
+  const [abstract, setAbstract] = useState('');
+  const [blockchain, setBlockchain] = useState("Ethereum");
   const [categories, setCategories] = useState([]);
   const [optionTech, setOptionTech] = useState(false);
   const [optionHistory, setOptionHistory] = useState(false);
   const [optionRomance, setOptionRomance] = useState(false);
   const [optionComedy, setOptionComedy] = useState(false);
   const [optionPolitics, setOptionPolitics] = useState(false);
+  const { walletId } = useParams();
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
-    console.log(selectedManuscriptFile);
   };
 
   const changeTalentPrice = event => {
     setTalentPrice(event.target.value);
+  }
+
+  const changeBlockchain = (e) => {
+    setBlockchain(e.target.value);
   }
 
   const changeSelectedArticleCover = event => {
@@ -36,9 +43,12 @@ const Submit = () => {
     setArticleTitle(event.target.value);
   };
 
-  const changeBlockchain = event => {
-    setBlockchain(event.target.value);
-  };
+  const toBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  })
 
   const changeCategories = event => {
     var options = event.target.options;
@@ -51,13 +61,43 @@ const Submit = () => {
     setCategories(categoriesSelected);
   };
 
-  const { register, control, handleSubmit, reset, formState, watch, errors } = useForm();
+  const onSubmit = async () => {
+    const server = "http://localhost:4000";
 
-  const handleFormSubmission = data => {
-    data.preventDefault();
-    console.log(data.target);
-    //JSON.stringify(data.target, null, 4)
-  };
+    const articleFile = {
+      filename: selectedManuscriptFile.name,
+      data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : ''
+    }
+    const articleCover = {
+      filename: selectedArticleCover.name,
+      data: selectedArticleCover ? await toBase64(selectedArticleCover) : ''
+    }
+
+    let articleCategories = '';
+    if(optionTech) articleCategories += 'Technology,';
+    if(optionHistory) articleCategories += 'History,';
+    if(optionRomance) articleCategories += 'Romance,';
+    if(optionComedy) articleCategories += 'Comedy,';
+    if(optionPolitics) articleCategories += 'Politics';
+
+    try {
+      const res = await axios.post(server + '/api/article', {
+        walletId: walletId,
+        body: articleFile,
+        cover: articleCover,
+        price: talentPrice,
+        title: articleTitle,
+        authors: authors,
+        abstract: abstract,
+        blockchain: blockchain,
+        categories: articleCategories
+      })
+      console.log('res', res);
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
 
   useEffect(() => {
     if (!selectedArticleCover) return;
@@ -66,6 +106,13 @@ const Submit = () => {
     preview.src = src;
     preview.style.display = "block";
   }, [selectedArticleCover])
+
+  // useEffect(async() => {
+  //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
+  //   const data = await toBase64(selectedManuscriptFile);
+
+  //   console.log('filedata', data);
+  // }, [selectedManuscriptFile])
 
   return (
     <div className="" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }}>
@@ -78,7 +125,7 @@ const Submit = () => {
         </div>
 
         <div className="flex">
-          <form className="flex-1 space-y-6" onSubmit={handleSubmit(handleFormSubmission)}>
+          <div className="flex-1 space-y-6">
             <div className="space-y-6">
               <div className="py-5 sm:rounded-lg">
                 <div className="md:grid md:grid-cols-10 md:gap-6">
@@ -96,7 +143,6 @@ const Submit = () => {
                         <span>Choose File</span>
                         <input
                           accept=".pdf, .md, .doc, .docx, .txt"
-                          {...register("manuscript-upload", { required: true })}
                           id="manuscript-upload"
                           name="manuscript-upload"
                           type="file"
@@ -117,7 +163,6 @@ const Submit = () => {
                         <span>Choose Image</span>
                         <input
                           accept=".jpeg, .png"
-                          {...register("articlecover-upload", { required: true })}
                           id="articlecover-upload"
                           name="articlecover-upload"
                           type="file"
@@ -165,8 +210,9 @@ const Submit = () => {
                     name="article-title"
                     id="article-title"
                     placeholder="e.g Decentralised finance"
+                    value={articleTitle}
+                    onChange={changeArticleTitle}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black"
-                    {...register("article-text", { required: true })}
                   />
                 </div>
                 <div className="mt-10 col-span-6">
@@ -178,8 +224,9 @@ const Submit = () => {
                     name="article-title"
                     id="article-title"
                     placeholder="e.g John Doe"
+                    value={authors}
+                    onChange={(e) => setAuthors(e.target.value)}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
-                    {...register("article-text", { required: true })}
                   />
                 </div>
                 {/* <div className="mt-10 col-span-6">
@@ -210,8 +257,9 @@ const Submit = () => {
                       rows={4}
                       name="abstract"
                       id="abstract"
+                      value={abstract}
+                      onChange={(e) => setAbstract(e.target.value)}
                       className="p-4 block w-full bg-transparent text-lg rounded-xl focus:outline-none border border-black"
-                      {...register("abstract", { required: true })}
                     />
                   </div>
                 </div>
@@ -223,10 +271,11 @@ const Submit = () => {
                   <select
                     id="select-blockchain"
                     name="select-blockchain"
+                    onChange={(e) => changeBlockchain(e)}
                     className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
-                    {...register("select-blockchain", { required: true })}
                   >
                     <option>Ethereum</option>
+                    <option>Bitcoin</option>
                   </select>
                 </div>
 
@@ -237,24 +286,13 @@ const Submit = () => {
                     </label>
                     <p className="text-left">Select the category this article might belong to</p>
                   </div>
-                  {/* <select
-                  id="categories"
-                  name="categories"
-                  className="mt-1 w-full p-4 text-lg rounded-lg flex flex-row items-center"
-                  multiple
-                  {...register("select-blockchain", { required: true })}
-                >
-                  <option>Decentralization</option>
-                  <option>The Future of Work</option>
-                  <option>DAOs</option>
-                </select> */}
                   <div className="mt-1 w-full p-4 text-lg rounded-lg border flex flex-row flex-wrap items-center space-x-4">
                     <div
                       className={
                         optionTech ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={ optionTech ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      style={optionTech ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
                       onClick={() => setOptionTech(!optionTech)}
                     >
                       {
@@ -271,7 +309,7 @@ const Submit = () => {
                         optionHistory ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={ optionHistory ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      style={optionHistory ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
                       onClick={() => setOptionHistory(!optionHistory)}
                     >
                       {
@@ -288,7 +326,7 @@ const Submit = () => {
                         optionRomance ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={ optionRomance ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      style={optionRomance ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
                       onClick={() => setOptionRomance(!optionRomance)}
                     >
                       {
@@ -305,7 +343,7 @@ const Submit = () => {
                         optionComedy ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={ optionComedy ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      style={optionComedy ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
                       onClick={() => setOptionComedy(!optionComedy)}
                     >
                       {
@@ -322,7 +360,7 @@ const Submit = () => {
                         optionPolitics ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={ optionPolitics ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : {backgroundColor: 'transparent'}}
+                      style={optionPolitics ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
                       onClick={() => setOptionPolitics(!optionPolitics)}
                     >
                       {
@@ -340,14 +378,15 @@ const Submit = () => {
 
               <div className="flex justify-center">
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={onSubmit}
                   className="bg-primary text-white py-2 px-6 rounded-full text-lg"
                 >
                   SUBMIT
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

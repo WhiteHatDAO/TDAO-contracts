@@ -91,7 +91,7 @@ const EditUserProfile = () => {
                     <div className="flex flex-row items-end">
                         <div className="-mt-20 w-40 h-40 border-2 relative border-white rounded-full flex justify-center items-center overflow-hidden" style={{ backgroundColor: 'rgba(220, 220, 220, 1)' }}>
                             <img id='user-image' className="absolute top-0 left-0 rounded-full z-10"></img>
-                            <label htmlFor="image-upload" className="rounded-full cursor-pointer z-20">
+                            <label htmlFor="image-upload" className="rounded-full cursor-pointer z-10">
                                 <span>
                                     <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M23 46C10.2975 46 0 35.7025 0 23C0 10.2975 10.2975 0 23 0C35.7025 0 46 10.2975 46 23C46 35.7025 35.7025 46 23 46ZM23 5.00001C13.0575 5.00001 5.00001 13.06 5.00001 23C5.00001 32.94 13.0575 41 23 41C32.9425 41 41 32.94 41 23C41 13.06 32.9425 5.00001 23 5.00001V5.00001ZM27.5 32.625H18.5V22.4H12.875L23 12.875L33.125 22.4H27.5V32.625Z" fill="#A3A3A3" />

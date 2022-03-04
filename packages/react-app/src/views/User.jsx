@@ -3,7 +3,6 @@ import EditUserProfile from "../components/HelperComponents/EditUserProfile";
 import UserArticles from "../components/HelperComponents/UserArticles";
 import UserConnect from "../components/HelperComponents/UserConnect";
 import UserSubmissions from "../components/HelperComponents/UserSubmissions";
-import styled from "styled-components";
 
 const configUserType = {
   none: -1,
@@ -13,15 +12,7 @@ const configUserType = {
   logout: 3
 }
 
-const AnimRightDiv = styled.div`
-  transform: translateX(${({ animate }) => (animate ? "0" : "-100vw")});
-  transition: transform 2s;
-`
-
-export default function User({ userMenuOpen, handleUserMenuOpen }) {
-
-  console.log('userMenuOpen', userMenuOpen);
-
+export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
   const [userConfig, setUserConfig] = useState(configUserType.none)
 
@@ -34,6 +25,16 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
     setUserConfig(type);
     handleMenuOpen()
   }
+
+  useEffect(() => {
+    console.log('address', address);
+
+    if(address === undefined) {
+      setUserConfig(configUserType.none);
+    } else {
+      setUserConfig(configUserType.submission);
+    }
+  }, [address])
 
   const Menu = () => (
     <>
@@ -80,7 +81,7 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
                 <div className="absolute z-10">
                   <div id="overlay"></div>
                 </div>
-                <div className="absolute z-20 lg:hidden top-0 -left-4 flex flex-col rounded-r-xl bg-white px-4 py-10 space-y-4 h-screen pb-10">
+                <div className="absolute z-20 lg:hidden top-0 -left-8 flex flex-col rounded-r-xl bg-white px-4 py-10 h-full space-y-4 pb-10">
                   <Menu />
                 </div>
               </>
@@ -89,7 +90,7 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
           <div className="hidden lg:flex flex-col rounded-xl bg-white px-4 py-10 space-y-4 h-screen">
             <Menu />
           </div>
-          <div className="w-full h-screen">
+          <div className="w-full">
             {
               userConfig === configUserType.none ? (
                 <div className="flex justify-center">
@@ -98,7 +99,7 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
               ) : userConfig === configUserType.submission ? (
                 <div className="flex flex-col">
                   <p className="py-4 text-left text-lg text-darkgray font-bold">Submissions</p>
-                  <UserSubmissions></UserSubmissions>
+                  <UserSubmissions address={address}></UserSubmissions>
                 </div>
               ) : userConfig === configUserType.article ? (
                 <div className="flex flex-col">
