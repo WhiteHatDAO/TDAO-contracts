@@ -260,7 +260,7 @@ function App(props) {
           <AdvancedSearch></AdvancedSearch>
         </Route>
         <Route exact path="/user">
-          <User userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
+          <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
         </Route>
         <Route exact path="/debug">
           <Contract
@@ -291,7 +291,7 @@ function App(props) {
             contractConfig={contractConfig}
           />
         </Route>
-        <Route exact path="/submit">
+        <Route exact path="/submit/:walletId">
           <Submit />
         </Route>
         {/* <Route path="/subgraph">

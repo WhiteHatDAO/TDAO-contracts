@@ -1,10 +1,8 @@
 const Author = require("../models/author-model");
 
-createAuthor = async (req, res) => {
-  console.log('username', req.body.username)
-  console.log('walletId', req.body.walletId)
+createAuthor = (req, res) => {
 
-  await Author.create({
+  Author.create({
     username: req.body.username,
     bio: req.body.bio,
     aboutme: req.body.aboutme,
@@ -13,9 +11,9 @@ createAuthor = async (req, res) => {
     walletId: req.body.walletId
   }, (err) => {
     if (err) {
-      return res.status(400).json({ success: false, error: err })
+      return res.status(400).json({ success: false, error: err });
     }
-    return res.status(200).json({ success: true, data: "Author was created successfully." })
+    return res.status(200).json({ success: true, data: "Author was created successfully." });
   })
 };
 
