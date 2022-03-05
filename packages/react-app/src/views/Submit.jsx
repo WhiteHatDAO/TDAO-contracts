@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 // Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
 const arweave = Arweave.init({
   host: "arweave.net",
-  port: 443,
-  protocol: "https",
+  port: 1984,
+  protocol: "http",
 });
 
 let arAddress;
@@ -42,6 +42,28 @@ arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(b
   console.log("AR: ", ar);
   //0.125213858712
 });
+
+let transactionA = arweave
+  .createTransaction(
+    {
+      data: '<html><head><meta charset="UTF-8"><title>Hello world!</title></head><body></body></html>',
+    },
+    walletKey,
+  )
+  .then(x => console.log(x));
+
+// ! doesn't work
+// transactionA.addTag("Content-Type", "text/html");
+// transactionA.addTag("key2", "value2");
+
+// arweave.transactions.sign(transactionA, walletKey);
+
+// let uploader = arweave.transactions.getUploader(transactionA);
+
+// while (!uploader.isComplete) {
+//   uploader.uploadChunk();
+//   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+// }
 
 const Submit = async () => {
   const manuscriptFileLabel = "manuscript-label";
