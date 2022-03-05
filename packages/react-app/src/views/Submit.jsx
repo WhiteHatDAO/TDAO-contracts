@@ -5,29 +5,34 @@ import { useParams } from "react-router-dom";
 
 // Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
 const arweave = Arweave.init({});
-let key;
+let walletKey;
 let arAddress;
 
 arweave.wallets.generate().then(k => {
   // console.log(k);
-  key = k;
-  console.log(key);
+  walletKey = k;
+  console.log(walletKey);
 });
 
-arweave.wallets.jwkToAddress(key).then(address => {
-  console.log("Arweave Address: ", address);
-  //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
-  arAddress = address;
-});
+function getArweaveAddress(k) {
+  arweave.wallets.jwkToAddress(k).then(address => {
+    //console.log("Arweave Address: ", address);
+    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
+    arAddress = address;
+    console.log("Arweave Address: ", arAddress);
+  });
+}
+// todo: get the wallet address working... faack
+// getArweaveAddress(walletKey);
 
 arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(balance => {
   let winston = balance;
   let ar = arweave.ar.winstonToAr(balance);
 
-  console.log(winston);
+  console.log("Winston: ", winston);
   //125213858712
 
-  console.log(ar);
+  console.log("AR: ", ar);
   //0.125213858712
 });
 
