@@ -4,27 +4,34 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
-const arweave = Arweave.init({});
-let walletKey;
-let arAddress;
-
-arweave.wallets.generate().then(k => {
-  // console.log(k);
-  walletKey = k;
-  console.log(walletKey);
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 443,
+  protocol: "https",
 });
 
-function getArweaveAddress(k) {
-  arweave.wallets.jwkToAddress(k).then(address => {
-    //console.log("Arweave Address: ", address);
-    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
-    arAddress = address;
-    console.log("Arweave Address: ", arAddress);
-  });
+let arAddress;
+let walletKey;
+
+async function generateWalletKey() {
+  walletKey = await arweave.wallets.generate();
+  console.log(walletKey);
 }
 // todo: get the wallet address working... faack
-// getArweaveAddress(walletKey);
+async function getWalletAddress(key) {
+  await arweave.wallets.jwkToAddress(key).then(address => {
+    console.log(address);
+    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
+    arAddress = address;
+  });
+}
 
+arweave.network.getInfo().then(console.log);
+
+generateWalletKey();
+// getWalletAddress(walletKey);
+
+// demo wallet
 arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(balance => {
   let winston = balance;
   let ar = arweave.ar.winstonToAr(balance);
@@ -36,7 +43,7 @@ arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(b
   //0.125213858712
 });
 
-const Submit = () => {
+const Submit = async () => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -130,7 +137,16 @@ const Submit = () => {
     } catch (e) {
       console.log(e);
     }
+    // todo: set up Arweave tx
+    submitToArweave();
+
+    // todo: set up onchain tx
+    submitOnChain();
   };
+
+  const submitToArweave = async () => {};
+
+  const submitOnChain = async () => {};
 
   useEffect(() => {
     if (!selectedArticleCover) return;
@@ -139,16 +155,6 @@ const Submit = () => {
     preview.src = src;
     preview.style.display = "block";
   }, [selectedArticleCover]);
-
-  const submitArticle = event => {
-    console.log("I submitted my Article");
-    // changeCategories(event);
-    console.log(categories);
-
-    // todo: set up Arweave tx
-
-    // todo: set up onchain tx
-  };
 
   // useEffect(async() => {
   //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
@@ -489,9 +495,6 @@ const Submit = () => {
                   type="button"
                   onClick={onSubmit}
                   className="bg-primary text-white py-2 px-6 rounded-full text-lg"
-                  onClick={event => {
-                    submitArticle(event);
-                  }}
                 >
                   SUBMIT
                 </button>
