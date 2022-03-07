@@ -249,7 +249,7 @@ function App(props) {
         <Route exact path="/author">
           <Author></Author>
         </Route>
-        <Route exact path="/article">
+        <Route exact path="/article/:id">
           <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
         </Route>
         <Route exact path="/search">
