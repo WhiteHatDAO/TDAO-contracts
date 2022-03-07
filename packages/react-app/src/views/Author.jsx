@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import author_back from "../assets/author_back.png";
 import author_pro from "../assets/author_pro.png";
 import check from "../assets/check.png";
@@ -7,10 +7,25 @@ import linkedin from "../assets/linkedin.png";
 import AuthorMark from "../components/HelperComponents/AuthorMark";
 import article_image from "../assets/article_img.png";
 import Footer from "../components/HelperComponents/Footer";
+import { useHistory } from "react-router-dom";
 
 const Author = () => {
+  const history = useHistory();
+
+  const scrollTop = () => {
+    document.documentElement.scrollTo({
+      // @ts-ignore
+      top: 0,
+      behavior: "smooth",
+    })
+  };
+
+  useEffect(() => {
+    scrollTop();
+  }, [])
+
   return (
-    <div className="mx-0 sm:mx-8 md:mx-10 xl:mx-16 overflow-hidden">
+    <div className="p-0 sm:p-8 md:p-10 xl:p-16 overflow-hidden" style={{backgroundImage: 'linear-gradient(#fff, #EEEE'}}>
       <div className="m-4 rounded-2xl flex flex-col bg-white" style={{ boxShadow: '0px 0px 12px rgba(0, 0, 0, 0.15)' }}>
         <img src={author_back} className="rounded-2xl w-full h-auto"></img>
         <div className="flex flex-col px-12 pb-12">
@@ -25,7 +40,7 @@ const Author = () => {
               <div className="pt-4 lg:pt-0 flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
                 <div className="px-8 py-2 w-full rounded-full bg-primary text-white flex flex-row items-center">
                   <div className="text-lg">SUBSCRIBE</div>
-                  <img src={check}></img>
+                  <img src={check} className="pl-1 pr-4"></img>
                 </div>
                 <div className="px-8 py-2 w-full rounded-full border border-primary" style={{ backgroundColor: 'rgba(180, 28, 46, 0.15)' }}>
                   TIP AUTHOR
@@ -77,17 +92,16 @@ const Author = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {
           [0, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-            <div key={index} className="m-3 lg:m-4 rounded-2xl bg-white flex flex-col space-y-4 p-6">
+            <div key={index} className="m-3 lg:m-4 rounded-2xl bg-white flex flex-col space-y-4 p-6" style={{boxShadow: '0px 0px 59px -4px rgba(0, 0, 0, 0.19)'}}>
               <img className="rounded-xl w-full h-auto" src={article_image}></img>
               <div className="text-xl font-bold text-left">Metaverse, NFT & DEFI, the New Wave</div>
               <div className="grid grid-cols-2 space-x-4">
-                <div className="bg-primary text-white px-4 py-2 rounded-xl">VIEW</div>
-                <div className="border border-primary py-2 rounded-xl" style={{ backgroundColor: 'rgba(180, 28, 46, 0.15)' }}>MINT</div>
+                <div className="bg-primary text-white px-4 py-2 rounded-xl cursor-pointer" onClick={() => history.push('/article')}>VIEW</div>
+                <div className="border border-primary py-2 rounded-xl cursor-pointer" style={{ backgroundColor: 'rgba(180, 28, 46, 0.15)' }}>MINT</div>
               </div>
             </div>
           ))
         }
-
       </div>
       <div className="mx-4 border border-primary rounded-2xl bg-white text-lg font-bold text-primary py-3">
         SHOW MORE

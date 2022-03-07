@@ -1,35 +1,125 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { AuthorForm } from "../components/HelperComponents/AuthorForm";
+import { toBase64 } from "../utils/utils";
+import { useParams } from "react-router-dom";
+import Arweave from "arweave";
+import axios from "axios";
 
-const Submit = () => {
+// Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 1984,
+  protocol: "http",
+});
+
+let arAddress;
+let walletKey;
+
+async function generateWalletKey() {
+  walletKey = await arweave.wallets.generate();
+  console.log(walletKey);
+}
+// todo: get the wallet address working... faack
+async function getWalletAddress(key) {
+  await arweave.wallets.jwkToAddress(key).then(address => {
+    console.log(address);
+    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
+    arAddress = address;
+  });
+}
+
+arweave.network.getInfo().then(console.log);
+
+generateWalletKey();
+// getWalletAddress(walletKey);
+
+// demo wallet
+arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(balance => {
+  let winston = balance;
+  let ar = arweave.ar.winstonToAr(balance);
+
+  console.log("Winston: ", winston);
+  //125213858712
+
+  console.log("AR: ", ar);
+  //0.125213858712
+});
+
+let transactionA = arweave
+  .createTransaction(
+    {
+      data: '<html><head><meta charset="UTF-8"><title>Hello world!</title></head><body></body></html>',
+    },
+    walletKey,
+  )
+  .then(x => console.log(x));
+
+// ! doesn't work
+// transactionA.addTag("Content-Type", "text/html");
+// transactionA.addTag("key2", "value2");
+
+// arweave.transactions.sign(transactionA, walletKey);
+
+// let uploader = arweave.transactions.getUploader(transactionA);
+
+// while (!uploader.isComplete) {
+//   uploader.uploadChunk();
+//   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+// }
+
+const Submit = async ({ address }) => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
-  const [selectedManuscriptFile, setSelectedManuscriptFile] = useState();
+  const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
+  const [authors, setAuthors] = useState("");
   const [selectedArticleCover, setSelectedArticleCover] = useState();
+  const [talentPrice, setTalentPrice] = useState(0);
   const [articleTitle, setArticleTitle] = useState("");
-  const [blockchain, setBlockchain] = useState("");
+  const [abstract, setAbstract] = useState("");
+  const [blockchain, setBlockchain] = useState("Ethereum");
   const [categories, setCategories] = useState([]);
+  const [optionTech, setOptionTech] = useState(false);
+  const [optionHistory, setOptionHistory] = useState(false);
+  const [optionRomance, setOptionRomance] = useState(false);
+  const [optionComedy, setOptionComedy] = useState(false);
+  const [optionPolitics, setOptionPolitics] = useState(false);
+  const { walletId } = useParams();
+
+  const [titleError, setTitleError] = useState(false);
+  const [authorError, setAuthorError] = useState(false);
+  const [abstractError, setAbstractError] = useState(false);
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
-    console.log(selectedManuscriptFile);
+  };
+
+  const changeTalentPrice = event => {
+    setTalentPrice(event.target.value);
+  };
+
+  const changeBlockchain = e => {
+    setBlockchain(e.target.value);
   };
 
   const changeSelectedArticleCover = event => {
     setSelectedArticleCover(event.target.files[0]);
-    console.log(selectedArticleCover);
   };
 
   const changeArticleTitle = event => {
     setArticleTitle(event.target.value);
   };
 
-  const changeBlockchain = event => {
-    setBlockchain(event.target.value);
-  };
+  const toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
 
   const changeCategories = event => {
+    console.log(event.target.value);
     var options = event.target.options;
     var categoriesSelected = [];
     for (var i = 0, l = options.length; i < l; i++) {
@@ -40,13 +130,89 @@ const Submit = () => {
     setCategories(categoriesSelected);
   };
 
-  const { register, control, handleSubmit, reset, formState, watch, errors } = useForm();
+  const onSubmit = async () => {
+    let isError = false;
+    if (articleTitle === '') {
+      setTitleError(true);
+      isError = true;
+    }
+    if (authors === '') {
+      setAuthorError(true);
+      isError = true
+    }
+    if (abstract === '') { 
+      setAbstractError(true);
+      isError = true
+    }
 
-  const handleFormSubmission = data => {
-    data.preventDefault();
-    console.log(data.target);
-    //JSON.stringify(data.target, null, 4)
+    if(isError) return;
+
+    const server = "http://localhost:4000";
+
+    const articleFile = selectedManuscriptFile ? {
+      filename: selectedManuscriptFile.name,
+      data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
+
+    const articleCover = selectedArticleCover ? {
+      filename: selectedArticleCover.name,
+      data: selectedArticleCover ? await toBase64(selectedArticleCover) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
+
+    let articleCategories = '';
+    if (optionTech) articleCategories += 'Technology,';
+    if (optionHistory) articleCategories += 'History,';
+    if (optionRomance) articleCategories += 'Romance,';
+    if (optionComedy) articleCategories += 'Comedy,';
+    if (optionPolitics) articleCategories += 'Politics';
+
+    try {
+      const res = await axios.post(server + "/api/article", {
+        walletId: walletId,
+        body: articleFile,
+        cover: articleCover,
+        price: talentPrice,
+        title: articleTitle,
+        authors: authors,
+        abstract: abstract,
+        blockchain: blockchain,
+        categories: articleCategories,
+      });
+      console.log("res", res);
+    } catch (e) {
+      console.log(e);
+    }
+    // todo: set up Arweave tx
+    submitToArweave();
+
+    // todo: set up onchain tx
+    submitOnChain();
   };
+
+  const submitToArweave = async () => {};
+
+  const submitOnChain = async () => {};
+
+  useEffect(() => {
+    if (!selectedArticleCover) return;
+    var src = URL.createObjectURL(selectedArticleCover);
+    var preview = document.getElementById("preview");
+    preview.src = src;
+    preview.style.display = "block";
+  }, [selectedArticleCover]);
+
+  // useEffect(async() => {
+  //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
+  //   const data = await toBase64(selectedManuscriptFile);
+
+  //   console.log('filedata', data);
+  // }, [selectedManuscriptFile])
 
   return (
     <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>
@@ -59,105 +225,80 @@ const Submit = () => {
         </div>
 
         <div className="flex">
-          <form className="flex-1 space-y-6" onSubmit={handleSubmit(handleFormSubmission)}>
+          <div className="flex-1 space-y-6">
             <div className="space-y-6">
               <div className="py-5 sm:rounded-lg">
                 <div className="md:grid md:grid-cols-10 md:gap-6">
-                  <div className="mt-5 md:mt-0 md:col-span-6">
-                    <div>
-                      <label className="block text-left text-lg font-bold text-gray-700">Article Manuscript</label>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="manuscript-upload"
-                              className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                {...register("manuscript-upload", { required: true })}
-                                id="manuscript-upload"
-                                name="manuscript-upload"
-                                type="file"
-                                className="sr-only"
-                                onChange={changeSelectedManuscriptFile}
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs text-gray-500">pdf, md, doc, docs, or txt up to 10MB</p>
-                        </div>
-                      </div>
+                  <div className="mt-5 md:mt-0 md:col-span-6 flex flex-col place-content-between">
+                    <label className="block text-left text-lg font-bold text-gray-700">Article Manuscript</label>
+                    <div className="mt-1 h-full flex flex-col justify-center items-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
+                      {selectedManuscriptFile ? (
+                        <div className="py-5 text-lg text-lightgray">{selectedManuscriptFile.name}</div>
+                      ) : (
+                        <div className="py-5 text-lg text-lightgray">File formats: pdf, md, doc, docx, txt.</div>
+                      )}
+                      <label
+                        htmlFor="manuscript-upload"
+                        className="w-56 py-2 font-bold text-sm text-primary rounded-full cursor-pointer"
+                        style={{ backgroundColor: "#FFD6DA" }}
+                      >
+                        <span>Choose File</span>
+                        <input
+                          accept=".pdf, .md, .doc, .docx, .txt"
+                          id="manuscript-upload"
+                          name="manuscript-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={changeSelectedManuscriptFile}
+                        />
+                      </label>
                     </div>
-
-                    <div>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
-                        <div className="space-y-1 text-center">
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="image-upload"
-                              className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                            >
-                              <span>Upload a file</span>
-                              <input
-                                {...register("image-upload", { required: true })}
-                                id="image-upload"
-                                name="image-upload"
-                                type="file"
-                                className="sr-only"
-                                onChange={changeSelectedArticleCover}
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
-                          </div>
-                          <p className="text-xs text-gray-500">jpg or png up to 10 MB</p>
-                        </div>
-                      </div>
+                    <div className="mt-1 h-full flex flex-col justify-center items-center px-6 pt-5 pb-6 border border-gray-300 rounded-md">
+                      {selectedArticleCover ? (
+                        <div className="py-5 text-lg text-lightgray">{selectedArticleCover.name}</div>
+                      ) : (
+                        <div className="py-5 text-lg text-lightgray">Cover Image formats: jpeg, png.</div>
+                      )}
+                      <label
+                        htmlFor="articlecover-upload"
+                        className="w-56 py-2 font-bold text-sm text-primary rounded-full cursor-pointer"
+                        style={{ backgroundColor: "#FFD6DA" }}
+                      >
+                        <span>Choose Image</span>
+                        <input
+                          accept=".jpeg, .png"
+                          id="articlecover-upload"
+                          name="articlecover-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={changeSelectedArticleCover}
+                        />
+                      </label>
                     </div>
-
                     <div className="mt-2">
                       <label className="block text-left text-lg font-bold">Price</label>
-                      <input
-                        type="text"
-                        name="price"
-                        id="price"
-                        className="mt-1 mb-0 p-2 bg-transparent block w-full shadow-sm focus:outline-none text-lg border-b border-black "
-                      />
+                      <div className="flex flex-row items-end border-b border-black ">
+                        <input
+                          type="number"
+                          name="price"
+                          id="price"
+                          className="mt-1 mb-0 p-2 bg-transparent block w-full shadow-sm focus:outline-none text-lg"
+                          value={talentPrice}
+                          onChange={changeTalentPrice}
+                        />
+                        <div className="pb-2 text-lightgray text-lg">$TALENT</div>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="md:col-span-4 flex flex-col">
+                  <div className="hidden md:col-span-4 md:flex flex-col">
                     <h3 className="text-left text-lg font-bold leading-6 text-gray-900">Preview</h3>
                     <div className="my-0 border border-gray-300 rounded-md w-full h-full flex items-center justify-center text-center">
-                      <p>Upload image to preview your article image</p>
+                      {selectedArticleCover ? (
+                        <img id="preview"></img>
+                      ) : (
+                        <p>Upload image to preview your article image</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -171,9 +312,20 @@ const Submit = () => {
                     name="article-title"
                     id="article-title"
                     placeholder="e.g Decentralised finance"
-                    className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
-                    {...register("article-text", { required: true })}
+                    value={articleTitle}
+                    onChange={changeArticleTitle}
+                    className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black"
                   />
+                  {
+                    titleError && (
+                      <div className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert">
+                        <span className="block sm:inline">You must input Title.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setTitleError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
                 <div className="mt-10 col-span-6">
                   <label htmlFor="article-title" className="pl-4 block text-left text-lg font-bold">
@@ -184,9 +336,20 @@ const Submit = () => {
                     name="article-title"
                     id="article-title"
                     placeholder="e.g John Doe"
+                    value={authors}
+                    onChange={e => setAuthors(e.target.value)}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
-                    {...register("article-text", { required: true })}
                   />
+                  {
+                    authorError && (
+                      <div className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert">
+                        <span className="block sm:inline">You must input Authors.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setAuthorError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
                 {/* <div className="mt-10 col-span-6">
                 <label htmlFor="authors" className="block text-left text-sm font-medium text-gray-700">
@@ -216,10 +379,21 @@ const Submit = () => {
                       rows={4}
                       name="abstract"
                       id="abstract"
-                      className="block w-full bg-transparent text-lg rounded-xl border border-black"
-                      {...register("abstract", { required: true })}
+                      value={abstract}
+                      onChange={e => setAbstract(e.target.value)}
+                      className="p-4 block w-full bg-transparent text-lg rounded-xl focus:outline-none border border-black"
                     />
                   </div>
+                  {
+                    abstractError && (
+                      <div className="mt-1 border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert" style={{backgroundColor: '#fff5f5'}}>
+                        <span className="block sm:inline">You must input Abstract.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setAbstractError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
 
                 <div className="mt-10 col-span-6">
@@ -229,10 +403,11 @@ const Submit = () => {
                   <select
                     id="select-blockchain"
                     name="select-blockchain"
+                    onChange={e => changeBlockchain(e)}
                     className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
-                    {...register("select-blockchain", { required: true })}
                   >
                     <option>Ethereum</option>
+                    <option>Bitcoin</option>
                   </select>
                 </div>
 
@@ -243,45 +418,170 @@ const Submit = () => {
                     </label>
                     <p className="text-left">Select the category this article might belong to</p>
                   </div>
-                  {/* <select
-                  id="categories"
-                  name="categories"
-                  className="mt-1 w-full p-4 text-lg rounded-lg flex flex-row items-center"
-                  multiple
-                  {...register("select-blockchain", { required: true })}
-                >
-                  <option>Decentralization</option>
-                  <option>The Future of Work</option>
-                  <option>DAOs</option>
-                </select> */}
                   <div className="mt-1 w-full p-4 text-lg rounded-lg border flex flex-row flex-wrap items-center space-x-4">
                     <div
-                      className="my-2 px-4 py-2 rounded-full text-lg border border-primary cursor-pointer"
-                      style={{ backgroundColor: "rgba(180, 28, 46, 0.13)" }}
+                      className={
+                        optionTech
+                          ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={
+                        optionTech ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }
+                      }
+                      onClick={() => setOptionTech(!optionTech)}
                     >
-                      Technology
+                      {optionTech && (
+                        <svg
+                          className="mr-2"
+                          width="20"
+                          height="16"
+                          viewBox="0 0 20 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z"
+                            fill="#B41C2E"
+                          />
+                        </svg>
+                      )}
+                      <div>Technology</div>
                     </div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">History</div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Romance</div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Comedy</div>
-                    <div className="my-2 px-4 py-2 rounded-full text-lg border cursor-pointer">Politics</div>
+                    <div
+                      className={
+                        optionHistory
+                          ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={
+                        optionHistory
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
+                      onClick={() => setOptionHistory(!optionHistory)}
+                    >
+                      {optionHistory && (
+                        <svg
+                          className="mr-2"
+                          width="20"
+                          height="16"
+                          viewBox="0 0 20 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z"
+                            fill="#B41C2E"
+                          />
+                        </svg>
+                      )}
+                      <div>History</div>
+                    </div>
+                    <div
+                      className={
+                        optionRomance
+                          ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={
+                        optionRomance
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
+                      onClick={() => setOptionRomance(!optionRomance)}
+                    >
+                      {optionRomance && (
+                        <svg
+                          className="mr-2"
+                          width="20"
+                          height="16"
+                          viewBox="0 0 20 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z"
+                            fill="#B41C2E"
+                          />
+                        </svg>
+                      )}
+                      <div>Romance</div>
+                    </div>
+                    <div
+                      className={
+                        optionComedy
+                          ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={
+                        optionComedy
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
+                      onClick={() => setOptionComedy(!optionComedy)}
+                    >
+                      {optionComedy && (
+                        <svg
+                          className="mr-2"
+                          width="20"
+                          height="16"
+                          viewBox="0 0 20 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z"
+                            fill="#B41C2E"
+                          />
+                        </svg>
+                      )}
+                      <div>Comedy</div>
+                    </div>
+                    <div
+                      className={
+                        optionPolitics
+                          ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
+                          : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
+                      }
+                      style={
+                        optionPolitics
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
+                      onClick={() => setOptionPolitics(!optionPolitics)}
+                    >
+                      {optionPolitics && (
+                        <svg
+                          className="mr-2"
+                          width="20"
+                          height="16"
+                          viewBox="0 0 20 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.36364 12.3657L1.59091 7.66418L0 9.23134L6.36364 15.5L20 2.06716L18.4091 0.5L6.36364 12.3657Z"
+                            fill="#B41C2E"
+                          />
+                        </svg>
+                      )}
+                      <div>Politics</div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="flex justify-center">
-                <button type="button" className="bg-primary text-white py-2 px-6 rounded-full text-lg">
+                <button
+                  type="button"
+                  onClick={onSubmit}
+                  className="bg-primary text-white py-2 px-6 rounded-full text-lg"
+                >
                   SUBMIT
                 </button>
-                {/* <button
-                type="submit"
-                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Save
-              </button> */}
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
