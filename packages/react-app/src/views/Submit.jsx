@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { AuthorForm } from "../components/HelperComponents/AuthorForm";
+import { toBase64 } from "../utils/utils";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const Submit = () => {
-  const manuscriptFileLabel = "manuscript-label";
-  const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
   const [authors, setAuthors] = useState('');
   const [selectedArticleCover, setSelectedArticleCover] = useState();
@@ -45,13 +44,6 @@ const Submit = () => {
   const changeArticleTitle = event => {
     setArticleTitle(event.target.value);
   };
-
-  const toBase64 = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  })
 
   const changeCategories = event => {
     var options = event.target.options;

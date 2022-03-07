@@ -1,20 +1,23 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
-const EditUserProfile = () => {
-    const [name, setName] = useState('Edit Name');
-    const [bio, setBio] = useState('Edit Bio');
-    const [aboutMe, setAboutMe] = useState('');
-    const [twitter, setTwitter] = useState('');
-    const [linkedin, setLinkedin] = useState('');
-    const [tipAddress, setTipAddress] = useState('');
+const EditUserProfile = ({ author }) => {
+    console.log('author', author)
 
-    const [selectedUserImage, setSelectedUserImage] = useState();
-    const [selectedCoverImage, setSelectedCoverImage] = useState();
+    const [name, setName] = useState(author ? author?.username : 'Edit Name');
+    const [bio, setBio] = useState(author ? author?.bio : 'Edit Bio');
+    const [aboutMe, setAboutMe] = useState(author ? author?.aboutme : '');
+    const [twitter, setTwitter] = useState(author ? author?.twitter : '');
+    const [linkedin, setLinkedin] = useState(author ? author?.linkedin : '');
+    const [tipAddress, setTipAddress] = useState(author ? author?.walletId : '');
 
-    const changeSelectedUserImage = event => {
-        setSelectedUserImage(event.target.files[0]);
+    const [selectedAuthorImage, setselectedAuthorImage] = useState(dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename));
+    const [selectedCoverImage, setSelectedCoverImage] = useState(dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename));
+
+    const changeSelectedAuthorImage = event => {
+        setselectedAuthorImage(event.target.files[0]);
     }
 
     const changeSelectedCoverImage = event => {
@@ -27,15 +30,15 @@ const EditUserProfile = () => {
     }, [name, bio])
 
     useEffect(() => {
-        if (!selectedUserImage) return;
-        var src = URL.createObjectURL(selectedUserImage);
+        if (!selectedAuthorImage) return;
+        var src = URL.createObjectURL(selectedAuthorImage);
 
-        console.log('src', selectedUserImage);
+        console.log('src', selectedAuthorImage);
 
         var userImage = document.getElementById("user-image");
         userImage.src = src;
         userImage.style.display = "block";
-    }, [selectedUserImage])
+    }, [selectedAuthorImage])
 
     useEffect(() => {
         if (!selectedCoverImage) return;
@@ -45,19 +48,36 @@ const EditUserProfile = () => {
         coverImage.style.display = "block";
     }, [selectedCoverImage])
 
-
-
     const handleSave = async () => {
         const serverURL = "http://localhost:4000";
 
+        const authorImage = selectedAuthorImage ? {
+            filename: selectedAuthorImage.name,
+            data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : ''
+          } : {
+            filename: '',
+            data: ''
+          }
+      
+          const authorCoverImage = selectedCoverImage ? {
+            filename: selectedCoverImage.name,
+            data: selectedCoverImage ? await toBase64(selectedCoverImage) : ''
+          } : {
+            filename: '',
+            data: ''
+          }
+
         try {
-            const res = await axios.post(serverURL + '/api/author', { 
+            const res = await axios.post(serverURL + '/api/author', {
                 username: name,
                 bio: bio,
                 aboutme: aboutMe,
                 twitter: twitter,
                 linkedin: linkedin,
-                walletId: tipAddress })
+                walletId: tipAddress,
+                authorImage: authorImage,
+                coverImage: authorCoverImage
+            })
             console.log('res', res);
         } catch (e) {
             console.log(e);
@@ -103,7 +123,7 @@ const EditUserProfile = () => {
                                     name="image-upload"
                                     type="file"
                                     className="sr-only"
-                                    onChange={changeSelectedUserImage}
+                                    onChange={changeSelectedAuthorImage}
                                 />
                             </label>
                         </div>
