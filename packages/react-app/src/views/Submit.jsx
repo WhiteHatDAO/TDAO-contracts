@@ -65,7 +65,7 @@ let transactionA = arweave
 //   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
 // }
 
-const Submit = async () => {
+const Submit = async ({ address }) => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
