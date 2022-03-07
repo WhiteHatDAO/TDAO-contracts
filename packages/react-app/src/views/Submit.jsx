@@ -119,7 +119,6 @@ const Submit = async ({ address }) => {
     });
 
   const changeCategories = event => {
-    console.log(event.target.value);
     var options = event.target.options;
     var categoriesSelected = [];
     for (var i = 0, l = options.length; i < l; i++) {
@@ -184,7 +183,6 @@ const Submit = async ({ address }) => {
         blockchain: blockchain,
         categories: articleCategories,
       });
-      console.log("res", res);
     } catch (e) {
       console.log(e);
     }

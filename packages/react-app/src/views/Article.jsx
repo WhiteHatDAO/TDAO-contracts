@@ -29,7 +29,6 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     try {
       const params = new URLSearchParams([['_id', id]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
-      console.log('articleResponse.data.data', articleResponse.data)
       if (articleResponse.data.data.length > 0) {
         setArticle(articleResponse.data.data[0]);
       }
@@ -43,7 +42,6 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
       const params = new URLSearchParams([['walletId', address]]);
       const authorResponse = await axios.get(server + "/api/authors", { params });
       if (authorResponse.data.data.length > 0) {
-        console.log('authorResponse', authorResponse);
         setAuthor(authorResponse.data.data[0])
       }
     } catch (e) {

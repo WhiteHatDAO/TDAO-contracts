@@ -41,10 +41,8 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
   const getAuthorData = async () => {
     const server = 'http://localhost:4000';
     const params = new URLSearchParams([['walletId', address]]);
-    console.log('bbbbbb')
     try {
       const res = await axios.get(server + '/api/authors', { params });
-      console.log('res: ', res);
       if (res?.data?.data.length > 0) {
         setAuthor(res?.data?.data[0])
       }

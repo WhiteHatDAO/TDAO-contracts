@@ -51,7 +51,6 @@ function Navbar({
       const server = 'http://localhost:4000';
       const params = new URLSearchParams([['walletId', address]]);
       const res = await axios.get(server + "/api/authors", { params })
-      console.log('res: ', res);
       if(res.data.success) {
         setTwitter(res.data.data[0].twitter);
       }
