@@ -17,9 +17,8 @@ const Search = () => {
         const cate = category === 'Author' ? '/api/authors' : '/api/articles';
 
         try {
-            const params = URLSearchParams([[field, value]]);
+            const params = new URLSearchParams([[field, value]]);
             const res = axios.get(server + cate, { params });
-            console.log('res:', res);
         } catch (e) {
             console.log(e);
         }

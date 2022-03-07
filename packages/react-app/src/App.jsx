@@ -239,7 +239,7 @@ function App(props) {
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
+          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}/>
         </Route>
         <Route exact path="/about">
           <About></About>
@@ -259,7 +259,7 @@ function App(props) {
         <Route exact path="/advancedsearch">
           <AdvancedSearch></AdvancedSearch>
         </Route>
-        <Route exact path="/user">
+        <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles"]}>
           <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
         </Route>
         <Route exact path="/debug">

@@ -5,13 +5,15 @@ import searchImage from "../../assets/search.svg";
 import earthImage from "../../assets/earth.png";
 import vector from "../../assets/Vector.png";
 import earth_mobileImage from "../../assets/earth_mobile.png";
+import { useHistory } from "react-router-dom";
 
 /* This example requires Tailwind CSS v2.0+ */
-export default function Splash() {
+export default function Splash({address}) {
+  const history = useHistory();
   return (
     <div className="relative flex flex-col lg:flex-row place-content-between items-center rounded-3xl" style={{ background: 'linear-gradient(100.23deg, #0037B5 3.84%, #B41C2E 108.44%)' }}>
-      <img src={earth_mobileImage} className="lg:hidden w-full mix-blend-screen px-10"></img>
-      <div className="flex flex-col text-left mt-4 lg:mt-32 mb-20 ml-0 lg:ml-20">
+      <img src={earth_mobileImage} className="lg:hidden w-full mix-blend-screen px-10 z-10"></img>
+      <div className="z-20 flex flex-col text-left mt-4 lg:mt-32 mb-20 ml-0 lg:ml-20">
         <div className="text-white font-bold text-4xl md:text-6xl lg:text-8xl items-center" style={{ color: '#ffffff' }}>Journal of</div>
         <div className="text-white font-bold text-4xl md:text-6xl lg:text-8xl items-center">Decentralized Work</div>
         <div className="pt-10 lg:pt-16 flex flex-col lg:flex-row lg:items-center">
@@ -23,7 +25,7 @@ export default function Splash() {
               </button>
             </form>
           </div>
-          <div className="w-96 my-4 lg:my-0 mx-0 lg:mx-4 py-3 flex flex-row items-center justify-between bg-primary hover:bg-opacity-80 rounded-lg text-white cursor-pointer">
+          <div className="w-96 my-4 lg:my-0 mx-0 lg:mx-4 py-3 flex flex-row items-center justify-between bg-primary hover:bg-opacity-80 rounded-lg text-white cursor-pointer" onClick={() => history.push(`/submit/${address}`)}>
             <div className="text-lg font-bold px-4">SUBMIT ARTICLE</div>
             <img src={vector} className="w-10 pr-2"></img>
           </div>

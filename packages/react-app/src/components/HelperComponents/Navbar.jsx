@@ -1,15 +1,15 @@
 import { Image } from "antd";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import discord from "../../assets/discord.png";
-import twitter from "../../assets/twitter.png";
+import twitterImg from "../../assets/twitter.png";
 import profile from "../../assets/profile.png";
 import logo from "../../assets/talent-logo.png";
 import { Account } from "../../components";
 import divideImage from "../../assets/divide.png";
 import menuIconImage from "../../assets/menu_icon.png";
 import menuImage from "../../assets/menu.png";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Navbar({
   useBurner,
@@ -32,6 +32,8 @@ function Navbar({
 
   const [navPanelOpen, setNavPanelOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
+  const [twitter, setTwitter] = useState('');
+  const [linkedin, setLinkedin] = useState('');
 
   const goToPage = (locationPath) => {
     setNavPanelOpen(false);
@@ -42,6 +44,21 @@ function Navbar({
     setMenuOpen(true)
     handleUserMenuOpen(true);
   }
+
+  useEffect(async() => {
+    if (address === undefined || address === '') return;
+    try {
+      const server = 'http://localhost:4000';
+      const params = new URLSearchParams([['walletId', address]]);
+      const res = await axios.get(server + "/api/authors", { params })
+      console.log('res: ', res);
+      if(res.data.success) {
+        setTwitter(res.data.data[0].twitter);
+      }
+    } catch(e) {
+      console.error(e);
+    }
+  }, [address])
 
   return (
     <div className="relative bg-white border-b" style={{ position: 'sticky', top: '0', zIndex: '20', borderColor: '#c1c1c1' }}>
@@ -68,9 +85,9 @@ function Navbar({
         </div>
         <div className="hidden xl:flex items-center justify-end space-x-16">
           <div className="flex space-x-8">
-            <img src={twitter} alt="twitter logo" width={40} height={40} layout="fixed" />
+            <a href={twitter}><img src={twitterImg} alt="twitter logo" width={40} height={40} layout="fixed" /></a>
             <img src={discord} alt="discord logo" width={40} height={40} layout="fixed" />
-            <img src={profile} alt="profile icon" width={40} height={40} layout="fixed" />
+            <img onClick={() => goToPage("/user/author")} className="cursor-pointer" src={profile} alt="profile icon" width={40} height={40} layout="fixed" />
           </div>
           <Account
             useBurner={useBurner}
