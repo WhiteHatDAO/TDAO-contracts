@@ -1,7 +1,6 @@
 pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
 
-import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract ArticleEntity {
@@ -26,27 +25,40 @@ contract ArticleEntity {
     /// @dev add a new article on-chain
     /// @param authorAddress the address of the author
     /// @param arweaveHash the arweave hash in bytes32
-    function addArticle(address authorAddress, bytes32 arweaveHash) public returns (uint256) {
+    function addArticle(address authorAddress, bytes32 arweaveHash, string memory metadataPtr, uint256 paid) public returns (uint256) {
         _articleIds.increment();
         uint256 id = _articleIds.current();
         Article storage article = articles[arweaveHash];
         article.id = id;
+        article.author = authorAddress;
+        article.paid = paid;
+        article.metadataPtr = metadataPtr;
 
-        articleList.push(article);
+        articleList[id] = article;
 
         return id;
     }
     
-    /// @dev edit an article on-chain
+    /// @dev update the authors address for an article
     /// @param authorAddress the address of the author
-    /// @param arweaveHash the id of the article
-    function updateArticle(address authorAddress, bytes32 arweaveHash) public {
-        Article storage article = articles[arweaveHash];
-        // now edit...
+    function updateArticleAuthorAddress(uint256 articleId, address authorAddress) public {
+        Article storage article = articleList[articleId];
+        article.author = authorAddress;
+    }
+
+    /// @dev Update article metadata
+    /// @param articleId the id of the article
+    function updateArticleMetadata(uint256 articleId, string memory newPointer) public {
+        Article storage article = articleList[articleId];
+        article.metadataPtr = newPointer;
     }
 
 
-    function getArticle (bytes32 arweaveHash) public view returns(Article memory) {
+    function getArticleByHash (bytes32 arweaveHash) public view returns(Article memory) {
         return articles[arweaveHash];
+    }
+
+    function getArticleById (uint256 articleId) public view returns(Article memory) {
+        return articleList[articleId];
     }
 }
