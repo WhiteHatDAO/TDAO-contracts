@@ -1,7 +1,7 @@
 const Author = require("../models/author-model");
 
-createAuthor = (req, res) => {
 
+createAuthor = (req, res) => {
   Author.create({
     username: req.body.username,
     bio: req.body.bio,
@@ -16,16 +16,18 @@ createAuthor = (req, res) => {
       return res.status(400).json({ success: false, error: err });
     }
     return res.status(200).json({ success: true, data: "Author was created successfully." });
-  })
+  );
 };
 
 deleteAuthor = async (req, res) => {
   await Author.deleteOne({ id: req.params.id }, (err) => {
-    console.log('id: ', req.params.id);
+    console.log("id: ", req.params.id);
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
-    return res.status(200).json({ success: true, data: 'Author was deleted successfully.' });
+    return res
+      .status(200)
+      .json({ success: true, data: "Author was deleted successfully." });
   }).catch((err) => console.error(err));
 };
 

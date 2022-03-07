@@ -4,7 +4,7 @@ import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Contract } from "./components";
+import { Contract, NetworkDisplay } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -12,8 +12,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-import { Home, Subgraph, Submit, About, Contact, Author, Article, Search, AdvancedSearch, User } from "./views";
-
+import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User } from "./views";
 
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
@@ -204,24 +203,24 @@ function App(props) {
     }
   }, [loadWeb3Modal]);
 
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  const handleUserMenuOpen = (state) => {
+  const handleUserMenuOpen = state => {
     setUserMenuOpen(state);
-  }
+  };
 
   // const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
     <div className="App container-2xl mx-auto">
-      {/* <NetworkDisplay
+      <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
         selectedChainId={selectedChainId}
         targetNetwork={targetNetwork}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
-      /> */}
+      />
       <Navbar
         useBurner={false}
         address={address}
@@ -292,7 +291,7 @@ function App(props) {
           />
         </Route>
         <Route exact path="/submit/:walletId">
-          <Submit />
+          <Submit address={address} />
         </Route>
         {/* <Route path="/subgraph">
           <Subgraph
