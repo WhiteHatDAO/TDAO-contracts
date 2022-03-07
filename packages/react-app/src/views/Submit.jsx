@@ -1,18 +1,79 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { AuthorForm } from "../components/HelperComponents/AuthorForm";
-import { useParams } from "react-router-dom";
+import Arweave from "arweave";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-const Submit = () => {
+// Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 1984,
+  protocol: "http",
+});
+
+let arAddress;
+let walletKey;
+
+async function generateWalletKey() {
+  walletKey = await arweave.wallets.generate();
+  console.log(walletKey);
+}
+// todo: get the wallet address working... faack
+async function getWalletAddress(key) {
+  await arweave.wallets.jwkToAddress(key).then(address => {
+    console.log(address);
+    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
+    arAddress = address;
+  });
+}
+
+arweave.network.getInfo().then(console.log);
+
+generateWalletKey();
+// getWalletAddress(walletKey);
+
+// demo wallet
+arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(balance => {
+  let winston = balance;
+  let ar = arweave.ar.winstonToAr(balance);
+
+  console.log("Winston: ", winston);
+  //125213858712
+
+  console.log("AR: ", ar);
+  //0.125213858712
+});
+
+let transactionA = arweave
+  .createTransaction(
+    {
+      data: '<html><head><meta charset="UTF-8"><title>Hello world!</title></head><body></body></html>',
+    },
+    walletKey,
+  )
+  .then(x => console.log(x));
+
+// ! doesn't work
+// transactionA.addTag("Content-Type", "text/html");
+// transactionA.addTag("key2", "value2");
+
+// arweave.transactions.sign(transactionA, walletKey);
+
+// let uploader = arweave.transactions.getUploader(transactionA);
+
+// while (!uploader.isComplete) {
+//   uploader.uploadChunk();
+//   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+// }
+
+const Submit = async ({ address }) => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
-  const [authors, setAuthors] = useState('');
+  const [authors, setAuthors] = useState("");
   const [selectedArticleCover, setSelectedArticleCover] = useState();
   const [talentPrice, setTalentPrice] = useState(0);
   const [articleTitle, setArticleTitle] = useState("");
-  const [abstract, setAbstract] = useState('');
+  const [abstract, setAbstract] = useState("");
   const [blockchain, setBlockchain] = useState("Ethereum");
   const [categories, setCategories] = useState([]);
   const [optionTech, setOptionTech] = useState(false);
@@ -30,9 +91,9 @@ const Submit = () => {
     setTalentPrice(event.target.value);
   };
 
-  const changeBlockchain = (e) => {
+  const changeBlockchain = e => {
     setBlockchain(e.target.value);
-  }
+  };
 
   const changeSelectedArticleCover = event => {
     setSelectedArticleCover(event.target.files[0]);
@@ -43,12 +104,13 @@ const Submit = () => {
     setArticleTitle(event.target.value);
   };
 
-  const toBase64 = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  })
+  const toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
 
   const changeCategories = event => {
     console.log(event.target.value);
@@ -67,22 +129,22 @@ const Submit = () => {
 
     const articleFile = {
       filename: selectedManuscriptFile.name,
-      data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : ''
-    }
+      data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : "",
+    };
     const articleCover = {
       filename: selectedArticleCover.name,
-      data: selectedArticleCover ? await toBase64(selectedArticleCover) : ''
-    }
+      data: selectedArticleCover ? await toBase64(selectedArticleCover) : "",
+    };
 
-    let articleCategories = '';
-    if(optionTech) articleCategories += 'Technology,';
-    if(optionHistory) articleCategories += 'History,';
-    if(optionRomance) articleCategories += 'Romance,';
-    if(optionComedy) articleCategories += 'Comedy,';
-    if(optionPolitics) articleCategories += 'Politics';
+    let articleCategories = "";
+    if (optionTech) articleCategories += "Technology,";
+    if (optionHistory) articleCategories += "History,";
+    if (optionRomance) articleCategories += "Romance,";
+    if (optionComedy) articleCategories += "Comedy,";
+    if (optionPolitics) articleCategories += "Politics";
 
     try {
-      const res = await axios.post(server + '/api/article', {
+      const res = await axios.post(server + "/api/article", {
         walletId: walletId,
         body: articleFile,
         cover: articleCover,
@@ -91,14 +153,22 @@ const Submit = () => {
         authors: authors,
         abstract: abstract,
         blockchain: blockchain,
-        categories: articleCategories
-      })
-      console.log('res', res);
+        categories: articleCategories,
+      });
+      console.log("res", res);
     } catch (e) {
       console.log(e);
     }
+    // todo: set up Arweave tx
+    submitToArweave();
 
-  }
+    // todo: set up onchain tx
+    submitOnChain();
+  };
+
+  const submitToArweave = async () => {};
+
+  const submitOnChain = async () => {};
 
   useEffect(() => {
     if (!selectedArticleCover) return;
@@ -107,16 +177,6 @@ const Submit = () => {
     preview.src = src;
     preview.style.display = "block";
   }, [selectedArticleCover]);
-
-  const submitArticle = event => {
-    console.log("I submitted my Article");
-    // changeCategories(event);
-    console.log(categories);
-
-    // todo: set up Arweave tx
-
-    // todo: set up onchain tx
-  };
 
   // useEffect(async() => {
   //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
@@ -238,7 +298,7 @@ const Submit = () => {
                     id="article-title"
                     placeholder="e.g John Doe"
                     value={authors}
-                    onChange={(e) => setAuthors(e.target.value)}
+                    onChange={e => setAuthors(e.target.value)}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
                   />
                 </div>
@@ -271,7 +331,7 @@ const Submit = () => {
                       name="abstract"
                       id="abstract"
                       value={abstract}
-                      onChange={(e) => setAbstract(e.target.value)}
+                      onChange={e => setAbstract(e.target.value)}
                       className="p-4 block w-full bg-transparent text-lg rounded-xl focus:outline-none border border-black"
                     />
                   </div>
@@ -284,7 +344,7 @@ const Submit = () => {
                   <select
                     id="select-blockchain"
                     name="select-blockchain"
-                    onChange={(e) => changeBlockchain(e)}
+                    onChange={e => changeBlockchain(e)}
                     className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
                   >
                     <option>Ethereum</option>
@@ -306,7 +366,9 @@ const Submit = () => {
                           ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={optionTech ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
+                      style={
+                        optionTech ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }
+                      }
                       onClick={() => setOptionTech(!optionTech)}
                     >
                       {optionTech && (
@@ -332,7 +394,11 @@ const Submit = () => {
                           ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={optionHistory ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
+                      style={
+                        optionHistory
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
                       onClick={() => setOptionHistory(!optionHistory)}
                     >
                       {optionHistory && (
@@ -358,7 +424,11 @@ const Submit = () => {
                           ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={optionRomance ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
+                      style={
+                        optionRomance
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
                       onClick={() => setOptionRomance(!optionRomance)}
                     >
                       {optionRomance && (
@@ -384,7 +454,11 @@ const Submit = () => {
                           ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={optionComedy ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
+                      style={
+                        optionComedy
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
                       onClick={() => setOptionComedy(!optionComedy)}
                     >
                       {optionComedy && (
@@ -410,7 +484,11 @@ const Submit = () => {
                           ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                           : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
                       }
-                      style={optionPolitics ? { backgroundColor: 'rgba(180, 28, 46, 0.13)' } : { backgroundColor: 'transparent' }}
+                      style={
+                        optionPolitics
+                          ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
+                          : { backgroundColor: "transparent" }
+                      }
                       onClick={() => setOptionPolitics(!optionPolitics)}
                     >
                       {optionPolitics && (
@@ -439,9 +517,6 @@ const Submit = () => {
                   type="button"
                   onClick={onSubmit}
                   className="bg-primary text-white py-2 px-6 rounded-full text-lg"
-                  onClick={event => {
-                    submitArticle(event);
-                  }}
                 >
                   SUBMIT
                 </button>
