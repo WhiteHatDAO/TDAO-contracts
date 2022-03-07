@@ -3,6 +3,7 @@ import EditUserProfile from "../components/HelperComponents/EditUserProfile";
 import UserArticles from "../components/HelperComponents/UserArticles";
 import UserConnect from "../components/HelperComponents/UserConnect";
 import UserSubmissions from "../components/HelperComponents/UserSubmissions";
+import axios from "axios";
 
 const configUserType = {
   none: -1,
@@ -14,7 +15,8 @@ const configUserType = {
 
 export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
-  const [userConfig, setUserConfig] = useState(configUserType.none);
+  const [userConfig, setUserConfig] = useState(configUserType.none)
+  const [author, setAuthor] = useState(null);
 
   const handleMenuOpen = () => {
     setMenuOpen(false);
@@ -26,15 +28,34 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
     handleMenuOpen();
   };
 
-  useEffect(() => {
-    console.log("address", address);
+  const getAuthorData = async () => {
+    console.log('asdfasdfasdf')
+    const server = 'http://localhost:4000';
+    const params = new URLSearchParams([['walletId', address]]);
+    try {
+      const res = await axios.get(server + '/api/authors', { params });
+      console.log('res: ', res);
+      if (res?.data?.data.length > 0) {
+        setAuthor(res?.data?.data[0])
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
+  useEffect(() => {
     if (address === undefined) {
       setUserConfig(configUserType.none);
     } else {
       setUserConfig(configUserType.submission);
     }
   }, [address]);
+
+  useEffect(() => {
+    if (userConfig === configUserType.edit_profile && (address !== 'undefined' || address !== '')) {
+      getAuthorData();
+    }
+  }, [userConfig])
 
   const Menu = () => (
     <>
@@ -125,28 +146,35 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
             <Menu />
           </div>
           <div className="w-full">
-            {userConfig === configUserType.none ? (
-              <div className="flex justify-center">
-                <UserConnect></UserConnect>
-              </div>
-            ) : userConfig === configUserType.submission ? (
-              <div className="flex flex-col">
-                <p className="py-4 text-left text-lg text-darkgray font-bold">Submissions</p>
-                <UserSubmissions address={address}></UserSubmissions>
-              </div>
-            ) : userConfig === configUserType.article ? (
-              <div className="flex flex-col">
-                <p className="py-4 text-left text-lg text-darkgray font-bold">Articles</p>
-                <UserArticles></UserArticles>
-              </div>
-            ) : userConfig === configUserType.edit_profile ? (
-              <div className="flex flex-col">
-                <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
-                <EditUserProfile></EditUserProfile>
-              </div>
-            ) : (
-              <></>
-            )}
+            {
+              userConfig === configUserType.none ? (
+                <div className="flex justify-center">
+                  <UserConnect></UserConnect>
+                </div>
+              ) : userConfig === configUserType.submission ? (
+                <div className="flex flex-col">
+                  <p className="py-4 text-left text-lg text-darkgray font-bold">Submissions</p>
+                  <UserSubmissions address={address}></UserSubmissions>
+                </div>
+              ) : userConfig === configUserType.article ? (
+                <div className="flex flex-col">
+                  <p className="py-4 text-left text-lg text-darkgray font-bold">Articles</p>
+                  <UserArticles></UserArticles>
+                </div>
+              ) : userConfig === configUserType.edit_profile ? (
+                <div className="flex flex-col">
+                  <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
+                  {
+                    author && (
+                      <EditUserProfile author={author}></EditUserProfile>
+                    )
+                  }
+                </div>
+              ) : (
+                <></>
+              )
+            }
+
           </div>
         </div>
       </div>

@@ -9,7 +9,8 @@ const articleRouter = require("./routes/article-router");
 const app = express();
 const apiPort = 4000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors());
 app.use(bodyParser.json());
 

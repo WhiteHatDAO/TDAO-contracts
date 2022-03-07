@@ -14,16 +14,12 @@ const Search = () => {
 
     const handleSearch = () => {
         const server = "http://localhost:4000";
-        const cate = category === 'Author' ? '/api/author/find' : '/api/article/find';
+        const cate = category === 'Author' ? '/api/authors' : '/api/articles';
 
         try {
-            const res = axios.get(server + cate, {
-                params: {
-                    field: String(field),
-                    value: String(value)
-                }
-            })
-            console.log('res', res);
+            const params = URLSearchParams([[field, value]]);
+            const res = axios.get(server + cate, { params });
+            console.log('res:', res);
         } catch (e) {
             console.log(e);
         }

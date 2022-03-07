@@ -8,7 +8,9 @@ createAuthor = (req, res) => {
     aboutme: req.body.aboutme,
     twitter: req.body.twitter,
     linkedin: req.body.linkedin,
-    walletId: req.body.walletId
+    walletId: req.body.walletId,
+    authorImage: req.body.authorImage,
+    coverImage: req.body.coverImage
   }, (err) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -39,7 +41,7 @@ updateAuthor = async (req, res) => {
 };
 
 getAuthors = async (req, res) => {
-  await Author.find({}, (err, authors) => {
+  await Author.find(req.query, (err, authors) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }

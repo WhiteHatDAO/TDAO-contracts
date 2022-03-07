@@ -1,7 +1,10 @@
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { AuthorForm } from "../components/HelperComponents/AuthorForm";
+import { toBase64 } from "../utils/utils";
+import { useParams } from "react-router-dom";
 import Arweave from "arweave";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 // Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
 const arweave = Arweave.init({
@@ -83,6 +86,10 @@ const Submit = async ({ address }) => {
   const [optionPolitics, setOptionPolitics] = useState(false);
   const { walletId } = useParams();
 
+  const [titleError, setTitleError] = useState(false);
+  const [authorError, setAuthorError] = useState(false);
+  const [abstractError, setAbstractError] = useState(false);
+
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
   };
@@ -97,7 +104,6 @@ const Submit = async ({ address }) => {
 
   const changeSelectedArticleCover = event => {
     setSelectedArticleCover(event.target.files[0]);
-    console.log(selectedArticleCover);
   };
 
   const changeArticleTitle = event => {
@@ -125,23 +131,46 @@ const Submit = async ({ address }) => {
   };
 
   const onSubmit = async () => {
+    let isError = false;
+    if (articleTitle === '') {
+      setTitleError(true);
+      isError = true;
+    }
+    if (authors === '') {
+      setAuthorError(true);
+      isError = true
+    }
+    if (abstract === '') { 
+      setAbstractError(true);
+      isError = true
+    }
+
+    if(isError) return;
+
     const server = "http://localhost:4000";
 
-    const articleFile = {
+    const articleFile = selectedManuscriptFile ? {
       filename: selectedManuscriptFile.name,
-      data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : "",
-    };
-    const articleCover = {
-      filename: selectedArticleCover.name,
-      data: selectedArticleCover ? await toBase64(selectedArticleCover) : "",
-    };
+      data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
 
-    let articleCategories = "";
-    if (optionTech) articleCategories += "Technology,";
-    if (optionHistory) articleCategories += "History,";
-    if (optionRomance) articleCategories += "Romance,";
-    if (optionComedy) articleCategories += "Comedy,";
-    if (optionPolitics) articleCategories += "Politics";
+    const articleCover = selectedArticleCover ? {
+      filename: selectedArticleCover.name,
+      data: selectedArticleCover ? await toBase64(selectedArticleCover) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
+
+    let articleCategories = '';
+    if (optionTech) articleCategories += 'Technology,';
+    if (optionHistory) articleCategories += 'History,';
+    if (optionRomance) articleCategories += 'Romance,';
+    if (optionComedy) articleCategories += 'Comedy,';
+    if (optionPolitics) articleCategories += 'Politics';
 
     try {
       const res = await axios.post(server + "/api/article", {
@@ -287,6 +316,16 @@ const Submit = async ({ address }) => {
                     onChange={changeArticleTitle}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black"
                   />
+                  {
+                    titleError && (
+                      <div className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert">
+                        <span className="block sm:inline">You must input Title.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setTitleError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
                 <div className="mt-10 col-span-6">
                   <label htmlFor="article-title" className="pl-4 block text-left text-lg font-bold">
@@ -301,6 +340,16 @@ const Submit = async ({ address }) => {
                     onChange={e => setAuthors(e.target.value)}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
                   />
+                  {
+                    authorError && (
+                      <div className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert">
+                        <span className="block sm:inline">You must input Authors.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setAuthorError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
                 {/* <div className="mt-10 col-span-6">
                 <label htmlFor="authors" className="block text-left text-sm font-medium text-gray-700">
@@ -335,6 +384,16 @@ const Submit = async ({ address }) => {
                       className="p-4 block w-full bg-transparent text-lg rounded-xl focus:outline-none border border-black"
                     />
                   </div>
+                  {
+                    abstractError && (
+                      <div className="mt-1 border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert" style={{backgroundColor: '#fff5f5'}}>
+                        <span className="block sm:inline">You must input Abstract.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setAbstractError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
 
                 <div className="mt-10 col-span-6">
