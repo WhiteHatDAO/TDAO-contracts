@@ -189,11 +189,7 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
               ) : userConfig === configUserType.edit_profile ? (
                 <div className="flex flex-col">
                   <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
-                  {
-                    author && (
-                      <EditUserProfile author={author}></EditUserProfile>
-                    )
-                  }
+                  <EditUserProfile author={author}></EditUserProfile>
                 </div>
               ) : (
                 <></>

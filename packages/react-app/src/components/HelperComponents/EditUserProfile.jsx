@@ -4,6 +4,7 @@ import { useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
 const EditUserProfile = ({ author }) => {
+    console.log('author', author);
     const [name, setName] = useState(author ? author?.username : 'Edit Name');
     const [bio, setBio] = useState(author ? author?.bio : 'Edit Bio');
     const [aboutMe, setAboutMe] = useState(author ? author?.aboutme : '');
@@ -11,8 +12,8 @@ const EditUserProfile = ({ author }) => {
     const [linkedin, setLinkedin] = useState(author ? author?.linkedin : '');
     const [tipAddress, setTipAddress] = useState(author ? author?.walletId : '');
 
-    const [selectedAuthorImage, setselectedAuthorImage] = useState(dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename));
-    const [selectedCoverImage, setSelectedCoverImage] = useState(dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename));
+    const [selectedAuthorImage, setselectedAuthorImage] = useState(author ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '');
+    const [selectedCoverImage, setSelectedCoverImage] = useState(author ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '');
 
     const changeSelectedAuthorImage = event => {
         setselectedAuthorImage(event.target.files[0]);
