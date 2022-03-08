@@ -65,7 +65,7 @@ let transactionA = arweave
 //   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
 // }
 
-const Submit = async ({ address }) => {
+const Submit = ({ address }) => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -116,7 +116,6 @@ const Submit = async ({ address }) => {
     });
 
   const changeCategories = event => {
-    console.log(event.target.value);
     var options = event.target.options;
     var categoriesSelected = [];
     for (var i = 0, l = options.length; i < l; i++) {
@@ -185,7 +184,6 @@ const Submit = async ({ address }) => {
         blockchain: blockchain,
         categories: articleCategories,
       });
-      console.log("res", res);
     } catch (e) {
       console.log(e);
     }
@@ -207,6 +205,10 @@ const Submit = async ({ address }) => {
     preview.src = src;
     preview.style.display = "block";
   }, [selectedArticleCover]);
+
+  useEffect(() => {
+    console.log('address: ', address);
+  }, [address])
 
   // useEffect(async() => {
   //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;

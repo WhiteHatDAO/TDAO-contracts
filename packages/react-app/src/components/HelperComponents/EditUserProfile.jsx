@@ -4,8 +4,6 @@ import { useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
 const EditUserProfile = ({ author }) => {
-    console.log('author', author)
-
     const [name, setName] = useState(author ? author?.username : 'Edit Name');
     const [bio, setBio] = useState(author ? author?.bio : 'Edit Bio');
     const [aboutMe, setAboutMe] = useState(author ? author?.aboutme : '');
@@ -32,9 +30,6 @@ const EditUserProfile = ({ author }) => {
     useEffect(() => {
         if (!selectedAuthorImage) return;
         var src = URL.createObjectURL(selectedAuthorImage);
-
-        console.log('src', selectedAuthorImage);
-
         var userImage = document.getElementById("user-image");
         userImage.src = src;
         userImage.style.display = "block";
