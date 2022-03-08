@@ -246,7 +246,7 @@ function App(props) {
         <Route exact path="/contact">
           <Contact></Contact>
         </Route>
-        <Route exact path="/author">
+        <Route exact path="/author/:walletId">
           <Author></Author>
         </Route>
         <Route exact path="/article/:id">

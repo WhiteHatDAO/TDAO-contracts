@@ -68,7 +68,7 @@ let transactionA = arweave
 //   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
 // }
 
-const Submit = async ({ address }) => {
+const Submit = ({ address }) => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -204,6 +204,10 @@ const Submit = async ({ address }) => {
     preview.src = src;
     preview.style.display = "block";
   }, [selectedArticleCover]);
+
+  useEffect(() => {
+    console.log('address: ', address);
+  }, [address])
 
   // useEffect(async() => {
   //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;

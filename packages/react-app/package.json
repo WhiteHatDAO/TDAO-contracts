@@ -15,7 +15,6 @@
     ]
   },
   "dependencies": {
-    "@ant-design/icons": "^4.2.2",
     "@apollo/client": "^3.3.21",
     "@apollo/react-hooks": "^4.0.0",
     "@craco/craco": "^6.4.3",

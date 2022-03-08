@@ -9,6 +9,7 @@ import divideImage from "../../assets/divide.png";
 import menuIconImage from "../../assets/menu_icon.png";
 import menuImage from "../../assets/menu.png";
 import { useEffect, useState } from "react";
+import { getAuthorData } from "../../utils/utils";
 import axios from "axios";
 
 function Navbar({
@@ -47,15 +48,10 @@ function Navbar({
 
   useEffect(async() => {
     if (address === undefined || address === '') return;
-    try {
-      const server = 'http://localhost:4000';
-      const params = new URLSearchParams([['walletId', address]]);
-      const res = await axios.get(server + "/api/authors", { params })
-      if(res.data.success) {
-        setTwitter(res.data.data[0].twitter);
-      }
-    } catch(e) {
-      console.error(e);
+    const params = new URLSearchParams([['walletId', address]]);
+    const data = getAuthorData(params);
+    if(data !== null) {
+      setTwitter(data.twitter);
     }
   }, [address])
 
