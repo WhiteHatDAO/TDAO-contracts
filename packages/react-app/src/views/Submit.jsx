@@ -17,6 +17,7 @@ async function generateWalletKey() {
   walletKey = await arweave.wallets.generate();
   console.log(walletKey);
 }
+
 // todo: get the wallet address working... faack
 async function getWalletAddress(key) {
   await arweave.wallets.jwkToAddress(key).then(address => {
@@ -26,7 +27,7 @@ async function getWalletAddress(key) {
   });
 }
 
-arweave.network.getInfo().then(console.log);
+// arweave.network.getInfo().then(console.log);
 
 generateWalletKey();
 // getWalletAddress(walletKey);
@@ -43,27 +44,34 @@ arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(b
   //0.125213858712
 });
 
-let transactionA = arweave
-  .createTransaction(
-    {
-      data: '<html><head><meta charset="UTF-8"><title>Hello world!</title></head><body></body></html>',
-    },
-    walletKey,
-  )
-  .then(x => console.log(x));
-
 // ! doesn't work
 // transactionA.addTag("Content-Type", "text/html");
 // transactionA.addTag("key2", "value2");
+let transactionA;
+const createTx = async () => {
+  transactionA = await arweave
+    .createTransaction(
+      {
+        data: '<html><head><meta charset="UTF-8"><title>Hello world!</title></head><body></body></html>',
+      },
+      walletKey,
+    )
+    .then(x => console.log("Transaction A created", x));
+};
 
-// arweave.transactions.sign(transactionA, walletKey);
+const sendTx = async () => {
+  await arweave.transactions.sign(transactionA, walletKey);
 
-// let uploader = arweave.transactions.getUploader(transactionA);
+  let uploader = arweave.transactions.getUploader(transactionA);
 
-// while (!uploader.isComplete) {
-//   uploader.uploadChunk();
-//   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
-// }
+  while (!uploader.isComplete) {
+    uploader.uploadChunk();
+    console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+  }
+};
+
+createTx();
+sendTx();
 
 const Submit = ({ address }) => {
   const manuscriptFileLabel = "manuscript-label";
@@ -207,8 +215,8 @@ const Submit = ({ address }) => {
   }, [selectedArticleCover]);
 
   useEffect(() => {
-    console.log('address: ', address);
-  }, [address])
+    console.log("ETH Address: ", address);
+  }, [address]);
 
   // useEffect(async() => {
   //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
