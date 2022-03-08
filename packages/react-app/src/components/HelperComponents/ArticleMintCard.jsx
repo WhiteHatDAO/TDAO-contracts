@@ -8,7 +8,6 @@ const ArticleMintCard = ({article}) => {
 
     useEffect(() => {
         if(article === undefined || article === null) return;
-        console.log('article:', article)
         var data = dataURLtoFile(article?.cover?.data, article?.cover?.filename);
         setCoverImage(URL.createObjectURL(data));
     }, [article])
