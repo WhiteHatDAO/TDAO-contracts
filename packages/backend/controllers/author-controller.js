@@ -16,12 +16,11 @@ createAuthor = (req, res) => {
       return res.status(400).json({ success: false, error: err });
     }
     return res.status(200).json({ success: true, data: "Author was created successfully." });
-  );
+  })
 };
 
 deleteAuthor = async (req, res) => {
   await Author.deleteOne({ id: req.params.id }, (err) => {
-    console.log("id: ", req.params.id);
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
@@ -41,6 +40,7 @@ updateAuthor = async (req, res) => {
 };
 
 getAuthors = async (req, res) => {
+  console.log('req.query', req.query)
   await Author.find(req.query, (err, authors) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -56,7 +56,6 @@ getAuthors = async (req, res) => {
 
 getAuthorByWalletId = async (req, res) => {
   await Author.find({ walletId: req.params.id }, (err, author) => {
-    console.log(req.params.id);
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
