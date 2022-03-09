@@ -1,9 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import contact_rect from "../assets/contact_rect.png";
 import faqArrow from "../assets/faqArrow.png";
 import lineImage from "../assets/line.png";
 import contact_join_us from "../assets/contact_join_us.png";
 import Footer from "../components/HelperComponents/Footer";
+
+const FAQStateType = {
+  none: "",
+  first: "What is TalentDAO",
+  second: "Who uses TalentDAO",
+  third: "What is TalentDAO?",
+  fourth: "Who uses TalentDAO?"
+}
+
 const Contact = () => {
   const scrollTop = () => {
     document.documentElement.scrollTo({
@@ -13,12 +22,14 @@ const Contact = () => {
     })
   };
 
+  const [FAQState, setFAQState] = useState(FAQStateType.none);
+
   useEffect(() => {
     scrollTop();
   }, [])
-  
+
   return (
-    <div className="flex flex-col" style={{backgroundImage: 'linear-gradient(#fff, #EEE'}} >
+    <div className="flex flex-col" style={{ backgroundImage: 'linear-gradient(#fff, #EEE' }} >
       <div className="relative">
         <img className="absolute top-0 left-0 w-full h-full" src={contact_rect} style={{ transform: 'matrix(-1, 0, 0, 1, 0, 0)' }}></img>
         <div className="mx-4 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden relative flex flex-col items-start text-left text-white space-y-8 py-16">
@@ -34,21 +45,49 @@ const Contact = () => {
         <div className="py-8 px-4 md:px-40 lg:px-72 flex flex-col space-y-8">
           <div className="flex flex-col space-y-8">
             <div className="text-2xl font-bold">FAQs</div>
-            <div className="roundex-xl px-4 py-2 flex flex-row items-center justify-between" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
-              <div className="text-lg text-lightgray">What is TalentDAO</div>
-              <img src={faqArrow} className="cursor-pointer"></img>
+            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+              <div className="flex flex-row items-center justify-between">
+                <div>{FAQStateType.first}</div>
+                <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.first ? setFAQState(FAQStateType.first) : setFAQState(FAQStateType.none)}></img>
+              </div>
+              {
+                FAQState === FAQStateType.first && (
+                  <div className="py-2 text-left">By submitting this form you consent to us emailing you occasionally about our product and community. You can unsubscribe from emails at any time, and we will never pass your email onto third parties.</div>
+                )
+              }
             </div>
-            <div className="roundex-xl px-4 py-2 flex flex-row items-center justify-between" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
-              <div className="text-lg text-lightgray">Who uses TalentDAO</div>
-              <img src={faqArrow} className="cursor-pointer"></img>
+            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+              <div className="flex flex-row items-center justify-between">
+                <div>{FAQStateType.second}</div>
+                <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.second ? setFAQState(FAQStateType.second) : setFAQState(FAQStateType.none)}></img>
+              </div>
+              {
+                FAQState === FAQStateType.second && (
+                  <div className="py-2 text-left">By submitting this form you consent to us emailing you occasionally about our product and community. You can unsubscribe from emails at any time, and we will never pass your email onto third parties.</div>
+                )
+              }
             </div>
-            <div className="roundex-xl px-4 py-2 flex flex-row items-center justify-between" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
-              <div className="text-lg text-lightgray">What is TalentDAO</div>
-              <img src={faqArrow} className="cursor-pointer"></img>
+            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+              <div className="flex flex-row items-center justify-between">
+                <div>{FAQStateType.third}</div>
+                <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.third ? setFAQState(FAQStateType.third) : setFAQState(FAQStateType.none)}></img>
+              </div>
+              {
+                FAQState === FAQStateType.third && (
+                  <div className="py-2 text-left">By submitting this form you consent to us emailing you occasionally about our product and community. You can unsubscribe from emails at any time, and we will never pass your email onto third parties.</div>
+                )
+              }
             </div>
-            <div className="roundex-xl px-4 py-2 flex flex-row items-center justify-between" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
-              <div className="text-lg text-lightgray">Who uses TalentDAO</div>
-              <img src={faqArrow} className="cursor-pointer"></img>
+            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+              <div className="flex flex-row items-center justify-between">
+                <div>{FAQStateType.fourth}</div>
+                <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.fourth ? setFAQState(FAQStateType.fourth) : setFAQState(FAQStateType.none)}></img>
+              </div>
+              {
+                FAQState === FAQStateType.fourth && (
+                  <div className="py-2 text-left">By submitting this form you consent to us emailing you occasionally about our product and community. You can unsubscribe from emails at any time, and we will never pass your email onto third parties.</div>
+                )
+              }
             </div>
           </div>
           <div className="flex flex-col space-y-8">
