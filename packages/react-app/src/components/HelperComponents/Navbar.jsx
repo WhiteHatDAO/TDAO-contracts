@@ -46,11 +46,11 @@ function Navbar({
     handleUserMenuOpen(true);
   }
 
-  useEffect(async() => {
+  useEffect(async () => {
     if (address === undefined || address === '') return;
     const params = new URLSearchParams([['walletId', address]]);
     const data = getAuthorData(params);
-    if(data !== null) {
+    if (data !== null) {
       setTwitter(data.twitter);
     }
   }, [address])
@@ -60,7 +60,7 @@ function Navbar({
       <nav className="mx-4 sm:mx-8 md:mx-10 xl:mx-20 flex flex-row items-center justify-between">
         {/* Navbar Left Items */}
         {
-          location.pathname === '/user' && (
+          location.pathname.includes('/user') && (
             <img className="xl:hidden" src={menuImage} onClick={handleMenuOpen}></img>
           )
         }
@@ -114,9 +114,9 @@ function Navbar({
               <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div> */}
             </div>
             <div className="pt-4 flex flex-row items-center space-x-4">
-              <img src={twitter} alt="twitter logo" width={40} height={40} layout="fixed" />
-              <img src={discord} alt="discord logo" width={40} height={40} layout="fixed" />
-              <img src={profile} alt="profile icon" width={40} height={40} layout="fixed" />
+              <a href={twitter}><img src={twitter} alt="twitter logo" width={40} height={40} layout="fixed" /></a>
+              <img className="cursor-pointer" src={discord} alt="discord logo" width={40} height={40} layout="fixed" />
+              <img onClick={() => goToPage("/user/author")} className="cursor-pointer" src={profile} alt="profile icon" width={40} height={40} layout="fixed" />
             </div>
           </div>
         )
