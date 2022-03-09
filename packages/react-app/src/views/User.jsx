@@ -1,11 +1,10 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import EditUserProfile from "../components/HelperComponents/EditUserProfile";
 import UserArticles from "../components/HelperComponents/UserArticles";
 import UserConnect from "../components/HelperComponents/UserConnect";
 import UserSubmissions from "../components/HelperComponents/UserSubmissions";
-import axios from "axios";
-import { Route, useHistory, useLocation } from "react-router-dom";
-import { configure } from "@testing-library/dom";
 
 const configUserType = {
   none: -1,
@@ -26,41 +25,37 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
     handleUserMenuOpen(false);
   };
 
-  const handleConfigTypeChanged = (type) => {
+  const handleConfigTypeChanged = type => {
     if (type === configUserType.submission) {
-      history.push('/user/submissions')
+      history.push("/user/submissions");
     } else if (type == configUserType.article) {
-      history.push('/user/articles')
+      history.push("/user/articles");
     } else if (type == configUserType.edit_profile) {
-      history.push('/user/author')
+      history.push("/user/author");
     }
-    handleMenuOpen()
-  }
+    handleMenuOpen();
+  };
+
 
   useEffect(() => {
     if (address === undefined) {
       setUserConfig(configUserType.none);
     } else {
-      if (location.pathname.includes('/submissions'))
-        setUserConfig(configUserType.submission);
-      else if (location.pathname.includes('/articles'))
-        setUserConfig(configUserType.article);
-      else if (location.pathname.includes('/author'))
-        setUserConfig(configUserType.edit_profile);
-      else
-        setUserConfig(configUserType.submission);
+      if (location.pathname.includes("/submissions")) setUserConfig(configUserType.submission);
+      else if (location.pathname.includes("/articles")) setUserConfig(configUserType.article);
+      else if (location.pathname.includes("/author")) setUserConfig(configUserType.edit_profile);
+      else setUserConfig(configUserType.submission);
     }
   }, [address]);
 
   useEffect(() => {
-    if (location.pathname.includes('/submissions'))
-      setUserConfig(configUserType.submission);
-    else if (location.pathname.includes('/articles'))
-      setUserConfig(configUserType.article);
-    else if (location.pathname.includes('/author')) {
+    if (location.pathname.includes("/submissions")) setUserConfig(configUserType.submission);
+    else if (location.pathname.includes("/articles")) setUserConfig(configUserType.article);
+    else if (location.pathname.includes("/author")) {
       setUserConfig(configUserType.edit_profile);
     }
-  }, [location.pathname, address])
+  }, [location.pathname, address]);
+
 
   const Menu = () => (
     <>
@@ -175,7 +170,6 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
                 <></>
               )
             }
-
           </div>
         </div>
       </div>
