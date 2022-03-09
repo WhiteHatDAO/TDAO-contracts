@@ -14,6 +14,7 @@ import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
 import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User } from "./views";
 
+
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
 const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
@@ -238,11 +239,9 @@ function App(props) {
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address}/>
+          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
         </Route>
-        <Route exact path="/browse">
-          
-        </Route>
+        <Route exact path="/browse"></Route>
         <Route exact path="/about">
           <About></About>
         </Route>
