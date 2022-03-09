@@ -3,13 +3,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const arweave = Arweave.init({});
-
-arweave.wallets.generate().then(key => {
-  console.log(key);
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 443,
+  protocol: "https",
 });
-
-
 
 const Submit = ({ address }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -30,6 +28,23 @@ const Submit = ({ address }) => {
   const [titleError, setTitleError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
   const [abstractError, setAbstractError] = useState(false);
+
+  // todo: Arweave
+  const [walletKey, setWalletKey] = useState({});
+
+  async function generateWallet() {
+    arweave.wallets.generate().then(k => {
+      console.log(k);
+      setWalletKey(k);
+    });
+  }
+
+  useEffect(() => {
+    // generateWallet();
+    arweave.wallets.jwkToAddress(walletKey).then(address => {
+      console.log(address);
+    });
+  }, [walletKey]);
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
@@ -109,12 +124,12 @@ const Submit = ({ address }) => {
           data: "",
         };
 
-    let articleCategories = "";
-    if (optionTech) articleCategories += "Technology,";
-    if (optionHistory) articleCategories += "History,";
-    if (optionRomance) articleCategories += "Romance,";
-    if (optionComedy) articleCategories += "Comedy,";
-    if (optionPolitics) articleCategories += "Politics";
+    let articleCategories = [];
+    if (optionTech) articleCategories.push("Technology");
+    if (optionHistory) articleCategories.push("History");
+    if (optionRomance) articleCategories.push("Romance");
+    if (optionComedy) articleCategories.push("Comedy");
+    if (optionPolitics) articleCategories.push("Politics");
 
     try {
       const res = await axios.post(server + "/api/article", {
@@ -128,6 +143,7 @@ const Submit = ({ address }) => {
         blockchain: blockchain,
         categories: articleCategories,
       });
+      console.log(res);
     } catch (e) {
       console.log(e);
     }
