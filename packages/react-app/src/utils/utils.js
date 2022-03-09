@@ -1,4 +1,6 @@
-const dataURLtoFile = (dataurl, filename) => {
+import axios from "axios";
+
+export function dataURLtoFile (dataurl, filename) {
     var arr = dataurl.split(','),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
@@ -11,14 +13,14 @@ const dataURLtoFile = (dataurl, filename) => {
     return new File([u8arr], filename, { type: mime });
 }
 
-const toBase64 = (file) => new Promise((resolve, reject) => {
+export const toBase64 = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
 })
 
-const readTextFile = (file) => {
+export function readTextFile(file) {
     var allText = '';
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, false);
@@ -33,8 +35,18 @@ const readTextFile = (file) => {
     return allText;
 }
 
-module.exports = {
-    dataURLtoFile,
-    toBase64,
-    readTextFile
+export async function getAuthorData(params) {
+    const server = 'http://localhost:4000';
+    try {
+        const res = await axios.get(server + "/api/authors", { params })
+        if (res.data.success) {
+            return res.data.data[0];
+        } else {
+            return null;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    return null;
 }
