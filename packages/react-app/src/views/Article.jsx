@@ -7,6 +7,7 @@ import author_pro from "../assets/author_pro.png";
 import { SimilarArticleCard } from "../components/HelperComponents/SimilarArticleCard";
 import { dataURLtoFile, readTextFile } from "../utils/utils";
 import { useParams } from "react-router-dom";
+import { getAuthorData } from "../utils/utils";
 import axios from "axios";
 
 const server = "http://localhost:4000";
@@ -29,8 +30,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     try {
       const params = new URLSearchParams([['_id', id]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
-      console.log('articleResponse.data.data', articleResponse.data)
-      if (articleResponse.data.data.length > 0) {
+      if (articleResponse.data.success) {
         setArticle(articleResponse.data.data[0]);
       }
     } catch (e) {
@@ -39,15 +39,10 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   };
 
   const getAuthor = async () => {
-    try {
-      const params = new URLSearchParams([['walletId', address]]);
-      const authorResponse = await axios.get(server + "/api/authors", { params });
-      if (authorResponse.data.data.length > 0) {
-        console.log('authorResponse', authorResponse);
-        setAuthor(authorResponse.data.data[0])
-      }
-    } catch (e) {
-      console.error(e);
+    const params = new URLSearchParams([['walletId', address]]);
+    const data = getAuthorData(params);
+    if(data !== null) {
+      setAuthor(data);
     }
   }
 

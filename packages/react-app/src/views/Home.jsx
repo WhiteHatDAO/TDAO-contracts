@@ -17,12 +17,12 @@ import Splash from "../components/HelperComponents/Splash";
  * @param {*} readContracts contracts from current chain already pre-loaded using ethers contract module. More here https://docs.ethers.io/v5/api/contract/contract/
  * @returns react component
  */
-function Home({ yourLocalBalance, readContracts }) {
+function Home({ yourLocalBalance, readContracts, address }) {
   // you can also use hooks locally in your component of choice
 
   return (
     <div className="pt-4 px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden" style={{backgroundImage: 'linear-gradient(#fff, #EEEE'}}>
-      <Splash />
+      <Splash address={address}/>
       <div className="flex flex-row items-center pt-6">
         <img src={profileImage} alt="profile" className="pr-2"></img>
         <div className="text-black font-semibold text-2xl">

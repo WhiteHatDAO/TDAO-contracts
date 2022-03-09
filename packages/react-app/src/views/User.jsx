@@ -1,9 +1,10 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import EditUserProfile from "../components/HelperComponents/EditUserProfile";
 import UserArticles from "../components/HelperComponents/UserArticles";
 import UserConnect from "../components/HelperComponents/UserConnect";
 import UserSubmissions from "../components/HelperComponents/UserSubmissions";
-import axios from "axios";
 
 const configUserType = {
   none: -1,
@@ -16,7 +17,8 @@ const configUserType = {
 export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
   const [userConfig, setUserConfig] = useState(configUserType.none)
-  const [author, setAuthor] = useState(null);
+  const location = useLocation();
+  const history = useHistory();
 
   const handleMenuOpen = () => {
     setMenuOpen(false);
@@ -24,38 +26,36 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
   };
 
   const handleConfigTypeChanged = type => {
-    setUserConfig(type);
+    if (type === configUserType.submission) {
+      history.push("/user/submissions");
+    } else if (type == configUserType.article) {
+      history.push("/user/articles");
+    } else if (type == configUserType.edit_profile) {
+      history.push("/user/author");
+    }
     handleMenuOpen();
   };
 
-  const getAuthorData = async () => {
-    console.log('asdfasdfasdf')
-    const server = 'http://localhost:4000';
-    const params = new URLSearchParams([['walletId', address]]);
-    try {
-      const res = await axios.get(server + '/api/authors', { params });
-      console.log('res: ', res);
-      if (res?.data?.data.length > 0) {
-        setAuthor(res?.data?.data[0])
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  }
 
   useEffect(() => {
     if (address === undefined) {
       setUserConfig(configUserType.none);
     } else {
-      setUserConfig(configUserType.submission);
+      if (location.pathname.includes("/submissions")) setUserConfig(configUserType.submission);
+      else if (location.pathname.includes("/articles")) setUserConfig(configUserType.article);
+      else if (location.pathname.includes("/author")) setUserConfig(configUserType.edit_profile);
+      else setUserConfig(configUserType.submission);
     }
   }, [address]);
 
   useEffect(() => {
-    if (userConfig === configUserType.edit_profile && (address !== 'undefined' || address !== '')) {
-      getAuthorData();
+    if (location.pathname.includes("/submissions")) setUserConfig(configUserType.submission);
+    else if (location.pathname.includes("/articles")) setUserConfig(configUserType.article);
+    else if (location.pathname.includes("/author")) {
+      setUserConfig(configUserType.edit_profile);
     }
-  }, [userConfig])
+  }, [location.pathname, address]);
+
 
   const Menu = () => (
     <>
@@ -164,17 +164,12 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
               ) : userConfig === configUserType.edit_profile ? (
                 <div className="flex flex-col">
                   <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
-                  {
-                    author && (
-                      <EditUserProfile author={author}></EditUserProfile>
-                    )
-                  }
+                  <EditUserProfile address={address}></EditUserProfile>
                 </div>
               ) : (
                 <></>
               )
             }
-
           </div>
         </div>
       </div>
