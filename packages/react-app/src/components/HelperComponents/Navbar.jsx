@@ -114,7 +114,7 @@ function Navbar({
               <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div> */}
             </div>
             <div className="pt-4 flex flex-row items-center space-x-4">
-              <a href={twitter}><img src={twitter} alt="twitter logo" width={40} height={40} layout="fixed" /></a>
+              <a href={twitter}><img src={twitterImg} alt="twitter logo" width={40} height={40} layout="fixed" /></a>
               <img className="cursor-pointer" src={discord} alt="discord logo" width={40} height={40} layout="fixed" />
               <img onClick={() => goToPage("/user/author")} className="cursor-pointer" src={profile} alt="profile icon" width={40} height={40} layout="fixed" />
             </div>
