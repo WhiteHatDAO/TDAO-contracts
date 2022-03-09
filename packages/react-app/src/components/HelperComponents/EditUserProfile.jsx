@@ -94,7 +94,7 @@ const EditUserProfile = ({ address }) => {
           data: "",
         };
 
-    const authorCoverImage = selectedCoverImage
+    let authorCoverImage = selectedCoverImage
       ? {
           filename: selectedCoverImage.name,
           data: selectedCoverImage ? await toBase64(selectedCoverImage) : "",
