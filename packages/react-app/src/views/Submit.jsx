@@ -1,10 +1,74 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { AuthorForm } from "../components/HelperComponents/AuthorForm";
+import { toBase64 } from "../utils/utils";
 import { useParams } from "react-router-dom";
+import Arweave from "arweave";
+import axios from "axios";
 
+// Since v1.5.1 you're now able to call the init function for the web version without options. The current URL path will be used by default. This is recommended when running from a gateway.
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 1984,
+  protocol: "http",
+});
 
+let arAddress;
+let walletKey;
 
-const Submit = ({ address }) => {
+async function generateWalletKey() {
+  walletKey = await arweave.wallets.generate();
+  console.log(walletKey);
+}
+// todo: get the wallet address working... faack
+async function getWalletAddress(key) {
+  await arweave.wallets.jwkToAddress(key).then(address => {
+    console.log(address);
+    //1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY
+    arAddress = address;
+  });
+}
+
+arweave.network.getInfo().then(console.log);
+
+generateWalletKey();
+// getWalletAddress(walletKey);
+
+// demo wallet
+arweave.wallets.getBalance("1seRanklLU_1VTGkEk7P0xAwMJfA7owA1JHW5KyZKlY").then(balance => {
+  let winston = balance;
+  let ar = arweave.ar.winstonToAr(balance);
+
+  console.log("Winston: ", winston);
+  //125213858712
+
+  console.log("AR: ", ar);
+  //0.125213858712
+});
+
+let transactionA = arweave
+  .createTransaction(
+    {
+      data: '<html><head><meta charset="UTF-8"><title>Hello world!</title></head><body></body></html>',
+    },
+    walletKey,
+  )
+  .then(x => console.log(x));
+
+// ! doesn't work
+// transactionA.addTag("Content-Type", "text/html");
+// transactionA.addTag("key2", "value2");
+
+// arweave.transactions.sign(transactionA, walletKey);
+
+// let uploader = arweave.transactions.getUploader(transactionA);
+
+// while (!uploader.isComplete) {
+//   uploader.uploadChunk();
+//   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+// }
+
+const Submit = async ({ address }) => {
   const manuscriptFileLabel = "manuscript-label";
   const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -55,6 +119,7 @@ const Submit = ({ address }) => {
     });
 
   const changeCategories = event => {
+    console.log(event.target.value);
     var options = event.target.options;
     var categoriesSelected = [];
     for (var i = 0, l = options.length; i < l; i++) {
@@ -67,49 +132,45 @@ const Submit = ({ address }) => {
 
   const onSubmit = async () => {
     let isError = false;
-    if (articleTitle === "") {
+    if (articleTitle === '') {
       setTitleError(true);
       isError = true;
     }
-    if (authors === "") {
+    if (authors === '') {
       setAuthorError(true);
-      isError = true;
+      isError = true
     }
-    if (abstract === "") {
+    if (abstract === '') { 
       setAbstractError(true);
-      isError = true;
+      isError = true
     }
 
-    if (isError) return;
+    if(isError) return;
 
     const server = "http://localhost:4000";
 
-    const articleFile = selectedManuscriptFile
-      ? {
-          filename: selectedManuscriptFile.name,
-          data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : "",
-        }
-      : {
-          filename: "",
-          data: "",
-        };
+    const articleFile = selectedManuscriptFile ? {
+      filename: selectedManuscriptFile.name,
+      data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
 
-    const articleCover = selectedArticleCover
-      ? {
-          filename: selectedArticleCover.name,
-          data: selectedArticleCover ? await toBase64(selectedArticleCover) : "",
-        }
-      : {
-          filename: "",
-          data: "",
-        };
+    const articleCover = selectedArticleCover ? {
+      filename: selectedArticleCover.name,
+      data: selectedArticleCover ? await toBase64(selectedArticleCover) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
 
-    let articleCategories = "";
-    if (optionTech) articleCategories += "Technology,";
-    if (optionHistory) articleCategories += "History,";
-    if (optionRomance) articleCategories += "Romance,";
-    if (optionComedy) articleCategories += "Comedy,";
-    if (optionPolitics) articleCategories += "Politics";
+    let articleCategories = '';
+    if (optionTech) articleCategories += 'Technology,';
+    if (optionHistory) articleCategories += 'History,';
+    if (optionRomance) articleCategories += 'Romance,';
+    if (optionComedy) articleCategories += 'Comedy,';
+    if (optionPolitics) articleCategories += 'Politics';
 
     try {
       const res = await axios.post(server + "/api/article", {
@@ -123,6 +184,7 @@ const Submit = ({ address }) => {
         blockchain: blockchain,
         categories: articleCategories,
       });
+      console.log("res", res);
     } catch (e) {
       console.log(e);
     }
@@ -144,10 +206,6 @@ const Submit = ({ address }) => {
     preview.src = src;
     preview.style.display = "block";
   }, [selectedArticleCover]);
-
-  useEffect(() => {
-    console.log("ETH Address: ", address);
-  }, [address]);
 
   // useEffect(async() => {
   //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
@@ -258,25 +316,16 @@ const Submit = ({ address }) => {
                     onChange={changeArticleTitle}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black"
                   />
-                  {titleError && (
-                    <div
-                      className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative"
-                      role="alert"
-                    >
-                      <span className="block sm:inline">You must input Title.</span>
-                      <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setTitleError(false)}>
-                        <svg
-                          className="fill-current h-6 w-6 text-red-500"
-                          role="button"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <title>Close</title>
-                          <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                        </svg>
-                      </span>
-                    </div>
-                  )}
+                  {
+                    titleError && (
+                      <div className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert">
+                        <span className="block sm:inline">You must input Title.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setTitleError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
                 <div className="mt-10 col-span-6">
                   <label htmlFor="article-title" className="pl-4 block text-left text-lg font-bold">
@@ -291,25 +340,16 @@ const Submit = ({ address }) => {
                     onChange={e => setAuthors(e.target.value)}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
                   />
-                  {authorError && (
-                    <div
-                      className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative"
-                      role="alert"
-                    >
-                      <span className="block sm:inline">You must input Authors.</span>
-                      <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setAuthorError(false)}>
-                        <svg
-                          className="fill-current h-6 w-6 text-red-500"
-                          role="button"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <title>Close</title>
-                          <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                        </svg>
-                      </span>
-                    </div>
-                  )}
+                  {
+                    authorError && (
+                      <div className=" border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert">
+                        <span className="block sm:inline">You must input Authors.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setAuthorError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
                 {/* <div className="mt-10 col-span-6">
                 <label htmlFor="authors" className="block text-left text-sm font-medium text-gray-700">
@@ -344,29 +384,16 @@ const Submit = ({ address }) => {
                       className="p-4 block w-full bg-transparent text-lg rounded-xl focus:outline-none border border-black"
                     />
                   </div>
-                  {abstractError && (
-                    <div
-                      className="mt-1 border border-primary text-primary px-4 py-3 text-left rounded-lg relative"
-                      role="alert"
-                      style={{ backgroundColor: "#fff5f5" }}
-                    >
-                      <span className="block sm:inline">You must input Abstract.</span>
-                      <span
-                        className="absolute top-0 bottom-0 right-0 px-4 py-3"
-                        onClick={() => setAbstractError(false)}
-                      >
-                        <svg
-                          className="fill-current h-6 w-6 text-red-500"
-                          role="button"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <title>Close</title>
-                          <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
-                        </svg>
-                      </span>
-                    </div>
-                  )}
+                  {
+                    abstractError && (
+                      <div className="mt-1 border border-primary text-primary px-4 py-3 text-left rounded-lg relative" role="alert" style={{backgroundColor: '#fff5f5'}}>
+                        <span className="block sm:inline">You must input Abstract.</span>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3" onClick={() => setAbstractError(false)}>
+                          <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                      </div>
+                    )
+                  }
                 </div>
 
                 <div className="mt-10 col-span-6">
