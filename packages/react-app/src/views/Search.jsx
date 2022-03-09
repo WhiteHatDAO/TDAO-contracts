@@ -6,23 +6,20 @@ import clear from "../assets/clear.svg";
 import { SimilarArticleCard } from "../components/HelperComponents/SimilarArticleCard";
 import Footer from "../components/HelperComponents/Footer";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 
 const Search = () => {
     const [category, setCategory] = useState('Author');
     const [field, setField] = useState('');
     const [value, setValue] = useState('');
-    const history = useHistory();
 
-    const handleSearch = async() => {
+    const handleSearch = () => {
         const server = "http://localhost:4000";
         const cate = category === 'Author' ? '/api/authors' : '/api/articles';
-        console.log('field', field);
-        console.log('value', value);
+
         try {
-            const params = new URLSearchParams([['field', field], ['value', value]]);
-            const res = await axios.get(server + cate, { params });
-            console.log('res', res);
+            const params = URLSearchParams([[field, value]]);
+            const res = axios.get(server + cate, { params });
+            console.log('res:', res);
         } catch (e) {
             console.log(e);
         }
@@ -88,7 +85,7 @@ const Search = () => {
                                     <option>Article</option>
                                 </select>
                             </div>
-                            <div className="w-full md:w-auto flex flex-col space-y-2 cursor-pointer" onClick={() => history.push("/advancedsearch")}>
+                            <div className="w-full md:w-auto flex flex-col space-y-2">
                                 <div className="text-sm hidden md:flex flex-row items-center">
                                     <div>Narrow search</div>
                                     <img className="pl-1" width={20} src={info}></img>

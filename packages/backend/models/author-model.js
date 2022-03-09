@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 // import Article from "../models/article-model";
 const File = new Schema({
-  filename: { type: String, required: false },
-  data: { type: String, required: false }
+  filename: { type: String, required: true },
+  data: { type: String, required: true }
 })
 
 const Author = new Schema(
