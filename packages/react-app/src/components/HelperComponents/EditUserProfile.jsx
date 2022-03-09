@@ -2,20 +2,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
-const EditUserProfile = ({ author }) => {
-  const [name, setName] = useState(author ? author?.username : "Edit Name");
-  const [bio, setBio] = useState(author ? author?.bio : "Edit Bio");
-  const [aboutMe, setAboutMe] = useState(author ? author?.aboutme : "");
-  const [twitter, setTwitter] = useState(author ? author?.twitter : "");
-  const [linkedin, setLinkedin] = useState(author ? author?.linkedin : "");
-  const [tipAddress, setTipAddress] = useState(author ? author?.walletId : "");
 
-  const [selectedAuthorImage, setselectedAuthorImage] = useState(
-    dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename),
-  );
-  const [selectedCoverImage, setSelectedCoverImage] = useState(
-    dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename),
-  );
+const EditUserProfile = ({ address }) => {
+    const [name, setName] = useState('Edit Name');
+    const [bio, setBio] = useState('Edit Bio');
+    const [aboutMe, setAboutMe] = useState('');
+    const [twitter, setTwitter] = useState('');
+    const [linkedin, setLinkedin] = useState('');
+    const [tipAddress, setTipAddress] = useState('');
+    const [author, setAuthor] = useState(null);
+
+    const [selectedAuthorImage, setselectedAuthorImage] = useState(author ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '');
+    const [selectedCoverImage, setSelectedCoverImage] = useState(author ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '');
 
   const changeSelectedAuthorImage = event => {
     setselectedAuthorImage(event.target.files[0]);
@@ -25,10 +23,40 @@ const EditUserProfile = ({ author }) => {
     setSelectedCoverImage(event.target.files[0]);
   };
 
-  useEffect(() => {
-    if (name === "") setName("Edit Name");
-    if (bio === "") setBio("Edit Bio");
-  }, [name, bio]);
+    const getAuthorData = async () => {
+        const server = 'http://localhost:4000';
+        const params = new URLSearchParams([['walletId', address]]);
+        try {
+            const res = await axios.get(server + '/api/authors', { params });
+            if (res?.data?.data.length > 0) {
+                setAuthor(res?.data?.data[0])
+            }
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
+        if(address === '' || address === undefined) return;
+        getAuthorData()
+    }, [address])
+
+    useEffect(() => {
+        if(author === null)return;
+        setName(author.username);
+        setBio(author.bio);
+        setAboutMe(author.aboutme);
+        setTwitter(author.twitter);
+        setLinkedin(author.linkedin);
+        setTipAddress(author.walletId);
+        setselectedAuthorImage(author.authorImage ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : null)
+        setSelectedCoverImage(author.coverImage ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
+    }, [author])
+
+    useEffect(() => {
+        if (name === '') setName('Edit Name');
+        if (bio === '') setBio('Edit Bio');
+    }, [name, bio])
 
   useEffect(() => {
     if (!selectedAuthorImage) return;
@@ -49,15 +77,21 @@ const EditUserProfile = ({ author }) => {
   const handleSave = async () => {
     const serverURL = "http://localhost:4000";
 
-    const authorImage = selectedAuthorImage
-      ? {
-          filename: selectedAuthorImage.name,
-          data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : "",
+        const authorImage = selectedAuthorImage ? {
+            filename: selectedAuthorImage.name,
+            data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : ''
+        } : {
+            filename: '',
+            data: ''
         }
-      : {
-          filename: "",
-          data: "",
-        };
+
+        const authorCoverImage = selectedCoverImage ? {
+            filename: selectedCoverImage.name,
+            data: selectedCoverImage ? await toBase64(selectedCoverImage) : ''
+        } : {
+            filename: '',
+            data: ''
+        }
 
     const authorCoverImage = selectedCoverImage
       ? {

@@ -40,6 +40,7 @@ updateAuthor = async (req, res) => {
 };
 
 getAuthors = async (req, res) => {
+  console.log('req.query', req.query)
   await Author.find(req.query, (err, authors) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });

@@ -14,13 +14,15 @@ const Search = () => {
     const [value, setValue] = useState('');
     const history = useHistory();
 
-    const handleSearch = () => {
+    const handleSearch = async() => {
         const server = "http://localhost:4000";
         const cate = category === 'Author' ? '/api/authors' : '/api/articles';
-
+        console.log('field', field);
+        console.log('value', value);
         try {
-            const params = new URLSearchParams([[field, value]]);
-            const res = axios.get(server + cate, { params });
+            const params = new URLSearchParams([['field', field], ['value', value]]);
+            const res = await axios.get(server + cate, { params });
+            console.log('res', res);
         } catch (e) {
             console.log(e);
         }
