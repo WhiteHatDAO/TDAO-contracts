@@ -69,8 +69,6 @@ let transactionA = arweave
 // }
 
 const Submit = ({ address }) => {
-  const manuscriptFileLabel = "manuscript-label";
-  const thumbnailFileLabel = "thumbnail-label";
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
   const [authors, setAuthors] = useState("");
   const [selectedArticleCover, setSelectedArticleCover] = useState();
