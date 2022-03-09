@@ -1,6 +1,8 @@
 const Article = require("../models/article-model");
 
 createArticle = (req, res) => {
+  console.log('body', req.body);
+
   Article.create({
     walletId: req.body.walletId,
     body: req.body.body,
@@ -28,6 +30,7 @@ deleteArticle = async (req, res) => {
 }
 
 getArticles = async (req, res) => {
+  console.log('req.query', req.query)
   await Article.find(req.query, (err, article) => {
     if(err) {
       return res.status(400).json({ success: false, error: err });
