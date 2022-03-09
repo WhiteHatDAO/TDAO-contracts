@@ -135,7 +135,7 @@ const EditUserProfile = ({ address }) => {
     <div className="flex flex-col space-y-4">
       <div className="w-full rounded-2xl bg-white">
         <div className="rounded-2xl h-56 relative" style={{ backgroundColor: "rgba(220, 220, 220, 1)" }}>
-          <img id="cover-image" className="absolute top-0 left-0 rounded-2xl object-cover w-full h-56"></img>
+          <img id="cover-image" alt="coverimage" className="absolute top-0 left-0 rounded-2xl object-cover w-full h-56"></img>
           <div className="flex flex-row justify-end pr-8 pt-4">
             <label htmlFor="cover-upload" className="rounded-full cursor-pointer z-10">
               <span>
