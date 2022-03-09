@@ -1,6 +1,13 @@
+import Arweave from "arweave";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
+const arweave = Arweave.init({});
+
+arweave.wallets.generate().then(key => {
+  console.log(key);
+});
 
 
 
