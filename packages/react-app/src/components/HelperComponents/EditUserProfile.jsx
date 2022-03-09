@@ -4,16 +4,16 @@ import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
 
 const EditUserProfile = ({ address }) => {
-    const [name, setName] = useState('Edit Name');
-    const [bio, setBio] = useState('Edit Bio');
-    const [aboutMe, setAboutMe] = useState('');
-    const [twitter, setTwitter] = useState('');
-    const [linkedin, setLinkedin] = useState('');
-    const [tipAddress, setTipAddress] = useState('');
-    const [author, setAuthor] = useState(null);
+  const [name, setName] = useState('Edit Name');
+  const [bio, setBio] = useState('Edit Bio');
+  const [aboutMe, setAboutMe] = useState('');
+  const [twitter, setTwitter] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [tipAddress, setTipAddress] = useState('');
+  const [author, setAuthor] = useState(null);
 
-    const [selectedAuthorImage, setselectedAuthorImage] = useState(author ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '');
-    const [selectedCoverImage, setSelectedCoverImage] = useState(author ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '');
+  const [selectedAuthorImage, setselectedAuthorImage] = useState(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '');
+  const [selectedCoverImage, setSelectedCoverImage] = useState(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '');
 
   const changeSelectedAuthorImage = event => {
     setselectedAuthorImage(event.target.files[0]);
@@ -23,40 +23,41 @@ const EditUserProfile = ({ address }) => {
     setSelectedCoverImage(event.target.files[0]);
   };
 
-    const getAuthorData = async () => {
-        const server = 'http://localhost:4000';
-        const params = new URLSearchParams([['walletId', address]]);
-        try {
-            const res = await axios.get(server + '/api/authors', { params });
-            if (res?.data?.data.length > 0) {
-                setAuthor(res?.data?.data[0])
-            }
-        } catch (e) {
-            console.error(e)
-        }
+  const getAuthorData = async () => {
+    const server = 'http://localhost:4000';
+    const params = new URLSearchParams([['walletId', address]]);
+    try {
+      const res = await axios.get(server + '/api/authors', { params });
+      console.log('res: ', res)
+      if (res?.data?.data.length > 0) {
+        setAuthor(res?.data?.data[0])
+      }
+    } catch (e) {
+      console.error(e)
     }
+  }
 
-    useEffect(() => {
-        if(address === '' || address === undefined) return;
-        getAuthorData()
-    }, [address])
+  useEffect(() => {
+    if (address === '' || address === undefined) return;
+    getAuthorData()
+  }, [address])
 
-    useEffect(() => {
-        if(author === null)return;
-        setName(author.username);
-        setBio(author.bio);
-        setAboutMe(author.aboutme);
-        setTwitter(author.twitter);
-        setLinkedin(author.linkedin);
-        setTipAddress(author.walletId);
-        setselectedAuthorImage(author.authorImage ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : null)
-        setSelectedCoverImage(author.coverImage ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
-    }, [author])
+  useEffect(() => {
+    if (author === null) return;
+    setName(author.username);
+    setBio(author.bio);
+    setAboutMe(author.aboutme);
+    setTwitter(author.twitter);
+    setLinkedin(author.linkedin);
+    setTipAddress(author.walletId);
+    setselectedAuthorImage(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : null)
+    setSelectedCoverImage(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
+  }, [author])
 
-    useEffect(() => {
-        if (name === '') setName('Edit Name');
-        if (bio === '') setBio('Edit Bio');
-    }, [name, bio])
+  useEffect(() => {
+    if (name === '') setName('Edit Name');
+    if (bio === '') setBio('Edit Bio');
+  }, [name, bio])
 
   useEffect(() => {
     if (!selectedAuthorImage) return;
@@ -77,31 +78,21 @@ const EditUserProfile = ({ address }) => {
   const handleSave = async () => {
     const serverURL = "http://localhost:4000";
 
-        const authorImage = selectedAuthorImage ? {
-            filename: selectedAuthorImage.name,
-            data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : ''
-        } : {
-            filename: '',
-            data: ''
-        }
+    const authorImage = selectedAuthorImage ? {
+      filename: selectedAuthorImage.name,
+      data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
 
-        const authorCoverImage = selectedCoverImage ? {
-            filename: selectedCoverImage.name,
-            data: selectedCoverImage ? await toBase64(selectedCoverImage) : ''
-        } : {
-            filename: '',
-            data: ''
-        }
-
-    const authorCoverImage = selectedCoverImage
-      ? {
-          filename: selectedCoverImage.name,
-          data: selectedCoverImage ? await toBase64(selectedCoverImage) : "",
-        }
-      : {
-          filename: "",
-          data: "",
-        };
+    const authorCoverImage = selectedCoverImage ? {
+      filename: selectedCoverImage.name,
+      data: selectedCoverImage ? await toBase64(selectedCoverImage) : ''
+    } : {
+      filename: '',
+      data: ''
+    }
 
     try {
       const res = await axios.post(serverURL + "/api/author", {
