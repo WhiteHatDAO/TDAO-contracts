@@ -4,6 +4,7 @@ import faqArrow from "../assets/faqArrow.png";
 import lineImage from "../assets/line.png";
 import contact_join_us from "../assets/contact_join_us.png";
 import Footer from "../components/HelperComponents/Footer";
+import axios from "axios";
 
 const FAQStateType = {
   none: "",
@@ -23,6 +24,44 @@ const Contact = () => {
   };
 
   const [FAQState, setFAQState] = useState(FAQStateType.none);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [link, setLink] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+
+  const [requiredName, setRequiredName] = useState(false);
+  const [requiredEmail, setRequiredEmail] = useState(false);
+  const [requiredMessage, setRequiredMessage] = useState(false);
+
+  const submit = async () => {
+    if (name === '') setRequiredName(true);
+    else setRequiredName(false);
+
+    if (email === '') setRequiredEmail(true);
+    else setRequiredEmail(false);
+
+    if (message === '') setRequiredMessage(true);
+    else setRequiredMessage(false);
+
+    if (name === '' || email === '' || message === '') return;
+
+    try {
+      const server = "http://localhost:4000";
+      const res = axios.post(server + '/api/contact', {
+        name: name,
+        email: email,
+        link: link,
+        subject: subject,
+        message: message
+      })
+
+      console.log('res: ', res);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   useEffect(() => {
     scrollTop();
@@ -45,7 +84,7 @@ const Contact = () => {
         <div className="py-8 px-4 md:px-40 lg:px-72 flex flex-col space-y-8">
           <div className="flex flex-col space-y-8">
             <div className="text-2xl font-bold">FAQs</div>
-            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+            <div className="rounded-xl p-4 text-lg text-darkgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
               <div className="flex flex-row items-center justify-between">
                 <div>{FAQStateType.first}</div>
                 <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.first ? setFAQState(FAQStateType.first) : setFAQState(FAQStateType.none)}></img>
@@ -56,7 +95,7 @@ const Contact = () => {
                 )
               }
             </div>
-            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+            <div className="rounded-xl p-4 text-lg text-darkgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
               <div className="flex flex-row items-center justify-between">
                 <div>{FAQStateType.second}</div>
                 <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.second ? setFAQState(FAQStateType.second) : setFAQState(FAQStateType.none)}></img>
@@ -67,7 +106,7 @@ const Contact = () => {
                 )
               }
             </div>
-            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+            <div className="rounded-xl p-4 text-lg text-darkgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
               <div className="flex flex-row items-center justify-between">
                 <div>{FAQStateType.third}</div>
                 <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.third ? setFAQState(FAQStateType.third) : setFAQState(FAQStateType.none)}></img>
@@ -78,7 +117,7 @@ const Contact = () => {
                 )
               }
             </div>
-            <div className="roundex-xl px-4 py-2 text-lg text-lightgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
+            <div className="rounded-xl p-4 text-lg text-darkgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
               <div className="flex flex-row items-center justify-between">
                 <div>{FAQStateType.fourth}</div>
                 <img src={faqArrow} className="cursor-pointer" onClick={() => FAQState != FAQStateType.fourth ? setFAQState(FAQStateType.fourth) : setFAQState(FAQStateType.none)}></img>
@@ -97,31 +136,46 @@ const Contact = () => {
                 <img src={lineImage}></img>
               </div>
             </div>
-            <div className="grid grid-cols-1 xl:grid-cols-2 space-x-0 lg:space-x-8">
+            <div className="grid grid-cols-1 xl:grid-cols-2 space-x-0 lg:space-x-8 text-left">
               <div className="flex flex-col">
                 <div className="flex flex-col my-4">
                   <div className="text-lg text-left px-4 py-2">Name <span className="text-primary">*</span></div>
-                  <input type="text" className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="e.g John Doe" required="" />
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="e.g John Doe" required="" />
+                  {
+                    requiredName && (
+                      <div className="pt-2 pl-4 text-primary text-sm">This field should be required.</div>
+                    )
+                  }
                 </div>
                 <div className="flex flex-col my-4">
                   <div className="text-lg text-left px-4 py-2">Link</div>
-                  <input type="text" className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="link to article or resource" required="" />
+                  <input type="text" value={link} onChange={(e) => setLink(e.target.value)} className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="link to article or resource" required="" />
                 </div>
               </div>
               <div className="flex flex-col">
                 <div className="flex flex-col my-4">
                   <div className="text-lg text-left px-4 py-2">Email Address <span className="text-primary">*</span></div>
-                  <input type="text" className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="e.g  Johndoe@xyz.com" required="" />
+                  <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="e.g  Johndoe@xyz.com" required="" />
+                  {
+                    requiredEmail && (
+                      <div className="pt-2 pl-4 text-primary text-sm">This field should be required.</div>
+                    )
+                  }
                 </div>
                 <div className="flex flex-col my-4">
                   <div className="text-lg text-left px-4 py-2">Select Subject</div>
-                  <input type="text" className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="Articles, journals, documents..." required="" />
+                  <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} className="px-4 py-2 text-lg bg-transparent rounded-xl border border-gray appearance-none lg:h-12 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="Articles, journals, documents..." required="" />
                 </div>
               </div>
             </div>
             <div className="flex flex-col text-left">
               <div className="px-4 py-2 text-lg">Message <span className="text-primary">*</span></div>
-              <textarea className="p-4 text-lg bg-transparent rounded-xl border border-gray appearance-none focus:outline-none  lg:h-56"></textarea>
+              <textarea value={message} onChange={(e) => setMessage(e.target.value)} className="p-4 text-lg bg-transparent rounded-xl border border-gray appearance-none focus:outline-none  lg:h-56"></textarea>
+              {
+                requiredMessage && (
+                  <div className="pt-2 pl-4 text-primary text-sm">This field should be required.</div>
+                )
+              }
             </div>
 
             <div className="flex flex-col items-center space-y-4">
@@ -134,7 +188,7 @@ const Contact = () => {
                 <span className="text-primary">Privacy Policy</span>
               </div>
               <div className="flex justify-center">
-                <div className="cursor-pointer bg-primary text-white rounded-full px-8 py-2">SUBMIT</div>
+                <div className="cursor-pointer bg-primary text-white rounded-full px-8 py-2" onClick={submit}>SUBMIT</div>
               </div>
             </div>
           </div>

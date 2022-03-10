@@ -5,6 +5,7 @@ const cors = require("cors");
 const { connection, collections } = require("./db");
 const authorRouter = require("./routes/author-router");
 const articleRouter = require("./routes/article-router");
+const contactRouter = require("./routes/contact-router");
 
 const app = express();
 const apiPort = 4000;
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", authorRouter);
 app.use("/api", articleRouter);
+app.use("/api", contactRouter)
 
 app.listen(apiPort, () => {
   console.log(`Server running on port ${apiPort}`);
