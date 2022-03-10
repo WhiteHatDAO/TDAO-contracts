@@ -1,13 +1,7 @@
-import Arweave from "arweave";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
-const arweave = Arweave.init({
-  host: "arweave.net",
-  port: 443,
-  protocol: "https",
-});
+import { generateWallet } from "../utils/arweave";
 
 const Submit = ({ address }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -28,23 +22,10 @@ const Submit = ({ address }) => {
   const [titleError, setTitleError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
   const [abstractError, setAbstractError] = useState(false);
-
-  // todo: Arweave
   const [walletKey, setWalletKey] = useState({});
 
-  async function generateWallet() {
-    arweave.wallets.generate().then(k => {
-      console.log(k);
-      setWalletKey(k);
-    });
-  }
-
-  useEffect(() => {
-    // generateWallet();
-    arweave.wallets.jwkToAddress(walletKey).then(address => {
-      console.log(address);
-    });
-  }, [walletKey]);
+  // todo: Arweave
+  console.log(walletKey);
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
