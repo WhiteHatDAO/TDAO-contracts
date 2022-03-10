@@ -22,10 +22,9 @@ const Submit = ({ address }) => {
   const [titleError, setTitleError] = useState(false);
   const [authorError, setAuthorError] = useState(false);
   const [abstractError, setAbstractError] = useState(false);
-  const [walletKey, setWalletKey] = useState({});
 
   // todo: Arweave
-  console.log(walletKey);
+  
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
