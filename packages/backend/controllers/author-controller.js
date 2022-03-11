@@ -41,6 +41,7 @@ updateAuthor = async (req, res) => {
 };
 
 updateTimes = async(req, res) => {
+  console.log('req.body', req.body)
   await Author.updateOne({ walletId: req.body.walletId }, {times_cited: req.body.timesCited}, (err, author) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })

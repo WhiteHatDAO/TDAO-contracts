@@ -43,7 +43,7 @@ const Author = () => {
     } catch (e) {
       console.error(e);
     }
-  }; 
+  };
 
   const handleSubscribeChange = () => {
     let list = [...readers];
@@ -56,6 +56,7 @@ const Author = () => {
     } else {
       list.push(walletId);
     }
+
     setReaders(list);
   }
 
@@ -67,7 +68,7 @@ const Author = () => {
     getArticles();
   }, [walletId]);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (author === undefined || author === null) return;
     const cover = author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '';
     const image = author?.authorImage?.data ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '';
@@ -79,38 +80,49 @@ const Author = () => {
     const diff = parseInt((today.getTime() - date.getTime()) / (1000 * 3600 * 24));
     setMemberSince(diff);
 
-    const list = author.readers.split(',');
-    list.forEach((element, index, object) => {
-      if (element === '') object.splice(index, 1);
-    })
+    let list = [];
+    if (!author.readers.includes(',')) {
+      if (author.readers !== '') list.push(author.readers)
+    } else {
+      list = author.readers.split(',');
+      list.forEach((element, index, object) => {
+        if (element === '') object.splice(index, 1);
+      })
+    }
+    
+    console.log('list:', list);
+
     setReaders(list);
     setTimesCited(author.times_cited)
-
-    putTimesCited();
   }, [author]);
 
-  useEffect(async() => {
+  useEffect(async () => {
     const server = 'http://localhost:4000';
     try {
-        const res = await axios.put(server + '/api/author', {
-          walletId: walletId,
-          readers: readers.join(',')
-        });
-        return res;
+      const res = await axios.put(server + '/api/author', {
+        walletId: walletId,
+        readers: readers.join(',')
+      });
+      return res;
     } catch (e) {
-        console.error(e);
+      console.error(e);
     }
   }, [readers])
 
-  const putTimesCited = async() => {
+  useEffect(() => {
+    putTimesCited();
+  }, [timesCited])
+
+  const putTimesCited = async () => {
+    const times = timesCited + 1;
     try {
       const server = 'http://localhost:4000';
       const res = await axios.put(server + '/api/author_times', {
         walletId: walletId,
-        timesCited: timesCited + 1
+        timesCited: times
       })
       return res;
-    } catch(e) {
+    } catch (e) {
       console.error(e)
     }
   }
