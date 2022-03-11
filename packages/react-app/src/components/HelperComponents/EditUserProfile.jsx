@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
-
 const EditUserProfile = ({ address }) => {
   const [name, setName] = useState('Edit Name');
   const [bio, setBio] = useState('Edit Bio');
