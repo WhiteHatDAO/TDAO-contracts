@@ -11,6 +11,8 @@ const EditUserProfile = ({ address }) => {
   const [linkedin, setLinkedin] = useState('');
   const [tipAddress, setTipAddress] = useState('');
   const [author, setAuthor] = useState(null);
+  const [readers, setReaders] = useState('')
+  const [timesCited, setTimesCited] = useState(0);
 
   const [selectedAuthorImage, setselectedAuthorImage] = useState(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '');
   const [selectedCoverImage, setSelectedCoverImage] = useState(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '');
@@ -52,6 +54,8 @@ const EditUserProfile = ({ address }) => {
     setTipAddress(author.walletId);
     setselectedAuthorImage(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : null)
     setSelectedCoverImage(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
+    setReaders(author?.readers ? author.readers : '')
+    setTimesCited(author&&author.times_cited ? author.times_cited : 0);
   }, [author])
 
   useEffect(() => {
@@ -104,6 +108,8 @@ const EditUserProfile = ({ address }) => {
         walletId: tipAddress,
         authorImage: authorImage,
         coverImage: authorCoverImage,
+        readers: readers,
+        times_cited: timesCited
       });
       console.log("res", res);
     } catch (e) {

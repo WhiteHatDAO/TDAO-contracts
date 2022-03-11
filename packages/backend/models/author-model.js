@@ -16,7 +16,9 @@ const Author = new Schema(
     walletId: { type: String, required: false },
     aboutme: { type: String, required: true },
     twitter: { type: String, required: false },
-    linkedin: { type: String, required: false }
+    linkedin: { type: String, required: false },
+    readers: { type: String, required: false },
+    times_cited: {type: Number, required: true}
     //articles: { type: Array, required: false },
   },
   { timestamps: true }
