@@ -134,7 +134,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     const arweaveHash = await submitToArweave(articleFile);
 
     // todo: set up onchain tx
-    // submitOnChain(arweaveHash);
+    submitOnChain(arweaveHash.id);
   };
 
   const submitToArweave = async articleFile => {
@@ -152,7 +152,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
         writeContracts.TalentDaoManager &&
         writeContracts.TalentDaoManager.addArticle(
           address,
-          arweaveHash.id,
+          arweaveHash,
           "ipfs meta data pointer",
           ethers.utils.parseEther("10"),
         ),
