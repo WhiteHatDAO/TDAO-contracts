@@ -110,9 +110,8 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         _setupRole(DEFAULT_ADMIN_ROLE, owner_);
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(MINTER_ROLE, msg.sender);
-        mintTokensTo(owner_, 1000000 ether);
+        mintTokensTo(owner_, 200000000 ether); // 200 Million
         transferOwnership(owner_);
-        
     }
 
     function setupMinterRole(address minter)

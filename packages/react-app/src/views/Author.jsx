@@ -138,7 +138,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
     await tx(
       writeContracts &&
         writeContracts.TalentDaoManager &&
-        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 18).toString()),
+        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 18).toString(), { from: address }),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
