@@ -141,7 +141,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     const arJWK = await generateWallet();
     console.log("arJWK", arJWK);
     const result = await sendTransacton(articleFile.toString(), arJWK); // process.env.ARWEAVE_WALLET_KEY || {}
-    console.log(result);
+    console.log("Result: ", result);
 
     return result;
   };
@@ -152,7 +152,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
         writeContracts.TalentDaoManager &&
         writeContracts.TalentDaoManager.addArticle(
           address,
-          arweaveHash.data_root,
+          arweaveHash.id,
           "ipfs meta data pointer",
           ethers.utils.parseEther("10"),
         ),
