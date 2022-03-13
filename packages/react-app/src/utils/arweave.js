@@ -8,7 +8,7 @@ const arweave = Arweave.init({
 
 export async function generateWallet() {
   await arweave.wallets.generate().then(arJWK => {
-    console.log("arJWK: ", arJWK);
+    console.log("arJWK:", arJWK);
     return arJWK;
   });
 }

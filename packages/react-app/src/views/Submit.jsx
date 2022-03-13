@@ -1,15 +1,8 @@
 import { notification } from "antd";
-import Arweave from "arweave";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { generateWallet } from "../utils/arweave";
-
-const arweave = Arweave.init({
-  host: "arweave.net",
-  port: 443,
-  protocol: "https",
-});
+import { generateWallet, sendTransacton } from "../utils/arweave";
 
 const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -156,16 +149,16 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     // transaction.addTag("Content-Type", "text/html");
     transaction.addTag("key2", "value2");
     console.log(transaction);
-
+  
     await arweave.transactions.sign(transaction, arJWK);
-
+  
     //   let uploader = await arweave.transactions.getUploader(transaction);
-
+  
     //   while (!uploader.isComplete) {
     //     await uploader.uploadChunk();
     //     console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
     //   }
-
+  
     return transaction;
   }
 
