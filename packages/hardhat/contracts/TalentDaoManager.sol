@@ -56,6 +56,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     address public manager;
 
     ITDAOToken public tDaoToken;
+    address public tDaoTokenAddress;
     ITDAONFTToken public tDaoNftToken;
     ITDAOMemberToken public tDaoMemberToken;
 
@@ -66,6 +67,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         manager = _manager;
         _setupRole(MANAGER_ROLE, _manager);
         tDaoToken = ITDAOToken(_TDAOToken);
+        tDaoTokenAddress = _TDAOToken;
         tDaoNftToken = ITDAONFTToken(_TDAONFTToken);
         tDaoMemberToken = ITDAOMemberToken(_TDAOMemberToken);
         transferOwnership(_owner);
@@ -128,8 +130,9 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     }
 
     function tipAuthor(address author, uint256 amount) public {
-        require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
-        tDaoToken.transferFrom(msg.sender, author, amount);
+        console.log(amount);
+        require(IERC20(tDaoTokenAddress).balanceOf(msg.sender) >= amount, "You don't have enough TDAO tokens");
+        IERC20(tDaoTokenAddress).transferFrom(msg.sender, author, amount);
     }
 
     
