@@ -1,8 +1,15 @@
 import { notification } from "antd";
+import Arweave from "arweave";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { generateWallet, sendTransacton } from "../utils/arweave";
+import { generateWallet } from "../utils/arweave";
+
+const arweave = Arweave.init({
+  host: "arweave.net",
+  port: 443,
+  protocol: "https",
+});
 
 const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -137,8 +144,33 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     // submitOnChain(arweaveHash);
   };
 
+  async function sendTransacton(data, arJWK) {
+    // console.log(arJWK);
+    let transaction = await arweave.createTransaction(
+      {
+        data: data,
+      },
+      arJWK,
+    );
+    // Examples
+    // transaction.addTag("Content-Type", "text/html");
+    transaction.addTag("key2", "value2");
+    console.log(transaction);
+
+    await arweave.transactions.sign(transaction, arJWK);
+
+    //   let uploader = await arweave.transactions.getUploader(transaction);
+
+    //   while (!uploader.isComplete) {
+    //     await uploader.uploadChunk();
+    //     console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+    //   }
+
+    return transaction;
+  }
+
   const submitToArweave = async articleFile => {
-    let arJWK = await generateWallet();
+    const arJWK = await generateWallet();
     console.log("arJWK", arJWK);
     const result = await sendTransacton(articleFile.toString(), arJWK); // process.env.ARWEAVE_WALLET_KEY || {}
     console.log(result);
