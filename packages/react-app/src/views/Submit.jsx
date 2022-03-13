@@ -1,8 +1,10 @@
+import { notification } from "antd";
+import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { generateWallet, sendTransacton } from "../utils/arweave";
 
-const Submit = ({ address }) => {
+const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
   const [authors, setAuthors] = useState("");
   const [selectedArticleCover, setSelectedArticleCover] = useState();
@@ -129,19 +131,42 @@ const Submit = ({ address }) => {
     //   console.log(e);
     // }
     // todo: set up Arweave tx
-    submitToArweave(articleFile);
+    const arweaveHash = await submitToArweave(articleFile);
 
     // todo: set up onchain tx
-    submitOnChain();
+    submitOnChain(arweaveHash);
   };
 
   const submitToArweave = async articleFile => {
     let key = await generateWallet();
-    const result = await sendTransacton(articleFile.toString(), key).then(r => console.log(r)); // process.env.ARWEAVE_WALLET_KEY || {}
+    const result = await sendTransacton(articleFile.toString(), key); // process.env.ARWEAVE_WALLET_KEY || {}
     console.log(result);
+
+    return result;
   };
 
-  const submitOnChain = async () => {};
+  const submitOnChain = async arweaveHash => {
+    await tx(
+      writeContracts &&
+        writeContracts.TalentDaoManager &&
+        writeContracts.TalentDaoManager.addArticle(
+          address,
+          arweaveHash,
+          "ipfs meta data pointer",
+          ethers.utils.parseEther("10"),
+        ),
+      async update => {
+        console.log("📡 Transaction Update:", update);
+        if (update.status === 1) {
+          notification.open({
+            message: "Article is now onchain",
+            description: "You have submitted your article== 😍",
+            icon: "🚀",
+          });
+        }
+      },
+    );
+  };
 
   useEffect(() => {
     if (!selectedArticleCover) return;

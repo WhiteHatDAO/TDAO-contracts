@@ -292,7 +292,7 @@ function App(props) {
           />
         </Route>
         <Route exact path="/submit/:walletId">
-          <Submit address={address} />
+          <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
         </Route>
         {/* <Route path="/subgraph">
           <Subgraph

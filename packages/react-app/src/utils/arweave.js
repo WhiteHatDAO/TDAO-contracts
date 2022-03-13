@@ -21,6 +21,6 @@ export async function sendTransacton(data, key) {
     key,
   );
   // Examples
-  transaction.addTag("Content-Type", "text/html");
-  transaction.addTag("key2", "value2");
+  // transaction.addTag("Content-Type", "text/html");
+  // transaction.addTag("key2", "value2");
 }
