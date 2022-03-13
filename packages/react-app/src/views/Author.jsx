@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { notification } from "antd";
 import axios from "axios";
+import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import check from "../assets/check.png";
@@ -10,7 +12,8 @@ import AuthorMark from "../components/HelperComponents/AuthorMark";
 import Footer from "../components/HelperComponents/Footer";
 import { dataURLtoFile, getAuthorData } from "../utils/utils";
 
-const Author = () => {
+
+const Author = ({ tx, readContracts, writeContracts, address }) => {
   const history = useHistory();
   const { walletId } = useParams();
   const [author, setAuthor] = useState(null);
@@ -131,9 +134,24 @@ const Author = () => {
     }
   };
 
-  const tipAuthor = () => {
-
-  }
+  const tipAuthor = async () => {
+    await tx(
+      writeContracts &&
+        writeContracts.TalentDaoManager &&
+        writeContracts.TalentDaoManager.tipAuthor(address, ethers.utils.parseEther(".001")),
+      async update => {
+        console.log("📡 Transaction Update:", update);
+        if (update.status === 1) {
+          notification.open({
+            message: "Author Tipped",
+            description: "Your have just tipped the Author 😍",
+            icon: "🚀",
+          });
+        }
+        
+      },
+    );
+  };
 
   return (
     <>
