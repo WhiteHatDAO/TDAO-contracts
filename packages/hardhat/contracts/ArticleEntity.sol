@@ -18,14 +18,14 @@ contract ArticleEntity {
 
     Article[] articleList;
 
-    mapping(bytes32 => Article) public articles;
+    mapping(string => Article) public articles;
 
     constructor() public {}
 
     /// @dev add a new article on-chain
     /// @param authorAddress the address of the author
     /// @param arweaveHash the arweave hash in bytes32
-    function addArticle(address authorAddress, bytes32 arweaveHash, string memory metadataPtr, uint256 paid) public returns (uint256) {
+    function addArticle(address authorAddress, string memory arweaveHash, string memory metadataPtr, uint256 paid) public returns (uint256) {
         _articleIds.increment();
         uint256 id = _articleIds.current();
         Article storage article = articles[arweaveHash];
@@ -54,7 +54,7 @@ contract ArticleEntity {
     }
 
 
-    function getArticleByHash (bytes32 arweaveHash) public view returns(Article memory) {
+    function getArticleByHash (string memory arweaveHash) public view returns(Article memory) {
         return articles[arweaveHash];
     }
 

@@ -22,7 +22,7 @@ interface ITDAOToken {
 }
 
 interface ITDAONFTToken {
-    function mintNFTForArticle(address ownerAddress, address author, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount) external returns(uint256, uint256);
+    function mintNFTForArticle(address ownerAddress, address author, string memory arweaveHash, string memory profileHash, string memory metadataPtr, uint256 amount) external returns(uint256, uint256);
 }
 
 interface ITDAOMemberToken{
@@ -101,7 +101,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     }
 
 
-    function mintArticleNFT(address author, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount)
+    function mintArticleNFT(address author, string memory arweaveHash, string memory profileHash, string memory metadataPtr, uint256 amount)
         public
         returns (uint256, uint256)
     {
@@ -114,13 +114,13 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     function getAuthor(address authorAddress)
         public
         view
-        returns(address, uint256, bytes32)
+        returns(address, uint256, string memory)
     {
         return (authors[authorAddress].authorAddress, authors[authorAddress].id, authors[authorAddress].arweaveProfileHash);
     }
 
 
-    function addAuthor(address author, bytes32 arweaveHash, string memory metadataPtr)
+    function addAuthor(address author, string memory arweaveHash, string memory metadataPtr)
         public 
         returns(uint256 authorId)
     {

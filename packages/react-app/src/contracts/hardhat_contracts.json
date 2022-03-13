@@ -2591,7 +2591,7 @@
       "chainId": "31337",
       "contracts": {
         "TalentDaoToken": {
-          "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed",
+          "address": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
           "abi": [
             {
               "inputs": [
@@ -3597,7 +3597,7 @@
           ]
         },
         "TalentDaoNftToken": {
-          "address": "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
+          "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
           "abi": [
             {
               "inputs": [
@@ -3743,9 +3743,9 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveHash",
-                  "type": "bytes32"
+                  "type": "string"
                 },
                 {
                   "internalType": "string",
@@ -3782,9 +3782,9 @@
                   "type": "uint256"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "profileHash",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "name": "addAuthor",
@@ -3819,9 +3819,9 @@
             {
               "inputs": [
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "name": "articles",
@@ -3876,9 +3876,9 @@
                   "type": "uint256"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveProfileHash",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "stateMutability": "view",
@@ -3938,9 +3938,9 @@
             {
               "inputs": [
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveHash",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "name": "getArticleByHash",
@@ -4083,14 +4083,14 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveHash",
-                  "type": "bytes32"
+                  "type": "string"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "profileHash",
-                  "type": "bytes32"
+                  "type": "string"
                 },
                 {
                   "internalType": "string",
@@ -4430,7 +4430,7 @@
           ]
         },
         "MembershipNftToken": {
-          "address": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
+          "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
           "abi": [
             {
               "inputs": [
@@ -4945,7 +4945,7 @@
           ]
         },
         "TalentDaoManager": {
-          "address": "0x59b670e9fA9D0A427751Af201D676719a970857b",
+          "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
           "abi": [
             {
               "inputs": [
@@ -5158,9 +5158,9 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveHash",
-                  "type": "bytes32"
+                  "type": "string"
                 },
                 {
                   "internalType": "string",
@@ -5188,13 +5188,42 @@
               "inputs": [
                 {
                   "internalType": "address",
+                  "name": "authorAddress",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "articleId",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "string",
+                  "name": "profileHash",
+                  "type": "string"
+                }
+              ],
+              "name": "addAuthor",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "address",
                   "name": "author",
                   "type": "address"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveHash",
-                  "type": "bytes32"
+                  "type": "string"
                 },
                 {
                   "internalType": "string",
@@ -5216,38 +5245,9 @@
             {
               "inputs": [
                 {
-                  "internalType": "address",
-                  "name": "authorAddress",
-                  "type": "address"
-                },
-                {
-                  "internalType": "uint256",
-                  "name": "articleId",
-                  "type": "uint256"
-                },
-                {
-                  "internalType": "bytes32",
-                  "name": "profileHash",
-                  "type": "bytes32"
-                }
-              ],
-              "name": "addAuthor",
-              "outputs": [
-                {
-                  "internalType": "uint256",
+                  "internalType": "string",
                   "name": "",
-                  "type": "uint256"
-                }
-              ],
-              "stateMutability": "nonpayable",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "bytes32",
-                  "name": "",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "name": "articles",
@@ -5302,9 +5302,9 @@
                   "type": "uint256"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveProfileHash",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "stateMutability": "view",
@@ -5313,9 +5313,9 @@
             {
               "inputs": [
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveHash",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "name": "getArticleByHash",
@@ -5423,9 +5423,9 @@
                   "type": "uint256"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "",
-                  "type": "bytes32"
+                  "type": "string"
                 }
               ],
               "stateMutability": "view",
@@ -5513,14 +5513,14 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "arweaveHash",
-                  "type": "bytes32"
+                  "type": "string"
                 },
                 {
-                  "internalType": "bytes32",
+                  "internalType": "string",
                   "name": "profileHash",
-                  "type": "bytes32"
+                  "type": "string"
                 },
                 {
                   "internalType": "string",

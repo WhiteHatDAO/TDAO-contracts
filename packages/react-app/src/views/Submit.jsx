@@ -411,7 +411,8 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
                     className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
                   >
                     <option>Ethereum</option>
-                    <option>Bitcoin</option>
+                    <option>Polygon</option>
+                    <option>Optimism</option>
                   </select>
                 </div>
 
