@@ -25,5 +25,14 @@ export async function sendTransacton(data, key) {
   // transaction.addTag("key2", "value2");
   // console.log(transaction);
 
+  await arweave.transactions.sign(transaction, key);
+
+  let uploader = await arweave.transactions.getUploader(transaction);
+
+  while (!uploader.isComplete) {
+    await uploader.uploadChunk();
+    console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+  }
+
   return transaction;
 }

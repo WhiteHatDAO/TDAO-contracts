@@ -1,6 +1,7 @@
 pragma solidity >=0.8.0 <0.9.0;
 //SPDX-License-Identifier: MIT
 
+import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract ArticleEntity {
@@ -28,13 +29,14 @@ contract ArticleEntity {
     function addArticle(address authorAddress, string memory arweaveHash, string memory metadataPtr, uint256 paid) public returns (uint256) {
         _articleIds.increment();
         uint256 id = _articleIds.current();
+        // console.log(id);
         Article storage article = articles[arweaveHash];
         article.id = id;
         article.author = authorAddress;
         article.paid = paid;
         article.metadataPtr = metadataPtr;
 
-        articleList[id] = article;
+        // articleList[id] = article;
 
         return id;
     }

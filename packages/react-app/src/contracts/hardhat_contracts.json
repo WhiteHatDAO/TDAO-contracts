@@ -2591,7 +2591,7 @@
       "chainId": "31337",
       "contracts": {
         "TalentDaoToken": {
-          "address": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
+          "address": "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
           "abi": [
             {
               "inputs": [
@@ -3597,7 +3597,7 @@
           ]
         },
         "TalentDaoNftToken": {
-          "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
+          "address": "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8",
           "abi": [
             {
               "inputs": [
@@ -4430,7 +4430,7 @@
           ]
         },
         "MembershipNftToken": {
-          "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
+          "address": "0x851356ae760d987E095750cCeb3bC6014560891C",
           "abi": [
             {
               "inputs": [
@@ -4945,7 +4945,7 @@
           ]
         },
         "TalentDaoManager": {
-          "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
+          "address": "0xf5059a5D33d5853360D16C683c16e67980206f36",
           "abi": [
             {
               "inputs": [
