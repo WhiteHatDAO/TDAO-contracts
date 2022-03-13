@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -58,7 +59,7 @@ const Author = () => {
     }
 
     setReaders(list);
-  }
+  };
 
   useEffect(async () => {
     if (walletId === undefined || walletId === "") return;
@@ -70,10 +71,13 @@ const Author = () => {
 
   useEffect(async () => {
     if (author === undefined || author === null) return;
-    const cover = author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '';
-    const image = author?.authorImage?.data ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '';
-    setCoverImage(cover !== '' ? URL.createObjectURL(cover) : null);
-    setAuthorImage(image !== '' ? URL.createObjectURL(image) : null);
+    const cover =
+      author?.coverImage?.data !== "" ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : "";
+    const image = author?.authorImage?.data
+      ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)
+      : "";
+    setCoverImage(cover !== "" ? URL.createObjectURL(cover) : null);
+    setAuthorImage(image !== "" ? URL.createObjectURL(image) : null);
 
     const date = new Date(author.createdAt);
     const today = new Date();
@@ -81,50 +85,54 @@ const Author = () => {
     setMemberSince(diff);
 
     let list = [];
-    if (!author.readers.includes(',')) {
-      if (author.readers !== '') list.push(author.readers)
+    if (!author?.readers.includes(",")) {
+      if (author.readers !== "") list.push(author.readers);
     } else {
-      list = author.readers.split(',');
+      list = author.readers.split(",");
       list.forEach((element, index, object) => {
-        if (element === '') object.splice(index, 1);
-      })
+        if (element === "") object.splice(index, 1);
+      });
     }
-    
-    console.log('list:', list);
+
+    console.log("list:", list);
 
     setReaders(list);
-    setTimesCited(author.times_cited)
+    setTimesCited(author.times_cited);
   }, [author]);
 
   useEffect(async () => {
-    const server = 'http://localhost:4000';
+    const server = "http://localhost:4000";
     try {
-      const res = await axios.put(server + '/api/author', {
+      const res = await axios.put(server + "/api/author", {
         walletId: walletId,
-        readers: readers.join(',')
+        readers: readers.join(","),
       });
       return res;
     } catch (e) {
       console.error(e);
     }
-  }, [readers])
+  }, [readers]);
 
   useEffect(() => {
     putTimesCited();
-  }, [timesCited])
+  }, [timesCited]);
 
   const putTimesCited = async () => {
     const times = timesCited + 1;
     try {
-      const server = 'http://localhost:4000';
-      const res = await axios.put(server + '/api/author_times', {
+      const server = "http://localhost:4000";
+      const res = await axios.put(server + "/api/author_times", {
         walletId: walletId,
-        timesCited: times
-      })
+        timesCited: times,
+      });
       return res;
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
+  };
+
+  const tipAuthor = () => {
+
   }
 
   return (
@@ -138,11 +146,12 @@ const Author = () => {
             className="m-4 rounded-2xl flex flex-col bg-white"
             style={{ boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.15)" }}
           >
-            <img src={coverImage} className="rounded-2xl w-full h-96 bg-gray"></img>
+            <img src={coverImage} alt="article cover" className="rounded-2xl w-full h-96 bg-gray"></img>
             <div className="flex flex-col px-12 pb-12">
               <div className="flex flex-col lg:flex-row items-center">
                 <img
                   src={authorImage}
+                  alt="the author"
                   className="rounded-full outline-white bg-white border-4 border-white w-28 lg:w-56 h-28 lg:h-56 -mt-14 lg:-mt-28"
                   style={{ outlineStyle: "solid", outlineWidth: "4px", outlineOffset: "0" }}
                 ></img>
@@ -152,17 +161,17 @@ const Author = () => {
                     <div className="text-lg text-darkgray">{author.bio}</div>
                   </div>
                   <div className="pt-4 lg:pt-0 flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
-                    <div className="px-8 py-2 w-full rounded-full bg-primary text-white flex flex-row items-center cursor-pointer" onClick={() => handleSubscribeChange()}>
+                    <div
+                      className="px-8 py-2 w-full rounded-full bg-primary text-white flex flex-row items-center cursor-pointer"
+                      onClick={() => handleSubscribeChange()}
+                    >
                       <div className="text-lg">SUBSCRIBE</div>
-                      {
-                        readers.includes(walletId) && (
-                          <img src={check} className="pl-1 pr-4"></img>
-                        )
-                      }
+                      {readers.includes(walletId) && <img src={check} className="pl-1 pr-4"></img>}
                     </div>
                     <div
-                      className="px-8 py-2 w-full rounded-full border border-primary"
+                      className="px-8 py-2 w-full rounded-full border border-primary cursor-pointer"
                       style={{ backgroundColor: "rgba(180, 28, 46, 0.15)" }}
+                      onClick={e => {tipAuthor()}}
                     >
                       TIP AUTHOR
                     </div>
@@ -207,7 +216,7 @@ const Author = () => {
                     <div className="text-lg" style={{ color: "#909090" }}>
                       Member Since
                     </div>
-                    <div className="text-lg">{memberSince > 0 ? `${memberSince} days` : 'Today'}</div>
+                    <div className="text-lg">{memberSince > 0 ? `${memberSince} days` : "Today"}</div>
                   </div>
                   <div className="flex flex-row items-center justify-between">
                     <div className="text-lg" style={{ color: "#909090" }}>

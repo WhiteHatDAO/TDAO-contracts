@@ -124,6 +124,9 @@ const Submit = ({ address }) => {
         categories: articleCategories,
       });
       console.log(res);
+      if(res.status === 200) {
+        // clear the form and send to the creators/authors profile page
+      }
     } catch (e) {
       console.log(e);
     }
