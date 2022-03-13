@@ -16,6 +16,9 @@ const Author = () => {
   const [articles, setArticles] = useState([]);
   const [coverImage, setCoverImage] = useState(null);
   const [authorImage, setAuthorImage] = useState(null);
+  const [memberSince, setMemberSince] = useState(0);
+  const [readers, setReaders] = useState([]);
+  const [timesCited, setTimesCited] = useState(0);
 
   const scrollTop = () => {
     document.documentElement.scrollTo({
@@ -42,6 +45,21 @@ const Author = () => {
     }
   };
 
+  const handleSubscribeChange = () => {
+    let list = [...readers];
+    if (list.includes(walletId)) {
+      list.forEach((element, index, object) => {
+        if (element === walletId) {
+          object.splice(index, 1);
+        }
+      });
+    } else {
+      list.push(walletId);
+    }
+
+    setReaders(list);
+  }
+
   useEffect(async () => {
     if (walletId === undefined || walletId === "") return;
     const params = new URLSearchParams([["walletId", walletId]]);
@@ -50,11 +68,64 @@ const Author = () => {
     getArticles();
   }, [walletId]);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (author === undefined || author === null) return;
-    setCoverImage(URL.createObjectURL(dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename)));
-    setAuthorImage(URL.createObjectURL(dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)));
+    const cover = author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '';
+    const image = author?.authorImage?.data ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '';
+    setCoverImage(cover !== '' ? URL.createObjectURL(cover) : null);
+    setAuthorImage(image !== '' ? URL.createObjectURL(image) : null);
+
+    const date = new Date(author.createdAt);
+    const today = new Date();
+    const diff = parseInt((today.getTime() - date.getTime()) / (1000 * 3600 * 24));
+    setMemberSince(diff);
+
+    let list = [];
+    if (!author.readers.includes(',')) {
+      if (author.readers !== '') list.push(author.readers)
+    } else {
+      list = author.readers.split(',');
+      list.forEach((element, index, object) => {
+        if (element === '') object.splice(index, 1);
+      })
+    }
+    
+    console.log('list:', list);
+
+    setReaders(list);
+    setTimesCited(author.times_cited)
   }, [author]);
+
+  useEffect(async () => {
+    const server = 'http://localhost:4000';
+    try {
+      const res = await axios.put(server + '/api/author', {
+        walletId: walletId,
+        readers: readers.join(',')
+      });
+      return res;
+    } catch (e) {
+      console.error(e);
+    }
+  }, [readers])
+
+  useEffect(() => {
+    putTimesCited();
+  }, [timesCited])
+
+  const putTimesCited = async () => {
+    const times = timesCited + 1;
+    try {
+      const server = 'http://localhost:4000';
+      const res = await axios.put(server + '/api/author_times', {
+        walletId: walletId,
+        timesCited: times
+      })
+      return res;
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   return (
     <>
@@ -67,12 +138,12 @@ const Author = () => {
             className="m-4 rounded-2xl flex flex-col bg-white"
             style={{ boxShadow: "0px 0px 12px rgba(0, 0, 0, 0.15)" }}
           >
-            <img src={coverImage} className="rounded-2xl w-full h-auto"></img>
+            <img src={coverImage} className="rounded-2xl w-full h-96 bg-gray"></img>
             <div className="flex flex-col px-12 pb-12">
               <div className="flex flex-col lg:flex-row items-center">
                 <img
                   src={authorImage}
-                  className="rounded-full outline-white border-4 border-white w-28 lg:w-56 -mt-14 lg:-mt-28"
+                  className="rounded-full outline-white bg-white border-4 border-white w-28 lg:w-56 h-28 lg:h-56 -mt-14 lg:-mt-28"
                   style={{ outlineStyle: "solid", outlineWidth: "4px", outlineOffset: "0" }}
                 ></img>
                 <div className="pl-0 lg:pl-8 flex flex-col lg:flex-row w-full items-center justify-between">
@@ -81,9 +152,13 @@ const Author = () => {
                     <div className="text-lg text-darkgray">{author.bio}</div>
                   </div>
                   <div className="pt-4 lg:pt-0 flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
-                    <div className="px-8 py-2 w-full rounded-full bg-primary text-white flex flex-row items-center">
+                    <div className="px-8 py-2 w-full rounded-full bg-primary text-white flex flex-row items-center cursor-pointer" onClick={() => handleSubscribeChange()}>
                       <div className="text-lg">SUBSCRIBE</div>
-                      <img src={check} className="pl-1 pr-4"></img>
+                      {
+                        readers.includes(walletId) && (
+                          <img src={check} className="pl-1 pr-4"></img>
+                        )
+                      }
                     </div>
                     <div
                       className="px-8 py-2 w-full rounded-full border border-primary"
@@ -132,25 +207,25 @@ const Author = () => {
                     <div className="text-lg" style={{ color: "#909090" }}>
                       Member Since
                     </div>
-                    <div className="text-lg">5 months</div>
+                    <div className="text-lg">{memberSince > 0 ? `${memberSince} days` : 'Today'}</div>
                   </div>
                   <div className="flex flex-row items-center justify-between">
                     <div className="text-lg" style={{ color: "#909090" }}>
                       Articles Written
                     </div>
-                    <div className="text-lg">20 Articles</div>
+                    <div className="text-lg">{articles.length} Articles</div>
                   </div>
                   <div className="flex flex-row items-center justify-between">
                     <div className="text-lg" style={{ color: "#909090" }}>
                       Subscribed Readers
                     </div>
-                    <div className="text-lg">501 readers</div>
+                    <div className="text-lg">{readers.length} readers</div>
                   </div>
                   <div className="flex flex-row items-center justify-between">
                     <div className="text-lg" style={{ color: "#909090" }}>
                       Numbers of times Cited
                     </div>
-                    <div className="text-lg">11 times</div>
+                    <div className="text-lg">{timesCited} times</div>
                   </div>
                 </div>
                 <div
