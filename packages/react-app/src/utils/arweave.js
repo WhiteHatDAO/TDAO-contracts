@@ -7,13 +7,14 @@ const arweave = Arweave.init({
 });
 
 export async function generateWallet() {
-  arweave.wallets.generate().then(arJWK => {
+  await arweave.wallets.generate().then(arJWK => {
     console.log(arJWK);
     return arJWK;
   });
 }
 
 export async function sendTransacton(data, arJWK) {
+  // console.log(arJWK);
   let transaction = await arweave.createTransaction(
     {
       data: data,

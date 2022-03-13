@@ -138,8 +138,9 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
   };
 
   const submitToArweave = async articleFile => {
-    let key = await generateWallet();
-    const result = await sendTransacton(articleFile.toString(), key); // process.env.ARWEAVE_WALLET_KEY || {}
+    let arJWK = await generateWallet();
+    console.log("arJWK", arJWK);
+    const result = await sendTransacton(articleFile.toString(), arJWK); // process.env.ARWEAVE_WALLET_KEY || {}
     console.log(result);
 
     return result;
