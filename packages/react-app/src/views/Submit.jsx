@@ -151,7 +151,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
         writeContracts.TalentDaoManager &&
         writeContracts.TalentDaoManager.addArticle(
           address,
-          arweaveHash,
+          arweaveHash.data_root,
           "ipfs meta data pointer",
           ethers.utils.parseEther("10"),
         ),
