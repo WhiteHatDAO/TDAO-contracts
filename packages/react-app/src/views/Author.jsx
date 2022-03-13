@@ -148,7 +148,6 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
             icon: "🚀",
           });
         }
-        
       },
     );
   };
