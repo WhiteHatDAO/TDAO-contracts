@@ -7,25 +7,25 @@ const arweave = Arweave.init({
 });
 
 export async function generateWallet() {
-  arweave.wallets.generate().then(key => {
-    console.log(key);
-    return key;
+  arweave.wallets.generate().then(arJWK => {
+    console.log(arJWK);
+    return arJWK;
   });
 }
 
-export async function sendTransacton(data, key) {
+export async function sendTransacton(data, arJWK) {
   let transaction = await arweave.createTransaction(
     {
       data: data,
     },
-    key,
+    arJWK,
   );
   // Examples
   // transaction.addTag("Content-Type", "text/html");
   transaction.addTag("key2", "value2");
   console.log(transaction);
 
-  // await arweave.transactions.sign(transaction, key);
+  await arweave.transactions.sign(transaction, arJWK);
 
   //   let uploader = await arweave.transactions.getUploader(transaction);
 
