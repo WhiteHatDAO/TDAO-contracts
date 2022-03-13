@@ -23,4 +23,7 @@ export async function sendTransacton(data, key) {
   // Examples
   // transaction.addTag("Content-Type", "text/html");
   // transaction.addTag("key2", "value2");
+  console.log(transaction);
+
+  return transaction;
 }
