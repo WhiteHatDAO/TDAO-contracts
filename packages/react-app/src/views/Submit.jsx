@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { generateWallet } from "../utils/arweave";
+import { generateWallet, sendTransacton } from "../utils/arweave";
 
 const Submit = ({ address }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -24,7 +23,6 @@ const Submit = ({ address }) => {
   const [abstractError, setAbstractError] = useState(false);
 
   // todo: Arweave
-  
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
@@ -111,33 +109,38 @@ const Submit = ({ address }) => {
     if (optionComedy) articleCategories.push("Comedy");
     if (optionPolitics) articleCategories.push("Politics");
 
-    try {
-      const res = await axios.post(server + "/api/article", {
-        walletId: walletId,
-        body: articleFile,
-        cover: articleCover,
-        price: talentPrice,
-        title: articleTitle,
-        authors: authors,
-        abstract: abstract,
-        blockchain: blockchain,
-        categories: articleCategories,
-      });
-      console.log(res);
-      if(res.status === 200) {
-        // clear the form and send to the creators/authors profile page
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   const res = await axios.post(server + "/api/article", {
+    //     walletId: walletId,
+    //     body: articleFile,
+    //     cover: articleCover,
+    //     price: talentPrice,
+    //     title: articleTitle,
+    //     authors: authors,
+    //     abstract: abstract,
+    //     blockchain: blockchain,
+    //     categories: articleCategories,
+    //   });
+    //   console.log(res);
+    //   if (res.status === 200) {
+    //     // clear the form and send to the creators/authors profile page
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
     // todo: set up Arweave tx
-    submitToArweave();
+    submitToArweave(articleFile);
 
     // todo: set up onchain tx
     submitOnChain();
   };
 
-  const submitToArweave = async () => {};
+  const submitToArweave = async articleFile => {
+    let key = await generateWallet();
+    const result = sendTransacton(articleFile, key)
+      .then((r) => console.log(r)); // process.env.ARWEAVE_WALLET_KEY || {}
+    // console.log(result);
+  };
 
   const submitOnChain = async () => {};
 

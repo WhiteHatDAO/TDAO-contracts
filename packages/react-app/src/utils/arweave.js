@@ -14,10 +14,13 @@ export async function generateWallet() {
 }
 
 export async function sendTransacton(data, key) {
-  let transactionA = await arweave.createTransaction(
+  let transaction = await arweave.createTransaction(
     {
       data: data,
     },
     key,
   );
+  // Examples
+  transaction.addTag("Content-Type", "text/html");
+  transaction.addTag("key2", "value2");
 }
