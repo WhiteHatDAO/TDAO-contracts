@@ -29,24 +29,25 @@ deleteArticle = async (req, res) => {
 
 getArticles = async (req, res) => {
   await Article.find(req.query, (err, article) => {
-    if(err) {
+    if (err) {
       return res.status(400).json({ success: false, error: err });
     }
 
-    if(!article) {
+    if (!article) {
       return res
         .status(404)
         .json({ success: false, error: 'Article not found' })
     }
-    return res.status(200).json({success: true, data: article});
+    return res.status(200).json({ success: true, data: article });
   }).catch((err) => console.error(err))
 }
 
 getArticlesByField = async (req, res) => {
   var { field, value } = req.query
-  var query = {};
-  query[field] = value;
-  await Article.find(query, (err, article) => {
+  var regex = { $regex: '.*' + value + '.*'} ;
+  var query = {}
+  query[field] = regex;
+  await Article.find( query, (err, article) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
