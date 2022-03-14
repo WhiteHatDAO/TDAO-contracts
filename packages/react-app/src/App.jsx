@@ -14,7 +14,6 @@ import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
 import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User, TermsOfService, PrivacyPolicy } from "./views";
 
-
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
 const initialNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
@@ -249,7 +248,7 @@ function App(props) {
           <Contact></Contact>
         </Route>
         <Route exact path="/author/:walletId">
-          <Author></Author>
+          <Author tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address}></Author>
         </Route>
         <Route exact path="/article/:id">
           <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
@@ -293,7 +292,7 @@ function App(props) {
           />
         </Route>
         <Route exact path="/submit/:walletId">
-          <Submit address={address} />
+          <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
         </Route>
         <Route exact path="/termsofservice">
           <TermsOfService/>
