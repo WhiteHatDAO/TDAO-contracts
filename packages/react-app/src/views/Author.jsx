@@ -89,8 +89,6 @@ const Author = () => {
         if (element === '') object.splice(index, 1);
       })
     }
-    
-    console.log('list:', list);
 
     setReaders(list);
     setTimesCited(author.times_cited)

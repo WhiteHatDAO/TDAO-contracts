@@ -12,7 +12,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User } from "./views";
+import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User, TermsOfService, PrivacyPolicy } from "./views";
 
 
 const { ethers } = require("ethers");
@@ -294,6 +294,12 @@ function App(props) {
         </Route>
         <Route exact path="/submit/:walletId">
           <Submit address={address} />
+        </Route>
+        <Route exact path="/termsofservice">
+          <TermsOfService/>
+        </Route>
+        <Route exact path="/privacypolicy">
+          <PrivacyPolicy/>
         </Route>
         {/* <Route path="/subgraph">
           <Subgraph
