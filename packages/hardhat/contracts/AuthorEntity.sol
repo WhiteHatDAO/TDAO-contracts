@@ -14,7 +14,7 @@ contract AuthorEntity is ArticleEntity {
     struct Author {
         address authorAddress;
         uint256 id;
-        bytes32 arweaveProfileHash;
+        string arweaveProfileHash;
         Article[] articles;
     }
 
@@ -26,7 +26,7 @@ contract AuthorEntity is ArticleEntity {
 
     /// @dev add a new author on-chain
     /// @param authorAddress the address of the author
-    function addAuthor(address authorAddress, uint256 articleId, bytes32 profileHash) public returns (uint256) {
+    function addAuthor(address authorAddress, uint256 articleId, string memory profileHash) public returns (uint256) {
         _authorIds.increment();
         uint256 id = _authorIds.current();
         Author storage newAuthor = authors[authorAddress];
