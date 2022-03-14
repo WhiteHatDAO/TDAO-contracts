@@ -137,8 +137,23 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const tipAuthor = async () => {
     await tx(
       writeContracts &&
+        writeContracts.TalentDaoToken &&
+        writeContracts.TalentDaoToken.approve(readContracts?.TalentDaoManager.address, ethers.utils.parseEther(".01")),
+      async update => {
+        console.log("📡 Transaction Update:", update);
+        if (update.status === 1) {
+          notification.open({
+            message: "TALENT Approved",
+            description: "Your TALENT has been approved to tip the Author 😍",
+            icon: "🚀",
+          });
+        }
+      }
+    )
+    await tx(
+      writeContracts &&
         writeContracts.TalentDaoManager &&
-        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 18).toString(), { from: address }),
+        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 18).toString()),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {

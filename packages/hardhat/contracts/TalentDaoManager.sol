@@ -131,8 +131,8 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
 
     function tipAuthor(address author, uint256 amount) public {
         console.log(amount);
-        require(IERC20(tDaoTokenAddress).balanceOf(msg.sender) >= amount, "You don't have enough TDAO tokens");
-        (bool success) = IERC20(tDaoTokenAddress).transferFrom(msg.sender, author, amount);
+        require(tDaoToken.balanceOf(msg.sender) >= amount, "You don't have enough TDAO tokens");
+        tDaoToken.transferFrom(msg.sender, author, amount);
     }
 
     
