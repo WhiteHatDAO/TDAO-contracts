@@ -148,12 +148,12 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
             icon: "🚀",
           });
         }
-      }
-    )
+      },
+    );
     await tx(
       writeContracts &&
         writeContracts.TalentDaoManager &&
-        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 18).toString()),
+        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 16).toString()),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
