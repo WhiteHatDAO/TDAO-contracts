@@ -210,7 +210,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                   </div>
                 </div>
               </div>
-              <div className="py-8 hidden lg:flex flex-row items-center justify-between">
+              <div className="py-8 hidden lg:flex flex-row items-center justify-between">2
                 <div className="flex flex-row space-x-4">
                   <div
                     className="rounded-lg px-4 py-2 text-green"
