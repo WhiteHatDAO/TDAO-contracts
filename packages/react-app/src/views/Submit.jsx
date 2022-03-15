@@ -1,4 +1,5 @@
 import { notification } from "antd";
+import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -104,6 +105,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
           data: "",
         };
 
+    // add categories here
     let articleCategories = [];
     if (optionTech) articleCategories.push("Technology");
     if (optionHistory) articleCategories.push("History");
@@ -111,37 +113,38 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     if (optionComedy) articleCategories.push("Comedy");
     if (optionPolitics) articleCategories.push("Politics");
 
-    // try {
-    //   const res = await axios.post(server + "/api/article", {
-    //     walletId: walletId,
-    //     body: articleFile,
-    //     cover: articleCover,
-    //     price: talentPrice,
-    //     title: articleTitle,
-    //     authors: authors,
-    //     abstract: abstract,
-    //     blockchain: blockchain,
-    //     categories: articleCategories,
-    //   });
-    //   console.log(res);
-    //   if (res.status === 200) {
-    //     // clear the form and send to the creators/authors profile page
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    // }
-    // todo: set up Arweave tx
-    const arweaveHash = await submitToArweave(articleFile);
+    // set up Arweave tx
+    const arweaveTx = await submitToArweave(articleFile);
+    try {
+      const res = await axios.post(server + "/api/article", {
+        walletId: walletId,
+        body: articleFile,
+        cover: articleCover,
+        price: talentPrice,
+        title: articleTitle,
+        authors: authors,
+        abstract: abstract,
+        blockchain: blockchain,
+        categories: articleCategories,
+        arweaveHash: arweaveTx.id.toString(),
+      });
+      console.log(res);
+      if (res.status === 200) {
+        // clear the form and send to the creators/authors profile page
+      }
+    } catch (e) {
+      console.log(e);
+    }
 
-    // todo: set up onchain tx
-    submitOnChain(arweaveHash.id);
+    // set up onchain tx
+    submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
     // todo: we need to only do this once and store the key somewhere private
     const arJWK = await generateWallet();
     // console.log("arJWK", arJWK);
-    const result = await sendTransacton(articleFile.toString(), arJWK); // process.env.ARWEAVE_WALLET_KEY || {}
+    const result = await sendTransacton(articleFile.toString(), arJWK, "appllication/pdf"); // process.env.ARWEAVE_WALLET_KEY || {}
     console.log("Result: ", result);
 
     return result;
@@ -232,7 +235,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
                       {selectedArticleCover ? (
                         <div className="py-5 text-lg text-lightgray">{selectedArticleCover.name}</div>
                       ) : (
-                        <div className="py-5 text-lg text-lightgray">Cover Image formats: jpeg, png.</div>
+                        <div className="py-5 text-lg text-lightgray">Cover Image formats: jpg, jpeg, png.</div>
                       )}
                       <label
                         htmlFor="articlecover-upload"
@@ -241,7 +244,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
                       >
                         <span>Choose Image</span>
                         <input
-                          accept=".jpeg, .png"
+                          accept=".jpg, .jpeg, .png"
                           id="articlecover-upload"
                           name="articlecover-upload"
                           type="file"
@@ -270,7 +273,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
                     <h3 className="text-left text-lg font-bold leading-6 text-gray-900">Preview</h3>
                     <div className="my-0 border border-gray-300 rounded-md w-full h-full flex items-center justify-center text-center">
                       {selectedArticleCover ? (
-                        <img id="preview"></img>
+                        <img alt="preview" id="preview"></img>
                       ) : (
                         <p>Upload image to preview your article image</p>
                       )}
