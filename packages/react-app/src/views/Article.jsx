@@ -1,7 +1,9 @@
 import { Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Document, Page } from "react-pdf";
+import { pdfjs } from "react-pdf";
+// import { Document, Page } from "react-pdf";
+import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { useParams } from "react-router-dom";
 import article_back from "../assets/article_back.png";
 import author_pro from "../assets/author_pro.png";
@@ -9,6 +11,7 @@ import ethereum from "../assets/ethereum.png";
 import matic from "../assets/matic.png";
 import { SimilarArticleCard } from "../components/HelperComponents/SimilarArticleCard";
 import { dataURLtoFile, getAuthorData, readTextFile } from "../utils/utils";
+pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
 
 const server = "http://localhost:4000";
 
@@ -27,6 +30,8 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   const [authorImage, setAuthorImage] = useState(null);
   const [pageNumber, setPageNumber] = useState(null);
   const [numPages, setNumPages] = useState(1);
+  const [filename, setFilename] = useState("");
+  const [fileData, setFileData] = useState({});
 
   function onDocumentLoadedSuccess({ numPages }) {
     setNumPages(numPages);
@@ -64,6 +69,8 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     var cover = dataURLtoFile(article?.cover?.data, article?.cover?.filename);
     var source = URL.createObjectURL(file);
     var coverSrc = URL.createObjectURL(cover);
+    setFilename(article?.body?.filename);
+    setFileData(article?.body?.data);
     setArticleText(readTextFile(source));
     console.log(file);
     setCoverImage(coverSrc);
@@ -239,7 +246,12 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
             </div>
           </div>
           {/* Need to be able to display any type of file that was saved */}
-          <Document file={articleText} onDocumentLoadedSuccess={onDocumentLoadedSuccess}>
+          <div className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">{filename}</div>
+          <Document
+            className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left"
+            file={articleText}
+            onDocumentLoadedSuccess={onDocumentLoadedSuccess}
+          >
             <Page pageNumber={pageNumber} />
           </Document>
           <div className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">{articleText}</div>
