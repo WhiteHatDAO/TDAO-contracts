@@ -15,8 +15,8 @@ export async function generateWallet() {
   return arJWK;
 }
 
-export async function sendTransacton(data, arJWK) {
-  console.log(arJWK);
+export async function sendTransacton(data, arJWK, contentType) {
+  // console.log(arJWK);
   let transaction = await arweave.createTransaction(
     {
       data: data,
@@ -24,7 +24,7 @@ export async function sendTransacton(data, arJWK) {
     arJWK,
   );
   // Examples
-  // transaction.addTag("Content-Type", "text/html");
+  transaction.addTag("Content-Type", `${contentType}`);
   transaction.addTag("key2", "value2");
   console.log(transaction);
 
