@@ -28,7 +28,7 @@ deleteAuthor = async (req, res) => {
     return res
       .status(200)
       .json({ success: true, data: "Author was deleted successfully." });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
 updateAuthor = async (req, res) => {
@@ -37,7 +37,7 @@ updateAuthor = async (req, res) => {
       return res.status(400).json({ success: false, error: err })
     }
     return res.status(200).json({ success: true, data: author });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
 updateTimes = async(req, res) => {
@@ -47,7 +47,7 @@ updateTimes = async(req, res) => {
       return res.status(400).json({ success: false, error: err })
     }
     return res.status(200).json({ success: true, data: author });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 }
 
 getAuthors = async (req, res) => {
@@ -61,7 +61,7 @@ getAuthors = async (req, res) => {
         .json({ success: false, error: "Authors not found" });
     }
     return res.status(200).json({ success: true, data: authors });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
 getAuthorByWalletId = async (req, res) => {
@@ -76,7 +76,7 @@ getAuthorByWalletId = async (req, res) => {
       }
       return res.status(400).json({ success: false, error: err });
     }
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
 module.exports = {

@@ -124,8 +124,8 @@ function Footer() {
       <div className="flex flex-col lg:flex-row justify-between px-0 lg:px-32 text-left space-y-2 lg:py-10">
         <div className="text-lg text-primary">© TALENTDAO ALL RIGHTS RESERVED</div>
         <div className="flex flex-row items-center space-x-4">
-          <div className="text-lg text-primary cursor-pointer">TERMS</div>
-          <div className="text-lg text-primary cursor-pointer">PRIVACY POLICY</div>
+          <div className="text-lg text-primary cursor-pointer" onClick={() => history.push('/termsofservice')}>TERMS</div>
+          <div className="text-lg text-primary cursor-pointer" onClick={() => history.push('/privacypolicy')}>PRIVACY POLICY</div>
         </div>
       </div>
     </footer>

@@ -97,8 +97,6 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
       });
     }
 
-    console.log("list:", list);
-
     setReaders(list);
     setTimesCited(author.times_cited);
   }, [author]);
