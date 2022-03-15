@@ -1,9 +1,11 @@
+import { notification } from "antd";
 import axios from "axios";
+import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { generateWallet } from "../utils/arweave";
+import { generateWallet, sendTransacton } from "../utils/arweave";
 
-const Submit = ({ address }) => {
+const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
   const [authors, setAuthors] = useState("");
   const [selectedArticleCover, setSelectedArticleCover] = useState();
@@ -24,7 +26,6 @@ const Submit = ({ address }) => {
   const [abstractError, setAbstractError] = useState(false);
 
   // todo: Arweave
-  
 
   const changeSelectedManuscriptFile = event => {
     setSelectedManuscriptFile(event.target.files[0]);
@@ -104,6 +105,7 @@ const Submit = ({ address }) => {
           data: "",
         };
 
+    // add categories here
     let articleCategories = [];
     if (optionTech) articleCategories.push("Technology");
     if (optionHistory) articleCategories.push("History");
@@ -111,6 +113,8 @@ const Submit = ({ address }) => {
     if (optionComedy) articleCategories.push("Comedy");
     if (optionPolitics) articleCategories.push("Politics");
 
+    // set up Arweave tx
+    const arweaveTx = await submitToArweave(articleFile);
     try {
       const res = await axios.post(server + "/api/article", {
         walletId: walletId,
@@ -122,21 +126,52 @@ const Submit = ({ address }) => {
         abstract: abstract,
         blockchain: blockchain,
         categories: articleCategories,
+        arweaveHash: arweaveTx.id.toString(),
       });
       console.log(res);
+      if (res.status === 200) {
+        // clear the form and send to the creators/authors profile page
+      }
     } catch (e) {
       console.log(e);
     }
-    // todo: set up Arweave tx
-    submitToArweave();
 
-    // todo: set up onchain tx
-    submitOnChain();
+    // set up onchain tx
+    submitOnChain(arweaveTx.id);
   };
 
-  const submitToArweave = async () => {};
+  const submitToArweave = async articleFile => {
+    // todo: we need to only do this once and store the key somewhere private
+    const arJWK = await generateWallet();
+    // console.log("arJWK", arJWK);
+    const result = await sendTransacton(articleFile.toString(), arJWK, "appllication/pdf"); // process.env.ARWEAVE_WALLET_KEY || {}
+    console.log("Result: ", result);
 
-  const submitOnChain = async () => {};
+    return result;
+  };
+
+  const submitOnChain = async arweaveHash => {
+    await tx(
+      writeContracts &&
+        writeContracts.TalentDaoManager &&
+        writeContracts.TalentDaoManager.addArticle(
+          address,
+          arweaveHash,
+          "ipfs meta data pointer",
+          ethers.utils.parseEther("10"),
+        ),
+      async update => {
+        console.log("📡 Transaction Update:", update);
+        if (update.status === 1) {
+          notification.open({
+            message: "Article is now onchain",
+            description: "You have submitted your article== 😍",
+            icon: "🚀",
+          });
+        }
+      },
+    );
+  };
 
   useEffect(() => {
     if (!selectedArticleCover) return;
@@ -200,7 +235,7 @@ const Submit = ({ address }) => {
                       {selectedArticleCover ? (
                         <div className="py-5 text-lg text-lightgray">{selectedArticleCover.name}</div>
                       ) : (
-                        <div className="py-5 text-lg text-lightgray">Cover Image formats: jpeg, png.</div>
+                        <div className="py-5 text-lg text-lightgray">Cover Image formats: jpg, jpeg, png.</div>
                       )}
                       <label
                         htmlFor="articlecover-upload"
@@ -209,7 +244,7 @@ const Submit = ({ address }) => {
                       >
                         <span>Choose Image</span>
                         <input
-                          accept=".jpeg, .png"
+                          accept=".jpg, .jpeg, .png"
                           id="articlecover-upload"
                           name="articlecover-upload"
                           type="file"
@@ -238,7 +273,7 @@ const Submit = ({ address }) => {
                     <h3 className="text-left text-lg font-bold leading-6 text-gray-900">Preview</h3>
                     <div className="my-0 border border-gray-300 rounded-md w-full h-full flex items-center justify-center text-center">
                       {selectedArticleCover ? (
-                        <img id="preview"></img>
+                        <img alt="preview" id="preview"></img>
                       ) : (
                         <p>Upload image to preview your article image</p>
                       )}
@@ -381,7 +416,8 @@ const Submit = ({ address }) => {
                     className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
                   >
                     <option>Ethereum</option>
-                    <option>Bitcoin</option>
+                    <option>Polygon</option>
+                    <option>Optimism</option>
                   </select>
                 </div>
 

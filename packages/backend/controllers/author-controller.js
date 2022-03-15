@@ -1,6 +1,5 @@
 const Author = require("../models/author-model");
 
-
 createAuthor = (req, res) => {
   Author.create({
     username: req.body.username,
@@ -10,7 +9,9 @@ createAuthor = (req, res) => {
     linkedin: req.body.linkedin,
     walletId: req.body.walletId,
     authorImage: req.body.authorImage,
-    coverImage: req.body.coverImage
+    coverImage: req.body.coverImage,
+    readers: req.body.readers,
+    times_cited: req.body.times_cited
   }, (err) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -27,20 +28,29 @@ deleteAuthor = async (req, res) => {
     return res
       .status(200)
       .json({ success: true, data: "Author was deleted successfully." });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
 updateAuthor = async (req, res) => {
-  await Author.updateOne({ username: req.params.username }, (err, author) => {
+  await Author.updateOne({ walletId: req.body.walletId }, {readers: req.body.readers}, (err, author) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
     return res.status(200).json({ success: true, data: author });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
+updateTimes = async(req, res) => {
+  console.log('req.body', req.body)
+  await Author.updateOne({ walletId: req.body.walletId }, {times_cited: req.body.timesCited}, (err, author) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+    return res.status(200).json({ success: true, data: author });
+  }).clone().catch((err) => console.error(err));
+}
+
 getAuthors = async (req, res) => {
-  console.log('req.query', req.query)
   await Author.find(req.query, (err, authors) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -51,27 +61,29 @@ getAuthors = async (req, res) => {
         .json({ success: false, error: "Authors not found" });
     }
     return res.status(200).json({ success: true, data: authors });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
 getAuthorByWalletId = async (req, res) => {
   await Author.find({ walletId: req.params.id }, (err, author) => {
-    if (err) {
+    if (!err) {
+      return res.status(200).json({ success: true, data: author });
+    } else {
+      if (!author) {
+        return res
+          .status(404)
+          .json({ success: false, error: `Author not found` });
+      }
       return res.status(400).json({ success: false, error: err });
     }
-    if (!author) {
-      return res
-        .status(404)
-        .json({ success: false, error: `Author not found` });
-    }
-    return res.status(200).json({ success: true, data: author });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 };
 
 module.exports = {
   createAuthor,
   deleteAuthor,
   updateAuthor,
+  updateTimes,
   getAuthors,
   getAuthorByWalletId,
 };

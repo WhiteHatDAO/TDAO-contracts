@@ -8,6 +8,6 @@ router.post("/article", ArticleController.createArticle);
 router.put("/article/walletId", ArticleController.updateArticle);
 router.delete("/article/walletId", ArticleController.deleteArticle);
 router.get("/articles", ArticleController.getArticles);
-router.get("/article/find", ArticleController.getArticlesByField);
+router.get("/article_find", ArticleController.getArticlesByField);
 
 module.exports = router;
