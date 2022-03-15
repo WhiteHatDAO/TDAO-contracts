@@ -32,7 +32,7 @@ deleteAuthor = async (req, res) => {
 };
 
 updateAuthor = async (req, res) => {
-  await Author.updateOne({ walletId: req.body.walletId }, {readers: req.body.readers}, (err, author) => {
+  await Author.updateOne({ walletId: req.body.walletId }, { readers: req.body.readers }, (err, author) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
@@ -40,9 +40,9 @@ updateAuthor = async (req, res) => {
   }).clone().catch((err) => console.error(err));
 };
 
-updateTimes = async(req, res) => {
+updateTimes = async (req, res) => {
   console.log('req.body', req.body)
-  await Author.updateOne({ walletId: req.body.walletId }, {times_cited: req.body.timesCited}, (err, author) => {
+  await Author.updateOne({ walletId: req.body.walletId }, { times_cited: req.body.timesCited }, (err, author) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
     }
@@ -79,11 +79,36 @@ getAuthorByWalletId = async (req, res) => {
   }).clone().catch((err) => console.error(err));
 };
 
+getAuthorsByField = async (req, res) => {
+  var { field, value } = req.query
+
+  console.log('field', field)
+
+  var regex = { $regex: '.*' + value + '.*' };
+  var query = {}
+  query[field] = regex;
+
+  console.log('query', query)
+
+  await Author.find(query, (err, author) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+    if (!author) {
+      return res
+        .status(404)
+        .json({ success: false, error: `Author not found` });
+    }
+    return res.status(200).json({ success: true, data: author });
+  }).clone().catch((err) => console.error(err));
+}
+
 module.exports = {
   createAuthor,
   deleteAuthor,
   updateAuthor,
   updateTimes,
   getAuthors,
+  getAuthorsByField,
   getAuthorByWalletId,
 };

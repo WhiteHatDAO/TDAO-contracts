@@ -135,8 +135,8 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const tipAuthor = async () => {
     await tx(
       writeContracts &&
-        writeContracts.TalentDaoManager &&
-        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 18).toString(), { from: address }),
+      writeContracts.TalentDaoManager &&
+      writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 18).toString(), { from: address }),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -186,7 +186,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                     <div
                       className="px-8 py-2 w-full rounded-full border border-primary cursor-pointer"
                       style={{ backgroundColor: "rgba(180, 28, 46, 0.15)" }}
-                      onClick={e => {tipAuthor()}}
+                      onClick={e => { tipAuthor() }}
                     >
                       TIP AUTHOR
                     </div>
@@ -272,9 +272,13 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
               <ArticleMintCard key={index} article={article}></ArticleMintCard>
             ))}
           </div>
-          <div className="mx-4 border border-primary rounded-2xl bg-white text-lg font-bold text-primary py-3">
-            SHOW MORE
-          </div>
+          {
+            articles.length > 8 && (
+              <div className="mx-4 border border-primary rounded-2xl bg-white text-lg font-bold text-primary py-3">
+                SHOW MORE
+              </div>
+            )
+          }
           <div className="mx-4 md:mx-0">
             <Footer></Footer>
           </div>
