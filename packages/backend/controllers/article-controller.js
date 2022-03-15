@@ -39,7 +39,7 @@ getArticles = async (req, res) => {
         .json({ success: false, error: 'Article not found' })
     }
     return res.status(200).json({ success: true, data: article });
-  }).catch((err) => console.error(err))
+  }).clone().catch((err) => console.error(err))
 }
 
 getArticlesByField = async (req, res) => {
@@ -57,7 +57,7 @@ getArticlesByField = async (req, res) => {
         .json({ success: false, error: `Article not found` });
     }
     return res.status(200).json({ success: true, data: article });
-  }).catch((err) => console.error(err));
+  }).clone().catch((err) => console.error(err));
 }
 
 

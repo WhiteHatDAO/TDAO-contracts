@@ -30,6 +30,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     try {
       const params = new URLSearchParams([['_id', id]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
+      console.log('article', articleResponse);
       if (articleResponse.data.success) {
         setArticle(articleResponse.data.data[0]);
       }
