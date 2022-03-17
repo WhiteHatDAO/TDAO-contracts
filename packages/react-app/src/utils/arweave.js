@@ -10,15 +10,6 @@ const arweave = Arweave.init({
   protocol: "https",
 });
 
-// export async function generateWallet() {
-//   let arJWK;
-//   await arweave.wallets.generate().then(a => {
-//     // console.log("arJWK:", arJWK);
-//     arJWK = a;
-//   });
-//   return arJWK;
-// }
-
 export async function getWalletAddress(arJWL) {
   const walletAddress = await arweave.wallets.jwkToAddress(arJWL);
 
@@ -31,6 +22,9 @@ export async function getTransactionOwner(transaction) {
   return ownerAddress;
 }
 
+// Send transaction for upload and mining
+// @params data the file data
+// @params contentType the file type, txt, docx, pdf, etc.
 export async function sendTransacton(data, contentType) {
   // console.log(arJWK);
   let transaction = await arweave.createTransaction(
