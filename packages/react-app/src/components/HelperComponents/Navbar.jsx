@@ -56,7 +56,7 @@ function Navbar({
   return (
     <div
       className="relative bg-white border-b"
-      style={{ position: "sticky", top: "0", zIndex: "20", borderColor: "#c1c1c1" }}
+      style={{ position: "sticky", top: "0", zIndex: "2", borderColor: "#c1c1c1" }}
     >
       <nav className="mx-4 sm:mx-8 md:mx-10 xl:mx-20 flex flex-row items-center justify-between">
         {/* Navbar Left Items */}

@@ -23,6 +23,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const [memberSince, setMemberSince] = useState(0);
   const [readers, setReaders] = useState([]);
   const [timesCited, setTimesCited] = useState(0);
+  const [tipDropDown, setTipDropDown] = useState(false);
 
   const scrollTop = () => {
     document.documentElement.scrollTo({
@@ -132,11 +133,16 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
     }
   };
 
-  const tipAuthor = async () => {
+  useEffect(() => {
+    if (!tipDropDown) return;
+
+  }, [tipDropDown])
+
+  const tipAuthor = async (amount) => {
     await tx(
       writeContracts &&
-        writeContracts.TalentDaoToken &&
-        writeContracts.TalentDaoToken.approve(readContracts?.TalentDaoManager.address, ethers.utils.parseEther(".01")),
+      writeContracts.TalentDaoToken &&
+      writeContracts.TalentDaoToken.approve(readContracts?.TalentDaoManager.address, ethers.utils.parseEther(".01")),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -148,10 +154,11 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
         }
       },
     );
+
     await tx(
       writeContracts &&
-        writeContracts.TalentDaoManager &&
-        writeContracts.TalentDaoManager.tipAuthor(address, (10 * 10 ** 16).toString()),
+      writeContracts.TalentDaoManager &&
+      writeContracts.TalentDaoManager.tipAuthor(address, (amount * 10 ** 16).toString()),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -190,25 +197,36 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                     <div className="pb-4 text-4xl font-bold">{author.username}</div>
                     <div className="text-lg text-darkgray">{author.bio}</div>
                   </div>
-                  <div className="pt-4 lg:pt-0 flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
+                  <div className="pt-4 lg:pt-0 flex flex-col lg:flex-row items-start space-y-4 lg:space-y-0 space-x-0 lg:space-x-4">
                     <div
-                      className="px-8 py-2 w-full rounded-full bg-primary text-white flex flex-row items-center cursor-pointer"
+                      className="w-40 py-2 rounded-full bg-primary text-white flex flex-row items-center justify-center cursor-pointer"
                       onClick={() => handleSubscribeChange()}
                     >
-                      <div className="text-lg">SUBSCRIBE</div>
-                      {readers.includes(walletId) && <img src={check} className="pl-1 pr-4"></img>}
+                      <div>SUBSCRIBE</div>
+                      {readers.includes(walletId) && <img src={check}></img>}
                     </div>
-                    <div
-                      className="px-8 py-2 w-full rounded-full border border-primary cursor-pointer"
-                      style={{ backgroundColor: "rgba(180, 28, 46, 0.15)" }}
-                      onClick={e => { tipAuthor() }}
-                    >
-                      TIP AUTHOR
+                    <div className="relative">
+                      <div
+                        className="w-40 py-2 rounded-full border border-primary cursor-pointer"
+                        style={{ backgroundColor: "rgba(180, 28, 46, 0.15)" }}
+                        onClick={e => { setTipDropDown(!tipDropDown) }}
+                      >
+                        TIP AUTHOR
+                      </div>
+                      {
+                        tipDropDown && (
+                          <div className="mt-2 w-40 absolute cursor-pointer flex flex-row items-center justify-between border border-primary rounded-lg overflow-hidden">
+                            <div className="w-full py-2 text-primary border-r hover:bg-primary hover:text-white" onClick={() => { tipAuthor(10); setTipDropDown(false) }}>10</div>
+                            <div className="w-full py-2 text-primary border-r hover:bg-primary hover:text-white" onClick={() => { tipAuthor(50); setTipDropDown(false) }}>50</div>
+                            <div className="w-full py-2 text-primary hover:bg-primary hover:text-white" onClick={() => { tipAuthor(100); setTipDropDown(false) }}>100</div>
+                          </div>
+                        )
+                      }
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="py-8 hidden lg:flex flex-row items-center justify-between">2
+              <div className="py-8 hidden lg:flex flex-row items-center justify-between">
                 <div className="flex flex-row space-x-4">
                   <div
                     className="rounded-lg px-4 py-2 text-green"
