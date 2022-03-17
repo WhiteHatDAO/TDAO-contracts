@@ -19,6 +19,18 @@ const arweave = Arweave.init({
 //   return arJWK;
 // }
 
+export async function getWalletAddress(arJWL) {
+  const walletAddress = await arweave.wallets.jwkToAddress(arJWL);
+
+  return walletAddress;
+}
+
+export async function getTransactionOwner(transaction) {
+  const ownerAddress = await arweave.wallets.ownerToAddress(transaction.owner);
+
+  return ownerAddress;
+}
+
 export async function sendTransacton(data, contentType) {
   // console.log(arJWK);
   let transaction = await arweave.createTransaction(
