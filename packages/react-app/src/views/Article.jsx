@@ -32,6 +32,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   const [numPages, setNumPages] = useState(1);
   const [filename, setFilename] = useState("");
   const [fileData, setFileData] = useState({});
+  const [fileId, setFileId] = useState();
 
   function onDocumentLoadedSuccess({ numPages }) {
     setNumPages(numPages);
@@ -70,6 +71,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     var cover = dataURLtoFile(article?.cover?.data, article?.cover?.filename);
     var source = URL.createObjectURL(file);
     var coverSrc = URL.createObjectURL(cover);
+    setFileId(article?._id);
     setFilename(article?.body?.filename);
     setFileData(article?.body?.data);
     setArticleText(readTextFile(source));
@@ -247,9 +249,10 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
             </div>
           </div>
           {/* Need to be able to display any type of file that was saved */}
-          <div className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">{filename}</div>
+          <div className="lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">File: {filename}</div>
+          <div className="lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">Id: {fileId}</div>
           <Document
-            className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left"
+            className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-center"
             file={articleText}
             onDocumentLoadedSuccess={onDocumentLoadedSuccess}
           >
@@ -257,10 +260,10 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           </Document>
           <div className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">{articleText}</div>
           <div className="pb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <SimilarArticleCard></SimilarArticleCard>
-            <SimilarArticleCard></SimilarArticleCard>
-            <SimilarArticleCard></SimilarArticleCard>
-            <SimilarArticleCard></SimilarArticleCard>
+            <SimilarArticleCard address={address}></SimilarArticleCard>
+            <SimilarArticleCard address={address}></SimilarArticleCard>
+            <SimilarArticleCard address={address}></SimilarArticleCard>
+            <SimilarArticleCard address={address}></SimilarArticleCard>
           </div>
         </div>
       )}
