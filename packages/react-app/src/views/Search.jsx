@@ -8,20 +8,22 @@ import Footer from "../components/HelperComponents/Footer";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { SubmissionCard } from "../components/HelperComponents/SubmissionCard";
+import { AuthorCard } from "../components/HelperComponents/AuthorCard";
 
 const Search = () => {
     const [category, setCategory] = useState('Author');
-    const [field, setField] = useState('');
+    const [field, setField] = useState('username');
     const [value, setValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const history = useHistory();
 
     const handleSearch = async () => {
         const server = "http://localhost:4000";
-        const cate = category === 'Author' ? '/api/authors' : '/api/article_find';
+        const cate = category === 'Author' ? '/api/author_find' : '/api/article_find';
         const params = new URLSearchParams([['field', field], ['value', value]]);
         try {
             const res = await axios.get(server + cate, { params });
+            console.log('res: ', res);
             if (res.data.success) {
                 setSearchResult(res.data.data);
             }
@@ -125,7 +127,9 @@ const Search = () => {
                 <div className="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {
                         category === 'Author' ?
-                            ''
+                            searchResult.map(item => (
+                                <AuthorCard author={item}></AuthorCard>
+                            ))
                         :
                             searchResult.map(item => (
                                 <SubmissionCard article={item}></SubmissionCard>
