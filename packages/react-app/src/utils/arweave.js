@@ -1,4 +1,8 @@
 import Arweave from "arweave";
+import { arJWK } from "./../RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4.js";
+// Wallet for testing
+// RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4
+// process.env.ARWEAVE_WALLET_KEY || {}
 
 const arweave = Arweave.init({
   host: "arweave.net",
@@ -6,16 +10,28 @@ const arweave = Arweave.init({
   protocol: "https",
 });
 
-export async function generateWallet() {
-  let arJWK;
-  await arweave.wallets.generate().then(a => {
-    // console.log("arJWK:", arJWK);
-    arJWK = a;
-  });
-  return arJWK;
+// export async function generateWallet() {
+//   let arJWK;
+//   await arweave.wallets.generate().then(a => {
+//     // console.log("arJWK:", arJWK);
+//     arJWK = a;
+//   });
+//   return arJWK;
+// }
+
+export async function getWalletAddress(arJWL) {
+  const walletAddress = await arweave.wallets.jwkToAddress(arJWL);
+
+  return walletAddress;
 }
 
-export async function sendTransacton(data, arJWK, contentType) {
+export async function getTransactionOwner(transaction) {
+  const ownerAddress = await arweave.wallets.ownerToAddress(transaction.owner);
+
+  return ownerAddress;
+}
+
+export async function sendTransacton(data, contentType) {
   // console.log(arJWK);
   let transaction = await arweave.createTransaction(
     {
@@ -39,3 +55,5 @@ export async function sendTransacton(data, arJWK, contentType) {
 
   return transaction;
 }
+
+export async function getTransaction(transactionId) {}

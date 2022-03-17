@@ -115,37 +115,37 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
 
     // set up Arweave tx
     const arweaveTx = await submitToArweave(articleFile);
-    try {
-      const res = await axios.post(server + "/api/article", {
-        walletId: walletId,
-        body: articleFile,
-        cover: articleCover,
-        price: talentPrice,
-        title: articleTitle,
-        authors: authors,
-        abstract: abstract,
-        blockchain: blockchain,
-        categories: articleCategories,
-        arweaveHash: arweaveTx.id.toString(),
-      });
-      console.log(res);
-      if (res.status === 200) {
-        // clear the form and send to the creators/authors profile page
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(arweaveTx);
+    // try {
+    //   const res = await axios.post(server + "/api/article", {
+    //     walletId: walletId,
+    //     body: articleFile,
+    //     cover: articleCover,
+    //     price: talentPrice,
+    //     title: articleTitle,
+    //     authors: authors,
+    //     abstract: abstract,
+    //     blockchain: blockchain,
+    //     categories: articleCategories,
+    //     arweaveHash: arweaveTx.id.toString(),
+    //   });
+    //   console.log(res);
+    //   if (res.status === 200) {
+    //     // clear the form and send to the creators/authors profile page
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
 
     // set up onchain tx
-    submitOnChain(arweaveTx.id);
+    //submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
-    // todo: we need to only do this once and store the key somewhere private
-    const arJWK = await generateWallet();
-    // console.log("arJWK", arJWK);
-    const result = await sendTransacton(articleFile.toString(), arJWK, "appllication/pdf"); // process.env.ARWEAVE_WALLET_KEY || {}
+    //
+    const result = await sendTransacton(articleFile.toString(), "appllication/pdf");
     console.log("Result: ", result);
+    console.log("Tx Id: ", result.id);
 
     return result;
   };

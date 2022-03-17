@@ -1,6 +1,7 @@
 import { Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+// import FileViewer from "react-file-viewer";
 import { pdfjs } from "react-pdf";
 // import { Document, Page } from "react-pdf";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
@@ -43,7 +44,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     try {
       const params = new URLSearchParams([["_id", id]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
-      console.log('article', articleResponse);
+      console.log("article", articleResponse);
       if (articleResponse.data.success) {
         setArticle(articleResponse.data.data[0]);
       }
@@ -76,6 +77,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     setFileData(article?.body?.data);
     setArticleText(readTextFile(source));
     console.log(file);
+    // console.log(filename.split(".")[1]);
     setCoverImage(coverSrc);
   }, [article]);
 
@@ -251,13 +253,22 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           {/* Need to be able to display any type of file that was saved */}
           <div className="lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">File: {filename}</div>
           <div className="lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">Id: {fileId}</div>
-          <Document
-            className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-center"
-            file={articleText}
-            onDocumentLoadedSuccess={onDocumentLoadedSuccess}
-          >
-            <Page pageNumber={pageNumber} />
-          </Document>
+          {filename.split(".")[1] == "txt" ? (
+            <div>TEXT</div>
+          ) : filename.split(".")[1] == "pdf" ? (
+            <Document
+              className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-center"
+              file={articleText}
+              onDocumentLoadedSuccess={onDocumentLoadedSuccess}
+            >
+              <Page pageNumber={pageNumber} />
+            </Document>
+          ) : filename.split(".")[1] == "docx" ? (
+            <div>{/* <FileViewer fileType="docx" filePath={articleText} /> */}</div>
+          ) : (
+            <div>NEXT</div>
+          )}
+
           <div className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">{articleText}</div>
           <div className="pb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             <SimilarArticleCard address={address}></SimilarArticleCard>

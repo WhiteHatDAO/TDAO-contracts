@@ -10,5 +10,6 @@ router.put("/author_times", AuthorController.updateTimes)
 router.delete("/author/id", AuthorController.deleteAuthor);
 router.get("/authors", AuthorController.getAuthors);
 router.get("/author/walletId", AuthorController.getAuthorByWalletId);
+router.get("/author_find", AuthorController.getAuthorsByField);
 
 module.exports = router;

@@ -9,7 +9,6 @@ export const SubmissionCard = (article) => {
 
     useEffect(() => {
         if (!article) return;
-        console.log('article: ', article);
         var file = dataURLtoFile(article?.article?.cover?.data, article?.article?.cover?.filename);
         var source = URL.createObjectURL(file);
         setSrc(source)

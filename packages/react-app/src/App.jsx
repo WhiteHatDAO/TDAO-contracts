@@ -49,8 +49,9 @@ function App(props) {
   const blockExplorer = targetNetwork.blockExplorer;
 
   // load all your providers
+
   const localProvider = useStaticJsonRPC([
-    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
+    targetNetwork.rpcUrl,
   ]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
