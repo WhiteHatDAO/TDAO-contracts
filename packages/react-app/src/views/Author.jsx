@@ -24,6 +24,8 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const [readers, setReaders] = useState([]);
   const [timesCited, setTimesCited] = useState(0);
   const [tipDropDown, setTipDropDown] = useState(false);
+  const [tipAmount, setTipAmount] = useState(0);
+  const [token, setToken] = useState('ETH');
 
   const scrollTop = () => {
     document.documentElement.scrollTo({
@@ -213,7 +215,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                       >
                         TIP AUTHOR
                       </div>
-                      {
+                      {/* {
                         tipDropDown && (
                           <div className="mt-2 w-40 absolute cursor-pointer flex flex-row items-center justify-between border border-primary rounded-lg overflow-hidden">
                             <div className="w-full py-2 text-primary border-r hover:bg-primary hover:text-white" onClick={() => { tipAuthor(10); setTipDropDown(false) }}>10</div>
@@ -221,8 +223,44 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                             <div className="w-full py-2 text-primary hover:bg-primary hover:text-white" onClick={() => { tipAuthor(100); setTipDropDown(false) }}>100</div>
                           </div>
                         )
-                      }
+                      } */}
                     </div>
+                    {
+                      tipDropDown && (
+                          <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                            <div className="relative p-8 w-full max-w-md h-full md:h-auto bg-white rounded-lg">
+                              <div className="flex flex-col space-y-4">
+                                <div className="flex flex-row items-center">
+                                  <div className="w-40 text-lg text-black">Amount:</div>
+                                  <input
+                                    type="text"
+                                    value={tipAmount}
+                                    className="my-1 px-4 py-2 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-lightgray"
+                                    onChange={event => setTipAmount(event.target.value)}
+                                  />
+                                </div>
+                                <div className="flex flex-row items-center">
+                                  <div className="w-40 text-lg text-black">Token:</div>
+                                  <select
+                                    id="select-blockchain"
+                                    name="select-blockchain"
+                                    className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
+                                    value={token}
+                                    onChange={(e) => setToken(e.target.value)}
+                                  >
+                                    <option>ETH</option>
+                                    <option>TALENT</option>
+                                  </select>
+                                </div>
+                                <div className="flex flex-row items-center space-x-0 md:space-x-4 space-y-4 md:space-y-0">
+                                  <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2 cursor-pointer" onClick={() => { tipAuthor(parseInt(tipAmount)); setTipDropDown(false); }}>OK</div>
+                                  <div className="w-full rounded-full border border-primary bg-white text-primary text-xl px-4 py-2 cursor-pointer" onClick={() => { setTipDropDown(false); }}>CANCEL</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      )
+                    }
                   </div>
                 </div>
               </div>
