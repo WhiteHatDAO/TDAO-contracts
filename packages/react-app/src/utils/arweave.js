@@ -25,7 +25,7 @@ export async function getTransactionOwner(transaction) {
 // Send transaction for upload and mining
 // @params data the file data
 // @params contentType the file type, txt, docx, pdf, etc.
-export async function sendTransacton(data, contentType) {
+export async function sendTransacton(data, contentType, categories) {
   // console.log(arJWK);
   let transaction = await arweave.createTransaction(
     {
@@ -35,7 +35,7 @@ export async function sendTransacton(data, contentType) {
   );
   // Examples
   transaction.addTag("Content-Type", `${contentType}`);
-  transaction.addTag("key2", "value2");
+  transaction.addTag("Categoryo-1", `${categories[0] && categories[0]}`);
   console.log(transaction);
 
   await arweave.transactions.sign(transaction, arJWK);

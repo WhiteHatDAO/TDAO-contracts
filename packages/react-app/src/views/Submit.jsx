@@ -143,7 +143,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
 
   const submitToArweave = async articleFile => {
     //
-    const result = await sendTransacton(articleFile.toString(), "appllication/pdf");
+    const result = await sendTransacton(articleFile.toString(), "appllication/pdf", categories);
     console.log("Result: ", result);
     console.log("Tx Id: ", result.id);
 
