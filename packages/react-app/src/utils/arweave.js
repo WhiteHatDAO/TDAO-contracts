@@ -14,15 +14,6 @@ const arweave = Arweave.init({
   protocol: "https",
 });
 
-// export async function generateWallet() {
-//   let arJWK;
-//   await arweave.wallets.generate().then(a => {
-//     // console.log("arJWK:", arJWK);
-//     arJWK = a;
-//   });
-//   return arJWK;
-// }
-
 export async function getWalletAddress(arJWL) {
   const walletAddress = await arweave.wallets.jwkToAddress(arJWL);
 
@@ -35,34 +26,33 @@ export async function getTransactionOwner(transaction) {
   return ownerAddress;
 }
 
-export async function sendTransacton(data, contentType) {
+// Send transaction for upload and mining
+// @params data the file data
+// @params contentType the file type, txt, docx, pdf, etc.
+export async function sendTransacton(data, contentType, categories) {
   // console.log(arJWK);
 
-  // codecooker commented BEGIN
+  let transaction = await arweave.createTransaction(
+    {
+      data: data,
+    },
+    arJWK,
+  );
+  // Examples
+  transaction.addTag("Content-Type", `${contentType}`);
+  transaction.addTag("Categoryo-1", `${categories[0] && categories[0]}`);
+  console.log(transaction);
 
-  // let transaction = await arweave.createTransaction(
-  //   {
-  //     data: data,
-  //   },
-  //   arJWK,
-  // );
-  // // Examples
-  // transaction.addTag("Content-Type", `${contentType}`);
-  // transaction.addTag("key2", "value2");
-  // console.log(transaction);
+  await arweave.transactions.sign(transaction, arJWK);
 
-  // await arweave.transactions.sign(transaction, arJWK);
+  let uploader = await arweave.transactions.getUploader(transaction);
 
-  // let uploader = await arweave.transactions.getUploader(transaction);
+  while (!uploader.isComplete) {
+    await uploader.uploadChunk();
+    console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+  }
 
-  // while (!uploader.isComplete) {
-  //   await uploader.uploadChunk();
-  //   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
-  // }
-
-  // return transaction;
-
-  // codecooker commented END
+  return transaction;
 }
 
 export async function getTransaction(transactionId) {}
