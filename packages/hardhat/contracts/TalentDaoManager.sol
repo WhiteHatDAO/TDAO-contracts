@@ -22,7 +22,7 @@ interface ITDAOToken {
 }
 
 interface ITDAONFTToken {
-    function mintNFTForArticle(address author, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount) external returns(uint256, uint256);
+    function mintNFTForArticle(address ownerAddress, address author, string memory arweaveHash, string memory profileHash, string memory metadataPtr, uint256 amount) external returns(uint256, uint256);
 }
 
 interface ITDAOMemberToken{
@@ -56,6 +56,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     address public manager;
 
     ITDAOToken public tDaoToken;
+    address public tDaoTokenAddress;
     ITDAONFTToken public tDaoNftToken;
     ITDAOMemberToken public tDaoMemberToken;
 
@@ -66,6 +67,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         manager = _manager;
         _setupRole(MANAGER_ROLE, _manager);
         tDaoToken = ITDAOToken(_TDAOToken);
+        tDaoTokenAddress = _TDAOToken;
         tDaoNftToken = ITDAONFTToken(_TDAONFTToken);
         tDaoMemberToken = ITDAOMemberToken(_TDAOMemberToken);
         transferOwnership(_owner);
@@ -99,11 +101,11 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     }
 
 
-    function mintArticleNFT(address author, bytes32 arweaveHash, bytes32 profileHash, string memory metadataPtr, uint256 amount)
+    function mintArticleNFT(address author, string memory arweaveHash, string memory profileHash, string memory metadataPtr, uint256 amount)
         public
         returns (uint256, uint256)
     {
-        (uint256 newItemId, uint256 authorId) = tDaoNftToken.mintNFTForArticle(author, arweaveHash, profileHash, metadataPtr, amount);
+        (uint256 newItemId, uint256 authorId) = tDaoNftToken.mintNFTForArticle(msg.sender, author, arweaveHash, profileHash, metadataPtr, amount);
 
         return (newItemId, authorId);
     }
@@ -112,13 +114,13 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     function getAuthor(address authorAddress)
         public
         view
-        returns(address, uint256, bytes32)
+        returns(address, uint256, string memory)
     {
         return (authors[authorAddress].authorAddress, authors[authorAddress].id, authors[authorAddress].arweaveProfileHash);
     }
 
 
-    function addAuthor(address author, bytes32 arweaveHash, string memory metadataPtr)
+    function addAuthor(address author, string memory arweaveHash, string memory metadataPtr)
         public 
         returns(uint256 authorId)
     {
@@ -128,7 +130,8 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     }
 
     function tipAuthor(address author, uint256 amount) public {
-        require(tDaoToken.balanceOf(msg.sender) > amount, "You don't have enough TDAO tokens");
+        console.log(amount);
+        require(tDaoToken.balanceOf(msg.sender) >= amount, "You don't have enough TDAO tokens");
         tDaoToken.transferFrom(msg.sender, author, amount);
     }
 

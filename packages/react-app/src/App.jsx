@@ -12,8 +12,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User } from "./views";
-
+import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User, TermsOfService, PrivacyPolicy } from "./views";
 
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
@@ -50,8 +49,9 @@ function App(props) {
   const blockExplorer = targetNetwork.blockExplorer;
 
   // load all your providers
+
   const localProvider = useStaticJsonRPC([
-    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
+    targetNetwork.rpcUrl,
   ]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
@@ -249,7 +249,7 @@ function App(props) {
           <Contact></Contact>
         </Route>
         <Route exact path="/author/:walletId">
-          <Author></Author>
+          <Author tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address}></Author>
         </Route>
         <Route exact path="/article/:id">
           <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
@@ -293,7 +293,13 @@ function App(props) {
           />
         </Route>
         <Route exact path="/submit/:walletId">
-          <Submit address={address} />
+          <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
+        </Route>
+        <Route exact path="/termsofservice">
+          <TermsOfService/>
+        </Route>
+        <Route exact path="/privacypolicy">
+          <PrivacyPolicy/>
         </Route>
         {/* <Route path="/subgraph">
           <Subgraph

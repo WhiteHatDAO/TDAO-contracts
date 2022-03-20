@@ -16,7 +16,8 @@ const Article = new Schema(
         authors: { type: String, required: true },
         abstract: { type: String, required: true },
         blockchain: { type: String, required: true },
-        categories: { type: String, required: false }
+        categories: { type: Array, required: false },
+        arweaveHash: { type: String, required: true }
     },
     { timestamps: true }
 );

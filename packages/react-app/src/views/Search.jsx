@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import search from "../assets/search.svg";
 import info from "../assets/info.svg";
 import arrow from "../assets/arrowWhite.svg";
@@ -7,22 +7,26 @@ import { SimilarArticleCard } from "../components/HelperComponents/SimilarArticl
 import Footer from "../components/HelperComponents/Footer";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { SubmissionCard } from "../components/HelperComponents/SubmissionCard";
+import { AuthorCard } from "../components/HelperComponents/AuthorCard";
 
 const Search = () => {
     const [category, setCategory] = useState('Author');
-    const [field, setField] = useState('');
+    const [field, setField] = useState('username');
     const [value, setValue] = useState('');
+    const [searchResult, setSearchResult] = useState([]);
     const history = useHistory();
 
-    const handleSearch = async() => {
+    const handleSearch = async () => {
         const server = "http://localhost:4000";
-        const cate = category === 'Author' ? '/api/authors' : '/api/articles';
-        console.log('field', field);
-        console.log('value', value);
+        const cate = category === 'Author' ? '/api/author_find' : '/api/article_find';
+        const params = new URLSearchParams([['field', field], ['value', value]]);
         try {
-            const params = new URLSearchParams([['field', field], ['value', value]]);
             const res = await axios.get(server + cate, { params });
-            console.log('res', res);
+            console.log('res: ', res);
+            if (res.data.success) {
+                setSearchResult(res.data.data);
+            }
         } catch (e) {
             console.log(e);
         }
@@ -107,20 +111,30 @@ const Search = () => {
                 </div>
             </div>
             <div className="px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden">
-                <div className="text-sm pt-8 text-left">28 similar Articles found</div>
+                <div className="text-sm pt-8 text-left">
+                    {
+                        category === 'Author' ? (
+                            <div>
+                                {searchResult.length} similar Authors found
+                            </div>
+                        ) : (
+                            <div>
+                                {searchResult.length} similar Articles found
+                            </div>
+                        )
+                    }
+                </div>
                 <div className="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
-                    <SimilarArticleCard></SimilarArticleCard>
+                    {
+                        category === 'Author' ?
+                            searchResult.map(item => (
+                                <AuthorCard author={item}></AuthorCard>
+                            ))
+                        :
+                            searchResult.map(item => (
+                                <SubmissionCard article={item}></SubmissionCard>
+                            ))
+                    }
                 </div>
             </div>
             <div className="px-4 sm:px-8 md:px-10 xl:px-20">
