@@ -18,7 +18,6 @@ let collections = []
 connection.on('open', function(ref) {
     console.log('Connected to mongo server.');
     connection.db.listCollections().toArray(function(err, names) {
-        console.log('names', names);
         collections = names;
     })
 })

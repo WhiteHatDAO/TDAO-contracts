@@ -14,26 +14,27 @@ contract AuthorEntity is ArticleEntity {
     struct Author {
         address authorAddress;
         uint256 id;
-        bytes32 arweaveProfileHash;
+        string arweaveProfileHash;
         Article[] articles;
     }
 
     Author[] authorList;
 
     mapping(address => Author) public authors;
-    mapping(address => mapping(uint256 => Article)) public authorsArticlesById;
 
     constructor() public {}
 
     /// @dev add a new author on-chain
     /// @param authorAddress the address of the author
-    function addAuthor(address authorAddress, uint256 articleId, bytes32 profileHash) public returns (uint256) {
+    function addAuthor(address authorAddress, uint256 articleId, string memory profileHash) public returns (uint256) {
         _authorIds.increment();
         uint256 id = _authorIds.current();
         Author storage newAuthor = authors[authorAddress];
         newAuthor.id = id;
         newAuthor.arweaveProfileHash = profileHash;
-        
+
+        //Article storage articleRef = articleList[articleId];
+        //newAuthor.articles[articleId].author = authorAddress;
         
     }
     /// @dev edit an author on-chain

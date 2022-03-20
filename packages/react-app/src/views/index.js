@@ -8,3 +8,5 @@ export { default as Submit } from "./Submit";
 export { default as Search } from "./Search";
 export { default as AdvancedSearch } from "./AdvancedSearch";
 export { default as User } from "./User";
+export { default as PrivacyPolicy } from "./PrivacyPolicy";
+export { default as TermsOfService } from "./TermsOfService";

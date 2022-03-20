@@ -4,7 +4,7 @@ import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Contract } from "./components";
+import { Contract, NetworkDisplay } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -12,8 +12,7 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-import { Home, Subgraph, Submit, About, Contact, Author, Article, Search, AdvancedSearch, User } from "./views";
-
+import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User, TermsOfService, PrivacyPolicy } from "./views";
 
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
@@ -50,8 +49,9 @@ function App(props) {
   const blockExplorer = targetNetwork.blockExplorer;
 
   // load all your providers
+
   const localProvider = useStaticJsonRPC([
-    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
+    targetNetwork.rpcUrl,
   ]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
@@ -204,18 +204,24 @@ function App(props) {
     }
   }, [loadWeb3Modal]);
 
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  const handleUserMenuOpen = state => {
+    setUserMenuOpen(state);
+  };
+
   // const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
     <div className="App container-2xl mx-auto">
-      {/* <NetworkDisplay
+      <NetworkDisplay
         NETWORKCHECK={NETWORKCHECK}
         localChainId={localChainId}
         selectedChainId={selectedChainId}
         targetNetwork={targetNetwork}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
-      /> */}
+      />
       <Navbar
         useBurner={false}
         address={address}
@@ -227,22 +233,25 @@ function App(props) {
         loadWeb3Modal={loadWeb3Modal}
         logoutOfWeb3Modal={logoutOfWeb3Modal}
         blockExplorer={blockExplorer}
+        userMenuOpen={userMenuOpen}
+        handleUserMenuOpen={handleUserMenuOpen}
       />
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
+          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
         </Route>
+        <Route exact path="/browse"></Route>
         <Route exact path="/about">
           <About></About>
         </Route>
         <Route exact path="/contact">
           <Contact></Contact>
         </Route>
-        <Route exact path="/author">
-          <Author></Author>
+        <Route exact path="/author/:walletId">
+          <Author tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address}></Author>
         </Route>
-        <Route exact path="/article">
+        <Route exact path="/article/:id">
           <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
         </Route>
         <Route exact path="/search">
@@ -251,8 +260,8 @@ function App(props) {
         <Route exact path="/advancedsearch">
           <AdvancedSearch></AdvancedSearch>
         </Route>
-        <Route exact path="/user">
-          <User></User>
+        <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles"]}>
+          <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
         </Route>
         <Route exact path="/debug">
           <Contract
@@ -283,8 +292,14 @@ function App(props) {
             contractConfig={contractConfig}
           />
         </Route>
-        <Route exact path="/submit">
-          <Submit />
+        <Route exact path="/submit/:walletId">
+          <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
+        </Route>
+        <Route exact path="/termsofservice">
+          <TermsOfService/>
+        </Route>
+        <Route exact path="/privacypolicy">
+          <PrivacyPolicy/>
         </Route>
         {/* <Route path="/subgraph">
           <Subgraph
