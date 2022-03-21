@@ -81,7 +81,7 @@ const Contact = () => {
         </div>
       </div>
       <div className="mx-0 sm:mx-8 md:mx-10 xl:mx-20 overflow-hidden">
-        <div className="py-8 px-4 md:px-40 lg:px-72 flex flex-col space-y-8">
+        <div className="px-4 py-8 mx-auto max-w-xl md:max-w-4xl xl:max-w-7xl flex flex-col space-y-8">
           <div className="flex flex-col space-y-8">
             <div className="text-2xl font-bold">FAQs</div>
             <div className="rounded-xl p-4 text-lg text-darkgray flex flex-col" style={{ boxShadow: '0px 4px 12px rgba(204, 204, 204, 0.61)' }}>
@@ -207,7 +207,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
-      <div className="mx-4 sm:mx-8 md:mx-10 xl:mx-20">
+      <div className="mx-0 sm:mx-4 md:mx-10 xl:mx-20">
         <Footer></Footer>
       </div>
     </div>
