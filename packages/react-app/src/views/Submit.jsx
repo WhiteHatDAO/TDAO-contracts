@@ -131,7 +131,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
       });
       console.log(res);
       if (res.status === 200) {
-        // clear the form and send to the creators/authors profile page
+        // todo: clear the form and send to the creators/authors profile page
       }
     } catch (e) {
       console.log(e);
