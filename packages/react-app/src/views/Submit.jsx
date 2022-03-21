@@ -116,29 +116,29 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     // set up Arweave tx
     const arweaveTx = await submitToArweave(articleFile);
     console.log(arweaveTx);
-    try {
-      const res = await axios.post(server + "/api/article", {
-        walletId: walletId,
-        body: articleFile,
-        cover: articleCover,
-        price: talentPrice,
-        title: articleTitle,
-        authors: authors,
-        abstract: abstract,
-        blockchain: blockchain,
-        categories: articleCategories,
-        arweaveHash: arweaveTx.id.toString(),
-      });
-      console.log(res);
-      if (res.status === 200) {
-        // todo: clear the form and send to the creators/authors profile page
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   const res = await axios.post(server + "/api/article", {
+    //     walletId: walletId,
+    //     body: articleFile,
+    //     cover: articleCover,
+    //     price: talentPrice,
+    //     title: articleTitle,
+    //     authors: authors,
+    //     abstract: abstract,
+    //     blockchain: blockchain,
+    //     categories: articleCategories,
+    //     arweaveHash: arweaveTx.id.toString(),
+    //   });
+    //   console.log(res);
+    //   if (res.status === 200) {
+    //     // todo: clear the form and send to the creators/authors profile page
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
 
     // set up onchain tx
-    submitOnChain(arweaveTx.id);
+    //submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
