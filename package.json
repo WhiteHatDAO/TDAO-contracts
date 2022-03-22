@@ -1,44 +1,75 @@
 {
-  "name": "retro",
-  "version": "0.1.0",
+  "name": "@talentdao/monorepo",
+  "version": "1.0.0",
+  "keywords": [
+    "ethereum",
+    "react",
+    "uniswap",
+    "workspaces",
+    "yarn"
+  ],
   "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
-    "@mui/material": "^5.4.4",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.3",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.4"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "react-app:build": "yarn workspace @talentdao/react-app build --max-old-space-size=12288",
+    "react-app:eject": "yarn workspace @talentdao/react-app eject",
+    "react-app:start": "yarn workspace @talentdao/react-app start",
+    "react-app:test": "yarn workspace @talentdao/react-app test",
+    "build": "yarn workspace @talentdao/react-app build --max-old-space-size=12288",
+    "prettier": "yarn workspace @talentdao/react-app prettier",
+    "chain": "yarn workspace @talentdao/hardhat chain",
+    "fork": "yarn workspace @talentdao/hardhat fork",
+    "node": "yarn workspace @talentdao/hardhat chain",
+    "test": "yarn workspace @talentdao/hardhat test",
+    "server": "yarn workspace @talentdao/backend server",
+    "start": "yarn workspace @talentdao/react-app start",
+    "compile": "yarn workspace @talentdao/hardhat compile",
+    "deploy": "yarn workspace @talentdao/hardhat deploy",
+    "verify": "yarn workspace @talentdao/hardhat verify",
+    "watch": "yarn workspace @talentdao/hardhat watch",
+    "accounts": "yarn workspace @talentdao/hardhat accounts",
+    "balance": "yarn workspace @talentdao/hardhat balance",
+    "send": "yarn workspace @talentdao/hardhat send",
+    "ipfs": "yarn workspace @talentdao/react-app ipfs",
+    "surge": "yarn workspace @talentdao/react-app surge",
+    "s3": "yarn workspace @talentdao/react-app s3",
+    "ship": "yarn workspace @talentdao/react-app ship",
+    "generate": "yarn workspace @talentdao/hardhat generate",
+    "account": "yarn workspace @talentdao/hardhat account",
+    "mineContractAddress": "cd packages/hardhat && npx hardhat mineContractAddress",
+    "wallet": "cd packages/hardhat && npx hardhat wallet",
+    "fundedwallet": "cd packages/hardhat && npx hardhat fundedwallet",
+    "flatten": "cd packages/hardhat && npx hardhat flatten",
+    "clean": "cd packages/hardhat && npx hardhat clean",
+    "run-graph-node": "yarn workspace @talentdao/services run-graph-node",
+    "remove-graph-node": "yarn workspace @talentdao/services remove-graph-node",
+    "clean-graph-node": "yarn workspace @talentdao/services clean-graph-node",
+    "graph-prepare": "mustache packages/subgraph/config/config.json packages/subgraph/src/subgraph.template.yaml > packages/subgraph/subgraph.yaml",
+    "graph-codegen": "yarn workspace @talentdao/subgraph graph codegen",
+    "graph-build": "yarn workspace @talentdao/subgraph graph build",
+    "graph-create-local": "yarn workspace @talentdao/subgraph graph create --node http://localhost:8020/ talentdao/your-contract",
+    "graph-remove-local": "yarn workspace @talentdao/subgraph graph remove --node http://localhost:8020/ talentdao/your-contract",
+    "graph-deploy-local": "yarn workspace @talentdao/subgraph graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 talentdao/your-contract",
+    "graph-ship-local": "yarn graph-prepare && yarn graph-codegen && yarn graph-deploy-local",
+    "deploy-and-graph": "yarn deploy && yarn graph-ship-local",
+    "theme": "yarn workspace @talentdao/react-app theme",
+    "watch-theme": "yarn workspace @talentdao/react-app watch",
+    "postinstall": "husky install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+  "workspaces": {
+    "packages": [
+      "packages/*"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+    "nohoist": [
+      "**/@graphprotocol/graph-ts",
+      "**/@graphprotocol/graph-ts/**",
+      "**/hardhat",
+      "**/hardhat/**",
+      "**/hardhat-ts",
+      "**/hardhat-ts/**"
     ]
   },
+  "dependencies": {},
   "devDependencies": {
-    "react-router-dom": "^6.2.2"
+    "husky": "^7.0.2"
   }
 }
