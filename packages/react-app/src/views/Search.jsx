@@ -20,6 +20,12 @@ const Search = () => {
   const history = useHistory();
 
   useEffect(() => {
+    const query = history.location.search.split('=')[1];
+    setValue(query);
+    searchForQuery(query);
+  }, []);
+
+  useEffect(() => {
     sortSearchResult(searchResult);
   }, [sortField]);
 
@@ -41,10 +47,10 @@ const Search = () => {
     }
   };
 
-  const handleSearch = async () => {
+  const searchForQuery = async (query) => {
     const server = "http://localhost:4000";
     const cate = category === 'author' ? '/api/author_find' : '/api/article_find';
-    const params = new URLSearchParams([['field', field], ['value', value]]);
+    const params = new URLSearchParams([['field', field], ['value', query]]);
     try {
       const res = await axios.get(server + cate, { params });
       console.log(res);
@@ -54,6 +60,10 @@ const Search = () => {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  const handleSearch = async () => {
+    await searchForQuery(value);
   }
 
   const handleCategoryChange = (event) => {
