@@ -76,26 +76,26 @@ export async function DecodeTags(txId) {
 }
 
 // id here is just one string tx id
-export const GRAPH_GET_TX_BY_ID = id => {
-  transactions(ids: [id]) {
-      edges {
-          node {
-              id
-          }
-      }
-  }
-}
+// export const GRAPH_GET_TX_BY_ID = id => {
+//   transactions(ids: [id]) {
+//       edges {
+//           node {
+//               id
+//           }
+//       }
+//   }
+// }
 
 // ids is an array here of strings
-export const GRAPH_GET_TX_BY_IDS = ids => {
-  transactions(ids: ids) {
-      edges {
-          node {
-              id
-          }
-      }
-  }
-}
+// export const GRAPH_GET_TX_BY_IDS = ids => {
+//   transactions(ids: ids) {
+//       edges {
+//           node {
+//               id
+//           }
+//       }
+//   }
+// }
 
 /**
  * 
@@ -105,16 +105,16 @@ export const GRAPH_GET_TX_BY_IDS = ids => {
         values: ["text/html"]
     }} tags 
  */
-export const GRAPH_GET_TX_BY_TAG = tag => {
-  query {
-    transactions(
-        tags: tags
-    ) {
-        edges {
-            node {
-                id
-            }
-        }
-    }
-  }
-}
+// export const GRAPH_GET_TX_BY_TAG = tag => {
+//   query {
+//     transactions(
+//         tags: tags
+//     ) {
+//         edges {
+//             node {
+//                 id
+//             }
+//         }
+//     }
+//   }
+// }
