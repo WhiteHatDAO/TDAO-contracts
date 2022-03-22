@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 // codecooker added BEGIN
 mongoose.connect('mongodb://localhost:27017/tdao-database')
@@ -21,17 +21,18 @@ mongoose.connect('mongodb://localhost:27017/tdao-database')
 //         console.error('Connection error', e.message)
 //     })
 
-const connection = mongoose.connection
-let collections = []
+const connection = mongoose.connection;
+let collections = [];
 
-connection.on('open', function(ref) {
-    console.log('Connected to mongo server.');
-    connection.db.listCollections().toArray(function(err, names) {
-        collections = names;
-    })
-})
+connection.on("open", function (ref) {
+  console.log("Connected to mongo server.");
+  connection.db.listCollections().toArray(function (err, names) {
+    collections = names;
+  });
+  //console.log(collections);
+});
 
 module.exports = {
-    connection,
-    collections
-}
+  connection,
+  collections,
+};

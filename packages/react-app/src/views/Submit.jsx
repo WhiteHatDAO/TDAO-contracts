@@ -3,7 +3,7 @@ import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { generateWallet, sendTransacton } from "../utils/arweave";
+import { sendTransacton } from "../utils/arweave";
 
 const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -147,7 +147,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
 
   const submitToArweave = async articleFile => {
     //
-    const result = await sendTransacton(articleFile.toString(), "appllication/pdf");
+    const result = await sendTransacton(articleFile.toString(), "appllication/pdf", categories);
     console.log("Result: ", result);
     console.log("Tx Id: ", result.id);
 
