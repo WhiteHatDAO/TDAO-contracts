@@ -4,7 +4,7 @@ import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Contract, NetworkDisplay } from "./components";
+import { Contract, NetworkDisplay, Faucet } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -12,7 +12,20 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-import { About, AdvancedSearch, Article, Author, Contact, Home, Search, Submit, User, TermsOfService, PrivacyPolicy } from "./views";
+import {
+  About,
+  AdvancedSearch,
+  Article,
+  Author,
+  Contact,
+  Home,
+  PrivacyPolicy,
+  Search,
+  Submit,
+  TermsOfService,
+  User,
+} from "./views";
+import { Row, Col } from "antd";
 
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
@@ -50,9 +63,7 @@ function App(props) {
 
   // load all your providers
 
-  const localProvider = useStaticJsonRPC([
-    targetNetwork.rpcUrl,
-  ]);
+  const localProvider = useStaticJsonRPC([targetNetwork.rpcUrl]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
   if (DEBUG) console.log(`Using ${selectedNetwork} network`);
@@ -210,7 +221,7 @@ function App(props) {
     setUserMenuOpen(state);
   };
 
-  // const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
+  const faucetAvailable = localProvider && localProvider.connection && targetNetwork.name.indexOf("local") !== -1;
 
   return (
     <div className="App container-2xl mx-auto">
@@ -296,10 +307,10 @@ function App(props) {
           <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
         </Route>
         <Route exact path="/termsofservice">
-          <TermsOfService/>
+          <TermsOfService />
         </Route>
         <Route exact path="/privacypolicy">
-          <PrivacyPolicy/>
+          <PrivacyPolicy />
         </Route>
         {/* <Route path="/subgraph">
           <Subgraph
@@ -369,19 +380,16 @@ function App(props) {
           </Col>
         </Row>
 
-        <Row align="middle" gutter={[4, 4]}>
-          <Col span={24}>
-            {
-              if the local provider has a signer, let's show the faucet:  
-              faucetAvailable ? (
-                <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
-              ) : (
-                ""
-              )
-            }
-          </Col>
-        </Row>
+       
       </div> */}
+      <Row align="middle" gutter={[4, 4]}>
+        <Col span={24}>
+          {
+            // if the local provider has a signer, let's show the faucet:
+            faucetAvailable ? <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} /> : ""
+          }
+        </Col>
+      </Row>
     </div>
   );
 }
