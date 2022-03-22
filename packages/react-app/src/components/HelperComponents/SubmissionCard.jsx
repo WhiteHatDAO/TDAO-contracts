@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { dataURLtoFile } from "../../utils/utils";
 
+
+
 export const SubmissionCard = article => {
+
   const [src, setSrc] = useState();
   const history = useHistory();
 
