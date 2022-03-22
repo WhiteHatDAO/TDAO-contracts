@@ -1,5 +1,6 @@
-import { Tooltip } from "antd";
+import { notification, Tooltip } from "antd";
 import axios from "axios";
+import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 // import FileViewer from "react-file-viewer";
 import { pdfjs } from "react-pdf";
@@ -86,9 +87,28 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     // var file = dataURLtoFile(author?.)
   }, [author]);
 
-  const mintArticle = () => {
+  const mintArticle = async () => {
     // mint the article
     console.log("Mint clicked: ", article);
+    await tx(
+      writeContracts &&
+        writeContracts.TalentDaoNftToken &&
+        writeContracts.TalentDaoNftToken.mintNFTForArticle(
+          address,
+          "https://myipfsuri.com/",
+          ethers.utils.parseEther("1"),
+        ),
+      async update => {
+        console.log("📡 Transaction Update:", update);
+        if (update.status === 1) {
+          notification.open({
+            message: "Article NFT Purchased",
+            description: "Your NFT has been transferred to your wallet 😍",
+            icon: "🚀",
+          });
+        }
+      },
+    );
   };
 
   const scrollTop = () => {
@@ -253,9 +273,9 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           {/* Need to be able to display any type of file that was saved */}
           <div className="lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">File: {filename}</div>
           <div className="lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">Id: {fileId}</div>
-          {filename.split(".")[1] == "txt" ? (
+          {filename.split(".")[1] === "txt" ? (
             <div>TEXT</div>
-          ) : filename.split(".")[1] == "pdf" ? (
+          ) : filename.split(".")[1] === "pdf" ? (
             <Document
               className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-center"
               file={articleText}
@@ -263,7 +283,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
             >
               <Page pageNumber={pageNumber} />
             </Document>
-          ) : filename.split(".")[1] == "docx" ? (
+          ) : filename.split(".")[1] === "docx" ? (
             <div>{/* <FileViewer fileType="docx" filePath={articleText} /> */}</div>
           ) : (
             <div>NEXT</div>

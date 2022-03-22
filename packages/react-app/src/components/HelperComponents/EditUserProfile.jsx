@@ -12,11 +12,19 @@ const EditUserProfile = ({ address }) => {
   const [id, setId] = useState('');
   const [existAuthor, setExistAuthor] = useState(false);
   const [author, setAuthor] = useState(null);
-  const [readers, setReaders] = useState('')
+  const [readers, setReaders] = useState("");
   const [timesCited, setTimesCited] = useState(0);
 
-  const [selectedAuthorImage, setselectedAuthorImage] = useState(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '');
-  const [selectedCoverImage, setSelectedCoverImage] = useState(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '');
+  const [selectedAuthorImage, setselectedAuthorImage] = useState(
+    author && author?.authorImage && author?.authorImage?.data !== ""
+      ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)
+      : "",
+  );
+  const [selectedCoverImage, setSelectedCoverImage] = useState(
+    author && author?.coverImage && author?.coverImage?.data !== ""
+      ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename)
+      : "",
+  );
 
   const changeSelectedAuthorImage = event => {
     setselectedAuthorImage(event.target.files[0]);
@@ -27,8 +35,8 @@ const EditUserProfile = ({ address }) => {
   };
 
   const getAuthorData = async () => {
-    const server = 'http://localhost:4000';
-    const params = new URLSearchParams([['walletId', address]]);
+    const server = "http://localhost:4000";
+    const params = new URLSearchParams([["walletId", address]]);
     try {
       const res = await axios.get(server + '/api/authors', { params });
       if (res?.data?.success) {
@@ -38,14 +46,14 @@ const EditUserProfile = ({ address }) => {
         setExistAuthor(false);
       }
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }
+  };
 
   useEffect(() => {
-    if (address === '' || address === undefined) return;
-    getAuthorData()
-  }, [address])
+    if (address === "" || address === undefined) return;
+    getAuthorData();
+  }, [address]);
 
   useEffect(() => {
     if (author === null) return;
@@ -63,9 +71,9 @@ const EditUserProfile = ({ address }) => {
   }, [author])
 
   useEffect(() => {
-    if (name === '') setName('Edit Name');
-    if (bio === '') setBio('Edit Bio');
-  }, [name, bio])
+    if (name === "") setName("Edit Name");
+    if (bio === "") setBio("Edit Bio");
+  }, [name, bio]);
 
   useEffect(() => {
     if (!selectedAuthorImage) return;
@@ -86,21 +94,25 @@ const EditUserProfile = ({ address }) => {
   const handleSave = async () => {
     const serverURL = "http://localhost:4000";
 
-    const authorImage = selectedAuthorImage ? {
-      filename: selectedAuthorImage.name,
-      data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : ''
-    } : {
-      filename: '',
-      data: ''
-    }
+    const authorImage = selectedAuthorImage
+      ? {
+          filename: selectedAuthorImage.name,
+          data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : "",
+        }
+      : {
+          filename: "",
+          data: "",
+        };
 
-    const authorCoverImage = selectedCoverImage ? {
-      filename: selectedCoverImage.name,
-      data: selectedCoverImage ? await toBase64(selectedCoverImage) : ''
-    } : {
-      filename: '',
-      data: ''
-    }
+    const authorCoverImage = selectedCoverImage
+      ? {
+          filename: selectedCoverImage.name,
+          data: selectedCoverImage ? await toBase64(selectedCoverImage) : "",
+        }
+      : {
+          filename: "",
+          data: "",
+        };
 
     try {
       const res = await axios.put(serverURL + "/api/author", {
@@ -114,7 +126,7 @@ const EditUserProfile = ({ address }) => {
         authorImage: authorImage,
         coverImage: authorCoverImage,
         readers: readers,
-        times_cited: timesCited
+        times_cited: timesCited,
       });
       console.log("res", res);
     } catch (e) {
@@ -126,7 +138,11 @@ const EditUserProfile = ({ address }) => {
     <div className="flex flex-col space-y-4">
       <div className="w-full rounded-2xl bg-white">
         <div className="rounded-2xl h-56 relative" style={{ backgroundColor: "rgba(220, 220, 220, 1)" }}>
-          <img id="cover-image" alt="coverimage" className="absolute top-0 left-0 rounded-2xl object-cover w-full h-56"></img>
+          <img
+            id="cover-image"
+            alt="coverimage"
+            className="absolute top-0 left-0 rounded-2xl object-cover w-full h-56"
+          ></img>
           <div className="flex flex-row justify-end pr-8 pt-4">
             <label htmlFor="cover-upload" className="rounded-full cursor-pointer z-10">
               <span>

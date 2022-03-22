@@ -3,7 +3,7 @@ import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { generateWallet, sendTransacton } from "../utils/arweave";
+import { sendTransacton } from "../utils/arweave";
 
 const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
@@ -138,7 +138,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     }
 
     // set up onchain tx
-    //submitOnChain(arweaveTx.id);
+    submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
@@ -184,13 +184,6 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
   useEffect(() => {
     console.log("ETH Address: ", address);
   }, [address]);
-
-  // useEffect(async() => {
-  //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
-  //   const data = await toBase64(selectedManuscriptFile);
-
-  //   console.log('filedata', data);
-  // }, [selectedManuscriptFile])
 
   return (
     <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>
