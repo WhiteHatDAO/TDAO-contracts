@@ -96,3 +96,25 @@ export const GRAPH_GET_TX_BY_IDS = ids => {
       }
   }
 }
+
+/**
+ * 
+ * @dev tag example to use for search
+ *  {{
+        name: "Content-Type",
+        values: ["text/html"]
+    }} tags 
+ */
+export const GRAPH_GET_TX_BY_TAG = tag => {
+  query {
+    transactions(
+        tags: tags
+    ) {
+        edges {
+            node {
+                id
+            }
+        }
+    }
+  }
+}
