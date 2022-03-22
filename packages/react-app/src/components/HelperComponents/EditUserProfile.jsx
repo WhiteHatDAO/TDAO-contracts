@@ -9,6 +9,8 @@ const EditUserProfile = ({ address }) => {
   const [twitter, setTwitter] = useState('');
   const [linkedin, setLinkedin] = useState('');
   const [tipAddress, setTipAddress] = useState('');
+  const [id, setId] = useState('');
+  const [existAuthor, setExistAuthor] = useState(false);
   const [author, setAuthor] = useState(null);
   const [readers, setReaders] = useState('')
   const [timesCited, setTimesCited] = useState(0);
@@ -29,9 +31,11 @@ const EditUserProfile = ({ address }) => {
     const params = new URLSearchParams([['walletId', address]]);
     try {
       const res = await axios.get(server + '/api/authors', { params });
-      console.log('res: ', res)
-      if (res?.data?.data.length > 0) {
+      if (res?.data?.success) {
+        setExistAuthor(true);
         setAuthor(res?.data?.data[0])
+      } else {
+        setExistAuthor(false);
       }
     } catch (e) {
       console.error(e)
@@ -55,6 +59,7 @@ const EditUserProfile = ({ address }) => {
     setSelectedCoverImage(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
     setReaders(author?.readers ? author.readers : '')
     setTimesCited(author&&author.times_cited ? author.times_cited : 0);
+    setId(author?._id);
   }, [author])
 
   useEffect(() => {
@@ -98,7 +103,8 @@ const EditUserProfile = ({ address }) => {
     }
 
     try {
-      const res = await axios.post(serverURL + "/api/author", {
+      const res = await axios.put(serverURL + "/api/author", {
+        id: id,
         username: name,
         bio: bio,
         aboutme: aboutMe,

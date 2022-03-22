@@ -15,11 +15,11 @@ mongoose
 //         console.error('Connection error', e.message)
 //     })
 
-mongoose
-    .connect('mongodb+srv://JunielLiu:donotaccept@cluster0.vgnpa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true })
-    .catch(e => {
-        console.error('Connection error', e.message)
-    })
+// mongoose
+//     .connect('mongodb+srv://JunielLiu:donotaccept@cluster0.vgnpa.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true })
+//     .catch(e => {
+//         console.error('Connection error', e.message)
+//     })
 
 const connection = mongoose.connection;
 let collections = [];
