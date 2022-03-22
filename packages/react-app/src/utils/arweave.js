@@ -1,5 +1,5 @@
 import Arweave from "arweave";
-import { arJWK } from "./../RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4.js";
+// import { arJWK } from "./../RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4.js";
 // Wallet for testing
 // RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4
 // process.env.ARWEAVE_WALLET_KEY || {}
@@ -31,14 +31,14 @@ export async function sendTransacton(data, contentType, categories) {
     {
       data: data,
     },
-    arJWK,
+    // arJWK,
   );
   // Examples
   transaction.addTag("Content-Type", `${contentType}`);
   transaction.addTag("Categoryo-1", `${categories[0] && categories[0]}`);
   console.log(transaction);
 
-  await arweave.transactions.sign(transaction, arJWK);
+  // await arweave.transactions.sign(transaction, arJWK);
 
   let uploader = await arweave.transactions.getUploader(transaction);
 

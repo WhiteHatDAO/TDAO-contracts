@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
 const EditUserProfile = ({ address }) => {
-  const [name, setName] = useState("Edit Name");
-  const [bio, setBio] = useState("Edit Bio");
-  const [aboutMe, setAboutMe] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [tipAddress, setTipAddress] = useState("");
+  const [name, setName] = useState('Edit Name');
+  const [bio, setBio] = useState('Edit Bio');
+  const [aboutMe, setAboutMe] = useState('');
+  const [twitter, setTwitter] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [tipAddress, setTipAddress] = useState('');
+  const [id, setId] = useState('');
+  const [existAuthor, setExistAuthor] = useState(false);
   const [author, setAuthor] = useState(null);
   const [readers, setReaders] = useState("");
   const [timesCited, setTimesCited] = useState(0);
@@ -36,10 +38,12 @@ const EditUserProfile = ({ address }) => {
     const server = "http://localhost:4000";
     const params = new URLSearchParams([["walletId", address]]);
     try {
-      const res = await axios.get(server + "/api/authors", { params });
-      console.log("res: ", res);
-      if (res?.data?.data.length > 0) {
-        setAuthor(res?.data?.data[0]);
+      const res = await axios.get(server + '/api/authors', { params });
+      if (res?.data?.success) {
+        setExistAuthor(true);
+        setAuthor(res?.data?.data[0])
+      } else {
+        setExistAuthor(false);
       }
     } catch (e) {
       console.error(e);
@@ -59,19 +63,12 @@ const EditUserProfile = ({ address }) => {
     setTwitter(author.twitter);
     setLinkedin(author.linkedin);
     setTipAddress(author.walletId);
-    setselectedAuthorImage(
-      author && author?.authorImage && author?.authorImage?.data !== ""
-        ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)
-        : null,
-    );
-    setSelectedCoverImage(
-      author && author?.coverImage && author?.coverImage?.data !== ""
-        ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename)
-        : null,
-    );
-    setReaders(author?.readers ? author.readers : "");
-    setTimesCited(author && author.times_cited ? author.times_cited : 0);
-  }, [author]);
+    setselectedAuthorImage(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : null)
+    setSelectedCoverImage(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
+    setReaders(author?.readers ? author.readers : '')
+    setTimesCited(author&&author.times_cited ? author.times_cited : 0);
+    setId(author?._id);
+  }, [author])
 
   useEffect(() => {
     if (name === "") setName("Edit Name");
@@ -118,7 +115,8 @@ const EditUserProfile = ({ address }) => {
         };
 
     try {
-      const res = await axios.post(serverURL + "/api/author", {
+      const res = await axios.put(serverURL + "/api/author", {
+        id: id,
         username: name,
         bio: bio,
         aboutme: aboutMe,
