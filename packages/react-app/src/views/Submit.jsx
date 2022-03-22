@@ -142,7 +142,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     }
 
     // set up onchain tx
-    //submitOnChain(arweaveTx.id);
+    submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
@@ -188,13 +188,6 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
   useEffect(() => {
     console.log("ETH Address: ", address);
   }, [address]);
-
-  // useEffect(async() => {
-  //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
-  //   const data = await toBase64(selectedManuscriptFile);
-
-  //   console.log('filedata', data);
-  // }, [selectedManuscriptFile])
 
   return (
     <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>

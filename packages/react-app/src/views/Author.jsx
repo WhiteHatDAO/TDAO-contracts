@@ -107,7 +107,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   useEffect(async () => {
     const server = "http://localhost:4000";
     try {
-      const res = await axios.put(server + "/api/author", {
+      const res = await axios.put(server + "/api/author_readers", {
         walletId: walletId,
         readers: readers.join(","),
       });

@@ -1,9 +1,5 @@
 import Arweave from "arweave";
-
-// codecookerpro commented BEGIN
 // import { arJWK } from "./../RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4.js";
-// codecookerpro commented END
-
 // Wallet for testing
 // RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4
 // process.env.ARWEAVE_WALLET_KEY || {}
@@ -32,31 +28,27 @@ export async function getTransactionOwner(transaction) {
 export async function sendTransacton(data, contentType, categories) {
   // console.log(arJWK);
 
-  // codecooker commented BEGIN
-
-  // let transaction = await arweave.createTransaction(
-  //   {
-  //     data: data,
-  //   },
-  //   arJWK,
-  // );
-  // // Examples
-  // transaction.addTag("Content-Type", `${contentType}`);
-  // transaction.addTag("key2", "value2");
-  // console.log(transaction);
+  let transaction = await arweave.createTransaction(
+    {
+      data: data,
+    },
+    // arJWK,
+  );
+  // Examples
+  transaction.addTag("Content-Type", `${contentType}`);
+  transaction.addTag("Categoryo-1", `${categories[0] && categories[0]}`);
+  console.log(transaction);
 
   // await arweave.transactions.sign(transaction, arJWK);
 
-  // let uploader = await arweave.transactions.getUploader(transaction);
+  let uploader = await arweave.transactions.getUploader(transaction);
 
-  // while (!uploader.isComplete) {
-  //   await uploader.uploadChunk();
-  //   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
-  // }
+  while (!uploader.isComplete) {
+    await uploader.uploadChunk();
+    console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+  }
 
-  // return transaction;
-
-  // codecooker commented END
+  return transaction;
 }
 
 export async function getTransaction(transactionId) {}
