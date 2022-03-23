@@ -108,6 +108,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
 
         return (newItemId);
     }
+    
 
     function tipAuthor(address author, uint256 amount) public {
         console.log(amount);

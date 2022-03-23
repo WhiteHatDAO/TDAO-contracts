@@ -114,31 +114,31 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     if (optionPolitics) articleCategories.push("Politics");
 
     // set up Arweave tx
-    const arweaveTx = await submitToArweave(articleFile);
-    console.log(arweaveTx);
-    // try {
-    //   const res = await axios.post(server + "/api/article", {
-    //     walletId: walletId,
-    //     body: articleFile,
-    //     cover: articleCover,
-    //     price: talentPrice,
-    //     title: articleTitle,
-    //     authors: authors,
-    //     abstract: abstract,
-    //     blockchain: blockchain,
-    //     categories: articleCategories,
-    //     arweaveHash: arweaveTx.id.toString(),
-    //   });
-    //   console.log(res);
-    //   if (res.status === 200) {
-    //     // todo: clear the form and send to the creators/authors profile page
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    // const arweaveTx = await submitToArweave(articleFile);
+    // console.log(arweaveTx);
+    try {
+      const res = await axios.post(server + "/api/article", {
+        walletId: walletId,
+        body: articleFile,
+        cover: articleCover,
+        price: talentPrice,
+        title: articleTitle,
+        authors: authors,
+        abstract: abstract,
+        blockchain: blockchain,
+        categories: articleCategories,
+        arweaveHash: "a dummy hash", //arweaveTx.id.toString(),
+      });
+      console.log(res);
+      if (res.status === 200) {
+        // todo: clear the form and send to the creators/authors profile page
+      }
+    } catch (e) {
+      console.log(e);
+    }
 
     // set up onchain tx
-    //submitOnChain(arweaveTx.id);
+    // submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
@@ -184,13 +184,6 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
   useEffect(() => {
     console.log("ETH Address: ", address);
   }, [address]);
-
-  // useEffect(async() => {
-  //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
-  //   const data = await toBase64(selectedManuscriptFile);
-
-  //   console.log('filedata', data);
-  // }, [selectedManuscriptFile])
 
   return (
     <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>

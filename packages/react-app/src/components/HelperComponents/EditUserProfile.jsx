@@ -3,18 +3,28 @@ import { useEffect, useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
 const EditUserProfile = ({ address }) => {
-  const [name, setName] = useState('Edit Name');
-  const [bio, setBio] = useState('Edit Bio');
-  const [aboutMe, setAboutMe] = useState('');
-  const [twitter, setTwitter] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [tipAddress, setTipAddress] = useState('');
+  const [name, setName] = useState("Edit Name");
+  const [bio, setBio] = useState("Edit Bio");
+  const [aboutMe, setAboutMe] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [tipAddress, setTipAddress] = useState("");
+  const [id, setId] = useState("");
+  const [existAuthor, setExistAuthor] = useState(false);
   const [author, setAuthor] = useState(null);
-  const [readers, setReaders] = useState('')
+  const [readers, setReaders] = useState("");
   const [timesCited, setTimesCited] = useState(0);
 
-  const [selectedAuthorImage, setselectedAuthorImage] = useState(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : '');
-  const [selectedCoverImage, setSelectedCoverImage] = useState(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : '');
+  const [selectedAuthorImage, setselectedAuthorImage] = useState(
+    author && author?.authorImage && author?.authorImage?.data !== ""
+      ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)
+      : "",
+  );
+  const [selectedCoverImage, setSelectedCoverImage] = useState(
+    author && author?.coverImage && author?.coverImage?.data !== ""
+      ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename)
+      : "",
+  );
 
   const changeSelectedAuthorImage = event => {
     setselectedAuthorImage(event.target.files[0]);
@@ -25,23 +35,25 @@ const EditUserProfile = ({ address }) => {
   };
 
   const getAuthorData = async () => {
-    const server = 'http://localhost:4000';
-    const params = new URLSearchParams([['walletId', address]]);
+    const server = "http://localhost:4000";
+    const params = new URLSearchParams([["walletId", address]]);
     try {
-      const res = await axios.get(server + '/api/authors', { params });
-      console.log('res: ', res)
-      if (res?.data?.data.length > 0) {
-        setAuthor(res?.data?.data[0])
+      const res = await axios.get(server + "/api/authors", { params });
+      if (res?.data?.success) {
+        setExistAuthor(true);
+        setAuthor(res?.data?.data[0]);
+      } else {
+        setExistAuthor(false);
       }
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
-  }
+  };
 
   useEffect(() => {
-    if (address === '' || address === undefined) return;
-    getAuthorData()
-  }, [address])
+    if (address === "" || address === undefined) return;
+    getAuthorData();
+  }, [address]);
 
   useEffect(() => {
     if (author === null) return;
@@ -51,16 +63,25 @@ const EditUserProfile = ({ address }) => {
     setTwitter(author.twitter);
     setLinkedin(author.linkedin);
     setTipAddress(author.walletId);
-    setselectedAuthorImage(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : null)
-    setSelectedCoverImage(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
-    setReaders(author?.readers ? author.readers : '')
-    setTimesCited(author&&author.times_cited ? author.times_cited : 0);
-  }, [author])
+    setselectedAuthorImage(
+      author && author?.authorImage && author?.authorImage?.data !== ""
+        ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)
+        : null,
+    );
+    setSelectedCoverImage(
+      author && author?.coverImage && author?.coverImage?.data !== ""
+        ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename)
+        : null,
+    );
+    setReaders(author?.readers ? author.readers : "");
+    setTimesCited(author && author.times_cited ? author.times_cited : 0);
+    setId(author?._id);
+  }, [author]);
 
   useEffect(() => {
-    if (name === '') setName('Edit Name');
-    if (bio === '') setBio('Edit Bio');
-  }, [name, bio])
+    if (name === "") setName("Edit Name");
+    if (bio === "") setBio("Edit Bio");
+  }, [name, bio]);
 
   useEffect(() => {
     if (!selectedAuthorImage) return;
@@ -81,24 +102,29 @@ const EditUserProfile = ({ address }) => {
   const handleSave = async () => {
     const serverURL = "http://localhost:4000";
 
-    const authorImage = selectedAuthorImage ? {
-      filename: selectedAuthorImage.name,
-      data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : ''
-    } : {
-      filename: '',
-      data: ''
-    }
+    const authorImage = selectedAuthorImage
+      ? {
+          filename: selectedAuthorImage.name,
+          data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : "",
+        }
+      : {
+          filename: "",
+          data: "",
+        };
 
-    const authorCoverImage = selectedCoverImage ? {
-      filename: selectedCoverImage.name,
-      data: selectedCoverImage ? await toBase64(selectedCoverImage) : ''
-    } : {
-      filename: '',
-      data: ''
-    }
+    const authorCoverImage = selectedCoverImage
+      ? {
+          filename: selectedCoverImage.name,
+          data: selectedCoverImage ? await toBase64(selectedCoverImage) : "",
+        }
+      : {
+          filename: "",
+          data: "",
+        };
 
     try {
-      const res = await axios.post(serverURL + "/api/author", {
+      const res = await axios.put(serverURL + "/api/author", {
+        id: id,
         username: name,
         bio: bio,
         aboutme: aboutMe,
@@ -108,7 +134,7 @@ const EditUserProfile = ({ address }) => {
         authorImage: authorImage,
         coverImage: authorCoverImage,
         readers: readers,
-        times_cited: timesCited
+        times_cited: timesCited,
       });
       console.log("res", res);
     } catch (e) {
@@ -120,7 +146,11 @@ const EditUserProfile = ({ address }) => {
     <div className="flex flex-col space-y-4">
       <div className="w-full rounded-2xl bg-white">
         <div className="rounded-2xl h-56 relative" style={{ backgroundColor: "rgba(220, 220, 220, 1)" }}>
-          <img id="cover-image" alt="coverimage" className="absolute top-0 left-0 rounded-2xl object-cover w-full h-56"></img>
+          <img
+            id="cover-image"
+            alt="coverimage"
+            className="absolute top-0 left-0 rounded-2xl object-cover w-full h-56"
+          ></img>
           <div className="flex flex-row justify-end pr-8 pt-4">
             <label htmlFor="cover-upload" className="rounded-full cursor-pointer z-10">
               <span>
@@ -148,7 +178,7 @@ const EditUserProfile = ({ address }) => {
               className="-mt-20 w-40 h-40 border-2 relative border-white rounded-full flex justify-center items-center overflow-hidden"
               style={{ backgroundColor: "rgba(220, 220, 220, 1)" }}
             >
-              <img id="user-image" className="absolute top-0 left-0 rounded-full z-10"></img>
+              <img id="user-image" className="absolute top-0 left-0 rounded-full z-10" alt="user"></img>
               <label htmlFor="image-upload" className="rounded-full cursor-pointer z-10">
                 <span>
                   <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">

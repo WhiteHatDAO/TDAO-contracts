@@ -2,7 +2,6 @@ import Arweave from "arweave";
 import { arJWK } from "./../RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4.js";
 // Wallet for testing
 // RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4
-// process.env.ARWEAVE_WALLET_KEY || {}
 
 const arweave = Arweave.init({
   host: "arweave.net",
@@ -50,4 +49,72 @@ export async function sendTransacton(data, contentType, categories) {
   return transaction;
 }
 
-export async function getTransaction(transactionId) {}
+export async function getFileBase64(txId) {
+  // Get the base64url encoded string
+  arweave.transactions.getData(txId).then(data => {
+    console.log(data);
+  });
+}
+
+export async function getFileAsAString(txId) {
+  // Get the data decode as string data
+  arweave.transactions.getData(txId, { decode: true, string: true }).then(data => {
+    console.log(data);
+  });
+}
+
+export async function DecodeTags(txId) {
+  const transaction = arweave.transactions.get(txId).then(transaction => {
+    transaction.get("tags").forEach(tag => {
+      let key = tag.get("name", { decode: true, string: true });
+      let value = tag.get("value", { decode: true, string: true });
+      console.log(`${key} : ${value}`);
+    });
+    // Content-Type : text/html
+    // User-Agent : ArweaveDeploy/1.1.0
+  });
+}
+
+// id here is just one string tx id
+// export const GRAPH_GET_TX_BY_ID = id => {
+//   transactions(ids: [id]) {
+//       edges {
+//           node {
+//               id
+//           }
+//       }
+//   }
+// }
+
+// ids is an array here of strings
+// export const GRAPH_GET_TX_BY_IDS = ids => {
+//   transactions(ids: ids) {
+//       edges {
+//           node {
+//               id
+//           }
+//       }
+//   }
+// }
+
+/**
+ * 
+ * @dev tag example to use for search
+ *  {{
+        name: "Content-Type",
+        values: ["text/html"]
+    }} tags 
+ */
+// export const GRAPH_GET_TX_BY_TAG = tag => {
+//   query {
+//     transactions(
+//         tags: tags
+//     ) {
+//         edges {
+//             node {
+//                 id
+//             }
+//         }
+//     }
+//   }
+// }
