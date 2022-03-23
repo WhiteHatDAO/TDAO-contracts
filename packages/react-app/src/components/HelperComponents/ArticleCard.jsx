@@ -16,8 +16,8 @@ export const ArticleCard = () => {
         </a>
         <div className="pt-4 flex flex-col">
           <div className="flex flex-row justify-between items-start">
-            <div className="text-2xl text-left font-bold cursor-pointer" onClick={() => history.push('/article')} >Metaverse Superheroes</div>
-            <div className="flex flex-row items-center">
+            <div className="text-xl text-left font-bold cursor-pointer" onClick={() => history.push('/article')} >Metaverse Superheroes</div>
+            <div className="flex flex-row items-center pr-4">
               <img src={talentImage} className="-mr-2" alt="talent"></img>
               <img src={etherImage} alt="ethereum"></img>
             </div>
@@ -25,7 +25,7 @@ export const ArticleCard = () => {
           <div className="pt-8 flex flex-row justify-between items-center">
             <div className="flex flex-row items-center cursor-pointer" onClick={() => history.push('/author')}>
               <img src={authorImage}></img>
-              <div className="pl-2 text-xl text-darkgray">Author</div>
+              <div className="pl-2 text-lg text-darkgray">Author</div>
             </div>
             <img src={heartImage} alt="heart"></img>
           </div>

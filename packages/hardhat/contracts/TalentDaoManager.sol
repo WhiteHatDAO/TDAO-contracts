@@ -22,7 +22,7 @@ interface ITDAOToken {
 }
 
 interface ITDAONFTToken {
-    function mintNFTForArticle(address ownerAddress, address author, string memory arweaveHash, string memory profileHash, string memory metadataPtr, uint256 amount) external returns(uint256, uint256);
+    function mintNFTForArticle(address ownerAddress, string memory metadataPtr, uint256 amount) external returns(uint256);
 }
 
 interface ITDAOMemberToken{
@@ -77,7 +77,6 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         tDaoMemberToken.mintMembershipToken(to, metadataPtr, amount);
     }
     
-    
     /// @dev transfer TDAO tokens
     /// @param to the recipient of the tokens
     function _transferTokens (address to, uint256 amount) internal {
@@ -101,39 +100,20 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     }
 
 
-    function mintArticleNFT(address author, string memory arweaveHash, string memory profileHash, string memory metadataPtr, uint256 amount)
+    function mintArticleNFT(address owner, string memory metadataPtr, uint256 amount)
         public
-        returns (uint256, uint256)
+        returns (uint256)
     {
-        (uint256 newItemId, uint256 authorId) = tDaoNftToken.mintNFTForArticle(msg.sender, author, arweaveHash, profileHash, metadataPtr, amount);
+        (uint256 newItemId) = tDaoNftToken.mintNFTForArticle(owner, metadataPtr, amount);
 
-        return (newItemId, authorId);
+        return (newItemId);
     }
-
-
-    function getAuthor(address authorAddress)
-        public
-        view
-        returns(address, uint256, string memory)
-    {
-        return (authors[authorAddress].authorAddress, authors[authorAddress].id, authors[authorAddress].arweaveProfileHash);
-    }
-
-
-    function addAuthor(address author, string memory arweaveHash, string memory metadataPtr)
-        public 
-        returns(uint256 authorId)
-    {
-        (authorId) = addAuthor(author, arweaveHash, metadataPtr);
-
-        return authorId;
-    }
+    
 
     function tipAuthor(address author, uint256 amount) public {
         console.log(amount);
         require(tDaoToken.balanceOf(msg.sender) >= amount, "You don't have enough TDAO tokens");
         tDaoToken.transferFrom(msg.sender, author, amount);
     }
-
     
 }

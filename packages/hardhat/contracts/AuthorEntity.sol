@@ -8,7 +8,6 @@ import "./ArticleEntity.sol";
 contract AuthorEntity is ArticleEntity {
     using Counters for Counters.Counter;
 
-
     Counters.Counter public _authorIds;
 
     struct Author {
@@ -35,13 +34,22 @@ contract AuthorEntity is ArticleEntity {
 
         //Article storage articleRef = articleList[articleId];
         //newAuthor.articles[articleId].author = authorAddress;
-        
+        return id;
     }
+
     /// @dev edit an author on-chain
     /// @param authorAddress the address of the author
     function updateAuthor(address authorAddress) public {
         Author storage newAuthor = authors[authorAddress];
         // now edit...
 
+    }
+
+    function getAuthor(address authorAddress)
+        public
+        view
+        returns(address, uint256, string memory)
+    {
+        return (authors[authorAddress].authorAddress, authors[authorAddress].id, authors[authorAddress].arweaveProfileHash);
     }
 }
