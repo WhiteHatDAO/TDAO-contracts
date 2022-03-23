@@ -42,7 +42,7 @@ const About = () => {
           </div>
           <div className="flex flex-col text-center">
             <div className="text-lg text-primary">BELIEFS</div>
-            <div className="text-3xl lg:text-6xl font-bold">What We Do It</div>
+            <div className="text-3xl lg:text-6xl font-bold">Why We Do It</div>
             <div className="mx-4 md:mx-0 grid grid-cols-1 lg:grid-cols-3 space-x-0 lg:space-x-8 space-y-4 lg:space-y-0 my-10 text-left">
               <div className="bg-white rounded-xl p-8 flex flex-col space-y-4" style={{ boxShadow: '0px 0px 20px -4px rgba(0, 0, 0, 0.19)' }}>
                 <img src={people_at} width={70}></img>
