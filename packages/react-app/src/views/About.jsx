@@ -28,7 +28,7 @@ const About = () => {
           <div className="text-4xl text-primary font-bold">
             The world of work <br /> just got so much better
           </div>
-          <img src={aboutImage} className="hidden lg:flex w-1/2 pt-4"></img>
+          <img src={aboutImage} className="hidden lg:flex w-1/2 pt-4" alt="about"></img>
           <div className="mx-4 md:mx-0 pt-4 flex flex-col lg:flex-row items-center justify-between">
             <div className="flex flex-col items-start space-y-4">
               <div className="text-lg text-primary">MISSION</div>
