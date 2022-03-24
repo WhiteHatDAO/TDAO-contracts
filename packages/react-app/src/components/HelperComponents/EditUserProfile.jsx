@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
 
 const EditUserProfile = ({ address }) => {
-  const [name, setName] = useState('Edit Name');
-  const [bio, setBio] = useState('Edit Bio');
-  const [aboutMe, setAboutMe] = useState('');
-  const [twitter, setTwitter] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [tipAddress, setTipAddress] = useState('');
-  const [id, setId] = useState('');
+  const [name, setName] = useState("Edit Name");
+  const [bio, setBio] = useState("Edit Bio");
+  const [aboutMe, setAboutMe] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [tipAddress, setTipAddress] = useState("");
+  const [id, setId] = useState("");
   const [existAuthor, setExistAuthor] = useState(false);
   const [author, setAuthor] = useState(null);
   const [readers, setReaders] = useState("");
@@ -38,10 +38,10 @@ const EditUserProfile = ({ address }) => {
     const server = "http://localhost:4000";
     const params = new URLSearchParams([["walletId", address]]);
     try {
-      const res = await axios.get(server + '/api/authors', { params });
+      const res = await axios.get(server + "/api/authors", { params });
       if (res?.data?.success) {
         setExistAuthor(true);
-        setAuthor(res?.data?.data[0])
+        setAuthor(res?.data?.data[0]);
       } else {
         setExistAuthor(false);
       }
@@ -63,12 +63,20 @@ const EditUserProfile = ({ address }) => {
     setTwitter(author.twitter);
     setLinkedin(author.linkedin);
     setTipAddress(author.walletId);
-    setselectedAuthorImage(author&&author?.authorImage&&author?.authorImage?.data !== '' ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename) : null)
-    setSelectedCoverImage(author&&author?.coverImage&&author?.coverImage?.data !== '' ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename) : null)
-    setReaders(author?.readers ? author.readers : '')
-    setTimesCited(author&&author.times_cited ? author.times_cited : 0);
+    setselectedAuthorImage(
+      author && author?.authorImage && author?.authorImage?.data !== ""
+        ? dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)
+        : null,
+    );
+    setSelectedCoverImage(
+      author && author?.coverImage && author?.coverImage?.data !== ""
+        ? dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename)
+        : null,
+    );
+    setReaders(author?.readers ? author.readers : "");
+    setTimesCited(author && author.times_cited ? author.times_cited : 0);
     setId(author?._id);
-  }, [author])
+  }, [author]);
 
   useEffect(() => {
     if (name === "") setName("Edit Name");
@@ -170,7 +178,7 @@ const EditUserProfile = ({ address }) => {
               className="-mt-20 w-40 h-40 border-2 relative border-white rounded-full flex justify-center items-center overflow-hidden"
               style={{ backgroundColor: "rgba(220, 220, 220, 1)" }}
             >
-              <img id="user-image" className="absolute top-0 left-0 rounded-full z-10"></img>
+              <img id="user-image" className="absolute top-0 left-0 rounded-full z-10" alt="user"></img>
               <label htmlFor="image-upload" className="rounded-full cursor-pointer z-10">
                 <span>
                   <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
