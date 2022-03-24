@@ -349,7 +349,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
             </div>
           </div>
           <div className="py-8">
-            <AuthorMark></AuthorMark>
+            <AuthorMark marks={[]}></AuthorMark>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {articles.map((article, index) => (
