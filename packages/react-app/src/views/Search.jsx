@@ -9,35 +9,93 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { SubmissionCard } from "../components/HelperComponents/SubmissionCard";
 import { AuthorCard } from "../components/HelperComponents/AuthorCard";
+import { strcmp } from "../utils/utils";
 
 const Search = () => {
-  const [category, setCategory] = useState('Author');
+  const [category, setCategory] = useState('author');
   const [field, setField] = useState('username');
+  const [sortField, setSortField] = useState('username');
   const [value, setValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const history = useHistory();
 
-  const handleSearch = async () => {
+  useEffect(() => {
+    const query = history.location.search.split('=')[1];
+    setValue(query);
+    searchForQuery(query);
+  }, []);
+
+  useEffect(() => {
+    sortSearchResult(searchResult);
+  }, [sortField]);
+
+  const sortSearchResult = (result) => {
+    console.log('sortField == ', sortField);
+    if (result !== []) {
+      let isSorted = false;
+      result.sort((a, b) => {
+        const swapped = strcmp(b[sortField], a[sortField]);
+        if (swapped < 0)
+          isSorted = true;
+        return swapped;
+      });
+      console.log('isSorted == ', isSorted);
+      if (isSorted)
+        setSearchResult([...result]);
+      else
+        setSearchResult(result);
+    }
+  };
+
+  const searchForQuery = async (query) => {
     const server = "http://localhost:4000";
-    const cate = category === 'Author' ? '/api/author_find' : '/api/article_find';
-    const params = new URLSearchParams([['field', field], ['value', value]]);
+    const cate = category === 'author' ? '/api/author_find' : '/api/article_find';
+    const params = new URLSearchParams([['field', field], ['value', query]]);
     try {
       const res = await axios.get(server + cate, { params });
-      console.log('res: ', res);
+      console.log(res);
       if (res.data.success) {
-        setSearchResult(res.data.data);
+        sortSearchResult(res.data.data);
       }
     } catch (e) {
       console.log(e);
     }
   }
+
+  const handleSearch = async () => {
+    await searchForQuery(value);
+  }
+
+  const handleCategoryChange = (event) => {
+    setValue('');
+    setSearchResult([]);
+    setCategory(event.target.value);
+    if (event.target.value == 'author') {
+      setField('username');
+      setSortField('username');
+    } else {
+      setField('title');
+      setSortField('title');
+    }
+  }
+
+  const handleSortFieldChange = (event) => {
+    setSortField(event.target.value);
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      handleSearch();
+    }
+  }
+
   return (
     <div className="flex flex-col" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }} >
       <div className="relative" style={{ backgroundColor: '#e2e2e2' }}>
         <div className="lg:mx-auto lg:max-w-3xl overflow-hidden relative text-left space-y-8 py-16">
           <div className="mx-4 flex flex-col items-center justify-center space-y-8">
             <div className="w-full flex flex-row items-center rounded-full bg-white text-white cursor-pointer p-2">
-              <input type="text" className="w-full px-4 text-black text-lg focus:outline-none" value={value} onChange={(e) => setValue(e.target.value)}></input>
+              <input type="text" className="w-full px-4 text-black text-lg focus:outline-none" value={value} onChange={(e) => setValue(e.target.value)} onKeyDown={handleKeyDown}></input>
               <div className="w-40 bg-primary rounded-full py-2 text-sm flex flex-row items-center justify-center cursor-pointer" onClick={handleSearch}>
                 <img className="" src={search} width={24} height={24}></img>
                 <div>Search</div>
@@ -50,11 +108,11 @@ const Search = () => {
                   id="select-blockchain"
                   name="select-blockchain"
                   className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
-                  value={field}
-                  onChange={(e) => setField(e.target.value)}
+                  value={sortField}
+                  onChange={handleSortFieldChange}
                 >
                   {
-                    category === 'Author' ? (
+                    category === 'author' ? (
                       <>
                         <option value="username">UserName</option>
                         <option value="bio">Bio</option>
@@ -65,9 +123,9 @@ const Search = () => {
                       </>
                     ) : (
                       <>
+                        <option value="title">Title</option>
                         <option value="walletId">WalletId</option>
                         <option value="price">Price</option>
-                        <option value="title">Title</option>
                         <option value="authors">Authors</option>
                         <option value="abstract">Abstract</option>
                         <option value="blockchain">Blockchain</option>
@@ -75,7 +133,7 @@ const Search = () => {
                       </>
                     )
                   }
-                  <option>History</option>
+                  {/* <option>History</option> */}
                 </select>
               </div>
               <div className="w-full md:w-auto flex flex-col space-y-2">
@@ -85,10 +143,10 @@ const Search = () => {
                   name="select-blockchain"
                   className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={handleCategoryChange}
                 >
-                  <option>Author</option>
-                  <option>Article</option>
+                  <option value="author">Author</option>
+                  <option value="article">Article</option>
                 </select>
               </div>
               <div className="w-full md:w-auto flex flex-col space-y-2 cursor-pointer" onClick={() => history.push("/advancedsearch")}>
@@ -112,7 +170,7 @@ const Search = () => {
       <div className="px-4 sm:px-8 md:px-10 xl:px-20 overflow-hidden">
         <div className="text-sm pt-8 text-left">
           {
-            category === 'Author' ? (
+            category === 'author' ? (
               <div>
                 {searchResult.length} similar Authors found
               </div>
@@ -125,13 +183,13 @@ const Search = () => {
         </div>
         <div className="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {
-            category === 'Author' ?
+            category === 'author' ?
               searchResult.map(item => (
-                <AuthorCard author={item}></AuthorCard>
+                <AuthorCard key={Math.random()} author={item}></AuthorCard>
               ))
               :
               searchResult.map(item => (
-                <SubmissionCard article={item}></SubmissionCard>
+                <SubmissionCard key={Math.random()} article={item}></SubmissionCard>
               ))
           }
         </div>
