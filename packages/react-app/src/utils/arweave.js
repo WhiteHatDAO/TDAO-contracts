@@ -1,12 +1,7 @@
 import Arweave from "arweave";
-
-// codecookerpro commented BEGIN
-// import { arJWK } from "./../RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4.js";
-// codecookerpro commented END
-
+import { arJWK } from "./../RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4.js";
 // Wallet for testing
 // RBDknevaThx7OS6TSULo00kYTADbA0gL12PamuBuLM4
-// process.env.ARWEAVE_WALLET_KEY || {}
 
 const arweave = Arweave.init({
   host: "arweave.net",
@@ -31,32 +26,95 @@ export async function getTransactionOwner(transaction) {
 // @params contentType the file type, txt, docx, pdf, etc.
 export async function sendTransacton(data, contentType, categories) {
   // console.log(arJWK);
+  let transaction = await arweave.createTransaction(
+    {
+      data: data,
+    },
+    arJWK,
+  );
+  // Examples
+  transaction.addTag("Content-Type", `${contentType}`);
+  transaction.addTag("Categoryo-1", `${categories[0] && categories[0]}`);
+  console.log(transaction);
 
-  // codecooker commented BEGIN
+  await arweave.transactions.sign(transaction, arJWK);
 
-  // let transaction = await arweave.createTransaction(
-  //   {
-  //     data: data,
-  //   },
-  //   arJWK,
-  // );
-  // // Examples
-  // transaction.addTag("Content-Type", `${contentType}`);
-  // transaction.addTag("key2", "value2");
-  // console.log(transaction);
+  let uploader = await arweave.transactions.getUploader(transaction);
 
-  // await arweave.transactions.sign(transaction, arJWK);
+  while (!uploader.isComplete) {
+    await uploader.uploadChunk();
+    console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
+  }
 
-  // let uploader = await arweave.transactions.getUploader(transaction);
-
-  // while (!uploader.isComplete) {
-  //   await uploader.uploadChunk();
-  //   console.log(`${uploader.pctComplete}% complete, ${uploader.uploadedChunks}/${uploader.totalChunks}`);
-  // }
-
-  // return transaction;
-
-  // codecooker commented END
+  return transaction;
 }
 
-export async function getTransaction(transactionId) {}
+export async function getFileBase64(txId) {
+  // Get the base64url encoded string
+  arweave.transactions.getData(txId).then(data => {
+    console.log(data);
+  });
+}
+
+export async function getFileAsAString(txId) {
+  // Get the data decode as string data
+  arweave.transactions.getData(txId, { decode: true, string: true }).then(data => {
+    console.log(data);
+  });
+}
+
+export async function DecodeTags(txId) {
+  const transaction = arweave.transactions.get(txId).then(transaction => {
+    transaction.get("tags").forEach(tag => {
+      let key = tag.get("name", { decode: true, string: true });
+      let value = tag.get("value", { decode: true, string: true });
+      console.log(`${key} : ${value}`);
+    });
+    // Content-Type : text/html
+    // User-Agent : ArweaveDeploy/1.1.0
+  });
+}
+
+// id here is just one string tx id
+// export const GRAPH_GET_TX_BY_ID = id => {
+//   transactions(ids: [id]) {
+//       edges {
+//           node {
+//               id
+//           }
+//       }
+//   }
+// }
+
+// ids is an array here of strings
+// export const GRAPH_GET_TX_BY_IDS = ids => {
+//   transactions(ids: ids) {
+//       edges {
+//           node {
+//               id
+//           }
+//       }
+//   }
+// }
+
+/**
+ * 
+ * @dev tag example to use for search
+ *  {{
+        name: "Content-Type",
+        values: ["text/html"]
+    }} tags 
+ */
+// export const GRAPH_GET_TX_BY_TAG = tag => {
+//   query {
+//     transactions(
+//         tags: tags
+//     ) {
+//         edges {
+//             node {
+//                 id
+//             }
+//         }
+//     }
+//   }
+// }

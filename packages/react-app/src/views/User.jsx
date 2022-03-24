@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import EditUserProfile from "../components/HelperComponents/EditUserProfile";
@@ -16,7 +15,7 @@ const configUserType = {
 
 export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
-  const [userConfig, setUserConfig] = useState(configUserType.none)
+  const [userConfig, setUserConfig] = useState(configUserType.none);
   const location = useLocation();
   const history = useHistory();
 
@@ -36,7 +35,6 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
     handleMenuOpen();
   };
 
-
   useEffect(() => {
     if (address === undefined) {
       setUserConfig(configUserType.none);
@@ -55,7 +53,6 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
       setUserConfig(configUserType.edit_profile);
     }
   }, [location.pathname, address]);
-
 
   const Menu = () => (
     <>
@@ -146,30 +143,28 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
             <Menu />
           </div>
           <div className="w-full">
-            {
-              userConfig === configUserType.none ? (
-                <div className="flex justify-center">
-                  <UserConnect></UserConnect>
-                </div>
-              ) : userConfig === configUserType.submission ? (
-                <div className="flex flex-col">
-                  <p className="py-4 text-left text-lg text-darkgray font-bold">Submissions</p>
-                  <UserSubmissions address={address}></UserSubmissions>
-                </div>
-              ) : userConfig === configUserType.article ? (
-                <div className="flex flex-col">
-                  <p className="py-4 text-left text-lg text-darkgray font-bold">Articles</p>
-                  <UserArticles></UserArticles>
-                </div>
-              ) : userConfig === configUserType.edit_profile ? (
-                <div className="flex flex-col">
-                  <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
-                  <EditUserProfile address={address}></EditUserProfile>
-                </div>
-              ) : (
-                <></>
-              )
-            }
+            {userConfig === configUserType.none ? (
+              <div className="flex justify-center">
+                <UserConnect></UserConnect>
+              </div>
+            ) : userConfig === configUserType.submission ? (
+              <div className="flex flex-col">
+                <p className="py-4 text-left text-lg text-darkgray font-bold">Submissions</p>
+                <UserSubmissions address={address}></UserSubmissions>
+              </div>
+            ) : userConfig === configUserType.article ? (
+              <div className="flex flex-col">
+                <p className="py-4 text-left text-lg text-darkgray font-bold">Articles</p>
+                <UserArticles></UserArticles>
+              </div>
+            ) : userConfig === configUserType.edit_profile ? (
+              <div className="flex flex-col">
+                <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
+                <EditUserProfile address={address}></EditUserProfile>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>

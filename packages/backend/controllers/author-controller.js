@@ -31,7 +31,7 @@ deleteAuthor = async (req, res) => {
   }).clone().catch((err) => console.error(err));
 };
 
-updateAuthor = async (req, res) => {
+updateAuthorReaders = async (req, res) => {
   await Author.updateOne({ walletId: req.body.walletId }, { readers: req.body.readers }, (err, author) => {
     if (err) {
       return res.status(400).json({ success: false, error: err })
@@ -39,6 +39,26 @@ updateAuthor = async (req, res) => {
     return res.status(200).json({ success: true, data: author });
   }).clone().catch((err) => console.error(err));
 };
+
+updateAuthor = async (req, res) => {
+  await Author.updateOne({ _id: req.body.id }, {
+    username: req.body.username,
+    bio: req.body.bio,
+    aboutme: req.body.aboutme,
+    twitter: req.body.twitter,
+    linkedin: req.body.linkedin,
+    walletId: req.body.tipAddress,
+    authorImage: req.body.authorImage,
+    coverImage: req.body.authorCoverImage,
+    readers: req.body.readers,
+    times_cited: req.body.times_cited
+  }, (err, author) => {
+    if(err) {
+      return res.status(400).json({success: false, error: err})
+    }
+    return res.status(200).json({success: true, data: author});
+  }).clone().catch((err) => console.error(err));
+}
 
 updateTimes = async (req, res) => {
   console.log('req.body', req.body)
@@ -107,6 +127,7 @@ module.exports = {
   createAuthor,
   deleteAuthor,
   updateAuthor,
+  updateAuthorReaders,
   updateTimes,
   getAuthors,
   getAuthorsByField,

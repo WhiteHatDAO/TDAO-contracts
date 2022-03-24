@@ -87,23 +87,23 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
 
     const articleFile = selectedManuscriptFile
       ? {
-        filename: selectedManuscriptFile.name,
-        data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : "",
-      }
+          filename: selectedManuscriptFile.name,
+          data: selectedManuscriptFile ? await toBase64(selectedManuscriptFile) : "",
+        }
       : {
-        filename: "",
-        data: "",
-      };
+          filename: "",
+          data: "",
+        };
 
     const articleCover = selectedArticleCover
       ? {
-        filename: selectedArticleCover.name,
-        data: selectedArticleCover ? await toBase64(selectedArticleCover) : "",
-      }
+          filename: selectedArticleCover.name,
+          data: selectedArticleCover ? await toBase64(selectedArticleCover) : "",
+        }
       : {
-        filename: "",
-        data: "",
-      };
+          filename: "",
+          data: "",
+        };
 
     // add categories here
     let articleCategories = [];
@@ -114,12 +114,8 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     if (optionPolitics) articleCategories.push("Politics");
 
     // set up Arweave tx
-
-    // codecookerpro commented BEGIN
     // const arweaveTx = await submitToArweave(articleFile);
     // console.log(arweaveTx);
-    // codecookerpro commented END
-
     try {
       const res = await axios.post(server + "/api/article", {
         walletId: walletId,
@@ -131,18 +127,18 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
         abstract: abstract,
         blockchain: blockchain,
         categories: articleCategories,
-        arweaveHash: 'any string here'//arweaveTx.id.toString(),
+        arweaveHash: "a dummy hash", //arweaveTx.id.toString(),
       });
       console.log(res);
       if (res.status === 200) {
-        // clear the form and send to the creators/authors profile page
+        // todo: clear the form and send to the creators/authors profile page
       }
     } catch (e) {
       console.log(e);
     }
 
     // set up onchain tx
-    //submitOnChain(arweaveTx.id);
+    // submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
@@ -157,13 +153,13 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const submitOnChain = async arweaveHash => {
     await tx(
       writeContracts &&
-      writeContracts.TalentDaoManager &&
-      writeContracts.TalentDaoManager.addArticle(
-        address,
-        arweaveHash,
-        "ipfs meta data pointer",
-        ethers.utils.parseEther("10"),
-      ),
+        writeContracts.TalentDaoManager &&
+        writeContracts.TalentDaoManager.addArticle(
+          address,
+          arweaveHash,
+          "ipfs meta data pointer",
+          ethers.utils.parseEther("10"),
+        ),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -188,13 +184,6 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
   useEffect(() => {
     console.log("ETH Address: ", address);
   }, [address]);
-
-  // useEffect(async() => {
-  //   if(!selectedManuscriptFile || selectedManuscriptFile === undefined) return;
-  //   const data = await toBase64(selectedManuscriptFile);
-
-  //   console.log('filedata', data);
-  // }, [selectedManuscriptFile])
 
   return (
     <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>

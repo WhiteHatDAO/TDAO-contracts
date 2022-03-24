@@ -8,7 +8,7 @@ import earth_mobileImage from "../../assets/earth_mobile.png";
 import { useHistory } from "react-router-dom";
 
 /* This example requires Tailwind CSS v2.0+ */
-export default function Splash({ address }) {
+export default function Splash({address}) {
   const history = useHistory();
   return (
     <div className="mx-4 relative flex flex-col lg:flex-row place-content-between items-center rounded-3xl" style={{ background: 'linear-gradient(100.23deg, #0037B5 3.84%, #B41C2E 108.44%)' }}>
