@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import search from "../assets/search.svg";
 import info from "../assets/info.svg";
 import arrow from "../assets/arrowWhite.svg";
@@ -7,6 +7,7 @@ import { SimilarArticleCard } from "../components/HelperComponents/SimilarArticl
 import Footer from "../components/HelperComponents/Footer";
 
 const AdvancedSearch = () => {
+
   return (
     <div className="flex flex-col" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }} >
       <div className="relative" style={{ backgroundColor: '#e2e2e2' }}>

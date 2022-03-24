@@ -83,13 +83,19 @@ const Search = () => {
     setSortField(event.target.value);
   }
 
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      handleSearch();
+    }
+  }
+
   return (
     <div className="flex flex-col" style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }} >
       <div className="relative" style={{ backgroundColor: '#e2e2e2' }}>
         <div className="lg:mx-auto lg:max-w-3xl overflow-hidden relative text-left space-y-8 py-16">
           <div className="mx-4 flex flex-col items-center justify-center space-y-8">
             <div className="w-full flex flex-row items-center rounded-full bg-white text-white cursor-pointer p-2">
-              <input type="text" className="w-full px-4 text-black text-lg focus:outline-none" value={value} onChange={(e) => setValue(e.target.value)}></input>
+              <input type="text" className="w-full px-4 text-black text-lg focus:outline-none" value={value} onChange={(e) => setValue(e.target.value)} onKeyDown={handleKeyDown}></input>
               <div className="w-40 bg-primary rounded-full py-2 text-sm flex flex-row items-center justify-center cursor-pointer" onClick={handleSearch}>
                 <img className="" src={search} width={24} height={24}></img>
                 <div>Search</div>
