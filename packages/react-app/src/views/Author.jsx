@@ -143,7 +143,10 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
     await tx(
       writeContracts &&
         writeContracts.TalentDaoToken &&
-        writeContracts.TalentDaoToken.approve(readContracts?.TalentDaoManager.address, ethers.utils.parseEther(".01")),
+        writeContracts.TalentDaoToken.approve(
+          readContracts?.TalentDaoManager.address,
+          ethers.utils.parseEther(amount.toString()),
+        ),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -159,7 +162,25 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
     await tx(
       writeContracts &&
         writeContracts.TalentDaoManager &&
-        writeContracts.TalentDaoManager.tipAuthor(address, (amount * 10 ** 16).toString()),
+        writeContracts.TalentDaoManager.tipAuthor(address, ethers.utils.parseEther(amount.toString())),
+      async update => {
+        console.log("📡 Transaction Update:", update);
+        if (update.status === 1) {
+          notification.open({
+            message: "Author Tipped",
+            description: "Your have just tipped the Author 😍",
+            icon: "🚀",
+          });
+        }
+      },
+    );
+  };
+
+  const tipAuthorEth = async amount => {
+    await tx(
+      writeContracts &&
+        writeContracts.TalentDaoManager &&
+        writeContracts.TalentDaoManager.tipAuthorEth(address, { value: ethers.utils.parseEther(amount.toString()) }),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -256,7 +277,11 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                               <div
                                 className="w-full rounded-full bg-primary text-white text-xl px-4 py-2 cursor-pointer"
                                 onClick={() => {
-                                  tipAuthor(parseInt(tipAmount));
+                                  if (token == "ETH") {
+                                    tipAuthorEth(tipAmount);
+                                  } else {
+                                    tipAuthor(tipAmount);
+                                  }
                                   setTipDropDown(false);
                                 }}
                               >

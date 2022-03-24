@@ -51,7 +51,7 @@ export default class AuthorMark extends Component {
           <div className="relative roadmap_container">
             <Slider ref={c => (this.slider = c)} {...settings}>
               {this.props.marks.map((item, index) => {
-                return <img className="px-8" src={item} alt="rewards"></img>;
+                return <img key={index} className="px-8" src={item} alt="rewards"></img>;
               })}
             </Slider>
           </div>
