@@ -12,7 +12,6 @@ import AuthorMark from "../components/HelperComponents/AuthorMark";
 import Footer from "../components/HelperComponents/Footer";
 import { dataURLtoFile, getAuthorData } from "../utils/utils";
 
-
 const Author = ({ tx, readContracts, writeContracts, address }) => {
   const history = useHistory();
   const { walletId } = useParams();
@@ -25,7 +24,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const [timesCited, setTimesCited] = useState(0);
   const [tipDropDown, setTipDropDown] = useState(false);
   const [tipAmount, setTipAmount] = useState(0);
-  const [token, setToken] = useState('ETH');
+  const [token, setToken] = useState("ETH");
 
   const scrollTop = () => {
     document.documentElement.scrollTo({
@@ -137,14 +136,13 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
 
   useEffect(() => {
     if (!tipDropDown) return;
+  }, [tipDropDown]);
 
-  }, [tipDropDown])
-
-  const tipAuthor = async (amount) => {
+  const tipAuthor = async amount => {
     await tx(
       writeContracts &&
-      writeContracts.TalentDaoToken &&
-      writeContracts.TalentDaoToken.approve(readContracts?.TalentDaoManager.address, ethers.utils.parseEther(".01")),
+        writeContracts.TalentDaoToken &&
+        writeContracts.TalentDaoToken.approve(readContracts?.TalentDaoManager.address, ethers.utils.parseEther(".01")),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -159,8 +157,8 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
 
     await tx(
       writeContracts &&
-      writeContracts.TalentDaoManager &&
-      writeContracts.TalentDaoManager.tipAuthor(address, (amount * 10 ** 16).toString()),
+        writeContracts.TalentDaoManager &&
+        writeContracts.TalentDaoManager.tipAuthor(address, (amount * 10 ** 16).toString()),
       async update => {
         console.log("📡 Transaction Update:", update);
         if (update.status === 1) {
@@ -211,7 +209,9 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                       <div
                         className="w-40 py-2 rounded-full border border-primary cursor-pointer"
                         style={{ backgroundColor: "rgba(180, 28, 46, 0.15)" }}
-                        onClick={e => { setTipDropDown(!tipDropDown) }}
+                        onClick={e => {
+                          setTipDropDown(!tipDropDown);
+                        }}
                       >
                         TIP AUTHOR
                       </div>
@@ -225,42 +225,55 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                         )
                       } */}
                     </div>
-                    {
-                      tipDropDown && (
-                          <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                            <div className="relative p-8 w-full max-w-md h-full md:h-auto bg-white rounded-lg">
-                              <div className="flex flex-col space-y-4">
-                                <div className="flex flex-row items-center">
-                                  <div className="w-40 text-lg text-black">Amount:</div>
-                                  <input
-                                    type="text"
-                                    value={tipAmount}
-                                    className="my-1 px-4 py-2 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-lightgray"
-                                    onChange={event => setTipAmount(event.target.value)}
-                                  />
-                                </div>
-                                <div className="flex flex-row items-center">
-                                  <div className="w-40 text-lg text-black">Token:</div>
-                                  <select
-                                    id="select-blockchain"
-                                    name="select-blockchain"
-                                    className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
-                                    value={token}
-                                    onChange={(e) => setToken(e.target.value)}
-                                  >
-                                    <option>ETH</option>
-                                    <option>TALENT</option>
-                                  </select>
-                                </div>
-                                <div className="flex flex-row items-center space-x-0 md:space-x-4 space-y-4 md:space-y-0">
-                                  <div className="w-full rounded-full bg-primary text-white text-xl px-4 py-2 cursor-pointer" onClick={() => { tipAuthor(parseInt(tipAmount)); setTipDropDown(false); }}>OK</div>
-                                  <div className="w-full rounded-full border border-primary bg-white text-primary text-xl px-4 py-2 cursor-pointer" onClick={() => { setTipDropDown(false); }}>CANCEL</div>
-                                </div>
+                    {tipDropDown && (
+                      <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                        <div className="relative p-8 w-full max-w-md h-full md:h-auto bg-white rounded-lg">
+                          <div className="flex flex-col space-y-4">
+                            <div className="flex flex-row items-center">
+                              <div className="w-40 text-lg text-black">Amount:</div>
+                              <input
+                                type="text"
+                                value={tipAmount}
+                                className="my-1 px-4 py-2 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-lightgray"
+                                onChange={event => setTipAmount(event.target.value)}
+                              />
+                            </div>
+                            <div className="flex flex-row items-center">
+                              <div className="w-40 text-lg text-black">Token:</div>
+                              <select
+                                id="select-blockchain"
+                                name="select-blockchain"
+                                className="mt-1 block bg-transparent w-full pl-3 pr-10 py-2 text-lg rounded-xl border border-black"
+                                value={token}
+                                onChange={e => setToken(e.target.value)}
+                              >
+                                <option>ETH</option>
+                                <option>TALENT</option>
+                              </select>
+                            </div>
+                            <div className="flex flex-row items-center space-x-0 md:space-x-4 space-y-4 md:space-y-0">
+                              <div
+                                className="w-full rounded-full bg-primary text-white text-xl px-4 py-2 cursor-pointer"
+                                onClick={() => {
+                                  tipAuthor(parseInt(tipAmount));
+                                  setTipDropDown(false);
+                                }}
+                              >
+                                OK
+                              </div>
+                              <div
+                                className="w-full rounded-full border border-primary bg-white text-primary text-xl px-4 py-2 cursor-pointer"
+                                onClick={() => {
+                                  setTipDropDown(false);
+                                }}
+                              >
+                                CANCEL
                               </div>
                             </div>
                           </div>
-                      )
-                    }
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -289,8 +302,8 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                   </div>
                 </div>
                 <div className="flex flex-row items-center space-x-4">
-                  <img src={twitter} width={40}></img>
-                  <img src={linkedin} width={40}></img>
+                  <img src={twitter} width={40} alt="twitter"></img>
+                  <img src={linkedin} width={40} alt="linkedin"></img>
                 </div>
               </div>
               <div className="hidden lg:grid grid-cols-10 space-x-8">
@@ -340,16 +353,21 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {articles.map((article, index) => (
-              <ArticleMintCard key={index} article={article}></ArticleMintCard>
+              <ArticleMintCard
+                key={index}
+                article={article}
+                tx={tx}
+                writeContracts={writeContracts}
+                readContracts={readContracts}
+                address={address}
+              ></ArticleMintCard>
             ))}
           </div>
-          {
-            articles.length > 8 && (
-              <div className="mx-4 border border-primary rounded-2xl bg-white text-lg font-bold text-primary py-3">
-                SHOW MORE
-              </div>
-            )
-          }
+          {articles.length > 8 && (
+            <div className="mx-4 border border-primary rounded-2xl bg-white text-lg font-bold text-primary py-3">
+              SHOW MORE
+            </div>
+          )}
           <div className="mx-4 md:mx-0">
             <Footer></Footer>
           </div>

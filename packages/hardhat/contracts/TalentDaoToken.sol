@@ -8,10 +8,11 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-/// @title The TALENT token is the utility token of the Talent DAO
-/// @author jaxcoder
-/// @notice Handles voting and delegation of token voting rights and all other ERC20 functions
-/// @dev Contract is pretty straightforward token contract with some governance.
+/** @title The TALENT token is the utility token of the Talent DAO
+*   @author jaxcoder
+*   @notice Handles voting and delegation of token voting rights and all other ERC20 functions
+*   @dev Contract is pretty straightforward ERC20 token contract with some governance.
+*/
 contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     using SafeERC20 for IERC20;
 
@@ -105,29 +106,38 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         public
         ERC20("Talent DAO Token", "TALENT")
     {
-        // Mint some tokens... test....
-        
         _setupRole(DEFAULT_ADMIN_ROLE, owner_);
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _setupRole(MINTER_ROLE, msg.sender);
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _setupRole(MINTER_ROLE, _msgSender());
+        // Mint some tokens... test....
         mintTokensTo(owner_, 200000000 ether); // 200 Million
+        _revokeRole(MINTER_ROLE, _msgSender());
         transferOwnership(owner_);
     }
 
+    /** @dev only the default admin role can add a minter
+    *
+    */
     function setupMinterRole(address minter)
         public
-        onlyOwner
     {
+        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add minter");
         _setupRole(MINTER_ROLE, minter);
     }
 
+    /** @dev only the default admin role can add an operator
+    *
+    */
     function setupOperatorRole(address minter)
         public
-        onlyOwner
     {
+        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add operator");
         _setupRole(OPERATOR_ROLE, minter);
     }
 
+    /** @dev only the owner can add a DAO role
+    *
+    */
     function setupDaoRole(address minter)
         public
         onlyOwner
@@ -135,14 +145,20 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         _setupRole(DAO_ROLE, minter);
     }
 
+    /** @dev the operator and the admin roles can add a distributor
+    *
+    */
     function setupDistributorRole(address minter)
         public
-        onlyOwner
     {
+        require(hasRole(OPERATOR_ROLE, _msgSender()) || hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add minter");
         _setupRole(DISTRIBUTOR_ROLE, minter);
     }
 
-    /// @notice Creates `_amount` token to `_to`. Must only be called by the owner.
+    /** @notice Creates `_amount` token to `_to`. Must only be called by permitted minter.
+    *   @param _to who the tokens are minted to
+    *   @param _amount the amount of tokens to mint
+    */  
     function mintTokensTo(address _to, uint256 _amount)
         public
         isPermittedMinter
@@ -154,9 +170,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
      /**
      * @dev See {ERC20-_beforeTokenTransfer}.
      *
-     * Requirements:
-     *
-     * - 
+     * Requirements: do we want to do anything before each transfer?
      */
     function _beforeTokenTransfer(address from, address to, uint256 amount)
         internal
@@ -167,7 +181,6 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
 
         
     }
-
 
     /**
      * @notice Triggers an approval from owner to spends
@@ -216,7 +229,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     * @param delegatee The address to delegate votes to
     */
     function delegate(address delegatee) external {
-        return _delegate(msg.sender, delegatee);
+        return _delegate(_msgSender(), delegatee);
     }
 
     /**
