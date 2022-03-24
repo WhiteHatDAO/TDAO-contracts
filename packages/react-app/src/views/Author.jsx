@@ -4,6 +4,7 @@ import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import mark from "../assets/best_mark.png";
 import check from "../assets/check.png";
 import linkedin from "../assets/linkedin.png";
 import twitter from "../assets/twitter.png";
@@ -349,7 +350,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
             </div>
           </div>
           <div className="py-8">
-            <AuthorMark marks={[]}></AuthorMark>
+            <AuthorMark marks={[mark]}></AuthorMark>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {articles.map((article, index) => (

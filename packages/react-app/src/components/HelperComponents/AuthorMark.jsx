@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import mark from "../../assets/best_mark.png";
 
 export default class AuthorMark extends Component {
   constructor(props) {
@@ -51,14 +50,9 @@ export default class AuthorMark extends Component {
         {this.props.marks.length > 0 ? (
           <div className="relative roadmap_container">
             <Slider ref={c => (this.slider = c)} {...settings}>
-              <img className="px-8" src={mark}></img>
-              <img className="px-8" src={mark}></img>
-              <img className="px-8" src={mark}></img>
-              <img className="px-8" src={mark}></img>
-              <img className="px-8" src={mark}></img>
-              <img className="px-8" src={mark}></img>
-              <img className="px-8" src={mark}></img>
-              <img className="px-8" src={mark}></img>
+              {this.props.marks.map((item, index) => {
+                return <img className="px-8" src={item} alt="rewards"></img>;
+              })}
             </Slider>
           </div>
         ) : (
