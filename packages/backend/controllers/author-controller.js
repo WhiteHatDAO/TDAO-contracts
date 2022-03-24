@@ -101,14 +101,9 @@ getAuthorByWalletId = async (req, res) => {
 
 getAuthorsByField = async (req, res) => {
   var { field, value } = req.query
-
-  console.log('field', field)
-
   var regex = { $regex: '.*' + value + '.*' };
   var query = {}
   query[field] = regex;
-
-  console.log('query', query)
 
   await Author.find(query, (err, author) => {
     if (err) {

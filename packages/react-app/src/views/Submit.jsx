@@ -114,8 +114,8 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     if (optionPolitics) articleCategories.push("Politics");
 
     // set up Arweave tx
-    // const arweaveTx = await submitToArweave(articleFile);
-    // console.log(arweaveTx);
+    const arweaveTx = await submitToArweave(articleFile);
+    console.log(arweaveTx);
     try {
       const res = await axios.post(server + "/api/article", {
         walletId: walletId,
@@ -127,11 +127,12 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
         abstract: abstract,
         blockchain: blockchain,
         categories: articleCategories,
-        arweaveHash: "a dummy hash", //arweaveTx.id.toString(),
+        arweaveHash: arweaveTx.id.toString(),
       });
       console.log(res);
       if (res.status === 200) {
-        // todo: clear the form and send to the creators/authors profile page
+        // clear the form and send to the creators/authors profile pag
+
       }
     } catch (e) {
       console.log(e);
