@@ -16,7 +16,7 @@ if (!BUCKETNAME) {
   console.log("☢️   Enter a bucket name in packages/react-app/scripts/s3.js ");
   process.exit(1);
 }
-
+ 
 let credentials = {};
 try {
   credentials = JSON.parse(fs.readFileSync("aws.json"));

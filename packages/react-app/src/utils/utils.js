@@ -51,3 +51,13 @@ export async function getAuthorData(params) {
 
   return null;
 }
+
+export function strcmp(a, b) {
+  a = a.toString();
+  b = b.toString();
+  let i;
+  let n = Math.max(a.length, b.length);
+  for (i = 0; i < n && a.charAt(i) === b.charAt(i); ++i);
+  if (i === n) return 0;
+  return a.charAt(i) > b.charAt(i) ? -1 : 1;
+}
