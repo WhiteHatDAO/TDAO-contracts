@@ -26,6 +26,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const [tipDropDown, setTipDropDown] = useState(false);
   const [tipAmount, setTipAmount] = useState(0);
   const [token, setToken] = useState("ETH");
+  const [loading, setLoading] = useState(false);
 
   const scrollTop = () => {
     document.documentElement.scrollTo({

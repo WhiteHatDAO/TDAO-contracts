@@ -1,10 +1,11 @@
+import { Col, Row } from "antd";
 import "antd/dist/antd.css";
 import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Contract, NetworkDisplay, Faucet } from "./components";
+import { Contract, Faucet, NetworkDisplay } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -25,7 +26,6 @@ import {
   TermsOfService,
   User,
 } from "./views";
-import { Row, Col } from "antd";
 
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
@@ -266,10 +266,15 @@ function App(props) {
           <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
         </Route>
         <Route exact path="/search">
-          <Search></Search>
+          <Search address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts}></Search>
         </Route>
         <Route exact path="/advancedsearch">
-          <AdvancedSearch></AdvancedSearch>
+          <AdvancedSearch
+            address={address}
+            tx={tx}
+            writeContracts={writeContracts}
+            readContracts={readContracts}
+          ></AdvancedSearch>
         </Route>
         <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles"]}>
           <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
