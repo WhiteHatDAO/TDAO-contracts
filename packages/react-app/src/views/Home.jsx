@@ -12,6 +12,8 @@ import LatestArticles from "../components/HelperComponents/LatestArticles";
 // import Navbar from "../components/HelperComponents/Navbar";
 import Newsletter from "../components/HelperComponents/Newsletter";
 import Splash from "../components/HelperComponents/Splash";
+import { useHistory } from "react-router-dom";
+
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
@@ -29,6 +31,8 @@ function Home({ yourLocalBalance, readContracts, address }) {
   const [authorTwitter, setAuthorTwitter] = useState("");
   const [authorLinkedin, setAuthorLinkedin] = useState("");
   const [authorCategories, setAuthorCategories] = useState([]);
+  const [authorWalletId, setAuthorWalletId] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     const init = async () => {
@@ -46,6 +50,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
           setAuthorTwitter(featuredAuthor?.twitter);
           setAuthorLinkedin(featuredAuthor?.linkedin);
           setAuthorCategories(featuredAuthor?.popularCategories);
+          setAuthorWalletId(featuredAuthor?.walletId);
 
           if (featuredAuthor.authorImage.data !== '' && featuredAuthor.authorImage.filename !== '') {
             var file = dataURLtoFile(featuredAuthor?.authorImage?.data, featuredAuthor?.authorImage?.filename);
@@ -79,18 +84,30 @@ function Home({ yourLocalBalance, readContracts, address }) {
           <div className="mx-4 flex flex-col">
             <div className="text-3xl xl:text-4xl font-bold text-left">
               Featured Author
-              <img className="pt-2" alt="featured author" src={lineImage}></img>
+              <img
+                className="pt-2"
+                alt="featured author"
+                src={lineImage}
+              ></img>
             </div>
             <div className="pt-8 grid grid-cols-1 md:grid-cols-2 items-center">
               <div
                 className="rounded-2xl p-4 mr-0 md:mr-8 ml-0 md:ml-4"
                 style={{ boxShadow: "2px 0px 9px rgba(0, 0, 0, 0.15)" }}
               >
-                <img src={authorImageSrc} alt="No image" className="rounded-xl w-full h-full"></img>
+                <img
+                  src={authorImageSrc}
+                  alt="No image"
+                  className="rounded-xl w-full h-full cursor-pointer"
+                  onClick={() => history.push(`/author/${authorWalletId}`)}
+                ></img>
               </div>
               <div className="flex flex-col items-start text-left">
                 <div className="text-sm xl:text-lg text-primary hidden md:block">Author</div>
-                <div className="pt-2 text-3xl xl:text-4xl font-bold">
+                <div
+                  className="pt-2 text-3xl xl:text-4xl font-bold cursor-pointer"
+                  onClick={() => history.push(`/author/${authorWalletId}`)}
+                >
                   {
                     authorName
                   }
