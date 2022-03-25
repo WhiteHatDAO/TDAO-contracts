@@ -11,7 +11,8 @@ createAuthor = (req, res) => {
     authorImage: req.body.authorImage,
     coverImage: req.body.coverImage,
     readers: req.body.readers,
-    times_cited: req.body.times_cited
+    times_cited: req.body.times_cited,
+    popularCategories: req.body.popularCategories
   }, (err) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -51,7 +52,8 @@ updateAuthor = async (req, res) => {
     authorImage: req.body.authorImage,
     coverImage: req.body.authorCoverImage,
     readers: req.body.readers,
-    times_cited: req.body.times_cited
+    times_cited: req.body.times_cited,
+    popularCategories: req.body.popularCategories
   }, (err, author) => {
     if(err) {
       return res.status(400).json({success: false, error: err})
