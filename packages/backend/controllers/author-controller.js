@@ -79,7 +79,7 @@ getAuthors = async (req, res) => {
     }
     if (!authors.length) {
       return res
-        .status(404)
+        .status(200)
         .json({ success: false, error: "Authors not found" });
     }
     return res.status(200).json({ success: true, data: authors });
@@ -87,17 +87,16 @@ getAuthors = async (req, res) => {
 };
 
 getAuthorByWalletId = async (req, res) => {
-  await Author.find({ walletId: req.params.id }, (err, author) => {
-    if (!err) {
-      return res.status(200).json({ success: true, data: author });
-    } else {
-      if (!author) {
-        return res
-          .status(404)
-          .json({ success: false, error: `Author not found` });
-      }
+  await Author.find({ walletId: req.query.walletId }, (err, author) => {
+    if (err) {
       return res.status(400).json({ success: false, error: err });
     }
+    if (!author.length) {
+      return res
+        .status(200)
+        .json({ success: false, error: "Author not found" });
+    }
+    return res.status(200).json({ success: true, data: author });
   }).clone().catch((err) => console.error(err));
 };
 

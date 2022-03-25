@@ -9,7 +9,7 @@ const EditUserProfile = ({ address }) => {
   const [twitter, setTwitter] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [tipAddress, setTipAddress] = useState("");
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   const [existAuthor, setExistAuthor] = useState(false);
   const [author, setAuthor] = useState(null);
   const [readers, setReaders] = useState("");
@@ -46,10 +46,11 @@ const EditUserProfile = ({ address }) => {
     try {
       const res = await axios.get(server + "/api/authors", { params });
       if (res?.data?.success) {
-        setExistAuthor(true);
         setAuthor(res?.data?.data[0]);
+        setExistAuthor(true);
       } else {
         setExistAuthor(false);
+        setTipAddress(address);
       }
     } catch (e) {
       console.error(e);
@@ -81,7 +82,7 @@ const EditUserProfile = ({ address }) => {
     );
     setReaders(author?.readers ? author.readers : "");
     setTimesCited(author && author.times_cited ? author.times_cited : 0);
-    setId(author?._id);
+    // setId(author?._id);
 
     const popularCategories = author.popularCategories;
     if (popularCategories?.length > 0) {
@@ -140,8 +141,6 @@ const EditUserProfile = ({ address }) => {
     if (optionComedy) popularCategories.push("Comedy");
     if (optionPolitics) popularCategories.push("Politics");
 
-    console.log('TIGER', popularCategories);
-
     const serverURL = "http://localhost:4000";
 
     const authorImage = selectedAuthorImage
@@ -165,8 +164,8 @@ const EditUserProfile = ({ address }) => {
       };
 
     try {
-      const res = await axios.put(serverURL + "/api/author", {
-        id: id,
+      const data = {
+        // id: id,
         username: name,
         bio: bio,
         aboutme: aboutMe,
@@ -178,8 +177,17 @@ const EditUserProfile = ({ address }) => {
         readers: readers,
         times_cited: timesCited,
         popularCategories: popularCategories
-      });
-      console.log("res", res);
+      };
+      console.log('TIGER data', data);
+      if (existAuthor) {
+        const res = await axios.put(serverURL + "/api/author", data);
+        console.log("res exist", res);
+      } else {
+        const res = await axios.post(serverURL + "/api/author", data);
+        if (res?.data?.success)
+          setExistAuthor(true);
+        console.log("res not", res);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -506,7 +514,7 @@ const EditUserProfile = ({ address }) => {
       </div>
       <div className="flex flex-col">
         <label htmlFor="article-title" className="pl-4 block text-left text-lg font-bold">
-          Tip Address
+          Tip Address <span className="pl-1 text-primary">*</span>
         </label>
         <input
           type="text"
