@@ -155,7 +155,7 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
             ) : userConfig === configUserType.article ? (
               <div className="flex flex-col">
                 <p className="py-4 text-left text-lg text-darkgray font-bold">Articles</p>
-                <UserArticles></UserArticles>
+                <UserArticles address={address}></UserArticles>
               </div>
             ) : userConfig === configUserType.edit_profile ? (
               <div className="flex flex-col">
