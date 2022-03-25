@@ -111,9 +111,13 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     
 
     function tipAuthor(address author, uint256 amount) public {
-        console.log(amount);
         require(tDaoToken.balanceOf(msg.sender) >= amount, "You don't have enough TDAO tokens");
         tDaoToken.transferFrom(msg.sender, author, amount);
+    }
+
+    function tipAuthorEth(address author) public payable {
+        (bool success, ) = msg.sender.call{ value: msg.value }("");
+        require(success, "ETH transfer failed");
     }
     
 }

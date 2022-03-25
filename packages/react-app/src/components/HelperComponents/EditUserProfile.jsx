@@ -1,3 +1,4 @@
+import { Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { dataURLtoFile, toBase64 } from "../../utils/utils";
@@ -14,6 +15,7 @@ const EditUserProfile = ({ address }) => {
   const [author, setAuthor] = useState(null);
   const [readers, setReaders] = useState("");
   const [timesCited, setTimesCited] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [optionTech, setOptionTech] = useState(false);
   const [optionHistory, setOptionHistory] = useState(false);
@@ -86,7 +88,7 @@ const EditUserProfile = ({ address }) => {
 
     const popularCategories = author.popularCategories;
     if (popularCategories?.length > 0) {
-      popularCategories.forEach((category) => {
+      popularCategories.forEach(category => {
         if (category === "Technology") {
           setOptionTech(true);
           return;
@@ -107,7 +109,7 @@ const EditUserProfile = ({ address }) => {
           setOptionPolitics(true);
           return;
         }
-      })
+      });
     }
   }, [author]);
 
@@ -133,6 +135,7 @@ const EditUserProfile = ({ address }) => {
   }, [selectedCoverImage]);
 
   const handleSave = async () => {
+    setLoading(true);
     // add categories here
     let popularCategories = [];
     if (optionTech) popularCategories.push("Technology");
@@ -145,23 +148,23 @@ const EditUserProfile = ({ address }) => {
 
     const authorImage = selectedAuthorImage
       ? {
-        filename: selectedAuthorImage.name,
-        data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : "",
-      }
+          filename: selectedAuthorImage.name,
+          data: selectedAuthorImage ? await toBase64(selectedAuthorImage) : "",
+        }
       : {
-        filename: "",
-        data: "",
-      };
+          filename: "",
+          data: "",
+        };
 
     const authorCoverImage = selectedCoverImage
       ? {
-        filename: selectedCoverImage.name,
-        data: selectedCoverImage ? await toBase64(selectedCoverImage) : "",
-      }
+          filename: selectedCoverImage.name,
+          data: selectedCoverImage ? await toBase64(selectedCoverImage) : "",
+        }
       : {
-        filename: "",
-        data: "",
-      };
+          filename: "",
+          data: "",
+        };
 
     try {
       const data = {
@@ -176,21 +179,21 @@ const EditUserProfile = ({ address }) => {
         coverImage: authorCoverImage,
         readers: readers,
         times_cited: timesCited,
-        popularCategories: popularCategories
+        popularCategories: popularCategories,
       };
-      console.log('TIGER data', data);
+      console.log("TIGER data", data);
       if (existAuthor) {
         const res = await axios.put(serverURL + "/api/author", data);
         console.log("res exist", res);
       } else {
         const res = await axios.post(serverURL + "/api/author", data);
-        if (res?.data?.success)
-          setExistAuthor(true);
+        if (res?.data?.success) setExistAuthor(true);
         console.log("res not", res);
       }
     } catch (e) {
       console.log(e);
     }
+    setLoading(false);
   };
 
   return (
@@ -322,9 +325,7 @@ const EditUserProfile = ({ address }) => {
                   ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                   : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
               }
-              style={
-                optionTech ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }
-              }
+              style={optionTech ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }}
               onClick={() => setOptionTech(!optionTech)}
             >
               {optionTech && (
@@ -351,9 +352,7 @@ const EditUserProfile = ({ address }) => {
                   : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
               }
               style={
-                optionHistory
-                  ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
-                  : { backgroundColor: "transparent" }
+                optionHistory ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }
               }
               onClick={() => setOptionHistory(!optionHistory)}
             >
@@ -381,9 +380,7 @@ const EditUserProfile = ({ address }) => {
                   : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
               }
               style={
-                optionRomance
-                  ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
-                  : { backgroundColor: "transparent" }
+                optionRomance ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }
               }
               onClick={() => setOptionRomance(!optionRomance)}
             >
@@ -410,11 +407,7 @@ const EditUserProfile = ({ address }) => {
                   ? "my-2 px-4 py-2 rounded-full text-lg text-primary border border-primary cursor-pointer font-bold flex flex-row items-center"
                   : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
               }
-              style={
-                optionComedy
-                  ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
-                  : { backgroundColor: "transparent" }
-              }
+              style={optionComedy ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }}
               onClick={() => setOptionComedy(!optionComedy)}
             >
               {optionComedy && (
@@ -441,9 +434,7 @@ const EditUserProfile = ({ address }) => {
                   : "my-2 px-4 py-2 rounded-full text-lg border cursor-pointer flex flex-row items-center"
               }
               style={
-                optionPolitics
-                  ? { backgroundColor: "rgba(180, 28, 46, 0.13)" }
-                  : { backgroundColor: "transparent" }
+                optionPolitics ? { backgroundColor: "rgba(180, 28, 46, 0.13)" } : { backgroundColor: "transparent" }
               }
               onClick={() => setOptionPolitics(!optionPolitics)}
             >
@@ -523,6 +514,7 @@ const EditUserProfile = ({ address }) => {
           onChange={event => setTipAddress(event.target.value)}
         />
       </div>
+      <Spin spinning={loading} />
       <div className="flex items-center justify-center">
         <div
           className="mt-4 px-8 py-2 rounded-full bg-primary text-white text-lg w-56 cursor-pointer"

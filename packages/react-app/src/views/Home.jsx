@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory } from "../utils/utils";
+import React, { useEffect, useState } from "react";
 import arrowRightImage from "../assets/ArrowRight.png";
 import authorImage from "../assets/author.png";
-import featuredImage from "../assets/featured_author.png";
 import lineImage from "../assets/line.png";
 import partnershipImage from "../assets/partnership.png";
 import profileImage from "../assets/profile.png";
@@ -13,6 +11,7 @@ import LatestArticles from "../components/HelperComponents/LatestArticles";
 import Newsletter from "../components/HelperComponents/Newsletter";
 import Splash from "../components/HelperComponents/Splash";
 import { useHistory } from "react-router-dom";
+import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory } from "../utils/utils";
 
 
 /**
@@ -52,7 +51,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
           setAuthorCategories(featuredAuthor?.popularCategories);
           setAuthorWalletId(featuredAuthor?.walletId);
 
-          if (featuredAuthor.authorImage.data !== '' && featuredAuthor.authorImage.filename !== '') {
+          if (featuredAuthor.authorImage.data !== "" && featuredAuthor.authorImage.filename !== "") {
             var file = dataURLtoFile(featuredAuthor?.authorImage?.data, featuredAuthor?.authorImage?.filename);
             var source = URL.createObjectURL(file);
             setAuthorImageSrc(source);
@@ -61,7 +60,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
       } catch (e) {
         console.log(e);
       }
-    }
+    };
     init();
   }, []);
 
@@ -118,27 +117,21 @@ function Home({ yourLocalBalance, readContracts, address }) {
                   }
                 </div>
                 <div className="pt-4 flex flex-wrap items-center text-lg">
-                  {
-                    authorCategories?.map((category) => (
-                      <div
-                        key={Math.random()}
-                        className="cursor-pointer rounded-lg px-3 py-1 mr-4 mb-4"
-                        style={{
-                          background: getBgColorForCategory(category),
-                          color: getTextColorForCategory(category)
-                        }}
-                      >
-                        {category}
-                      </div>
-                    ))
-                  }
+                  {authorCategories?.map(category => (
+                    <div
+                      key={Math.random()}
+                      className="cursor-pointer rounded-lg px-3 py-1 mr-4 mb-4"
+                      style={{
+                        background: getBgColorForCategory(category),
+                        color: getTextColorForCategory(category),
+                      }}
+                    >
+                      {category}
+                    </div>
+                  ))}
                 </div>
                 <div className="pt-4 flex flex-row items-center text-lg space-x-4">
-                  <a
-                    target="_blank"
-                    href={authorTwitter}
-                    rel="noopener noreferrer"
-                  >
+                  <a target="_blank" href={authorTwitter} rel="noopener noreferrer">
                     <svg width="35" height="35" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="25" cy="25" r="25" fill={authorTwitter === "" ? "#A3A3A3" : "#B41C2E"} />
                       <path
@@ -149,11 +142,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
                       />
                     </svg>
                   </a>
-                  <a
-                    target="_blank"
-                    href={authorLinkedin}
-                    rel="noopener noreferrer"
-                  >
+                  <a target="_blank" href={authorLinkedin} rel="noopener noreferrer">
                     <svg width="35" height="35" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="25" cy="25" r="25" fill={authorLinkedin === "" ? "#A3A3A3" : "#B41C2E"} />
                       <path
