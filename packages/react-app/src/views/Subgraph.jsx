@@ -47,33 +47,6 @@ function Subgraph(props) {
     }
 }
   `;
-  const EXAMPLE_GQL = gql(EXAMPLE_GRAPHQL);
-  const { loading, data } = useQuery(EXAMPLE_GQL, { pollInterval: 2500 });
-
-  const purposeColumns = [
-    {
-      title: "Purpose",
-      dataIndex: "purpose",
-      key: "purpose",
-    },
-    {
-      title: "Sender",
-      key: "id",
-      render: record => <Address value={record.sender.id} ensProvider={props.mainnetProvider} fontSize={16} />,
-    },
-    {
-      title: "createdAt",
-      key: "createdAt",
-      dataIndex: "createdAt",
-      render: d => new Date(d * 1000).toISOString(),
-    },
-  ];
-
-  const [newPurpose, setNewPurpose] = useState("loading...");
-
-  const deployWarning = (
-    <div style={{ marginTop: 8, padding: 8 }}>Warning: 🤔 Have you deployed your subgraph yet?</div>
-  );
 
   return (
     <>
