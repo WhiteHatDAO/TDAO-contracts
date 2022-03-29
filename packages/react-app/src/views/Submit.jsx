@@ -7,7 +7,7 @@ import { sendTransacton } from "../utils/arweave";
 
 const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
-  const [authors, setAuthors] = useState("");
+  const [authors, setAuthors] = useState([]);
   const [selectedArticleCover, setSelectedArticleCover] = useState();
   const [talentPrice, setTalentPrice] = useState(0);
   const [articleTitle, setArticleTitle] = useState("");
@@ -72,7 +72,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
       setTitleError(true);
       isError = true;
     }
-    if (authors === "") {
+    if (authors.length === 0) {
       setAuthorError(true);
       isError = true;
     }
@@ -114,8 +114,8 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     if (optionPolitics) articleCategories.push("Politics");
 
     // set up Arweave tx
-    // const arweaveTx = await submitToArweave(articleFile);
-    // console.log(arweaveTx);
+    const arweaveTx = await submitToArweave(articleFile);
+    console.log(arweaveTx);
     try {
       const res = await axios.post(server + "/api/article", {
         walletId: walletId,
@@ -127,18 +127,19 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
         abstract: abstract,
         blockchain: blockchain,
         categories: articleCategories,
-        arweaveHash: "a dummy hash", //arweaveTx.id.toString(),
+        arweaveHash: arweaveTx.id.toString(),
       });
       console.log(res);
       if (res.status === 200) {
-        // todo: clear the form and send to the creators/authors profile page
+        // clear the form and send to the creators/authors profile pag
+
       }
     } catch (e) {
       console.log(e);
     }
 
     // set up onchain tx
-    // submitOnChain(arweaveTx.id);
+    submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {
@@ -317,7 +318,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
                     id="article-title"
                     placeholder="e.g John Doe"
                     value={authors}
-                    onChange={e => setAuthors(e.target.value)}
+                    onChange={e => setAuthors(...[e.target.value])}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
                   />
                   {authorError && (

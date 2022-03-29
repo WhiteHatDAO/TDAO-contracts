@@ -25,9 +25,9 @@ createArticle = (req, res) => {
   );
 };
 
-updateArticle = async (req, res) => {};
+updateArticle = async (req, res) => { };
 
-deleteArticle = async (req, res) => {};
+deleteArticle = async (req, res) => { };
 
 getArticles = async (req, res) => {
   await Article.find(req.query, (err, article) => {

@@ -13,7 +13,7 @@ const Article = new Schema(
         cover: { type: File, required: false },
         price: { type: String, required: false },
         title: { type: String, required: true },
-        authors: { type: String, required: true },
+        authors: { type: Array, required: true },
         abstract: { type: String, required: true },
         blockchain: { type: String, required: true },
         categories: { type: Array, required: false },
