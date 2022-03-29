@@ -2,12 +2,12 @@ import "antd/dist/antd.css";
 import GraphiQL from "graphiql";
 import "graphiql/graphiql.min.css";
 import fetch from "isomorphic-fetch";
-import React from "react";
+import React, { useState } from "react";
 
 const highlight = {
   marginLeft: 4,
   marginRight: 8,
-  /* backgroundColor: "#f9f9f9", */ padding: 4,
+  padding: 4,
   borderRadius: 4,
   fontWeight: "bolder",
 };
@@ -46,6 +46,21 @@ function Subgraph({ subgraphUri }) {
     }
   `;
 
+  const [networkInfo, setNetworkInfo] = useState();
+  let request = require("request");
+  let options = {
+    method: "GET",
+    url: "https://arweave.net/info",
+  };
+
+  request(options, function (error, response, body) {
+    if (error) {
+      console.error(error);
+    }
+    console.log("Arweave network height is: ", body);
+    setNetworkInfo(body);
+  });
+
   return (
     <>
       <div style={{ margin: "auto", paddingBottom: 64 }}>
@@ -54,7 +69,7 @@ function Subgraph({ subgraphUri }) {
         </div>
       </div>
 
-      <div style={{ padding: 64 }}>...</div>
+      <div style={{ padding: 64, ...highlight }}>{networkInfo}</div>
     </>
   );
 }
