@@ -34,7 +34,8 @@ export async function sendTransacton(data, contentType, categories) {
   );
   // Examples
   transaction.addTag("Content-Type", `${contentType}`);
-  transaction.addTag("Categoryo-1", `${categories[0] && categories[0]}`);
+  transaction.addTag("Category", `${categories[0] && categories[0]}`);
+  transaction.addTag("Publisher", "TalentDAO");
   console.log(transaction);
 
   await arweave.transactions.sign(transaction, arJWK);

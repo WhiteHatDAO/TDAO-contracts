@@ -11,7 +11,8 @@ createAuthor = (req, res) => {
     authorImage: req.body.authorImage,
     coverImage: req.body.coverImage,
     readers: req.body.readers,
-    times_cited: req.body.times_cited
+    times_cited: req.body.times_cited,
+    popularCategories: req.body.popularCategories
   }, (err) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -51,7 +52,8 @@ updateAuthor = async (req, res) => {
     authorImage: req.body.authorImage,
     coverImage: req.body.authorCoverImage,
     readers: req.body.readers,
-    times_cited: req.body.times_cited
+    times_cited: req.body.times_cited,
+    popularCategories: req.body.popularCategories
   }, (err, author) => {
     if(err) {
       return res.status(400).json({success: false, error: err})
@@ -77,7 +79,7 @@ getAuthors = async (req, res) => {
     }
     if (!authors.length) {
       return res
-        .status(404)
+        .status(200)
         .json({ success: false, error: "Authors not found" });
     }
     return res.status(200).json({ success: true, data: authors });
@@ -85,30 +87,24 @@ getAuthors = async (req, res) => {
 };
 
 getAuthorByWalletId = async (req, res) => {
-  await Author.find({ walletId: req.params.id }, (err, author) => {
-    if (!err) {
-      return res.status(200).json({ success: true, data: author });
-    } else {
-      if (!author) {
-        return res
-          .status(404)
-          .json({ success: false, error: `Author not found` });
-      }
+  await Author.find({ walletId: req.query.walletId }, (err, author) => {
+    if (err) {
       return res.status(400).json({ success: false, error: err });
     }
+    if (!author.length) {
+      return res
+        .status(200)
+        .json({ success: false, error: "Author not found" });
+    }
+    return res.status(200).json({ success: true, data: author });
   }).clone().catch((err) => console.error(err));
 };
 
 getAuthorsByField = async (req, res) => {
   var { field, value } = req.query
-
-  console.log('field', field)
-
   var regex = { $regex: '.*' + value + '.*' };
   var query = {}
   query[field] = regex;
-
-  console.log('query', query)
 
   await Author.find(query, (err, author) => {
     if (err) {
