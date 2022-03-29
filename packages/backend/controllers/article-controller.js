@@ -46,6 +46,14 @@ getArticles = async (req, res) => {
     .catch((err) => console.error(err));
 };
 
+getLatestArticles = async (req, res) => {
+  await Article.find({}, {}, { sort: { 'created_at': -1 } }, ( err, articles ) => {
+    console.log('articles:', articles)
+  })
+    .clone()
+    .catch((err) => console.error(err))
+}
+
 getArticlesByField = async (req, res) => {
   var { field, value } = req.query;
   var regex = { $regex: ".*" + value + ".*" };
@@ -63,7 +71,7 @@ getArticlesByField = async (req, res) => {
     return res.status(200).json({ success: true, data: article });
   })
     .clone()
-    .catch((err) => console.error(err));
+    .catch((err) => console.error(err));  
 };
 
 module.exports = {
@@ -71,5 +79,6 @@ module.exports = {
   updateArticle,
   deleteArticle,
   getArticles,
+  getLatestArticles,
   getArticlesByField,
 };
