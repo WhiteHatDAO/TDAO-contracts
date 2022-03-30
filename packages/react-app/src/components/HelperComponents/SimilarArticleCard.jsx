@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import article_back from "../../assets/article_back.png";
 import author_pro from "../../assets/author_pro.png";
 
-export const SimilarArticleCard = ({ address }) => {
+export const SimilarArticleCard = ({ address, article }) => {
   const history = useHistory();
 
   return (

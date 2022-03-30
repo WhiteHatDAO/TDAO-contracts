@@ -56,7 +56,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         // article.metadataPtr = metadataPtr;
         // article.paid = amount;
 
-        // todo: check if author exists first
+        // // check if author exists first
         // Author storage author = authors[authorAddress];
         // if(author.authorAddress != authorAddress){
         //     (authorId) = addAuthor(authorAddress, articleId, profileHash);
