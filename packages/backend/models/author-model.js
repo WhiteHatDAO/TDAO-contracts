@@ -13,12 +13,13 @@ const Author = new Schema(
     bio: { type: String, required: true },
     authorImage: { type: File, required: false },
     coverImage: { type: File, required: false },
-    walletId: { type: String, required: false },
+    walletId: { type: String, required: true },
     aboutme: { type: String, required: true },
     twitter: { type: String, required: false },
     linkedin: { type: String, required: false },
     readers: { type: String, required: false },
-    times_cited: {type: Number, required: true}
+    times_cited: { type: Number, required: true },
+    popularCategories: { type: Array, required: false },
     //articles: { type: Array, required: false },
   },
   { timestamps: true }
