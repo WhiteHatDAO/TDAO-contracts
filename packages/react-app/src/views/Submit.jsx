@@ -7,7 +7,7 @@ import { sendTransacton } from "../utils/arweave";
 
 const Submit = ({ address, tx, writeContracts, readContracts }) => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
-  const [authors, setAuthors] = useState("");
+  const [authors, setAuthors] = useState([]);
   const [selectedArticleCover, setSelectedArticleCover] = useState();
   const [talentPrice, setTalentPrice] = useState(0);
   const [articleTitle, setArticleTitle] = useState("");
@@ -72,7 +72,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
       setTitleError(true);
       isError = true;
     }
-    if (authors === "") {
+    if (authors.length === 0) {
       setAuthorError(true);
       isError = true;
     }
@@ -318,7 +318,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
                     id="article-title"
                     placeholder="e.g John Doe"
                     value={authors}
-                    onChange={e => setAuthors(e.target.value)}
+                    onChange={e => setAuthors(...[e.target.value])}
                     className="my-1 p-4 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-black "
                   />
                   {authorError && (

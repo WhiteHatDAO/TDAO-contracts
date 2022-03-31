@@ -51,3 +51,39 @@ export async function getAuthorData(params) {
 
   return null;
 }
+
+export function strcmp(a, b) {
+  a = a.toString();
+  b = b.toString();
+  let i;
+  let n = Math.max(a.length, b.length);
+  for (i = 0; i < n && a.charAt(i) === b.charAt(i); ++i);
+  if (i === n) return 0;
+  return a.charAt(i) > b.charAt(i) ? -1 : 1;
+}
+
+export const getTextColorForCategory = (category) => {
+  let color = "rgba(60, 188, 0, 1)";
+  switch (category) {
+    case 'Technology': color = "rgba(60, 188, 0, 1)"; break;
+    case 'History': color = "rgba(0, 238, 223, 1)"; break;
+    case 'Romance': color = "rgba(113, 1, 255, 1)"; break;
+    case 'Comedy': color = "rgba(250, 126, 0, 1)"; break;
+    case 'Politics': color = "rgba(255, 0, 0, 1)"; break;
+    default: color = "rgba(60, 188, 0, 1)";
+  }
+  return color;
+}
+
+export const getBgColorForCategory = (category) => {
+  let color = "rgba(60, 188, 0, 0.22)";
+  switch (category) {
+    case 'Technology': color = "rgba(60, 188, 0, 0.22)"; break;
+    case 'History': color = "rgba(0, 238, 223, 0.22)"; break;
+    case 'Romance': color = "rgba(113, 1, 255, 0.22)"; break;
+    case 'Comedy': color = "rgba(250, 126, 0, 0.22)"; break;
+    case 'Politics': color = "rgba(255, 0, 0, 0.22)"; break;
+    default: color = "rgba(60, 188, 0, 0.22)";
+  }
+  return color;
+}

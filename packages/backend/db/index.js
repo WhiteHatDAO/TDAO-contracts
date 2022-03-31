@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+// codecooker added BEGIN
+// mongoose.connect('mongodb://localhost:27017/tdao-database')
+//     .catch(e => {
+//         console.error('Connection error', e.message)
+//     })
+// codecooker added END
+
 mongoose
   .connect(
     "mongodb+srv://jaxcoder:JaxCodes1@development.u48nl.mongodb.net/talentdao?retryWrites=true&w=majority",
