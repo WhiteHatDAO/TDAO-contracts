@@ -44,6 +44,47 @@ function Home({ yourLocalBalance, readContracts, address }) {
     getLatestArticle()
   }, [])
 
+  // Featured Author State
+  const [authorName, setAuthorName] = useState("");
+  const [authorImageSrc, setAuthorImageSrc] = useState("");
+  const [authorAboutme, setAuthorAboutme] = useState("");
+  const [authorTwitter, setAuthorTwitter] = useState("");
+  const [authorLinkedin, setAuthorLinkedin] = useState("");
+  const [authorCategories, setAuthorCategories] = useState([]);
+  const [authorWalletId, setAuthorWalletId] = useState("");
+  const history = useHistory();
+
+  useEffect(() => {
+    const init = async () => {
+      const server = "http://localhost:4000/api/authors";
+      try {
+        const res = await axios.get(server);
+        if (res.data.success) {
+          // randomly choose author just for test
+          const length = res.data.data.length;
+          const index = Math.floor(Math.random() * length);
+          const featuredAuthor = res.data.data[index];
+
+          setAuthorName(featuredAuthor?.username);
+          setAuthorAboutme(featuredAuthor?.aboutme);
+          setAuthorTwitter(featuredAuthor?.twitter);
+          setAuthorLinkedin(featuredAuthor?.linkedin);
+          setAuthorCategories(featuredAuthor?.popularCategories);
+          setAuthorWalletId(featuredAuthor?.walletId);
+
+          if (featuredAuthor.authorImage.data !== "" && featuredAuthor.authorImage.filename !== "") {
+            var file = dataURLtoFile(featuredAuthor?.authorImage?.data, featuredAuthor?.authorImage?.filename);
+            var source = URL.createObjectURL(file);
+            setAuthorImageSrc(source);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    init();
+  }, []);
+
   return (
     <div style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }}>
       <div className="mx-auto pt-4 max-w-xl md:max-w-4xl xl:max-w-7xl overflow-hidden">
@@ -192,3 +233,5 @@ function Home({ yourLocalBalance, readContracts, address }) {
     </div>
   )
 }
+
+export default Home;
