@@ -25,6 +25,7 @@ import {
   Submit,
   TermsOfService,
   User,
+  Subgraph,
 } from "./views";
 
 const { ethers } = require("ethers");
@@ -317,14 +318,14 @@ function App(props) {
         <Route exact path="/privacypolicy">
           <PrivacyPolicy />
         </Route>
-        {/* <Route path="/subgraph">
+        <Route path="/subgraph">
           <Subgraph
             subgraphUri={props.subgraphUri}
             tx={tx}
             writeContracts={writeContracts}
             mainnetProvider={mainnetProvider}
           />
-        </Route> */}
+        </Route>
       </Switch>
 
       {/* <ThemeSwitch /> */}
