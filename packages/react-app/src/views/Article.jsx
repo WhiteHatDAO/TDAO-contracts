@@ -19,14 +19,15 @@ pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
 const server = "http://localhost:4000";
 const apiClient = new APIClient(
   "https://lib.openlaw.io/api/v1/default",
-  //{
-  //root: "https://openlaw-instance-with-basic-auth.openlaw.io/api/v1/default",
-  // auth: {
-  //   username: "jason@pharo.tech", //process.env.OL_USERNAME,
-  //   password: "JaxCodes@1", //process.env.OL_PASSWORD,
+  // {
+  //   root: "https://openlaw-instance-with-basic-auth.openlaw.io/api/v1/default",
+  //   auth: {
+  //     username: "jason@pharo.tech", //process.env.OL_USERNAME,
+  //     password: "JaxCodes@1", //process.env.OL_PASSWORD,
+  //   },
   // },
-  //}
 );
+// apiClient.login("jason@pharo.tech", "JaxCodes@1");
 
 const tabType = {
   detail: "details",
@@ -52,8 +53,8 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     setNumPages(numPages);
   }
 
-  const TemplateComponent = () => {
-    return <div dangerouslySetInnerHTML={{ __html: template }} />;
+  const TemplateComponent = props => {
+    return <div dangerouslySetInnerHTML={{ __html: props.template }} />;
   };
 
   const { id } = useParams();
@@ -139,7 +140,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     scrollTop();
   }, []);
 
-  const example = apiClient.getTemplateById("39437de827f8374899d7f7e817193894749872394").then(r => setTemplate(r));
+  const example = apiClient.getTemplateById("Test Agreement").then(r => setTemplate(r));
 
   return (
     <div>
@@ -316,7 +317,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           </div>
         </div>
       )}
-      <TemplateComponent></TemplateComponent>
+      <TemplateComponent template={template}></TemplateComponent>
     </div>
   );
 };
