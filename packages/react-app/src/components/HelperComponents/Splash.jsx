@@ -18,7 +18,7 @@ export default function Splash({address}) {
         <div className="text-white font-bold text-4xl md:text-6xl lg:text-8xl items-center">Decentralized Work</div>
         <div className="pt-10 lg:pt-16 flex flex-col lg:flex-row lg:items-center">
           <div className="w-72 border rounded-lg border-primary focus-within:border-primary focus-within:ring-primary focus-within:ring-opacity-40 bg-white">
-            <form action="/search" className="flex flex-row items-center">
+            <form action="/search" className="flex flex-row items-center justify-between">
               <input type="search" name="query" className="h-10 pl-2 text-lg text-gray-700 placeholder-gray-400 bg-transparent border-none appearance-none lg:h-12 dark:text-gray-200 focus:outline-none focus:placeholder-transparent focus:ring-0" placeholder="Articles, journals, documents..." required="" />
               <button type="submit" className="w-8 h-8 flex items-center justify-center p-2 m-1 text-white transition-colors duration-200 transform rounded-md lg:w-12 lg:h-12 lg:p-2 bg-primary hover:bg-opacity-80 focus:outline-none focus:bg-teal-300">
                 <img src={searchImage}></img>

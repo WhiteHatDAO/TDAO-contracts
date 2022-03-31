@@ -114,7 +114,7 @@ function Navbar({
               >
                 CONTACT US
               </div>
-              <div className="relative">
+              <div className="relative hidden">
                 <div
                   className={
                     location.pathname === "/browse"

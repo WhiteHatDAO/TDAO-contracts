@@ -71,7 +71,10 @@ function Home({ yourLocalBalance, readContracts, address }) {
         <div className="mx-4 flex flex-row items-center pt-6">
           <img src={profileImage} alt="profile" className="pr-2"></img>
           <div className="text-black font-semibold text-2xl">
-            Got Talent? <span className="text-primary">Join Us.</span>
+            Got Talent? <span
+              className="text-primary cursor-pointer"
+              onClick={() => {history.push("/contact"); }}
+            >Join Us.</span>
           </div>
         </div>
 
