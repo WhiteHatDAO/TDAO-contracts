@@ -139,7 +139,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     }
 
     // set up onchain tx
-    // submitOnChain(arweaveTx.id);
+    submitOnChain(arweaveTx.id);
   };
 
   const submitToArweave = async articleFile => {

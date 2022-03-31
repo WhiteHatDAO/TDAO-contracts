@@ -19,31 +19,32 @@ import axios from "axios";
  * @returns react component
  */
 function Home({ yourLocalBalance, readContracts, address }) {
-  const [articles, setArticles] = useState()
+  const [articles, setArticles] = useState(null)
   // you can also use hooks locally in your component of choice
   const getLatestArticle = async () => {
     const server = "http://localhost:4000";
-    
-    const params = new URLSearchParams([["_id", '623a1674c84da1d9301ae19f']]);
+
+    // const params = new URLSearchParams([["_id", '623a1674c84da1d9301ae19f']]);
     try {
-      const articleResponse = await axios.get(server + "/api/articles_latest", { params });
+      console.log('Click event=============>')
+      const articleResponse = await axios.get(server + "/api/articles_latest", {  });
+      console.log('articleResponse', articleResponse)
       if (articleResponse.data.success) {
         setArticles(articleResponse.data.data)
       }
     } catch (e) {
-      console.log('eeeeeeee', e)
       console.error(e);
     }
   };
 
   useEffect(() => {
-    console.log('articles', articles)
-  }, [articles])
-
-  useEffect(() => {
     getLatestArticle()
   }, [])
 
+  useEffect(() => {
+    console.log('articles', articles)
+  }, [articles])
+  
   return (
     <div style={{ backgroundImage: 'linear-gradient(#fff, #EEEE' }}>
       <div className="mx-auto pt-4 max-w-xl md:max-w-4xl xl:max-w-7xl overflow-hidden">
@@ -56,7 +57,9 @@ function Home({ yourLocalBalance, readContracts, address }) {
         </div>
 
         {/* Article Component Section */}
-        <LatestArticles />
+        {
+          articles && <LatestArticles articles={articles}/>
+        }
 
         {/* Featured Author & Updates Section  */}
         <div className="pt-16 grid grid-cols-1 xl:grid-cols-2">
