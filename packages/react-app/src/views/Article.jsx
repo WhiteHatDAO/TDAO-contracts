@@ -52,6 +52,10 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     setNumPages(numPages);
   }
 
+  const TemplateComponent = () => {
+    return <div dangerouslySetInnerHTML={{ __html: template }} />;
+  };
+
   const { id } = useParams();
   const getArticle = async () => {
     try {
@@ -312,6 +316,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           </div>
         </div>
       )}
+      <TemplateComponent></TemplateComponent>
     </div>
   );
 };
