@@ -29,12 +29,14 @@ function Navbar({
   const history = useHistory();
   const location = useLocation();
 
+  const [show, setShow] = useState(false);
   const [navPanelOpen, setNavPanelOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
   const [twitter, setTwitter] = useState("");
   const [linkedin, setLinkedin] = useState("");
 
   const goToPage = locationPath => {
+    setShow(false);
     setNavPanelOpen(false);
     history.push(locationPath);
   };
@@ -43,6 +45,14 @@ function Navbar({
     setMenuOpen(true);
     handleUserMenuOpen(true);
   };
+
+  const handleBrowseByAuthor = () => {
+    goToPage("/browse")
+  }
+
+  const handleBrowseBySubject = () => {
+    goToPage("/browse")
+  }
 
   useEffect(async () => {
     if (address === undefined || address === "") return;
@@ -104,15 +114,50 @@ function Navbar({
               >
                 CONTACT US
               </div>
-              <div
-                onClick={() => goToPage("/browse")}
-                className={
-                  location.pathname === "/browse"
-                    ? "text-lg text-primary font-semibold cursor-pointer"
-                    : "text-lg cursor-pointer"
+              <div className="relative">
+                <div
+                  className={
+                    location.pathname === "/browse"
+                      ? "text-lg text-primary font-semibold cursor-pointer"
+                      : "text-lg cursor-pointer"
+                  }
+                  onClick={() => setShow(!show)}
+                >
+                  BROWSE
+                  {/* <div>
+                    {
+                      show ? (
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5.00016 0.666664L9.66683 5.33333L0.333496 5.33333L5.00016 0.666664Z" fill="#1F2937" />
+                        </svg>
+                      ) : (
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5.00016 5.33333L0.333496 0.666664H9.66683L5.00016 5.33333Z" fill="#1F2937" />
+                        </svg>
+                      )
+                    }
+                  </div> */}
+                </div>
+                {
+                  show && (
+                    <div className="origin-top-right absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                      <div className="py-1" role="none">
+                        <div
+                          className="text-gray-700 block px-4 py-2 text-sm hover:bg-lightgray"
+                          onClick={handleBrowseByAuthor}
+                        >
+                          Browse by Author
+                        </div>
+                        <div 
+                          className="text-gray-700 block px-4 py-2 text-sm hover:bg-lightgray"
+                          onClick={handleBrowseBySubject}
+                        >
+                          Browse by Subject
+                        </div>
+                      </div>
+                    </div>
+                  )
                 }
-              >
-                BROWSE
               </div>
               {/* <div onClick={() => goToPage("/author")} className={location.pathname === '/author' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Author</div>
               <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div> */}
