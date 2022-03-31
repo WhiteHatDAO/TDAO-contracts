@@ -30,7 +30,7 @@ contract TalentDaoNftToken is Ownable, ERC721URIStorage, AuthorEntity {
         _transferOwnership(_owner);
     }
 
-    /// @dev we may not need this, for OpenSea
+    /// @dev for OpenSea
     function contractURI() public view returns (string memory)
     {
         return "";
