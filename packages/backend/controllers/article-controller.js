@@ -46,6 +46,30 @@ getArticles = async (req, res) => {
     .catch((err) => console.error(err));
 };
 
+getLatestArticles = async (req, res) => {
+  // {}, {}, { sort: { 'created_at': -1 } }
+  await Article.find({}, {}, { sort: { 'created_at': -1 } }, (err, articles) => {
+    if (err) {
+      return res.status(400).json({success: false, error: err})
+    }
+
+    if(!articles) {
+      return res
+        .status(404)
+        .json({success: false, error: "Article not found"});
+    }
+
+    let indexs = []
+
+    articles.forEach((article, index) => {
+      indexs.push(article._id)
+    })
+    return res.status(200).json({success: true, data: indexs})
+  })
+    .clone()
+    .catch((err) => console.error(err))
+}
+
 getArticlesByField = async (req, res) => {
   var { field, value } = req.query;
   var regex = { $regex: ".*" + value + ".*" };
@@ -71,5 +95,6 @@ module.exports = {
   updateArticle,
   deleteArticle,
   getArticles,
+  getLatestArticles,
   getArticlesByField,
 };

@@ -14,8 +14,8 @@ function Newsletter() {
         src={technologyDataImage}
         alt=""
       />
-      <div className="relative flex flex-col lg:flex-row justify-between">
-        <img src={stepImage}></img>
+      <div className="relative flex flex-col lg:flex-row justify-between items-center space-x-0 lg:space-x-4">
+        <img className="md:w-1/2 md:h-1/2" src={stepImage}></img>
         <div className="flex flex-col justify-center text-right">
           <div className="text-4xl text-white font-bold pt-4">Sign up for the updates</div>
           <div className="pt-4 text-lg text-lightgray">We’ll keep you up to date with our latest news, announcements, and development plans</div>

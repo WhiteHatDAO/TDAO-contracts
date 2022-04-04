@@ -81,15 +81,11 @@ export default class LatestArticles extends Component {
         </div>
         <div className="relative roadmap_container">
           <Slider ref={c => (this.slider = c)} {...settings}>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
-            <ArticleCard></ArticleCard>
+            {
+              this.props.articles.map((article_id, index) => (
+                <ArticleCard key={index} id={article_id}></ArticleCard>
+              ))
+            }
           </Slider>
           <div className="md:hidden absolute top-1/2 left-4">
             <img className="w-12" src={prevImage} onClick={this.goPrevious}></img>
