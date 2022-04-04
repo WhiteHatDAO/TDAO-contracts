@@ -1,6 +1,7 @@
 import { notification, Tooltip } from "antd";
 import axios from "axios";
 import { ethers } from "ethers";
+import { APIClient } from "openlaw";
 import React, { useEffect, useState } from "react";
 // import FileViewer from "react-file-viewer";
 import { pdfjs } from "react-pdf";
@@ -16,6 +17,17 @@ import { dataURLtoFile, getAuthorData, readTextFile } from "../utils/utils";
 pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
 
 const server = "http://localhost:4000";
+const apiClient = new APIClient(
+  "https://lib.openlaw.io/api/v1/default",
+  // {
+  //   root: "https://openlaw-instance-with-basic-auth.openlaw.io/api/v1/default",
+  //   auth: {
+  //     username: "jason@pharo.tech", //process.env.OL_USERNAME,
+  //     password: "JaxCodes@1", //process.env.OL_PASSWORD,
+  //   },
+  // },
+);
+// apiClient.login("jason@pharo.tech", "JaxCodes@1");
 
 const tabType = {
   detail: "details",
@@ -35,17 +47,21 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   const [filename, setFilename] = useState("");
   const [fileData, setFileData] = useState({});
   const [fileId, setFileId] = useState();
+  const [template, setTemplate] = useState();
 
   function onDocumentLoadedSuccess({ numPages }) {
     setNumPages(numPages);
   }
+
+  const TemplateComponent = props => {
+    return <div dangerouslySetInnerHTML={{ __html: props.template }} />;
+  };
 
   const { id } = useParams();
   const getArticle = async () => {
     try {
       const params = new URLSearchParams([["_id", id]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
-      console.log("article", articleResponse);
       if (articleResponse.data.success) {
         setArticle(articleResponse.data.data[0]);
       }
@@ -122,6 +138,8 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   useEffect(() => {
     scrollTop();
   }, []);
+
+  const example = apiClient.getTemplateById("Test Agreement").then(r => setTemplate(r));
 
   return (
     <div>
@@ -298,6 +316,7 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
           </div>
         </div>
       )}
+      <TemplateComponent template={template}></TemplateComponent>
     </div>
   );
 };

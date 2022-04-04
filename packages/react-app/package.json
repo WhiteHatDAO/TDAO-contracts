@@ -49,6 +49,7 @@
     "mongodb": "^4.4.0",
     "mongoose": "^6.2.3",
     "node-watch": "^0.7.1",
+    "openlaw": "0.2.47",
     "postcss": "^7",
     "qrcode.react": "^1.0.0",
     "react": "^17.0.2",
