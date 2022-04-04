@@ -31,7 +31,6 @@ function Home({ yourLocalBalance, readContracts, address }) {
     try {
       console.log('Click event=============>')
       const articleResponse = await axios.get(server + "/api/articles_latest", {});
-      console.log('articleResponse', articleResponse)
       if (articleResponse.data.success) {
         setArticles(articleResponse.data.data)
       }

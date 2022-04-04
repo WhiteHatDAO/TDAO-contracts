@@ -20,7 +20,6 @@ export const ArticleCard = ({ id }) => {
     try {
       const params = new URLSearchParams([["_id", id]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
-      console.log("article", articleResponse);
       if (articleResponse.data.success) {
         setArticle(articleResponse.data.data[0]);
       }
@@ -56,7 +55,6 @@ export const ArticleCard = ({ id }) => {
 
   useEffect(() => {
     if (!author) return
-    console.log('author', author)
     if (author?.authorImage?.data.length === 0 || author?.authorImage?.filename.length === 0) {
       setAuthorImage(null)
     } else {
@@ -77,7 +75,7 @@ export const ArticleCard = ({ id }) => {
         <div className="pt-4 flex flex-col">
           <div className="h-10 flex flex-row justify-between items-start">
             <div className="text-xl text-left font-bold cursor-pointer" onClick={() => history.push('/article')} >{article && article.title}</div>
-            <div className="flex flex-row items-center pr-4">
+            <div className="flex flex-row items-center">
               <img src={talentImage} className="-mr-2" alt="talent"></img>
               <img src={etherImage} alt="ethereum"></img>
             </div>
