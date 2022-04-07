@@ -29,7 +29,7 @@ contract MembershipNftToken is Ownable, ERC721URIStorage {
 
     /// @dev we may not need this, for OpenSea
     function contractURI() public view returns (string memory) {
-        return "your contract metadata uri";
+        return "";
     }
 
     /// @dev this is internal mint function
