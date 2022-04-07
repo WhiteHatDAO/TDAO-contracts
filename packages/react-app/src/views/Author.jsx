@@ -42,7 +42,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
 
   const getArticles = async () => {
     try {
-      const server = "http://localhost:4000";
+      const server = "https://talentdao-api.herokuapp.com";
       const params = new URLSearchParams([["walletId", walletId]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
       if (articleResponse.data.success) {

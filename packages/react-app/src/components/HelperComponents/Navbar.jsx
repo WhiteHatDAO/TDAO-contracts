@@ -47,12 +47,12 @@ function Navbar({
   };
 
   const handleBrowseByAuthor = () => {
-    goToPage("/browse")
-  }
+    goToPage("/browse");
+  };
 
   const handleBrowseBySubject = () => {
-    goToPage("/browse")
-  }
+    goToPage("/browse");
+  };
 
   useEffect(async () => {
     if (address === undefined || address === "") return;
@@ -138,26 +138,30 @@ function Navbar({
                     }
                   </div> */}
                 </div>
-                {
-                  show && (
-                    <div className="origin-top-right absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                      <div className="py-1" role="none">
-                        <div
-                          className="text-gray-700 block px-4 py-2 text-sm hover:bg-lightgray"
-                          onClick={handleBrowseByAuthor}
-                        >
-                          Browse by Author
-                        </div>
-                        <div 
-                          className="text-gray-700 block px-4 py-2 text-sm hover:bg-lightgray"
-                          onClick={handleBrowseBySubject}
-                        >
-                          Browse by Subject
-                        </div>
+                {show && (
+                  <div
+                    className="origin-top-right absolute left-0 mt-2 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="menu-button"
+                    tabindex="-1"
+                  >
+                    <div className="py-1" role="none">
+                      <div
+                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-lightgray"
+                        onClick={handleBrowseByAuthor}
+                      >
+                        Browse by Author
+                      </div>
+                      <div
+                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-lightgray"
+                        onClick={handleBrowseBySubject}
+                      >
+                        Browse by Subject
                       </div>
                     </div>
-                  )
-                }
+                  </div>
+                )}
               </div>
               {/* <div onClick={() => goToPage("/author")} className={location.pathname === '/author' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Author</div>
               <div onClick={() => goToPage("/article")} className={location.pathname === '/article' ? 'text-lg text-primary font-semibold cursor-pointer' : 'text-lg cursor-pointer'}>Article</div> */}

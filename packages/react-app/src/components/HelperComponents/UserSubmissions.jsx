@@ -10,7 +10,7 @@ const UserSubmissions = ({ address }) => {
   const location = useLocation();
 
   const getArticles = async () => {
-    const server = "http://localhost:4000";
+    const server = "https://talentdao-api.herokuapp.com";
     try {
       const params = new URLSearchParams([["walletId", address]]);
       const res = await axios.get(server + "/api/articles", { params });

@@ -83,7 +83,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
 
     if (isError) return;
 
-    const server = "http://localhost:4000";
+    const server = "https://talentdao-api.herokuapp.com";
 
     const articleFile = selectedManuscriptFile
       ? {
