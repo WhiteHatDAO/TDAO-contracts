@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import etherImage from "../../assets/ethereum.png";
-import authorimg from "../../assets/author.png"
-import heartImage from "../../assets/heart.png";
-import { useHistory } from "react-router-dom";
-import talentImage from "../../assets/talent.png";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import authorimg from "../../assets/author.png";
+import etherImage from "../../assets/ethereum.png";
+import heartImage from "../../assets/heart.png";
+import talentImage from "../../assets/talent.png";
 import { dataURLtoFile } from "../../utils/utils";
 
 export const ArticleCard = ({ id }) => {
-  const history = useHistory()
-  const [article, setArticle] = useState(null)
-  const [author, setAuthor] = useState(null)
-  const [coverImage, setCoverImage] = useState(null)
-  const [authorImage, setAuthorImage] = useState(null)
-
+  const history = useHistory();
+  const [article, setArticle] = useState(null);
+  const [author, setAuthor] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
+  const [authorImage, setAuthorImage] = useState(null);
 
   const getArticle = async () => {
-    const server = "http://localhost:4000"
+    const server = "https://talentdao-api.herokuapp.com";
     try {
       const params = new URLSearchParams([["_id", id]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
@@ -42,53 +41,58 @@ export const ArticleCard = ({ id }) => {
   };
 
   useEffect(() => {
-    getArticle()
-  }, [id])
+    getArticle();
+  }, [id]);
 
   useEffect(() => {
-    if (!article) return
+    if (!article) return;
     var cover = dataURLtoFile(article?.cover?.data, article?.cover?.filename);
     var coverSrc = URL.createObjectURL(cover);
     setCoverImage(coverSrc);
-    getAuthorData()
+    getAuthorData();
   }, [article]);
 
   useEffect(() => {
-    if (!author) return
+    if (!author) return;
     if (author?.authorImage?.data.length === 0 || author?.authorImage?.filename.length === 0) {
-      setAuthorImage(null)
+      setAuthorImage(null);
     } else {
-      var image = dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename)
-      var authorSrc = URL.createObjectURL(image)
-      setAuthorImage(authorSrc)
+      var image = dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename);
+      var authorSrc = URL.createObjectURL(image);
+      setAuthorImage(authorSrc);
     }
-  }, [author])
+  }, [author]);
 
   return (
     <div className="flex flex-col justify-center mx-2 my-4">
       <div className="rounded-2xl shadow-lg max-w-sm p-4" style={{ background: "#F1F1F1" }}>
         <a href="#!">
-          {
-            coverImage && <img className="rounded-xl cursor-pointer w-full h-32 bg-cover bg-center" src={coverImage} alt="" onClick={() => history.push('/article')} />
-          }
+          {coverImage && (
+            <img
+              className="rounded-xl cursor-pointer w-full h-32 bg-cover bg-center"
+              src={coverImage}
+              alt=""
+              onClick={() => history.push("/article")}
+            />
+          )}
         </a>
         <div className="pt-4 flex flex-col">
           <div className="h-10 flex flex-row justify-between items-start">
-            <div className="text-xl text-left font-bold cursor-pointer" onClick={() => history.push('/article')} >{article && article.title}</div>
+            <div className="text-xl text-left font-bold cursor-pointer" onClick={() => history.push("/article")}>
+              {article && article.title}
+            </div>
             <div className="flex flex-row items-center">
               <img src={talentImage} className="-mr-2" alt="talent"></img>
               <img src={etherImage} alt="ethereum"></img>
             </div>
           </div>
           <div className="pt-8 flex flex-row justify-between items-center">
-            <div className="flex flex-row items-center cursor-pointer" onClick={() => history.push('/author')}>
-              {
-                authorImage ? (
-                  <img src={authorImage} width={30} height={30}></img>
-                ) : (
-                  <img src={authorimg} width={30} height={30}></img>
-                )
-              }
+            <div className="flex flex-row items-center cursor-pointer" onClick={() => history.push("/author")}>
+              {authorImage ? (
+                <img src={authorImage} width={30} height={30}></img>
+              ) : (
+                <img src={authorimg} width={30} height={30}></img>
+              )}
               <div className="pl-2 text-lg text-darkgray">{author?.username}</div>
             </div>
             <img src={heartImage} alt="heart"></img>
