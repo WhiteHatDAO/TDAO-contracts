@@ -106,7 +106,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   }, [author]);
 
   useEffect(async () => {
-    const server = "http://localhost:4000";
+    const server = "https://tdao-api.herokuapp.com/";
     try {
       const res = await axios.put(server + "/api/author_readers", {
         walletId: walletId,
@@ -125,7 +125,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const putTimesCited = async () => {
     const times = timesCited + 1;
     try {
-      const server = "http://localhost:4000";
+      const server = "https://tdao-api.herokuapp.com/";
       const res = await axios.put(server + "/api/author_times", {
         walletId: walletId,
         timesCited: times,

@@ -10,24 +10,10 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 import "./AuthorEntity.sol";
 import "./ArticleEntity.sol";
+import "./interfaces/ITDAOToken.sol";
+import "./interfaces/ITDAONFTToken.sol";
+import "./interfaces/ITDAOMemberToken.sol";
 
-/// @dev TDAO token interface
-interface ITDAOToken {
-    function mintTokens(uint256 amount, address to) external;
-    function transfer ( address recipient, uint256 amount ) external returns ( bool );
-    function transferFrom ( address sender, address recipient, uint256 amount ) external returns ( bool );
-    function approve ( address spender, uint256 amount ) external returns ( bool );
-    function burnTokens(uint256 amount, address from) external;
-    function balanceOf ( address account ) external view returns ( uint256 );
-}
-
-interface ITDAONFTToken {
-    function mintNFTForArticle(address ownerAddress, string memory metadataPtr, uint256 amount) external returns(uint256);
-}
-
-interface ITDAOMemberToken{
-    function mintMembershipToken(address authorAddress, string memory metadataPtr, uint256 amount) external returns(uint256);
-}
 
 /// @title TokenRecover
 /// @author jaxcoder

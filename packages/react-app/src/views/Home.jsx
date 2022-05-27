@@ -53,7 +53,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
 
   useEffect(() => {
     const init = async () => {
-      const server = "http://localhost:4000/api/authors";
+      const server = "https://tdao-api.herokuapp.com/api/authors";
       try {
         const res = await axios.get(server);
         if (res.data.success) {
