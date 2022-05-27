@@ -5,7 +5,6 @@ import "hardhat/console.sol"; // Remove after testing is completed - JR
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-import "../libs/Multicall.sol";
 import "../libs/Timers.sol";
 import "../libs/Counters.sol";
 import "../libs/ABDKMath64x64.sol";

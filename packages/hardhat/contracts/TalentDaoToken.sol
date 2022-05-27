@@ -56,49 +56,42 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         uint256 votes;
     }
 
+    error WrongRole();
+    error LowBalance();
+    error PastDeadline();
+    error ZeroAddress();
+    error OnlyOwner();
+    error InvalidNonce();
+    error SignatureExpired();
+
     /// @notice Modifiers for Access Control
     modifier isPermittedMinter() {
-        require(
-            hasRole(MINTER_ROLE, msg.sender),
-            "Not an approved minter"
-        );
+        if(!hasRole(MINTER_ROLE, msg.sender)) revert WrongRole();
         _;
     }
 
     modifier isPermittedDao() {
-        require(
-            hasRole(DAO_ROLE, msg.sender),
-            "Not an approved DAO"
-        );
+        if(!hasRole(DAO_ROLE, msg.sender)) revert WrongRole();
         _;
     }
 
     modifier isPermittedOperator() {
-        require(
-            hasRole(OPERATOR_ROLE, msg.sender),
-            "Not an approved minter"
-        );
+        if(!hasRole(OPERATOR_ROLE, msg.sender)) revert WrongRole();
         _;
     }
 
     modifier isPermittedDistributor() {
-        require(
-            hasRole(DISTRIBUTOR_ROLE, msg.sender),
-            "Not an approved distributor"
-        );
+        if(!hasRole(DISTRIBUTOR_ROLE, msg.sender)) revert WrongRole();
         _;
     }
     
     modifier isAdminOrOwner() {
-        require(
-            hasRole(DEFAULT_ADMIN_ROLE, msg.sender) || owner() == msg.sender,
-            "You can't perform admin or owner actions"
-        );
+        if(!hasRole(DEFAULT_ADMIN_ROLE, msg.sender) || owner() == msg.sender) revert WrongRole();
         _;
     }
 
     modifier hasEnoughBalance(uint256 balance, uint256 amount) {
-        require(balance >= amount, "Not enough token balance");
+        if(balance >= amount) revert LowBalance();
         _;
     }
 
@@ -121,7 +114,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     function setupMinterRole(address minter)
         public
     {
-        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add minter");
+        if(!hasRole(DEFAULT_ADMIN_ROLE, _msgSender())) revert WrongRole();
         _setupRole(MINTER_ROLE, minter);
     }
 
@@ -131,7 +124,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     function setupOperatorRole(address operator)
         public
     {
-        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add operator");
+        if(!hasRole(DEFAULT_ADMIN_ROLE, _msgSender())) revert WrongRole();
         _setupRole(OPERATOR_ROLE, operator);
     }
 
@@ -151,7 +144,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     function setupDistributorRole(address distributor)
         public
     {
-        require(hasRole(OPERATOR_ROLE, _msgSender()) || hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add minter");
+        if(hasRole(OPERATOR_ROLE, _msgSender()) || hasRole(DEFAULT_ADMIN_ROLE, _msgSender())) revert WrongRole();
         _setupRole(DISTRIBUTOR_ROLE, distributor);
     }
 
@@ -204,14 +197,14 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         public
         virtual
     {
-        require(block.timestamp <= deadline, "TALENT :: past the fucking deadline bro!");
+        if(block.timestamp >= deadline) revert PastDeadline();
         uint256 nonce = _nonces[owner];
         bytes32 domainSeparator = keccak256(abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name())), getChainId(), address(this)));
         bytes32 structHash = keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, rawAmount, nonce, deadline));
         bytes32 digest = keccak256(abi.encodePacked(uint16(0x1901), domainSeparator, structHash));
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "TALENT :: permit: invalid signature ~ zero address mofo!");
-        require(signatory == owner, "TALENT :: permit: unauthorized ~ must be the owner of the signature...");
+        if(signatory == address(0)) revert ZeroAddress();
+        if(signatory != owner) revert OnlyOwner();
         // increase nonce for the owner
         _nonces[owner]++;
         // call the approve function or allowances function
@@ -286,9 +279,9 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         );
 
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "TALENT::delegateBySig: invalid signature");
-        require(nonce == _nonces[signatory]++, "TALENT::delegateBySig: invalid nonce");
-        require(block.timestamp <= expiry, "TALENT::delegateBySig: signature expired");
+        if(signatory == address(0)) revert ZeroAddress();
+        if(nonce != _nonces[signatory]++) revert InvalidNonce();
+        if(block.timestamp >= expiry) revert SignatureExpired();
         return _delegate(signatory, delegatee);
     }
 
