@@ -19,6 +19,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @title Governor Beta contract for governance and propsals
 /// @author jaxcoder
 /// @notice handles proposals
-contract GovernorBeta {
+contract GovernorBeta is Ownable {
     constructor () public {}
 }
