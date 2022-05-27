@@ -8,9 +8,9 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-import "./AuthorEntity.sol";
-import "./ArticleEntity.sol";
-import "./interfaces/ITDAOToken.sol";
+import "./entities/AuthorEntity.sol";
+import "./entities/ArticleEntity.sol";
+import ".//interfaces/ITDAOToken.sol";
 import "./interfaces/ITDAONFTToken.sol";
 import "./interfaces/ITDAOMemberToken.sol";
 
