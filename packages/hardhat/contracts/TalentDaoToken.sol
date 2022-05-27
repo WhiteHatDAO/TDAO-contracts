@@ -1,4 +1,4 @@
-pragma solidity 0.8.4;
+pragma solidity ^0.8.4;
 pragma experimental ABIEncoderV2;
 //SPDX-License-Identifier: GPL
 
@@ -128,31 +128,31 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     /** @dev only the default admin role can add an operator
     *
     */
-    function setupOperatorRole(address minter)
+    function setupOperatorRole(address operator)
         public
     {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add operator");
-        _setupRole(OPERATOR_ROLE, minter);
+        _setupRole(OPERATOR_ROLE, operator);
     }
 
     /** @dev only the owner can add a DAO role
     *
     */
-    function setupDaoRole(address minter)
+    function setupDaoRole(address dao)
         public
         onlyOwner
     {
-        _setupRole(DAO_ROLE, minter);
+        _setupRole(DAO_ROLE, dao);
     }
 
     /** @dev the operator and the admin roles can add a distributor
     *
     */
-    function setupDistributorRole(address minter)
+    function setupDistributorRole(address distributor)
         public
     {
         require(hasRole(OPERATOR_ROLE, _msgSender()) || hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "need to be admin to add minter");
-        _setupRole(DISTRIBUTOR_ROLE, minter);
+        _setupRole(DISTRIBUTOR_ROLE, distributor);
     }
 
     /** @notice Creates `_amount` token to `_to`. Must only be called by permitted minter.
@@ -165,6 +165,14 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     {
         _mint(_to, _amount);
         _moveDelegates(address(0), _delegates[_to], _amount);
+    }
+
+    function mintTokens(uint256 _amount)
+        public
+        isPermittedMinter
+    {
+        _mint(msg.sender, _amount);
+        _moveDelegates(address(0), _delegates[msg.sender], _amount);
     }
 
      /**
