@@ -14,17 +14,40 @@ abstract contract ReputationBase is Ownable {
     using ABDKMath64x64 for uint256;
     using SafeERC20 for IERC20;
 
-    // base state variables
+    // state variables
+    Counters.Counter public userIds;
 
 
-    // base custom errors
+    // custom errors
+    error BadId();
+    error ZeroAddress();
 
 
-    // base structs
+    // structs
+    struct User {
+        uint128 id;
+        uint128 totalScore;
+        address walletId;
+        Reputation[] reputations;
+    }
+
+    struct Reputation {
+        uint128 id;
+        uint128 score;
+    }
+
+    struct Metadata {
+        uint128 id;
+        // not sure how to use this yet...
+    }
 
 
-    // base events
+    // events
+    event NewUser(address indexed user);
+    event ReputationIncreased(address indexed user, uint256 increaseAmt);
+    event ReputationDecreased(address indexed user, uint256 decreaseAmt);
+    event Blacklisted(address indexed user);
 
 
-    // base logic/functions
+    // logic/functions
 }
