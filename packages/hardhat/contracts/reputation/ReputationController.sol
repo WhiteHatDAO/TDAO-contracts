@@ -5,12 +5,12 @@ import { ReputationBase } from "./ReputationBase.sol";
 
 contract ReputationController is ReputationBase {
     
-    
+
 
     constructor () public {
 
     }
 
-
+    
 
 }

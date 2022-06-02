@@ -436,5 +436,4 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
 
         return chainId;
     }
-
 }
