@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
-contract rTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
+contract veTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
     using SafeERC20 for IERC20;
 
     // Roles
@@ -83,6 +83,7 @@ contract rTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
         _setupRole(DISTRIBUTOR_ROLE, msg.sender);
         _setupRole(MINTER_ROLE, msg.sender);
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(DAO_ROLE, msg.sender);
         _mint(msg.sender, 10000000 ether);
         transferOwnership(_owner);
     }
@@ -116,22 +117,48 @@ contract rTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
         _setupRole(DISTRIBUTOR_ROLE, _newDistributor);
     }
 
-    /**
-    * @dev See {ERC20-_beforeTokenTransfer}.
-    *
-    * Requirements: do we want to do anything before each transfer?
-    */
-    function _beforeTokenTransfer(address from, address to, uint256 amount)
+    function setupDaoRole(address _newDao)
+        public
+        onlyOwner
+    {
+        _setupRole(DAO_ROLE, _newDao);
+    }
+
+    /// @dev See {ERC20-_beforeTokenTransfer}
+    /// @param _from the from address
+    /// @param _to the to address
+    /// @param _amount the amount
+    function _beforeTokenTransfer(address _from, address _to, uint256 _amount)
         internal
         virtual
         override
     {
-        super._beforeTokenTransfer(from, to, amount);
+        super._beforeTokenTransfer(_from, _to, _amount);
 
         
     }
 
+    /// @notice Mint token function
+    /// @dev Mints to the sender
+    /// @param _amount The amount to mint
     function mintTokens
+    (
+        uint256 _amount
+    )
+        external
+
+    {
+        if (msg.sender == address(0)) revert ZERO_ADDRESS();
+        balances[msg.sender] += _amount;
+
+        _mint(msg.sender, _amount);
+    }
+
+    /// @notice Mint token function to address
+    /// @dev This mints to a specified address
+    /// @param _to The to address to mint to
+    /// @param _amount The amount to mint
+    function mintTokensTo
     (
         address _to,
         uint256 _amount
@@ -145,6 +172,8 @@ contract rTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
         _mint(_to, _amount);
     }
 
+    /// @notice Burn token from sender function
+    /// @param _amount The amount to burn from sender
     function burn
     (
         uint256 _amount
@@ -159,6 +188,9 @@ contract rTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
         _burn(msg.sender, _amount);
     }
 
+    /// @notice Burns from a specified address
+    /// @param _amount The amount to burn
+    /// @param _from The from address to burn from
     function burnFrom
     (
         uint256 _amount,
@@ -171,4 +203,6 @@ contract rTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
 
         _burn(_from, _amount);
     }
+
+    function calculate
 }
