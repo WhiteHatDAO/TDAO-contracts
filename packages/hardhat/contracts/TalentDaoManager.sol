@@ -11,12 +11,12 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./entities/AuthorEntity.sol";
 import "./entities/ArticleEntity.sol";
 import ".//interfaces/ITDAOToken.sol";
-import "./interfaces/ITDAONFTToken.sol";
+import {IArticleNft} from "./interfaces/IArticleNft.sol";
 import "./interfaces/ITDAOMemberToken.sol";
 
 
 /// @title TokenRecover
-/// @author jaxcoder
+/// @author Jaxcoder
 /// @dev Allow to recover any ERC20 sent into the contract for error
 contract TokenRecover is Ownable {
     /**
@@ -42,8 +42,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
     address public manager;
 
     ITDAOToken public tDaoToken;
-    address public tDaoTokenAddress;
-    ITDAONFTToken public tDaoNftToken;
+    IArticleNft public articleNft;
     ITDAOMemberToken public tDaoMemberToken;
 
     event ManagerRemoved(address indexed oldManager);
@@ -53,8 +52,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         manager = _manager;
         _setupRole(MANAGER_ROLE, _manager);
         tDaoToken = ITDAOToken(_TDAOToken);
-        tDaoTokenAddress = _TDAOToken;
-        tDaoNftToken = ITDAONFTToken(_TDAONFTToken);
+        articleNft = IArticleNft(_TDAONFTToken);
         tDaoMemberToken = ITDAOMemberToken(_TDAOMemberToken);
         transferOwnership(_owner);
     }
@@ -90,7 +88,7 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
         public
         returns (uint256)
     {
-        (uint256 newItemId) = tDaoNftToken.mintNFTForArticle(owner, metadataPtr, amount);
+        (uint256 newItemId) = articleNft.mintNFTForArticle(owner, metadataPtr, amount);
 
         return (newItemId);
     }
