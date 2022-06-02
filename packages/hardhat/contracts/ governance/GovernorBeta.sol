@@ -12,7 +12,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * - A voting module must implement {_getVotes}
  * - Additionanly, the {votingPeriod} must also be implemented
  *
- * _Available since v4.3._
  */
 // import "@openzeppelin/contracts/governance/Governor.sol";
 
