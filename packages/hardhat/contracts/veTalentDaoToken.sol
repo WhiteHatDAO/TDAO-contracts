@@ -100,7 +100,7 @@ contract veTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
         address _owner
     )
         public
-        ERC20("rTalent Reputation Token", "rTALENT")
+        ERC20("veTalent Reputation Token", "veTALENT")
         ERC20Burnable()
     {
         _setupRole(OPERATOR_ROLE, msg.sender);
