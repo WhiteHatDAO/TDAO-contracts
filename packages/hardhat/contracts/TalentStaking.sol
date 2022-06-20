@@ -128,7 +128,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         talentToken = ITDAOToken(_talentToken);
         veTalentToken = IVETDAOToken(_veTalentToken);
 
-        // ** add the phro/gphro stake pool with 100 allocation,
+        // ** add the talent/veTalent stake pool with 100 allocation,
         // this will be the only pool even though we have
         // the ability to add more. Who knows, the future is bright :)
         addStakePool(10, _talentToken);
@@ -217,15 +217,15 @@ contract PharoStakePool is AccessControl, TokenRecover {
                 pool.lastRewardBlock,
                 block.number
             );
-            uint256 phroReward = multiplier
+            uint256 talentReward = multiplier
                 .mul(PHRO_PER_BLOCK)
                 .mul(pool.allocationPoint)
                 .div(totalAllocationPoint);
-            console.log("Pending Talent for user", phroReward);
+            console.log("Pending Talent for user", talentReward);
             accTalentPerShare = accTalentPerShare.add(
-                phroReward.mul(1e12).div(lpSupply)
+                talentReward.mul(1e12).div(lpSupply)
             );
-            console.log("Acc PHRO per share ", accTalentPerShare);
+            console.log("Acc TALENT per share ", accTalentPerShare);
         }
 
         return staker.amount.mul(accTalentPerShare).div(1e12).sub(staker.rewardDebt);
@@ -243,13 +243,13 @@ contract PharoStakePool is AccessControl, TokenRecover {
             return;
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-        uint256 phroReward = multiplier
+        uint256 talentReward = multiplier
             .mul(PHRO_PER_BLOCK)
             .mul(pool.allocationPoint)
             .div(totalAllocationPoint);
-        talentToken.mintTokensTo(address(this), phroReward);
+        talentToken.mintTokensTo(address(this), talentReward);
         pool.accTalentPerShare = pool.accTalentPerShare.add(
-            phroReward.mul(1e12).div(lpSupply)
+            talentReward.mul(1e12).div(lpSupply)
         );
         pool.lastRewardBlock = block.number;
     }
@@ -266,7 +266,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
                 .mul(pool.accTalentPerShare)
                 .div(1e12)
                 .sub(user.rewardDebt);
-            safePhroTransfer(msg.sender, pending);
+            safeTalentTransfer(msg.sender, pending);
             console.log("Transferred ", pending, " PRHO rewards");
         }
 
@@ -278,7 +278,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         pool.depositSum = pool.depositSum.add(_amount);
         console.log("Transferred ", _amount, " PHRO");
         // veTalentToken.mintStakerTokens(msg.sender, _amount);
-        safegPhroTransfer(msg.sender, _amount);
+        safeVeTalentTransfer(msg.sender, _amount);
         console.log("Transferred ", _amount, " gPHRO");
         user.amount = user.amount.add(_amount);
         user.rewardDebt = user.amount.mul(pool.accTalentPerShare).div(1e12);
@@ -299,11 +299,11 @@ contract PharoStakePool is AccessControl, TokenRecover {
         // take our 10% of the rewards
         pending = (pending.div(100)).mul(90);
         // send rewards to user
-        safePhroTransfer(msg.sender, pending);
+        safeTalentTransfer(msg.sender, pending);
         // burn _amount of gPhro
         veTalentToken.burnFrom(_amount, address(msg.sender));
         // send the _amount back to user
-        safePhroTransfer(msg.sender, _amount);
+        safeTalentTransfer(msg.sender, _amount);
         // update struct
         user.amount = user.amount.sub(_amount);
         user.rewardDebt = user.amount.mul(pool.accTalentPerShare).div(1e12);
@@ -315,8 +315,8 @@ contract PharoStakePool is AccessControl, TokenRecover {
 
     /// @dev transfers PHRO from contract if available and mints if not
     function safeTalentTransfer(address _to, uint256 _amount) internal {
-        uint256 phroBal = talentToken.balanceOf(address(this));
-        if (_amount <= phroBal) {
+        uint256 talentBal = talentToken.balanceOf(address(this));
+        if (_amount <= talentBal) {
             talentToken.transfer(_to, _amount);
         } else {
             talentToken.mintTokensTo(_to, _amount);
@@ -325,9 +325,9 @@ contract PharoStakePool is AccessControl, TokenRecover {
 
     /// @dev transfers PHRO from contract if available and mints if not
     function safeVeTalentTransfer(address _to, uint256 _amount) internal {
-        uint256 gphroBal = veTalentToken.balanceOf(address(this));
-        if (_amount <= gphroBal) {
-            veTalentToken.transfer(_to, gphroBal);
+        uint256 veTalentBal = veTalentToken.balanceOf(address(this));
+        if (_amount <= veTalentBal) {
+            veTalentToken.transfer(_to, veTalentBal);
         } else {
             veTalentToken.mintTokensTo(_to, _amount);
             // ** add event!!!
@@ -383,7 +383,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
     //     staker.amount = 0;
     //     staker.rewardDebt = 0;
     //     veTalentToken.burnFrom(msg.sender, amount);
-    //     safePhroTransfer(msg.sender, amount);
+    //     safeTalentTransfer(msg.sender, amount);
 
     //     emit Withdraw(msg.sender, _poolId, amount);
     // }
