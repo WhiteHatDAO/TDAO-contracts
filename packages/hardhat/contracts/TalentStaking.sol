@@ -171,17 +171,17 @@ contract PharoStakePool is AccessControl, TokenRecover {
         return true;
     }
 
-    // /// @dev Update the given pool's PHRO allocation point. Can only be called by the owner.
-    // function set(uint256 _poolId, uint256 _allocPoint)
-    //     public 
-    //     onlyOwner 
-    // {
-    //     PoolInfo storage pool = pools[_poolId];
-    //     totalAllocationPoint = totalAllocationPoint.sub(pools[_poolId].allocationPoint).add(
-    //         _allocPoint
-    //     );
-    //     pool.allocationPoint = _allocPoint;
-    // }
+    /// @dev Update the given pool's PHRO allocation point. Can only be called by the owner.
+    function set(uint256 _poolId, uint256 _allocPoint)
+        public 
+        onlyOwner 
+    {
+        PoolInfo storage pool = pools[_poolId];
+        totalAllocationPoint = totalAllocationPoint.sub(pools[_poolId].allocationPoint).add(
+            _allocPoint
+        );
+        pool.allocationPoint = _allocPoint;
+    }
 
     /// @dev Return reward multiplier over the given _from to _to block.
     function getMultiplier(uint256 _from, uint256 _to)
@@ -301,7 +301,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         // send rewards to user
         safeTalentTransfer(msg.sender, pending);
         // burn _amount of gPhro
-        veTalentToken.burnFrom(_amount, address(msg.sender));
+        veTalentToken.burnFrom(address(msg.sender), _amount);
         // send the _amount back to user
         safeTalentTransfer(msg.sender, _amount);
         // update struct
@@ -352,58 +352,58 @@ contract PharoStakePool is AccessControl, TokenRecover {
         ];
     }
 
-    // /// @notice Staker Details Array
-    // /// @dev Returns array of staker details uint256
-    // /// @param _poolId The id of the pool
-    // /// @param _staker The address of the staker
-    // /// @return Array of uint256 of staker details
-    // function stakerDetails(uint256 _poolId, address _staker)
-    //     external
-    //     view
-    //     returns(uint256[2] memory)
-    // {
-    //     StakerInfo storage staker = stakerInfo[_poolId][_staker];
-    //     return [
-    //         staker.amount,
-    //         staker.rewardDebt
-    //     ];
-    // }
+    /// @notice Staker Details Array
+    /// @dev Returns array of staker details uint256
+    /// @param _poolId The id of the pool
+    /// @param _staker The address of the staker
+    /// @return Array of uint256 of staker details
+    function stakerDetails(uint256 _poolId, address _staker)
+        external
+        view
+        returns(uint256[2] memory)
+    {
+        StakerInfo storage staker = stakerInfo[_poolId][_staker];
+        return [
+            staker.amount,
+            staker.rewardDebt
+        ];
+    }
 
-    // /// @dev Withdraw without caring about rewards. EMERGENCY ONLY.
-    // /// @param _poolId the id of the pool to withdraw from
-    //     // nonReentrant
-    // function emergencyWithdraw(uint256 _poolId)
-    //     public
-    // {
-    //     PoolInfo storage pool = pools[_poolId];
-    //     StakerInfo storage staker = stakerInfo[_poolId][msg.sender];
+    /// @dev Withdraw without caring about rewards. EMERGENCY ONLY.
+    /// @param _poolId the id of the pool to withdraw from
+        // nonReentrant
+    function emergencyWithdraw(uint256 _poolId)
+        public
+    {
+        PoolInfo storage pool = pools[_poolId];
+        StakerInfo storage staker = stakerInfo[_poolId][msg.sender];
 
-    //     uint256 amount = staker.amount;
-    //     pool.depositSum = pool.depositSum.sub(amount);
-    //     staker.amount = 0;
-    //     staker.rewardDebt = 0;
-    //     veTalentToken.burnFrom(msg.sender, amount);
-    //     safeTalentTransfer(msg.sender, amount);
+        uint256 amount = staker.amount;
+        pool.depositSum = pool.depositSum.sub(amount);
+        staker.amount = 0;
+        staker.rewardDebt = 0;
+        veTalentToken.burnFrom(msg.sender, amount);
+        safeTalentTransfer(msg.sender, amount);
 
-    //     emit Withdraw(msg.sender, _poolId, amount);
-    // }
+        emit Withdraw(msg.sender, _poolId, amount);
+    }
 
-    // /// @dev sets a new bonus end block
-    // /// @param _bonusEndBlock the new end block number for the bonus period
-    // function setBonusEndBlock(uint256 _bonusEndBlock)
-    //     public
-    //     onlyOwner
-    // {
-    //     bonusEndBlock = _bonusEndBlock;
-    // }
+    /// @dev sets a new bonus end block
+    /// @param _bonusEndBlock the new end block number for the bonus period
+    function setBonusEndBlock(uint256 _bonusEndBlock)
+        public
+        onlyOwner
+    {
+        bonusEndBlock = _bonusEndBlock;
+    }
 
-    // /// @dev sets a new reward fee in basis points
-    // /// @param _rewardFee the fee we attach to the reward
-    // function setRewardFee(uint256 _rewardFee)
-    //     public
-    //     onlyOwner
-    // {
-    //     require(_rewardFee > 0, "Must be greater than zero");
-    //     rewardFee = _rewardFee;
-    // }
+    /// @dev sets a new reward fee in basis points
+    /// @param _rewardFee the fee we attach to the reward
+    function setRewardFee(uint256 _rewardFee)
+        public
+        onlyOwner
+    {
+        require(_rewardFee > 0, "Must be greater than zero");
+        rewardFee = _rewardFee;
+    }
 }
