@@ -16,4 +16,5 @@ interface IVETDAOToken {
     function burnTokens(uint256 amount, address from) external;
     function balanceOf ( address account ) external view returns ( uint256 );
     function delegate(address delegatee) external;
+    function burnFrom(uint256 _amount, address _from) external;
 }
