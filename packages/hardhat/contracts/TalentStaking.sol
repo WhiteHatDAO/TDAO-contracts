@@ -55,19 +55,19 @@ contract PharoStakePool is AccessControl, TokenRecover {
     // Updateable by the DAO.
     uint256 public rewardFee = 100;
 
-    // The block number when PHRO bonus mining starts.
+    // The block number when Talent bonus mining starts.
     uint256 public startBlock;
     uint256 public bonusEndBlock;
 
-    // PHRO per block rewarded
+    // Talent per block rewarded
     // todo: need to calculate this a bit better... SMG??
     // This is also adjustable by the DAO
-    uint256 public PHRO_PER_BLOCK = 2 ether;
+    uint256 public Talent_PER_BLOCK = 2 ether;
 
     // Bonus muliplier for early gpharo makers.
     uint256 public constant BONUS_MULTIPLIER = 2;
 
-    // uint256 constant MAX_PHRO_SUPPLY = 1000000000 ether; // 1 Billion
+    // uint256 constant MAX_Talent_SUPPLY = 1000000000 ether; // 1 Billion
 
     // Total must equal the sum of all allocation points in all pools
     uint256 public totalAllocationPoint = 0;
@@ -81,7 +81,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
     /// @dev Structs
     struct StakerInfo {
         uint256 amount; // How many tokens the user has deposited
-        uint256 rewardDebt; // Reward Debt: the amount of PHRO tokens
+        uint256 rewardDebt; // Reward Debt: the amount of Talent tokens
         // pending reward = (user.amount * pool.accTalentPerShare) - user.rewardDebt
         // Whenever a user deposits or withdraws tokens to a pool. Here's what happens:
         //   1. Pools deposit sum gets updated
@@ -92,10 +92,10 @@ contract PharoStakePool is AccessControl, TokenRecover {
 
     struct PoolInfo {
         address asset; // Address of the pools token contract
-        uint256 allocationPoint; // How many allocation points assigned to this pool. PHROs to dist per block.
-        uint256 lastRewardBlock; // last block that PHRO dist occurred
+        uint256 allocationPoint; // How many allocation points assigned to this pool. Talents to dist per block.
+        uint256 lastRewardBlock; // last block that Talent dist occurred
         uint256 depositSum; // the total of all deposits in this pool
-        uint256 accTalentPerShare; // Accumulated PHRO per share, times 1e12. See below
+        uint256 accTalentPerShare; // Accumulated Talent per share, times 1e12. See below
     }
 
     /// @dev sum of all deposits currently held in the pools when and if we add more...
@@ -138,13 +138,13 @@ contract PharoStakePool is AccessControl, TokenRecover {
         // transferOwnership(0x3f15B8c6F9939879Cb030D6dd935348E57109637);
     }
 
-    // /// @dev updates the PHRO per block emission rate
+    // /// @dev updates the Talent per block emission rate
     // function updateEmissionRate(uint256 _pharoPerBlock)
     //     public
     //     onlyOwner
     // {
     //     require(hasRole(DAO_ROLE, msg.sender), "PharoStakePool :: not in the DAO role, sorry...");
-    //     PHRO_PER_BLOCK = _pharoPerBlock;
+    //     Talent_PER_BLOCK = _pharoPerBlock;
     //     emit UpdateEmissionRate(msg.sender, _pharoPerBlock);
     // }
 
@@ -171,7 +171,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         return true;
     }
 
-    /// @dev Update the given pool's PHRO allocation point. Can only be called by the owner.
+    /// @dev Update the given pool's Talent allocation point. Can only be called by the owner.
     function set(uint256 _poolId, uint256 _allocPoint)
         public 
         onlyOwner 
@@ -201,8 +201,8 @@ contract PharoStakePool is AccessControl, TokenRecover {
         }
     }
 
-    /// @dev view funciton to see pending PHRO on front-end
-    function pendingPhro(uint256 _pid, address _staker)
+    /// @dev view funciton to see pending Talent on front-end
+    function pendingTalent(uint256 _pid, address _staker)
         public
         view
         returns (uint256)
@@ -218,7 +218,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
                 block.number
             );
             uint256 talentReward = multiplier
-                .mul(PHRO_PER_BLOCK)
+                .mul(Talent_PER_BLOCK)
                 .mul(pool.allocationPoint)
                 .div(totalAllocationPoint);
             console.log("Pending Talent for user", talentReward);
@@ -244,7 +244,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 talentReward = multiplier
-            .mul(PHRO_PER_BLOCK)
+            .mul(Talent_PER_BLOCK)
             .mul(pool.allocationPoint)
             .div(totalAllocationPoint);
         talentToken.mintTokensTo(address(this), talentReward);
@@ -254,7 +254,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         pool.lastRewardBlock = block.number;
     }
 
-    /// @dev deposit PHRO tokens to receive gPHRO tokens and earn rewards
+    /// @dev deposit Talent tokens to receive veTalent tokens and earn rewards
     function deposit(uint256 _poolId, uint256 _amount) public {
         PoolInfo storage pool = pools[_poolId];
         StakerInfo storage user = stakerInfo[_poolId][msg.sender];
@@ -276,17 +276,17 @@ contract PharoStakePool is AccessControl, TokenRecover {
             _amount
         );
         pool.depositSum = pool.depositSum.add(_amount);
-        console.log("Transferred ", _amount, " PHRO");
+        console.log("Transferred ", _amount, " Talent");
         // veTalentToken.mintStakerTokens(msg.sender, _amount);
         safeVeTalentTransfer(msg.sender, _amount);
-        console.log("Transferred ", _amount, " gPHRO");
+        console.log("Transferred ", _amount, " veTalent");
         user.amount = user.amount.add(_amount);
         user.rewardDebt = user.amount.mul(pool.accTalentPerShare).div(1e12);
         
         emit Deposited(msg.sender, _amount, block.timestamp);
     }
 
-    /// @dev withdraw your PHRO tokens for the equal amount of gPHRO you 
+    /// @dev withdraw your Talent tokens for the equal amount of veTalent you 
     ///     want to trade in.
     function withdraw(uint256 _poolId, uint256 _amount) public {
         PoolInfo storage pool = pools[_poolId];
@@ -300,7 +300,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         pending = (pending.div(100)).mul(90);
         // send rewards to user
         safeTalentTransfer(msg.sender, pending);
-        // burn _amount of gPhro
+        // burn _amount of veTalent
         veTalentToken.burnFrom(address(msg.sender), _amount);
         // send the _amount back to user
         safeTalentTransfer(msg.sender, _amount);
@@ -313,7 +313,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         emit Withdraw(msg.sender, _poolId, _amount);
     }
 
-    /// @dev transfers PHRO from contract if available and mints if not
+    /// @dev transfers Talent from contract if available and mints if not
     function safeTalentTransfer(address _to, uint256 _amount) internal {
         uint256 talentBal = talentToken.balanceOf(address(this));
         if (_amount <= talentBal) {
@@ -323,7 +323,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         }
     }
 
-    /// @dev transfers PHRO from contract if available and mints if not
+    /// @dev transfers Talent from contract if available and mints if not
     function safeVeTalentTransfer(address _to, uint256 _amount) internal {
         uint256 veTalentBal = veTalentToken.balanceOf(address(this));
         if (_amount <= veTalentBal) {
