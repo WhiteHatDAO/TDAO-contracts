@@ -219,10 +219,12 @@ contract veTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
     /// @param _from The from address to burn from
     function burnFrom
     (
-        uint256 _amount,
-        address _from
+        address _from,
+        uint256 _amount
     )
-        external
+        public
+        virtual
+        override
     {
         if (_from == address(0)) revert ZeroAddress();
         _balances[_from] -= uint96(_amount);

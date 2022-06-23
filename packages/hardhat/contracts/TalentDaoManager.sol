@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 import "./entities/AuthorEntity.sol";
 import "./entities/ArticleEntity.sol";
-import ".//interfaces/ITDAOToken.sol";
+import "./interfaces/ITDAOToken.sol";
 import {IArticleNft} from "./interfaces/IArticleNft.sol";
 import "./interfaces/ITDAOMemberToken.sol";
 
@@ -36,6 +36,8 @@ contract TokenRecover is Ownable {
 contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover {
     using SafeERC20 for IERC20;
     using SafeMath for uint256;
+
+    error FailedTransfer();
     
     bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
 
@@ -96,12 +98,13 @@ contract TalentDaoManager is Ownable, AuthorEntity, AccessControl, TokenRecover 
 
     function tipAuthor(address author, uint256 amount) public {
         require(tDaoToken.balanceOf(msg.sender) >= amount, "You don't have enough TDAO tokens");
-        tDaoToken.transferFrom(msg.sender, author, amount);
+        (bool success) = tDaoToken.transferFrom(msg.sender, author, amount);
+        if(!success) revert FailedTransfer();
     }
 
     function tipAuthorEth(address author) public payable {
         (bool success, ) = msg.sender.call{ value: msg.value }("");
-        require(success, "ETH transfer failed");
+        if(!success) revert FailedTransfer();
     }
     
 }
