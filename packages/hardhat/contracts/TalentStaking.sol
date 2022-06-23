@@ -35,7 +35,7 @@ contract TokenRecover is Ownable {
 /// @notice Swaps Talent for veTalent and earn rewards on your Talent deposit
 /// @dev There is a 1:1 ratio on swaps
 // ReentrancyGuard, 
-contract PharoStakePool is AccessControl, TokenRecover {
+contract talentStakePool is AccessControl, TokenRecover {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -62,9 +62,9 @@ contract PharoStakePool is AccessControl, TokenRecover {
     // Talent per block rewarded
     // todo: need to calculate this a bit better... SMG??
     // This is also adjustable by the DAO
-    uint256 public Talent_PER_BLOCK = 2 ether;
+    uint256 public TALENT_PER_BLOCK = 2 ether;
 
-    // Bonus muliplier for early gpharo makers.
+    // Bonus muliplier for early gtalent makers.
     uint256 public constant BONUS_MULTIPLIER = 2;
 
     // uint256 constant MAX_Talent_SUPPLY = 1000000000 ether; // 1 Billion
@@ -138,15 +138,15 @@ contract PharoStakePool is AccessControl, TokenRecover {
         // transferOwnership(0x3f15B8c6F9939879Cb030D6dd935348E57109637);
     }
 
-    // /// @dev updates the Talent per block emission rate
-    // function updateEmissionRate(uint256 _pharoPerBlock)
-    //     public
-    //     onlyOwner
-    // {
-    //     require(hasRole(DAO_ROLE, msg.sender), "PharoStakePool :: not in the DAO role, sorry...");
-    //     Talent_PER_BLOCK = _pharoPerBlock;
-    //     emit UpdateEmissionRate(msg.sender, _pharoPerBlock);
-    // }
+    /// @dev updates the Talent per block emission rate
+    function updateEmissionRate(uint256 _talentPerBlock)
+        public
+        onlyOwner
+    {
+        require(hasRole(DAO_ROLE, msg.sender), "talentStakePool :: not in the DAO role, sorry...");
+        TALENT_PER_BLOCK = _talentPerBlock;
+        emit UpdateEmissionRate(msg.sender, _talentPerBlock);
+    }
 
     /// @notice contractsupports sending ETH directly
     receive() external payable { }
@@ -218,7 +218,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
                 block.number
             );
             uint256 talentReward = multiplier
-                .mul(Talent_PER_BLOCK)
+                .mul(TALENT_PER_BLOCK)
                 .mul(pool.allocationPoint)
                 .div(totalAllocationPoint);
             console.log("Pending Talent for user", talentReward);
@@ -244,7 +244,7 @@ contract PharoStakePool is AccessControl, TokenRecover {
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 talentReward = multiplier
-            .mul(Talent_PER_BLOCK)
+            .mul(TALENT_PER_BLOCK)
             .mul(pool.allocationPoint)
             .div(totalAllocationPoint);
         talentToken.mintTokensTo(address(this), talentReward);
