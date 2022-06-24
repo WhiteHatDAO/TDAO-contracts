@@ -23,7 +23,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
   const [articles, setArticles] = useState(null);
   // you can also use hooks locally in your component of choice
   const getLatestArticle = async () => {
-    const server = "https://tdao-api.herokuapp.com/";
+    const server = "https://tdao-api.herokuapp.com";
 
     // const params = new URLSearchParams([["_id", '623a1674c84da1d9301ae19f']]);
     try {
