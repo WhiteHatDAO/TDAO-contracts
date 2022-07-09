@@ -63,14 +63,13 @@ function App(props) {
   const blockExplorer = targetNetwork.blockExplorer;
 
   // load all your providers
-
   const localProvider = useStaticJsonRPC([targetNetwork.rpcUrl]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
   if (DEBUG) console.log(`Using ${selectedNetwork} network`);
 
   // 🛰 providers
-  if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
+  // if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
@@ -87,6 +86,7 @@ function App(props) {
 
   /* 🔥 This hook will get the price of Gas from ⛽️ EtherGasStation */
   const gasPrice = useGasPrice(targetNetwork, "fast");
+
   // Use your injected provider from 🦊 Metamask or if you don't have it then instantly generate a 🔥 burner wallet.
   const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider, USE_BURNER_WALLET);
   const userSigner = userProviderAndSigner.signer;
@@ -137,56 +137,41 @@ function App(props) {
     console.log(`⛓ A new mainnet block is here: ${mainnetProvider._lastBlockNumber}`);
   });
 
-  // Then read your DAI balance like:
-  // const myMainnetDAIBalance = useContractReader(mainnetContracts, "DAI", "balanceOf", [
-  //   "0x34aA3F359A9D614239015126635CE7732c18fDF3",
-  // ]);
-
-  // keep track of a variable from the contract in the local React state:
-  // const purpose = useContractReader(readContracts, "YourContract", "purpose");
-
-  /*
-  const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
-  console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
-  */
-
-  //
   // 🧫 DEBUG 👨🏻‍🔬
-  //
-  useEffect(() => {
-    if (
-      DEBUG &&
-      mainnetProvider &&
-      address &&
-      selectedChainId &&
-      yourLocalBalance &&
-      yourMainnetBalance &&
-      readContracts &&
-      writeContracts &&
-      mainnetContracts
-    ) {
-      console.log("_____________________________________ 🏗 scaffold-eth _____________________________________");
-      console.log("🌎 mainnetProvider", mainnetProvider);
-      console.log("🏠 localChainId", localChainId);
-      console.log("👩‍💼 selected address:", address);
-      console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
-      console.log("💵 yourLocalBalance", yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "...");
-      console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
-      console.log("📝 readContracts", readContracts);
-      console.log("🌍 DAI contract on mainnet:", mainnetContracts);
-      console.log("🔐 writeContracts", writeContracts);
-    }
-  }, [
-    mainnetProvider,
-    address,
-    selectedChainId,
-    yourLocalBalance,
-    yourMainnetBalance,
-    readContracts,
-    writeContracts,
-    mainnetContracts,
-    localChainId,
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     DEBUG &&
+  //     mainnetProvider &&
+  //     address &&
+  //     selectedChainId &&
+  //     yourLocalBalance &&
+  //     yourMainnetBalance &&
+  //     readContracts &&
+  //     writeContracts &&
+  //     mainnetContracts
+  //   ) {
+  //     console.log("_____________________________________ 🏗 scaffold-eth _____________________________________");
+  //     console.log("🌎 mainnetProvider", mainnetProvider);
+  //     console.log("🏠 localChainId", localChainId);
+  //     console.log("👩‍💼 selected address:", address);
+  //     console.log("🕵🏻‍♂️ selectedChainId:", selectedChainId);
+  //     console.log("💵 yourLocalBalance", yourLocalBalance ? ethers.utils.formatEther(yourLocalBalance) : "...");
+  //     console.log("💵 yourMainnetBalance", yourMainnetBalance ? ethers.utils.formatEther(yourMainnetBalance) : "...");
+  //     console.log("📝 readContracts", readContracts);
+  //     console.log("🌍 DAI contract on mainnet:", mainnetContracts);
+  //     console.log("🔐 writeContracts", writeContracts);
+  //   }
+  // }, [
+  //   mainnetProvider,
+  //   address,
+  //   selectedChainId,
+  //   yourLocalBalance,
+  //   yourMainnetBalance,
+  //   readContracts,
+  //   writeContracts,
+  //   mainnetContracts,
+  //   localChainId,
+  // ]);
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
@@ -277,7 +262,7 @@ function App(props) {
             readContracts={readContracts}
           ></AdvancedSearch>
         </Route>
-        <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles"]}>
+        <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles", "/user/notifications"]}>
           <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
         </Route>
         <Route exact path="/debug">
@@ -330,64 +315,6 @@ function App(props) {
 
       {/* <ThemeSwitch /> */}
 
-      {/* 👨‍💼 Your account is in the top right with a wallet at connect options */}
-      {/* <div style={{ position: "fixed", textAlign: "right", right: 0, top: 0, padding: 10 }}>
-        <div style={{ display: "flex", flex: 1, alignItems: "center" }}>
-          {USE_NETWORK_SELECTOR && (
-            <div style={{ marginRight: 20 }}>
-              <NetworkSwitch
-                networkOptions={networkOptions}
-                selectedNetwork={selectedNetwork}
-                setSelectedNetwork={setSelectedNetwork}
-              />
-            </div>
-          )}
-          <Account
-            useBurner={USE_BURNER_WALLET}
-            address={address}
-            localProvider={localProvider}
-            userSigner={userSigner}
-            mainnetProvider={mainnetProvider}
-            price={price}
-            web3Modal={web3Modal}
-            loadWeb3Modal={loadWeb3Modal}
-            logoutOfWeb3Modal={logoutOfWeb3Modal}
-            blockExplorer={blockExplorer}
-          />
-        </div>
-        {yourLocalBalance.lte(ethers.BigNumber.from("0")) && (
-          <FaucetHint localProvider={localProvider} targetNetwork={targetNetwork} address={address} />
-        )}
-      </div> */}
-
-      {/* 🗺 Extra UI like gas price, eth price, faucet, and support: */}
-      {/* <div style={{ position: "fixed", textAlign: "left", left: 0, bottom: 20, padding: 10 }}>
-        <Row align="middle" gutter={[4, 4]}>
-          <Col span={8}>
-            <Ramp price={price} address={address} networks={NETWORKS} />
-          </Col>
-
-          <Col span={8} style={{ textAlign: "center", opacity: 0.8 }}>
-            <GasGauge gasPrice={gasPrice} />
-          </Col>
-          <Col span={8} style={{ textAlign: "center", opacity: 1 }}>
-            <Button
-              onClick={() => {
-                window.open("https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA");
-              }}
-              size="large"
-              shape="round"
-            >
-              <span style={{ marginRight: 8 }} role="img" aria-label="support">
-                💬
-              </span>
-              Support
-            </Button>
-          </Col>
-        </Row>
-
-       
-      </div> */}
       <Row align="middle" gutter={[4, 4]}>
         <Col span={24}>
           {
