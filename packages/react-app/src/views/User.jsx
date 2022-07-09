@@ -9,6 +9,7 @@ const configUserType = {
   none: -1,
   submission: 0,
   article: 1,
+  notifications: 4,
   edit_profile: 2,
   logout: 3,
 };
@@ -31,6 +32,8 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
       history.push("/user/articles");
     } else if (type == configUserType.edit_profile) {
       history.push("/user/author");
+    } else if (type == configUserType.notifications) {
+      history.push("/user/notifications");
     }
     handleMenuOpen();
   };
@@ -42,6 +45,7 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
       if (location.pathname.includes("/submissions")) setUserConfig(configUserType.submission);
       else if (location.pathname.includes("/articles")) setUserConfig(configUserType.article);
       else if (location.pathname.includes("/author")) setUserConfig(configUserType.edit_profile);
+      else if (location.pathname.includes("/notifications")) setUserConfig(configUserType.notifications);
       else setUserConfig(configUserType.submission);
     }
   }, [address]);
@@ -51,7 +55,7 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
     else if (location.pathname.includes("/articles")) setUserConfig(configUserType.article);
     else if (location.pathname.includes("/author")) {
       setUserConfig(configUserType.edit_profile);
-    }
+    } else if (location.pathname.includes("/notifications")) setUserConfig(configUserType.notifications);
   }, [location.pathname, address]);
 
   const Menu = () => (
@@ -94,7 +98,21 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
             fill={userConfig === configUserType.article ? "#B41C2E" : "#929292"}
           />
         </svg>
-        <div className={userConfig === configUserType.article ? "text-primary" : "text-lightgray"}>Articles</div>
+        <div className={userConfig === configUserType.article ? "text-primary" : "text-lightgray"}>Papers</div>
+      </div>
+      <div
+        className="rounded-md bg-transparent hover:bg-gray px-8 py-2 flex flex-row items-center cursor-pointer text-lg"
+        onClick={() => handleConfigTypeChanged(configUserType.notifications)}
+      >
+        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg" className="pr-3">
+          <path
+            d="M3.5 7H0V31.5C0 33.425 1.575 35 3.5 35H28V31.5H3.5V7ZM31.5 0H10.5C8.575 0 7 1.575 7 3.5V24.5C7 26.425 8.575 28 10.5 28H31.5C33.425 28 35 26.425 35 24.5V3.5C35 1.575 33.425 0 31.5 0ZM29.75 15.75H12.25V12.25H29.75V15.75ZM22.75 22.75H12.25V19.25H22.75V22.75ZM29.75 8.75H12.25V5.25H29.75V8.75Z"
+            fill={userConfig === configUserType.notifications ? "#B41C2E" : "#929292"}
+          />
+        </svg>
+        <div className={userConfig === configUserType.notifications ? "text-primary" : "text-lightgray"}>
+          Notifications
+        </div>
       </div>
       <div
         className="rounded-md bg-transparent hover:bg-gray px-8 py-2 flex flex-row items-center cursor-pointer text-lg"
@@ -106,9 +124,7 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
             fill={userConfig === configUserType.edit_profile ? "#B41C2E" : "#929292"}
           />
         </svg>
-        <div className={userConfig === configUserType.edit_profile ? "text-primary" : "text-lightgray"}>
-          Edit Profile
-        </div>
+        <div className={userConfig === configUserType.edit_profile ? "text-primary" : "text-lightgray"}>Profile</div>
       </div>
       <div
         className="rounded-md bg-transparent hover:bg-gray px-8 py-2 flex flex-row items-center cursor-pointer text-lg"
@@ -161,6 +177,10 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
               <div className="flex flex-col">
                 <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
                 <EditUserProfile address={address}></EditUserProfile>
+              </div>
+            ) : userConfig === configUserType.notifications ? (
+              <div className="flex flex-col">
+                <p className="py-4 text-left text-lg text-darkgray font-bold">Notifications</p>
               </div>
             ) : (
               <></>
