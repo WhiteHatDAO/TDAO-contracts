@@ -59,6 +59,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
         if (res.data.success) {
           // randomly choose author just for test
           const length = res.data.data.length;
+          // index set for a random author
           const index = Math.floor(Math.random() * length);
           const featuredAuthor = res.data.data[index];
 
@@ -80,7 +81,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
       }
     };
     init();
-  }, []);
+  }, [address]);
 
   return (
     <div style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>

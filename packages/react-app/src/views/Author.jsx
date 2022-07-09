@@ -178,6 +178,7 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   };
 
   const tipAuthorEth = async amount => {
+    console.log("amount", amount);
     await tx(
       writeContracts &&
         writeContracts.TalentDaoManager &&
@@ -258,7 +259,10 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
                                 type="text"
                                 value={tipAmount}
                                 className="my-1 px-4 py-2 bg-transparent rounded-xl block w-full focus:outline-none text-lg border border-lightgray"
-                                onChange={event => setTipAmount(event.target.value)}
+                                onChange={event => {
+                                  setTipAmount(event.target.value);
+                                  console.log("Tip Amount", tipAmount);
+                                }}
                               />
                             </div>
                             <div className="flex flex-row items-center">
