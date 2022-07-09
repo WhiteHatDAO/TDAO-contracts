@@ -262,7 +262,7 @@ function App(props) {
             readContracts={readContracts}
           ></AdvancedSearch>
         </Route>
-        <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles"]}>
+        <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles", "/user/notifications"]}>
           <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
         </Route>
         <Route exact path="/debug">
