@@ -1,5 +1,7 @@
 export { default as ArticleCard } from "./ArticleCard";
+export { default as ArticleMintCard } from "./ArticleMintCard";
 export { default as AuthorCard } from "./AuthorCard";
+export { default as AuthorMark } from "./AuthorMark";
 export { default as Carousel } from "./Carousel";
 export { default as EditUserProfile } from "./EditUserProfile";
 export { default as Footer } from "./Footer";

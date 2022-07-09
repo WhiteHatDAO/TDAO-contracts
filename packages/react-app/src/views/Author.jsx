@@ -8,9 +8,7 @@ import mark from "../assets/best_mark.png";
 import check from "../assets/check.png";
 import linkedin from "../assets/linkedin.png";
 import twitter from "../assets/twitter.png";
-import ArticleMintCard from "../components/HelperComponents/ArticleMintCard";
-import AuthorMark from "../components/HelperComponents/AuthorMark";
-import Footer from "../components/HelperComponents/Footer";
+import { ArticleMintCard, AuthorMark, Footer } from "../components/HelperComponents";
 import { dataURLtoFile, getAuthorData } from "../utils/utils";
 
 const Author = ({ tx, readContracts, writeContracts, address }) => {
