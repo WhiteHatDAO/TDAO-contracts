@@ -102,3 +102,5 @@ export const ArticleCard = ({ id }) => {
     </div>
   );
 };
+
+export default ArticleCard;

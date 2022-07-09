@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import EditUserProfile from "../components/HelperComponents/EditUserProfile";
-import UserArticles from "../components/HelperComponents/UserArticles";
-import UserConnect from "../components/HelperComponents/UserConnect";
-import UserSubmissions from "../components/HelperComponents/UserSubmissions";
+import {
+  EditUserProfile,
+  Notifications,
+  UserArticles,
+  UserConnect,
+  UserSubmissions,
+} from "../components/HelperComponents";
 
 const configUserType = {
   none: -1,
@@ -181,6 +184,7 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
             ) : userConfig === configUserType.notifications ? (
               <div className="flex flex-col">
                 <p className="py-4 text-left text-lg text-darkgray font-bold">Notifications</p>
+                <Notifications />
               </div>
             ) : (
               <></>
