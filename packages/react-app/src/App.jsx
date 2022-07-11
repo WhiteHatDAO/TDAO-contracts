@@ -2,7 +2,7 @@ import { Col, Row } from "antd";
 import "antd/dist/antd.css";
 import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
-import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/HelperComponents/Navbar";
@@ -12,25 +12,41 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
+import {
+  About,
+  AdvancedSearch,
+  Article,
+  Author,
+  Contact,
+  Home,
+  PrivacyPolicy,
+  Search,
+  Subgraph,
+  Submit,
+  TermsOfService,
+  User,
+} from "./views";
 
-// lazy load components
-const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
-const Contract = lazy(() => import("./components/Contract"));
-const Faucet = lazy(() => import("./components/Faucet.jsx"));
+import { Contract, Faucet, NetworkDisplay } from "./components";
 
-// lazy load views
-const AboutView = lazy(() => import("./views/About"));
-const AdvancedSearchView = lazy(() => import("./views/AdvancedSearch"));
-const ArticleView = lazy(() => import("./views/Article"));
-const AuthorView = lazy(() => import("./views/Author"));
-const ContactView = lazy(() => import("./views/Contact"));
-const HomeView = lazy(() => import("./views/Home"));
-const PrivacyPolicyView = lazy(() => import("./views/PrivacyPolicy"));
-const SearchView = lazy(() => import("./views/Search"));
-const SubgraphView = lazy(() => import("./views/Subgraph"));
-const SubmitView = lazy(() => import("./views/Submit"));
-const TermsOfServiceView = lazy(() => import("./views/TermsOfService"));
-const UserView = lazy(() => import("./views/User"));
+// todo: lazy load components
+// const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
+// const Contract = lazy(() => import("./components/Contract"));
+// const Faucet = lazy(() => import("./components/Faucet.jsx"));
+
+// todo: lazy load views
+// const AboutView = lazy(() => import("./views/About"));
+// const AdvancedSearchView = lazy(() => import("./views/AdvancedSearch"));
+// const ArticleView = lazy(() => import("./views/Article"));
+// const AuthorView = lazy(() => import("./views/Author"));
+// const ContactView = lazy(() => import("./views/Contact"));
+// const HomeView = lazy(() => import("./views/Home"));
+// const PrivacyPolicyView = lazy(() => import("./views/PrivacyPolicy"));
+// const SearchView = lazy(() => import("./views/Search"));
+// const SubgraphView = lazy(() => import("./views/Subgraph"));
+// const SubmitView = lazy(() => import("./views/Submit"));
+// const TermsOfServiceView = lazy(() => import("./views/TermsOfService"));
+// const UserView = lazy(() => import("./views/User"));
 
 const { ethers } = require("ethers");
 
@@ -46,11 +62,7 @@ const USE_NETWORK_SELECTOR = false;
 const web3Modal = Web3ModalSetup();
 
 // 🛰 providers
-const providers = [
-  "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
-  `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
-  "https://rpc.scaffoldeth.io:48544",
-];
+const providers = [`https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`, "https://rpc.scaffoldeth.io:48544"];
 
 function App(props) {
   // specify all the chains your app is available on. Eg: ['localhost', 'mainnet', ...otherNetworks ]
@@ -245,63 +257,48 @@ function App(props) {
       <Switch>
         <Route exact path="/">
           <Suspense fallback={<div>Loading...</div>}>
-            <HomeView yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
+            <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
           </Suspense>
         </Route>
         <Route exact path="/browse"></Route>
         <Route exact path="/about">
           <Suspense fallback={<div>Loading...</div>}>
-            <AboutView></AboutView>
+            <About></About>
           </Suspense>
         </Route>
         <Route exact path="/contact">
           <Suspense fallback={<div>Loading...</div>}>
-            <ContactView></ContactView>
+            <Contact></Contact>
           </Suspense>
         </Route>
         <Route exact path="/author/:walletId">
           <Suspense fallback={<div>Loading...</div>}>
-            <AuthorView
-              tx={tx}
-              readContracts={readContracts}
-              writeContracts={writeContracts}
-              address={address}
-            ></AuthorView>
+            <Author tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address}></Author>
           </Suspense>
         </Route>
         <Route exact path="/article/:id">
           <Suspense fallback={<div>Loading...</div>}>
-            <ArticleView
-              readContracts={readContracts}
-              writeContracts={writeContracts}
-              address={address}
-              tx={tx}
-            ></ArticleView>
+            <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
           </Suspense>
         </Route>
         <Route exact path="/search">
           <Suspense fallback={<div>Loading...</div>}>
-            <SearchView
-              address={address}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-            ></SearchView>
+            <Search address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts}></Search>
           </Suspense>
         </Route>
         <Route exact path="/advancedsearch">
           <Suspense fallback={<div>Loading...</div>}>
-            <AdvancedSearchView
+            <AdvancedSearch
               address={address}
               tx={tx}
               writeContracts={writeContracts}
               readContracts={readContracts}
-            ></AdvancedSearchView>
+            ></AdvancedSearch>
           </Suspense>
         </Route>
         <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles", "/user/notifications"]}>
           <Suspense fallback={<div>Loading...</div>}>
-            <UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></UserView>
+            <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
           </Suspense>
         </Route>
         <Route exact path="/debug">
@@ -341,22 +338,22 @@ function App(props) {
         </Route>
         <Route exact path="/submit/:walletId">
           <Suspense fallback={<div>Loading...</div>}>
-            <SubmitView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
+            <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
           </Suspense>
         </Route>
         <Route exact path="/termsofservice">
           <Suspense fallback={<div>Loading...</div>}>
-            <TermsOfServiceView />
+            <TermsOfService />
           </Suspense>
         </Route>
         <Route exact path="/privacypolicy">
           <Suspense fallback={<div>Loading...</div>}>
-            <PrivacyPolicyView />
+            <PrivacyPolicy />
           </Suspense>
         </Route>
         <Route path="/subgraph">
           <Suspense fallback={<div>Loading...</div>}>
-            <SubgraphView
+            <Subgraph
               subgraphUri={props.subgraphUri}
               tx={tx}
               writeContracts={writeContracts}
