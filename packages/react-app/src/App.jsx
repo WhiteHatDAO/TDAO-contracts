@@ -2,10 +2,10 @@ import { Col, Row } from "antd";
 import "antd/dist/antd.css";
 import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import { Contract, Faucet, NetworkDisplay } from "./components";
+import { Faucet } from "./components";
 import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -27,6 +27,10 @@ import {
   TermsOfService,
   User,
 } from "./views";
+
+// todo: lazy load components
+const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
+const Contract = lazy(() => import("./components/Contract"));
 
 const { ethers } = require("ethers");
 /// 📡 What chain are your contracts deployed to?
@@ -211,28 +215,32 @@ function App(props) {
 
   return (
     <div className="App container-2xl mx-auto">
-      <NetworkDisplay
-        NETWORKCHECK={NETWORKCHECK}
-        localChainId={localChainId}
-        selectedChainId={selectedChainId}
-        targetNetwork={targetNetwork}
-        logoutOfWeb3Modal={logoutOfWeb3Modal}
-        USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
-      />
-      <Navbar
-        useBurner={false}
-        address={address}
-        localProvider={localProvider}
-        userSigner={userSigner}
-        mainnetProvider={mainnetProvider}
-        price={price}
-        web3Modal={web3Modal}
-        loadWeb3Modal={loadWeb3Modal}
-        logoutOfWeb3Modal={logoutOfWeb3Modal}
-        blockExplorer={blockExplorer}
-        userMenuOpen={userMenuOpen}
-        handleUserMenuOpen={handleUserMenuOpen}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <NetworkDisplay
+          NETWORKCHECK={NETWORKCHECK}
+          localChainId={localChainId}
+          selectedChainId={selectedChainId}
+          targetNetwork={targetNetwork}
+          logoutOfWeb3Modal={logoutOfWeb3Modal}
+          USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
+        />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Navbar
+          useBurner={false}
+          address={address}
+          localProvider={localProvider}
+          userSigner={userSigner}
+          mainnetProvider={mainnetProvider}
+          price={price}
+          web3Modal={web3Modal}
+          loadWeb3Modal={loadWeb3Modal}
+          logoutOfWeb3Modal={logoutOfWeb3Modal}
+          blockExplorer={blockExplorer}
+          userMenuOpen={userMenuOpen}
+          handleUserMenuOpen={handleUserMenuOpen}
+        />
+      </Suspense>
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
@@ -266,33 +274,39 @@ function App(props) {
           <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
         </Route>
         <Route exact path="/debug">
-          <Contract
-            name="TalentDaoToken"
-            price={price}
-            signer={userSigner}
-            provider={localProvider}
-            address={address}
-            blockExplorer={blockExplorer}
-            contractConfig={contractConfig}
-          />
-          <Contract
-            name="TalentDaoNftToken"
-            price={price}
-            signer={userSigner}
-            provider={localProvider}
-            address={address}
-            blockExplorer={blockExplorer}
-            contractConfig={contractConfig}
-          />
-          <Contract
-            name="TalentDaoManager"
-            price={price}
-            signer={userSigner}
-            provider={localProvider}
-            address={address}
-            blockExplorer={blockExplorer}
-            contractConfig={contractConfig}
-          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Contract
+              name="TalentDaoToken"
+              price={price}
+              signer={userSigner}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+              contractConfig={contractConfig}
+            />
+          </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Contract
+              name="TalentDaoNftToken"
+              price={price}
+              signer={userSigner}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+              contractConfig={contractConfig}
+            />
+          </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Contract
+              name="TalentDaoManager"
+              price={price}
+              signer={userSigner}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+              contractConfig={contractConfig}
+            />
+          </Suspense>
         </Route>
         <Route exact path="/submit/:walletId">
           <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />

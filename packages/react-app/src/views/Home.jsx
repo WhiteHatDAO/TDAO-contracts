@@ -111,7 +111,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
               >
                 <img
                   src={authorImageSrc}
-                  alt="No image"
+                  alt="none"
                   className="rounded-xl w-full h-full cursor-pointer"
                   onClick={() => history.push(`/author/${authorWalletId}`)}
                 ></img>
