@@ -2,7 +2,7 @@ import { Col, Row } from "antd";
 import "antd/dist/antd.css";
 import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/HelperComponents/Navbar";
@@ -35,18 +35,18 @@ import { Contract, Faucet, NetworkDisplay } from "./components";
 // const Faucet = lazy(() => import("./components/Faucet.jsx"));
 
 // todo: lazy load views
-// const AboutView = lazy(() => import("./views/About"));
-// const AdvancedSearchView = lazy(() => import("./views/AdvancedSearch"));
-// const ArticleView = lazy(() => import("./views/Article"));
-// const AuthorView = lazy(() => import("./views/Author"));
-// const ContactView = lazy(() => import("./views/Contact"));
-// const HomeView = lazy(() => import("./views/Home"));
-// const PrivacyPolicyView = lazy(() => import("./views/PrivacyPolicy"));
-// const SearchView = lazy(() => import("./views/Search"));
-// const SubgraphView = lazy(() => import("./views/Subgraph"));
-// const SubmitView = lazy(() => import("./views/Submit"));
-// const TermsOfServiceView = lazy(() => import("./views/TermsOfService"));
-// const UserView = lazy(() => import("./views/User"));
+const AboutView = lazy(() => import("./views/About"));
+const AdvancedSearchView = lazy(() => import("./views/AdvancedSearch"));
+const ArticleView = lazy(() => import("./views/Article"));
+const AuthorView = lazy(() => import("./views/Author"));
+const ContactView = lazy(() => import("./views/Contact"));
+const HomeView = lazy(() => import("./views/Home"));
+const PrivacyPolicyView = lazy(() => import("./views/PrivacyPolicy"));
+const SearchView = lazy(() => import("./views/Search"));
+const SubgraphView = lazy(() => import("./views/Subgraph"));
+const SubmitView = lazy(() => import("./views/Submit"));
+const TermsOfServiceView = lazy(() => import("./views/TermsOfService"));
+const UserView = lazy(() => import("./views/User"));
 
 const { ethers } = require("ethers");
 
