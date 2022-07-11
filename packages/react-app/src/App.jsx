@@ -27,12 +27,10 @@ import {
   User,
 } from "./views";
 
-import { Contract, Faucet, NetworkDisplay } from "./components";
-
 // todo: lazy load components
-// const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
-// const Contract = lazy(() => import("./components/Contract"));
-// const Faucet = lazy(() => import("./components/Faucet.jsx"));
+const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
+const Contract = lazy(() => import("./components/Contract"));
+const Faucet = lazy(() => import("./components/Faucet.jsx"));
 
 // todo: lazy load views
 const AboutView = lazy(() => import("./views/About"));
@@ -363,13 +361,17 @@ function App(props) {
         </Route>
       </Switch>
 
-      {/* <ThemeSwitch /> */}
-
       <Row align="middle" gutter={[4, 4]}>
         <Col span={24}>
           {
             // if the local provider has a signer, let's show the faucet:
-            faucetAvailable ? <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} /> : ""
+            true ? (
+              <Suspense fallback={<div>Loading...</div>}>
+                <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
+              </Suspense>
+            ) : (
+              ""
+            )
           }
         </Col>
       </Row>
