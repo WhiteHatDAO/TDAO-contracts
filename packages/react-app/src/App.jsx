@@ -12,20 +12,20 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-import {
-  About,
-  AdvancedSearch,
-  Article,
-  Author,
-  Contact,
-  Home,
-  PrivacyPolicy,
-  Search,
-  Subgraph,
-  Submit,
-  TermsOfService,
-  User,
-} from "./views";
+// import {
+//   About,
+//   AdvancedSearch,
+//   Article,
+//   Author,
+//   Contact,
+//   Home,
+//   PrivacyPolicy,
+//   Search,
+//   Subgraph,
+//   Submit,
+//   TermsOfService,
+//   User,
+// } from "./views";
 
 // todo: lazy load components
 const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
@@ -255,48 +255,48 @@ function App(props) {
       <Switch>
         <Route exact path="/">
           <Suspense fallback={<div>Loading...</div>}>
-            <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
+            <HomeView yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
           </Suspense>
         </Route>
         <Route exact path="/browse"></Route>
         <Route exact path="/about">
           <Suspense fallback={<div>Loading...</div>}>
-            <About></About>
+            <AboutView />
           </Suspense>
         </Route>
         <Route exact path="/contact">
           <Suspense fallback={<div>Loading...</div>}>
-            <Contact></Contact>
+            <ContactView />
           </Suspense>
         </Route>
         <Route exact path="/author/:walletId">
           <Suspense fallback={<div>Loading...</div>}>
-            <Author tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address}></Author>
+            <AuthorView tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address} />
           </Suspense>
         </Route>
         <Route exact path="/article/:id">
           <Suspense fallback={<div>Loading...</div>}>
-            <Article readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx}></Article>
+            <ArticleView readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx} />
           </Suspense>
         </Route>
         <Route exact path="/search">
           <Suspense fallback={<div>Loading...</div>}>
-            <Search address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts}></Search>
+            <SearchView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
           </Suspense>
         </Route>
         <Route exact path="/advancedsearch">
           <Suspense fallback={<div>Loading...</div>}>
-            <AdvancedSearch
+            <AdvancedSearchView
               address={address}
               tx={tx}
               writeContracts={writeContracts}
               readContracts={readContracts}
-            ></AdvancedSearch>
+            />
           </Suspense>
         </Route>
         <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles", "/user/notifications"]}>
           <Suspense fallback={<div>Loading...</div>}>
-            <User address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen}></User>
+            <UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />
           </Suspense>
         </Route>
         <Route exact path="/debug">
@@ -336,22 +336,22 @@ function App(props) {
         </Route>
         <Route exact path="/submit/:walletId">
           <Suspense fallback={<div>Loading...</div>}>
-            <Submit address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
+            <SubmitView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
           </Suspense>
         </Route>
         <Route exact path="/termsofservice">
           <Suspense fallback={<div>Loading...</div>}>
-            <TermsOfService />
+            <TermsOfServiceView />
           </Suspense>
         </Route>
         <Route exact path="/privacypolicy">
           <Suspense fallback={<div>Loading...</div>}>
-            <PrivacyPolicy />
+            <PrivacyPolicyView />
           </Suspense>
         </Route>
         <Route path="/subgraph">
           <Suspense fallback={<div>Loading...</div>}>
-            <Subgraph
+            <SubgraphView
               subgraphUri={props.subgraphUri}
               tx={tx}
               writeContracts={writeContracts}

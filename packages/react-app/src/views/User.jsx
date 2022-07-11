@@ -8,6 +8,9 @@ import {
   UserSubmissions,
 } from "../components/HelperComponents";
 
+// lazy load components
+
+
 const configUserType = {
   none: -1,
   submission: 0,
