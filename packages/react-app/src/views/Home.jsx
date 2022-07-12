@@ -12,7 +12,7 @@ import profileImage from "../assets/profile.png";
 // import Splash from "../components/HelperComponents/Splash";
 import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory } from "../utils/utils";
 
-// todo: lazy load components
+// lazy load components
 const Footer = lazy(() => import("../components/HelperComponents/Footer"));
 const LatestArticles = lazy(() => import("../components/HelperComponents/LatestArticles"));
 const Newsletter = lazy(() => import("../components/HelperComponents/Newsletter"));
@@ -100,7 +100,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
           </div>
         </div>
 
-        {/* Article Component Section */}
+        {/* Latest Articles Component Section */}
         {articles && (
           <Suspense fallback={<div>Loading</div>}>
             <LatestArticles articles={articles} />
