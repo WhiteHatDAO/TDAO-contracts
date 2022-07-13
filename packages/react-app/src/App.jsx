@@ -12,25 +12,11 @@ import externalContracts from "./contracts/external_contracts";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-// import {
-//   About,
-//   AdvancedSearch,
-//   Article,
-//   Author,
-//   Contact,
-//   Home,
-//   PrivacyPolicy,
-//   Search,
-//   Subgraph,
-//   Submit,
-//   TermsOfService,
-//   User,
-// } from "./views";
 
 // todo: lazy load components
-const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
+const NetworkDisplay = lazy(() => import("./components/NetworkDisplay"));
 const Contract = lazy(() => import("./components/Contract"));
-const Faucet = lazy(() => import("./components/Faucet.jsx"));
+const Faucet = lazy(() => import("./components/Faucet"));
 
 // todo: lazy load views
 const AboutView = lazy(() => import("./views/About"));

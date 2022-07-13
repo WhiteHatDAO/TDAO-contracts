@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const server = "http://localhost:4000";
+const server = "http://localhost:4001";
 
 const Notifications = ({ address }) => {
   const [notifications, setNotifications] = useState([{ id: 1, message: "this is a test notification!" }]);
@@ -10,7 +10,7 @@ const Notifications = ({ address }) => {
   useEffect(() => {
     const getNotificationsForUser = async () => {
       try {
-        const response = await axios.get(`${server}/api/getNotifsForUser`, {
+        const response = await axios.get(`${server}/api/notifications/`, {
           walletId: address,
         });
         if (response?.data?.success) {
@@ -23,7 +23,7 @@ const Notifications = ({ address }) => {
       }
     };
 
-    getNotificationsForUser();
+    // getNotificationsForUser();
   }, [address]);
 
   return (
