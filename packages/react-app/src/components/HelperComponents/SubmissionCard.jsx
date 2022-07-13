@@ -6,12 +6,12 @@ export const SubmissionCard = article => {
   const [src, setSrc] = useState();
   const history = useHistory();
 
-  useEffect(() => {
-    if (!article) return;
-    var file = dataURLtoFile(article?.article?.cover?.data, article?.article?.cover?.filename);
-    var source = URL.createObjectURL(file);
-    setSrc(source);
-  }, [article]);
+  // useEffect(() => {
+  //   if (!article) return;
+  //   var file = dataURLtoFile(article?.article?.cover?.data, article?.article?.cover?.filename);
+  //   var source = URL.createObjectURL(file);
+  //   setSrc(source);
+  // }, [article]);
 
   return (
     <div

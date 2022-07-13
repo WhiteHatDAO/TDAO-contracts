@@ -30,7 +30,7 @@ const UserSubmissions = ({ address }) => {
 
   return (
     <div className="my-8">
-      {articles.length === 0 ? (
+      {/* {articles.length === 0 ? (
         <div className="flex justify-center">
           <div className="rounded-2xl p-8 bg-white flex flex-col text-left space-y-4">
             <div
@@ -47,7 +47,12 @@ const UserSubmissions = ({ address }) => {
             <SubmissionCard article={article}></SubmissionCard>
           ))}
         </div>
-      )}
+      )} */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+        <SubmissionCard></SubmissionCard>
+        <SubmissionCard></SubmissionCard>
+        <SubmissionCard></SubmissionCard>
+      </div>
     </div>
   );
 };

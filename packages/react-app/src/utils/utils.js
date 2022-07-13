@@ -58,7 +58,7 @@ export function strcmp(a, b) {
   let i;
   let n = Math.max(a.length, b.length);
   for (i = 0; i < n && a.charAt(i) === b.charAt(i); ++i);
-  if (i === n) return 0;
+  if (i === n) return 0; 
   return a.charAt(i) > b.charAt(i) ? -1 : 1;
 }
 
