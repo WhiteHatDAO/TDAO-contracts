@@ -45,6 +45,8 @@ const SubgraphView = lazy(() => import("./views/Subgraph"));
 const SubmitView = lazy(() => import("./views/Submit"));
 const TermsOfServiceView = lazy(() => import("./views/TermsOfService"));
 const UserView = lazy(() => import("./views/User"));
+const TokenView = lazy(() => import("./views/Token"));
+const Governance = lazy(() => import("./views/Governance"));
 
 const { ethers } = require("ethers");
 
@@ -357,6 +359,21 @@ function App(props) {
               writeContracts={writeContracts}
               mainnetProvider={mainnetProvider}
             />
+          </Suspense>
+        </Route>
+        <Route path="/token">
+          <Suspense fallback={<div>Loading...</div>}>
+            <TokenView />
+          </Suspense>
+        </Route>
+        <Route path="/governance">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Governance />
+          </Suspense>
+        </Route>
+        <Route path="/request-feature">
+          <Suspense fallback={<div>Loading...</div>}>
+            <div>Request Feature</div>
           </Suspense>
         </Route>
       </Switch>
