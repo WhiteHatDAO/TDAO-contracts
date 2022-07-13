@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import {
-  EditUserProfile,
-  Notifications,
-  UserArticles,
-  UserConnect,
-  UserSubmissions,
-} from "../components/HelperComponents";
+// import {
+//   EditUserProfile,
+//   Notifications,
+//   UserArticles,
+//   UserConnect,
+//   UserSubmissions,
+// } from "../components/HelperComponents";
+
+// lazy load components
+const EditUserProfile = lazy(() => import("../components/HelperComponents/EditUserProfile"));
+const Notifications = lazy(() => import("../components/HelperComponents/Notifications"));
+const UserArticles = lazy(() => import("../components/HelperComponents/UserArticles"));
+const UserConnect = lazy(() => import("../components/HelperComponents/UserConnect"));
+const UserSubmissions = lazy(() => import("../components/HelperComponents/UserSubmissions"));
 
 const configUserType = {
   none: -1,

@@ -2,7 +2,7 @@
 import { notification } from "antd";
 import axios from "axios";
 import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import mark from "../assets/best_mark.png";
 import check from "../assets/check.png";
@@ -10,6 +10,11 @@ import linkedin from "../assets/linkedin.png";
 import twitter from "../assets/twitter.png";
 import { ArticleMintCard, AuthorMark, Footer } from "../components/HelperComponents";
 import { dataURLtoFile, getAuthorData } from "../utils/utils";
+
+// lazy load
+// const ArticleMintCard = lazy(() => import("../components/HelperComponents"));
+// const AuthorMark = lazy(() => import("../components/HelperComponents"));
+// const Footer = lazy(() => import("../components/HelperComponents"));
 
 const Author = ({ tx, readContracts, writeContracts, address }) => {
   const history = useHistory();

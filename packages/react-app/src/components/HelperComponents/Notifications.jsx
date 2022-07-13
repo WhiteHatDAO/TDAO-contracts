@@ -33,7 +33,9 @@ const Notifications = ({ address }) => {
           notifications.map((item, index) => {
             return (
               <div>
-                <div>Hello</div>
+                <div>
+                  ID: {item.id} Message: {item.message}
+                </div>
               </div>
             );
           })
