@@ -9,6 +9,7 @@ import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
+import ErrorBoundary from "./components/ErrorBoundary";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
@@ -242,9 +243,11 @@ function App(props) {
       </Suspense>
       <Switch>
         <Route exact path="/">
-          <Suspense fallback={<div>Loading...</div>}>
-            <HomeView yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<div>Loading...</div>}>
+              <HomeView yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
+            </Suspense>
+          </ErrorBoundary>
         </Route>
         <Route exact path="/browse"></Route>
         <Route exact path="/about">
