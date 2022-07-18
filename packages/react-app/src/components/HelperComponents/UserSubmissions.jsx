@@ -1,6 +1,7 @@
 import axios from "axios";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { Switch } from "antd";
 
 const server = "https://talentdao-api.herokuapp.com";
 
@@ -30,7 +31,7 @@ const UserSubmissions = ({ address }) => {
     getArticles();
   }, [address]);
 
-  const options = [{ name: "interest" }, { name: "interest" }];
+  const options = [{ name: "DeFi" }, { name: "DAO" }, { name: "Abstract Art" }, { name: "DeSci" }, { name: "NFT" }];
   const onSelectChange = e => {
     console.log(e.target.value);
     setSelectedOption(e.target.value);
@@ -62,12 +63,13 @@ const UserSubmissions = ({ address }) => {
               </select>
             </div>
             <div className="flex flex-row space-x-1 rounded-full p-px bg-grey">
-              <div className="px-6 rounded-full text-lg bg-white border border-grey cursor-pointer flex flex-col items-center">
+              <Switch checkedChildren="Reviewer" unCheckedChildren="Publisher" />
+              {/* <div className="px-6 rounded-full text-lg bg-white border border-grey cursor-pointer flex flex-col items-center">
                 Reviewer
               </div>
               <div className="px-6 pt-1 rounded-full text-lg text-darkgray cursor-pointer flex flex-col items-center">
                 Publisher
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
