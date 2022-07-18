@@ -10,7 +10,7 @@ const SubmissionCard = lazy(() => import("./SubmissionCard.jsx"));
 const UserSubmissions = ({ address }) => {
   // const [toArticles, goToArticles] = useState(false);
   const [articles, setArticles] = useState([]);
-  
+
   const history = useHistory();
   const location = useLocation();
 
@@ -26,7 +26,7 @@ const UserSubmissions = ({ address }) => {
         }
       } catch (e) {
         console.log(e);
-      } 
+      }
     };
     getArticles();
   }, [address]);
@@ -56,25 +56,20 @@ const UserSubmissions = ({ address }) => {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {/* {articles.map((item, index) => {
-              return (
-                <Suspense fallback={<div>Loading Submission Card...</div>}>
-                  <SubmissionCard key={index} article={item}></SubmissionCard>
-                </Suspense>
-              );
-            })} */}
-            <SubmissionCard></SubmissionCard>
-            <SubmissionCard></SubmissionCard>
-            <SubmissionCard></SubmissionCard>
-            <SubmissionCard></SubmissionCard>
-            <SubmissionCard></SubmissionCard>
-            <SubmissionCard></SubmissionCard>
-            <SubmissionCard></SubmissionCard>
+            <Suspense fallback={<div>Loading Submission Card...</div>}>
+              {articles.map((item, index) => {
+                return (
+                  <Suspense fallback={<div>Loading Submitted Article...</div>}>
+                    <SubmissionCard key={index} article={item}></SubmissionCard>
+                  </Suspense>
+                );
+              })}
+            </Suspense>
           </div>
         </div>
       ) : (
         <div className="flex flex-col justify-center py-52">
-          <img className="self-center w-1/5 mb-6" src={illustrationImage} />
+          <img className="self-center w-1/5 mb-6" src={illustrationImage} alt="illustration" />
           <div className="text-center text-xl font-bold mb-1">Nothing to see here</div>
           <div className="text-center text-base mb-6">Upload your next article, document on Talent DAO</div>
           <div
