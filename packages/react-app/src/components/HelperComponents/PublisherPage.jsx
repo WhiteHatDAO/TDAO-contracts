@@ -1,13 +1,15 @@
+import { Switch } from "antd";
 import { lazy, Suspense, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const PublisherCard = lazy(() => import("./PublisherCard.jsx"));
 
 const PublisherPage = ({ address }) => {
   const history = useHistory();
   const [selectedOption, setSelectedOption] = useState();
+  const [checked, setChecked] = useState(false);
 
-  const options = [{ name: "interest" }, { name: "interest" }];
+  const options = [{ name: "DeFi" }, { name: "DAO" }, { name: "Abstract Art" }, { name: "DeSci" }, { name: "NFT" }];
   const onSelectChange = e => {
     console.log(e.target.value);
     setSelectedOption(e.target.value);
@@ -23,7 +25,9 @@ const PublisherPage = ({ address }) => {
               fill="black"
             />
           </svg>
-          <div className="ml-2 -mt-1 font-bold cursor-pointer" onClick={() => history.push(`/user/submissions`)}>Back</div>
+          <div className="ml-2 -mt-1 font-bold cursor-pointer" onClick={() => history.push(`/user/submissions`)}>
+            Back
+          </div>
         </div>
         <div className="flex flex-row space-x-4">
           <div className="flex flex-row">
@@ -38,12 +42,15 @@ const PublisherPage = ({ address }) => {
             </select>
           </div>
           <div className="flex flex-row space-x-1 rounded-full p-px bg-grey">
-            <div className="px-6 rounded-full text-lg bg-white border border-grey cursor-pointer flex flex-col items-center">
-              Reviewer
-            </div>
-            <div className="px-6 pt-0.5 rounded-full text-lg text-darkgray cursor-pointer flex flex-col items-center">
-              Publisher
-            </div>
+            <Switch
+              onChange={e => {
+                setChecked(e);
+              }}
+              checked={checked}
+              className="px-6"
+              checkedChildren="Reviewer"
+              unCheckedChildren="Publisher"
+            />
           </div>
         </div>
       </div>
