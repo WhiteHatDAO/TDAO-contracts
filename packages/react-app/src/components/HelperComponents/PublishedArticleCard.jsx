@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 
-export const PublishedArticleCard = article => {
+const PublishedArticleCard = article => {
   return (
     <div className="my-1 bg-white pb-5 flex flex-col space-y-2" style={{ border: "1px solid #F0F1F0" }}>
       <div className="flex flex-col space-y-4 h-60" style={{ background: "black", borderRadius: "2px"}}>
@@ -24,3 +24,5 @@ export const PublishedArticleCard = article => {
     </div>
   );
 };
+
+export default PublishedArticleCard;

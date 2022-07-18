@@ -9,28 +9,15 @@ import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
+import ErrorBoundary from "./components/ErrorBoundary";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
-// import {
-//   About,
-//   AdvancedSearch,
-//   Article,
-//   Author,
-//   Contact,
-//   Home,
-//   PrivacyPolicy,
-//   Search,
-//   Subgraph,
-//   Submit,
-//   TermsOfService,
-//   User,
-// } from "./views";
 
 // todo: lazy load components
-const NetworkDisplay = lazy(() => import("./components/NetworkDisplay.jsx"));
+const NetworkDisplay = lazy(() => import("./components/NetworkDisplay"));
 const Contract = lazy(() => import("./components/Contract"));
-const Faucet = lazy(() => import("./components/Faucet.jsx"));
+const Faucet = lazy(() => import("./components/Faucet"));
 
 // todo: lazy load views
 const AboutView = lazy(() => import("./views/About"));
@@ -45,6 +32,8 @@ const SubgraphView = lazy(() => import("./views/Subgraph"));
 const SubmitView = lazy(() => import("./views/Submit"));
 const TermsOfServiceView = lazy(() => import("./views/TermsOfService"));
 const UserView = lazy(() => import("./views/User"));
+const TokenView = lazy(() => import("./views/Token"));
+const Governance = lazy(() => import("./views/Governance"));
 
 const { ethers } = require("ethers");
 
@@ -254,9 +243,11 @@ function App(props) {
       </Suspense>
       <Switch>
         <Route exact path="/">
-          <Suspense fallback={<div>Loading...</div>}>
-            <HomeView yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<div>Loading...</div>}>
+              <HomeView yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
+            </Suspense>
+          </ErrorBoundary>
         </Route>
         <Route exact path="/browse"></Route>
         <Route exact path="/about">
@@ -357,6 +348,21 @@ function App(props) {
               writeContracts={writeContracts}
               mainnetProvider={mainnetProvider}
             />
+          </Suspense>
+        </Route>
+        <Route path="/token">
+          <Suspense fallback={<div>Loading...</div>}>
+            <TokenView />
+          </Suspense>
+        </Route>
+        <Route path="/governance">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Governance />
+          </Suspense>
+        </Route>
+        <Route path="/request-feature">
+          <Suspense fallback={<div>Loading...</div>}>
+            <div>Request Feature</div>
           </Suspense>
         </Route>
       </Switch>

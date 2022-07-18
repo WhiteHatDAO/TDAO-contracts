@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-export const ReviewedPaperCard = article => {
+const ReviewedPaperCard = article => {
   return (
     <div className="my-1 bg-white pb-5 flex flex-col space-y-2" style={{ border: "1px solid #F0F1F0" }}>
-      <div className="flex flex-col space-y-4 h-60" style={{ background: "black", borderRadius: "2px"}}>
-        <img
-          id="cover-image"
-          alt="coverimage"
-          className="flex flex-col object-cover w-full h-60"
-        ></img>
+      <div className="flex flex-col space-y-4 h-60" style={{ background: "black", borderRadius: "2px" }}>
+        <img id="cover-image" alt="coverimage" className="flex flex-col object-cover w-full h-60"></img>
       </div>
       <div className="text-lg font-bold text-left px-6 pt-8" style={{ fontFamily: "Montserrat", color: "#131313" }}>
         Metaverse, NFT & DEFI, the new wave
@@ -23,3 +19,5 @@ export const ReviewedPaperCard = article => {
     </div>
   );
 };
+
+export default ReviewedPaperCard;
