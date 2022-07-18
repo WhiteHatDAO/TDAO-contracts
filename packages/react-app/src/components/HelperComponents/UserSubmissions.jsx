@@ -9,6 +9,7 @@ const SubmissionCard = lazy(() => import("./SubmissionCard.jsx"));
 const UserSubmissions = ({ address }) => {
   // const [toArticles, goToArticles] = useState(false);
   const [articles, setArticles] = useState([]);
+  const [selectedOption, setSelectedOption] = useState();
   const history = useHistory();
   const location = useLocation();
 
@@ -29,6 +30,12 @@ const UserSubmissions = ({ address }) => {
     getArticles();
   }, [address]);
 
+  const options = [{ name: "interest" }, { name: "interest" }];
+  const onSelectChange = e => {
+    console.log(e.target.value);
+    setSelectedOption(e.target.value);
+  };
+
   return (
     <div className="flex flex-col bg-white p-8">
       {articles.length === 0 ? (
@@ -47,9 +54,11 @@ const UserSubmissions = ({ address }) => {
               <select
                 className="block bg-transparent w-full pl-3 pr-3 py-1 text-lg rounded-2xl"
                 style={{ border: "1px solid #E6E6E6" }}
+                onChange={e => onSelectChange(e)}
               >
-                <option>Interest</option>
-                <option>Interest</option>
+                {options.map((item, index) => {
+                  return <option>{item.name}</option>;
+                })}
               </select>
             </div>
             <div className="flex flex-row space-x-1 rounded-full p-px bg-grey">
