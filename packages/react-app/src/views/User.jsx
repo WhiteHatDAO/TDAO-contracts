@@ -208,7 +208,6 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
               </div>
             ) : userConfig === configUserType.notifications ? (
               <div className="flex flex-col">
-                <p className="py-4 text-left text-lg text-darkgray font-bold">Notifications</p>
                 <Notifications />
               </div>
             ) : userConfig === configUserType.publisher ? (
