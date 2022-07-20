@@ -1,5 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
+
+const NotificationCard = lazy(() => import("./NotificationCard.jsx"));
 
 const server = "http://localhost:4001";
 
@@ -27,8 +29,9 @@ const Notifications = ({ address }) => {
   }, [address]);
 
   return (
-    <div>
-      <div>
+    <div className="flex flex-col p-8 bg-white space-y-4">
+      <div className="ml-1 -mt-1 font-bold cursor-pointer text-xl text-left">Notifications</div>
+      {/* <div>
         {notifications.length > 0 ? (
           notifications.map((item, index) => {
             return (
@@ -42,7 +45,11 @@ const Notifications = ({ address }) => {
         ) : (
           <div></div>
         )}
-      </div>
+      </div> */}
+
+      <NotificationCard state={"Published"}></NotificationCard>
+      <NotificationCard state={"Comment"}></NotificationCard>
+      <NotificationCard state={"Rejected"}></NotificationCard>
     </div>
   );
 };
