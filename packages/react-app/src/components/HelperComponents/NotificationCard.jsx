@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import userImage from "../../assets/author_pro.png";
 
 const NotificationCard = ({ state }) => {
-
   const [styles, setStyles] = useState({ backgroundColor: "#D8FCE4" });
 
   useEffect(() => {
@@ -29,13 +27,16 @@ const NotificationCard = ({ state }) => {
         </div>
         <div className="flex flex-col space-y-3">
           <div className="text-xl text-darkgrey">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In vitae turpis massa sed elementum...
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. In vitae turpis massa sed elementum...
           </div>
           <div className="text-lg">18 Mar, 2022, 10:43 AM</div>
         </div>
       </div>
       <div>
-        <div className="rounded-md py-1 px-3 mr-2 text-lg text-bold" style={styles}>{state}</div>
+        <div className="rounded-md py-1 px-3 mr-2 text-lg text-bold" style={styles}>
+          {state}
+        </div>
       </div>
     </div>
   );

@@ -1,12 +1,5 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-// import {
-//   EditUserProfile,
-//   Notifications,
-//   UserArticles,
-//   UserConnect,
-//   UserSubmissions,
-// } from "../components/HelperComponents";
 
 // lazy load components
 const EditUserProfile = lazy(() => import("../components/HelperComponents/EditUserProfile"));
@@ -23,7 +16,7 @@ const configUserType = {
   notifications: 4,
   edit_profile: 2,
   logout: 3,
-  publisher: 5
+  publisher: 5,
 };
 
 export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
@@ -190,21 +183,29 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
           <div className="w-full">
             {userConfig === configUserType.none ? (
               <div className="flex justify-center">
-                <UserConnect></UserConnect>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <UserConnect></UserConnect>
+                </Suspense>
               </div>
             ) : userConfig === configUserType.submission ? (
               <div className="flex flex-col">
-                <UserSubmissions address={address}></UserSubmissions>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <UserSubmissions address={address}></UserSubmissions>
+                </Suspense>
               </div>
             ) : userConfig === configUserType.article ? (
               <div className="flex flex-col">
                 <p className="py-4 text-left text-lg text-darkgray font-bold">Articles</p>
-                <UserArticles address={address}></UserArticles>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <UserArticles address={address}></UserArticles>
+                </Suspense>
               </div>
             ) : userConfig === configUserType.edit_profile ? (
               <div className="flex flex-col">
                 <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
-                <EditUserProfile address={address}></EditUserProfile>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <EditUserProfile address={address}></EditUserProfile>
+                </Suspense>
               </div>
             ) : userConfig === configUserType.notifications ? (
               <div className="flex flex-col">
@@ -212,7 +213,9 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
               </div>
             ) : userConfig === configUserType.publisher ? (
               <div className="flex flex-col">
-                <PublisherPage />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <PublisherPage />
+                </Suspense>
               </div>
             ) : (
               <></>
