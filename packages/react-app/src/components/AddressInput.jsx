@@ -4,7 +4,6 @@ import { useLookupAddress } from "eth-hooks/dapps/ens";
 import { ethers } from "ethers";
 import React, { lazy, Suspense, useCallback, useState } from "react";
 import QrReader from "react-qr-reader";
-// import Blockie from "./Blockie";
 
 const Blockie = lazy(() => import("./Blockie"));
 

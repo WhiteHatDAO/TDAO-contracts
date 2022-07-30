@@ -3,7 +3,7 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 
 const NotificationCard = lazy(() => import("./NotificationCard.jsx"));
 
-const server = "http://localhost:4001";
+const server = "https://talentdao-api.herokuapp.com";
 
 const Notifications = ({ address }) => {
   const [notifications, setNotifications] = useState([

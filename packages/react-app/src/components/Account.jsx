@@ -1,10 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-// import Address from "./Address";
-// import Balance from "./Balance";
 
 const Address = lazy(() => import("./Address"));
 const Balance = lazy(() => import("./Balance"));
+const Wallet = lazy(() => import("./Wallet"));
 
 /*
   ~ What it does? ~
@@ -95,15 +94,17 @@ export default function Account({
               <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
             </Suspense>
           )}
-          {/* <Balance address={address} provider={localProvider} price={price} />
-          <Wallet
-            address={address}
-            provider={localProvider}
-            signer={userSigner}
-            ensProvider={mainnetProvider}
-            price={price}
-            color={currentTheme === "light" ? "#1890ff" : "#2caad9"}
-          /> */}
+          {/*<Suspense fallback={<div>Loading...</div>}><Balance address={address} provider={localProvider} price={price} /></Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Wallet
+              address={address}
+              provider={localProvider}
+              signer={userSigner}
+              ensProvider={mainnetProvider}
+              price={price}
+              color={currentTheme === "light" ? "#1890ff" : "#2caad9"}
+            /> 
+          </Suspense> */}
         </div>
       ) : useBurner ? (
         ""
@@ -126,15 +127,17 @@ export default function Account({
           <Suspense fallback={<div>Loading...</div>}>
             <Address address={address} ensProvider={mainnetProvider} blockExplorer={blockExplorer} />
           </Suspense>
-          {/* <Balance address={address} provider={localProvider} price={price} />
-          <Wallet
-            address={address}
-            provider={localProvider}
-            signer={userSigner}
-            ensProvider={mainnetProvider}
-            price={price}
-            color={currentTheme === "light" ? "#1890ff" : "#2caad9"}
-          /> */}
+          {/*<Suspense fallback={<div>Loading...</div>}><Balance address={address} provider={localProvider} price={price} /></Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Wallet
+              address={address}
+              provider={localProvider}
+              signer={userSigner}
+              ensProvider={mainnetProvider}
+              price={price}
+              color={currentTheme === "light" ? "#1890ff" : "#2caad9"}
+            /> 
+          </Suspense> */}
         </>
       ) : (
         <></>

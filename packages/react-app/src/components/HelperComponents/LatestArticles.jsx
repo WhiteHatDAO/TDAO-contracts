@@ -5,12 +5,9 @@ import "slick-carousel/slick/slick.css";
 import favImage from "../../assets/favourite.png";
 import nextImage from "../../assets/next.png";
 import prevImage from "../../assets/prev.png";
-// import { ArticleCard } from "./ArticleCard.jsx";
 
 // lazy load components
 const ArticleCard = lazy(() => import("./ArticleCard"));
-
-// OXcT1sVRSA5eGwt2k6Yuz8-3e3g9WJi5uSE99CWqsBs
 
 class LatestArticles extends Component {
   constructor(props) {
