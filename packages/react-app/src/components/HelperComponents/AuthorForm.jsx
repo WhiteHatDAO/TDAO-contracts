@@ -24,7 +24,7 @@ export const AuthorForm = ({ register, control, handleSubmit, reset, formState, 
         remove(i - 1);
       }
     }
-  }, [numberOfAuthors]);
+  }, [append, fields.length, numberOfAuthors, remove]);
 
   return (
     <>

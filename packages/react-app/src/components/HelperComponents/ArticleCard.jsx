@@ -7,6 +7,8 @@ import heartImage from "../../assets/heart.png";
 import talentImage from "../../assets/talent.png";
 import { dataURLtoFile } from "../../utils/utils";
 
+const server = "https://talentdao-api.herokuapp.com";
+
 export const ArticleCard = ({ id }) => {
   const history = useHistory();
   const [article, setArticle] = useState(null);
@@ -16,7 +18,6 @@ export const ArticleCard = ({ id }) => {
 
   useEffect(() => {
     const getArticle = async () => {
-      const server = "https://talentdao-api.herokuapp.com";
       try {
         const params = new URLSearchParams([["_id", id]]);
         const articleResponse = await axios.get(server + "/api/articles", { params });
@@ -32,7 +33,6 @@ export const ArticleCard = ({ id }) => {
 
   useEffect(() => {
     const getAuthorData = async () => {
-      const server = "https://talentdao-api.herokuapp.com";
       const params = new URLSearchParams([["walletId", article.walletId]]);
       try {
         const res = await axios.get(server + "/api/authors", { params });

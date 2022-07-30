@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { dataURLtoFile } from "../../utils/utils";
 
+let file;
+let source;
+
 export const AuthorCard = ({ author }) => {
   const [srcCover, setSrcCover] = useState(null);
   const [srcAuthor, setSrcAuthor] = useState(null);
@@ -10,14 +13,14 @@ export const AuthorCard = ({ author }) => {
   useEffect(() => {
     if (!author) return;
     if (author.coverImage.data !== "" && author.coverImage.filename !== "") {
-      var file = dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename);
-      var source = URL.createObjectURL(file);
+      file = dataURLtoFile(author?.coverImage?.data, author?.coverImage?.filename);
+      source = URL.createObjectURL(file);
       setSrcCover(source);
     }
 
     if (author.authorImage.data !== "" && author.authorImage.filename !== "") {
-      var file = dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename);
-      var source = URL.createObjectURL(file);
+      file = dataURLtoFile(author?.authorImage?.data, author?.authorImage?.filename);
+      source = URL.createObjectURL(file);
       setSrcAuthor(source);
     }
   }, [author]);
@@ -26,7 +29,7 @@ export const AuthorCard = ({ author }) => {
       <div className="rounded-lg shadow-lg bg-white max-w-sm">
         <img className="rounded-t-lg" src={srcCover} alt="" />
         <div className="pb-4 flex flex-col items-center space-y-2">
-          <img src={srcAuthor} className="w-16 h-16 rounded-full -mt-8"></img>
+          <img src={srcAuthor} alt="author" className="w-16 h-16 rounded-full -mt-8"></img>
           <div className="text-2xl font-bold text-black">{author.username}</div>
           <div className="text-lg text-black">{author.bio}</div>
           <div
