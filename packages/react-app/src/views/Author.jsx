@@ -16,6 +16,8 @@ const ArticleMintCard = lazy(() => import("../components/HelperComponents/Articl
 const AuthorMark = lazy(() => import("../components/HelperComponents/AuthorMark"));
 const Footer = lazy(() => import("../components/HelperComponents/Footer"));
 
+const server = "https://tdao-api.herokuapp.com";
+
 const Author = ({ tx, readContracts, writeContracts, address }) => {
   const history = useHistory();
   const { walletId } = useParams();
@@ -45,7 +47,6 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
 
   const getArticles = async () => {
     try {
-      const server = "https://tdao-api.herokuapp.com";
       const params = new URLSearchParams([["walletId", walletId]]);
       const articleResponse = await axios.get(server + "/api/articles", { params });
       if (articleResponse.data.success) {
@@ -109,7 +110,6 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   }, [author]);
 
   useEffect(async () => {
-    const server = "https://tdao-api.herokuapp.com";
     try {
       const res = await axios.put(server + "/api/author_readers", {
         walletId: walletId,
@@ -128,7 +128,6 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   const putTimesCited = async () => {
     const times = timesCited + 1;
     try {
-      const server = "https://tdao-api.herokuapp.com";
       const res = await axios.put(server + "/api/author_times", {
         walletId: walletId,
         timesCited: times,

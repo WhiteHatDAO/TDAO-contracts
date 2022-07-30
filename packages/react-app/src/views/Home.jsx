@@ -18,7 +18,7 @@ const LatestArticles = lazy(() => import("../components/HelperComponents/LatestA
 const Newsletter = lazy(() => import("../components/HelperComponents/Newsletter"));
 const Splash = lazy(() => import("../components/HelperComponents/Splash"));
 
-const server = "http://localhost:4001"; //https://tdao-api.herokuapp.com
+const server = "https://tdao-api.herokuapp.com";
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use

@@ -12,6 +12,8 @@ const AuthorCard = lazy(() => import("../components/HelperComponents/AuthorCard"
 const Footer = lazy(() => import("../components/HelperComponents/Footer"));
 const SubmissionCard = lazy(() => import("../components/HelperComponents/SubmissionCard"));
 
+const server = "https://tdao-api.herokuapp.com";
+
 const AdvancedSearch = () => {
   const [category, setCategory] = useState("author");
   const [field, setField] = useState("username");
@@ -46,7 +48,6 @@ const AdvancedSearch = () => {
   };
 
   const searchForQuery = async query => {
-    const server = "https://tdao-api.herokuapp.com";
     const cate = category === "author" ? "/api/author_find" : "/api/article_find";
     const params = new URLSearchParams([
       ["field", field],
