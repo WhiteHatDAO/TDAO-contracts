@@ -27,7 +27,7 @@ jobs:
         run: yarn install
 
       - name: Start local testnet
-        run: yarn chain
+        run: yarn chain &
 
       - name: Test
         run: yarn test
