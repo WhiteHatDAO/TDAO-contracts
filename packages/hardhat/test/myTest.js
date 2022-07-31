@@ -15,16 +15,17 @@ describe("TalentDAO Journal of Decentralized Work", function () {
   describe("ReputationController", function () {
     it("Should deploy ReputationController", async function () {
       const Contract = await ethers.getContractFactory("ReputationController");
-      contract = await Contract.deploy();
+      reputationController = await Contract.deploy();
     });
 
-    // describe("createNewUser()", function () {
-    //   it("Should create a new user", async function () {
-    //     const newPurpose = "Test Purpose";
+    describe("createNewUser()", function () {
+      it("Should create a new user", async function () {
+        const [user] = await ethers.getSigners();
 
-    //     await myContract.setPurpose(newPurpose);
-    //     expect(await myContract.purpose()).to.equal(newPurpose);
-    //   });
+        expect(reputationController.createNewUser(user.address)).to.
+          emit(reputationController, "NewUser").
+            withArgs(user.address);
+      });
 
       // Uncomment the event and emit lines in YourContract.sol to make this test pass
 
@@ -37,6 +38,6 @@ describe("TalentDAO Journal of Decentralized Work", function () {
           emit(myContract, "SetPurpose").
             withArgs(owner.address, newPurpose);
       });*/
-    // });
+    });
   });
 });

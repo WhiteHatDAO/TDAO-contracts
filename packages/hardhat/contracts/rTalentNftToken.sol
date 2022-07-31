@@ -38,7 +38,7 @@ contract rTalentNftToken is Ownable, ERC1155 {
         _mint(ownerAddress, newItemId, 1, data);
 
         // return the tokenId and the authorId it was minted to
-        // the authorId will be 
+        // the authorId will be
         return (newItemId);
     }
 }
