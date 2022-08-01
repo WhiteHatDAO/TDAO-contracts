@@ -40,6 +40,9 @@ jobs:
     - name: Copy yarn.lock to 'packages/hardhat/'
       run: cp yarn.lock packages/hardhat
 
+    - name: Enable root priviledge
+      run: sudo -i
+
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
       continue-on-error: true
@@ -48,6 +51,9 @@ jobs:
         target: 'packages/hardhat/'
         node-version: 16
         sarif: results.sarif
+
+    - name: Disable root priviledge
+      run: exit
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
