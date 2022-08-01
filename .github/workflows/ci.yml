@@ -40,7 +40,7 @@ jobs:
     - name: Copy yarn.lock to 'packages/hardhat/'
       run: cp yarn.lock packages/hardhat
 
-    - run: sudo mkdir /github/home/.cache/hardhat-nodejs
+    - run: sudo mkdir -p /github/home/.cache/hardhat-nodejs
 
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
