@@ -44,8 +44,6 @@ jobs:
       uses: crytic/slither-action@v0.1.1
       continue-on-error: true
       id: slither
-      env:
-        USERID: 1000
       with:
         target: 'packages/hardhat/'
         node-version: 16
