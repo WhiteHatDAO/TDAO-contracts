@@ -37,6 +37,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Copy yarn.lock to 'packages/hardhat/'
+      run: cp yarn.lock packages/hardhat
+
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
       continue-on-error: true
