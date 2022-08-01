@@ -43,8 +43,8 @@ jobs:
     - name: Who am I?
       run: whoami
 
-    - name: ls -la /github/home/.cache/hardhat-nodejs
-      run: ls -la /github/home/.cache/hardhat-nodejs
+    - name: ls -la /github/home/.cache
+      run: ls -la /github/home/.cache
 
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
