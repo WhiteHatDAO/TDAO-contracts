@@ -30,9 +30,6 @@ jobs:
 
   analyze:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      security-events: write
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
