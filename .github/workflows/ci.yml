@@ -16,17 +16,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Install
-        run: yarn install
+    - name: Install
+      run: yarn install
 
-      - name: Start local testnet
-        run: yarn chain &
+    - name: Start local testnet
+      run: yarn chain &
 
-      - name: Test
-        run: yarn test
+    - name: Test
+      run: yarn test
 
   analyze:
     runs-on: ubuntu-latest
@@ -37,18 +37,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Copy yarn.lock to 'packages/hardhat/'
-      run: cp yarn.lock packages/hardhat
+    - name: Install
+      run: yarn install
 
-    - run: sudo mkdir -p /github/home/.cache/hardhat-nodejs
+    - name: Build
+      run: yarn build
 
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
       continue-on-error: true
       id: slither
       with:
-        target: 'packages/hardhat/'
-        node-version: 16
+        ignore-compile: true
         sarif: results.sarif
 
     - name: Upload SARIF file
