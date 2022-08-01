@@ -40,8 +40,8 @@ jobs:
     - name: Install
       run: yarn install
 
-    - name: Build
-      run: yarn build
+    - name: Compile contracts
+      run: yarn compile
 
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
