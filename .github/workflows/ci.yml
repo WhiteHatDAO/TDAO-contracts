@@ -31,7 +31,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       security-events: write
     steps:
     - name: Checkout repository
@@ -39,12 +39,6 @@ jobs:
 
     - name: Copy yarn.lock to 'packages/hardhat/'
       run: cp yarn.lock packages/hardhat
-
-    - name: Who am I?
-      run: whoami
-
-    - name: ls -la /github/home
-      run: ls -la /github/home
 
     - name: Run Slither
       uses: crytic/slither-action@v0.1.1
