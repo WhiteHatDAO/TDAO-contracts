@@ -1,11 +1,10 @@
 import axios from "axios";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import illustrationImage from "../../assets/illustration.png";
+import { SubmissionCard } from "../HelperComponents";
 
 const server = "https://talentdao-api.herokuapp.com";
-
-const SubmissionCard = lazy(() => import("./SubmissionCard.jsx"));
 
 const UserSubmissions = ({ address }) => {
   // const [toArticles, goToArticles] = useState(false);
@@ -33,7 +32,7 @@ const UserSubmissions = ({ address }) => {
 
   return (
     <div className="flex flex-col bg-white p-8">
-      {articles.length === 0 ? (
+      {articles.length !== 0 ? (
         <div className="flex flex-col mb-6 place-content-between mt-4">
           <div className="flex flex-row mb-6 place-content-between">
             <div className="ml-1 -mt-1 font-bold cursor-pointer text-xl">Submissions</div>
@@ -56,15 +55,9 @@ const UserSubmissions = ({ address }) => {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <Suspense fallback={<div>Loading Submission Card...</div>}>
-              {articles.map((item, index) => {
-                return (
-                  <Suspense fallback={<div>Loading Submitted Article...</div>}>
-                    <SubmissionCard key={index} article={item}></SubmissionCard>
-                  </Suspense>
-                );
-              })}
-            </Suspense>
+            {articles.map((item, index) => {
+              return <SubmissionCard key={index} article={item}></SubmissionCard>;
+            })}
           </div>
         </div>
       ) : (

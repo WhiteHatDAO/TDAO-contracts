@@ -2,38 +2,36 @@ import { Col, Row } from "antd";
 import "antd/dist/antd.css";
 import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
-import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/HelperComponents/Navbar";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
-// contracts
-import ErrorBoundary from "./components/ErrorBoundary";
 import deployedContracts from "./contracts/hardhat_contracts.json";
 import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
 
-// todo: lazy load components
-const NetworkDisplay = lazy(() => import("./components/NetworkDisplay"));
-const Contract = lazy(() => import("./components/Contract"));
-const Faucet = lazy(() => import("./components/Faucet"));
+// Components
+import { Contract, Faucet, NetworkDisplay } from "./components";
+import { Navbar } from "./components/HelperComponents";
 
-// todo: lazy load views
-const AboutView = lazy(() => import("./views/About"));
-const AdvancedSearchView = lazy(() => import("./views/AdvancedSearch"));
-const ArticleView = lazy(() => import("./views/Article"));
-const AuthorView = lazy(() => import("./views/Author"));
-const ContactView = lazy(() => import("./views/Contact"));
-const HomeView = lazy(() => import("./views/Home"));
-const PrivacyPolicyView = lazy(() => import("./views/PrivacyPolicy"));
-const SearchView = lazy(() => import("./views/Search"));
-const SubgraphView = lazy(() => import("./views/Subgraph"));
-const SubmitView = lazy(() => import("./views/Submit"));
-const TermsOfServiceView = lazy(() => import("./views/TermsOfService"));
-const UserView = lazy(() => import("./views/User"));
-const TokenView = lazy(() => import("./views/Token"));
-const Governance = lazy(() => import("./views/Governance"));
+// Views
+import {
+  AboutView,
+  AdvancedSearchView,
+  ArticleView,
+  AuthorView,
+  ContactView,
+  GovernanceView,
+  HomeView,
+  PrivacyPolicyView,
+  SearchView,
+  SubgraphView,
+  SubmitView,
+  TermsOfServiceView,
+  TokenView,
+  UserView,
+} from "./views";
 
 const { ethers } = require("ethers");
 
@@ -51,7 +49,7 @@ const web3Modal = Web3ModalSetup();
 // 🛰 providers
 const providers = [`https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`, "https://rpc.scaffoldeth.io:48544"];
 
-function App(props) {
+const App = props => {
   // specify all the chains your app is available on. Eg: ['localhost', 'mainnet', ...otherNetworks ]
   // reference './constants.js' for other networks
   const networkOptions = [initialNetwork.name, "mainnet", "rinkeby"];
@@ -215,155 +213,118 @@ function App(props) {
 
   return (
     <div className="App container-2xl mx-auto">
-      <Suspense fallback={<div>Loading...</div>}>
-        <NetworkDisplay
-          NETWORKCHECK={NETWORKCHECK}
-          localChainId={localChainId}
-          selectedChainId={selectedChainId}
-          targetNetwork={targetNetwork}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
-        />
-      </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Navbar
-          useBurner={false}
-          address={address}
-          localProvider={localProvider}
-          userSigner={userSigner}
-          mainnetProvider={mainnetProvider}
-          price={price}
-          web3Modal={web3Modal}
-          loadWeb3Modal={loadWeb3Modal}
-          logoutOfWeb3Modal={logoutOfWeb3Modal}
-          blockExplorer={blockExplorer}
-          userMenuOpen={userMenuOpen}
-          handleUserMenuOpen={handleUserMenuOpen}
-        />
-      </Suspense>
+      <NetworkDisplay
+        NETWORKCHECK={NETWORKCHECK}
+        localChainId={localChainId}
+        selectedChainId={selectedChainId}
+        targetNetwork={targetNetwork}
+        logoutOfWeb3Modal={logoutOfWeb3Modal}
+        USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
+      />
+      <Navbar
+        useBurner={false}
+        address={address}
+        localProvider={localProvider}
+        userSigner={userSigner}
+        mainnetProvider={mainnetProvider}
+        price={price}
+        web3Modal={web3Modal}
+        loadWeb3Modal={loadWeb3Modal}
+        logoutOfWeb3Modal={logoutOfWeb3Modal}
+        blockExplorer={blockExplorer}
+        userMenuOpen={userMenuOpen}
+        handleUserMenuOpen={handleUserMenuOpen}
+      />
       <Switch>
         <Route exact path="/">
-          <ErrorBoundary>
-            <Suspense fallback={<div>Loading...</div>}>
-              <HomeView yourLocalBalance={yourLocalBalance} readContracts={readContracts} address={address} />
-            </Suspense>
-          </ErrorBoundary>
+          <HomeView address={address} />
         </Route>
         <Route exact path="/browse"></Route>
         <Route exact path="/about">
-          <Suspense fallback={<div>Loading...</div>}>
-            <AboutView />
-          </Suspense>
+          <AboutView />
         </Route>
         <Route exact path="/contact">
-          <Suspense fallback={<div>Loading...</div>}>
-            <ContactView />
-          </Suspense>
+          <ContactView />
         </Route>
         <Route exact path="/author/:walletId">
-          <Suspense fallback={<div>Loading...</div>}>
-            <AuthorView tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address} />
-          </Suspense>
+          <AuthorView tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address} />
         </Route>
         <Route exact path="/article/:id">
-          <Suspense fallback={<div>Loading...</div>}>
-            <ArticleView readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx} />
-          </Suspense>
+          <ArticleView readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx} />
         </Route>
         <Route exact path="/search">
-          <Suspense fallback={<div>Loading...</div>}>
-            <SearchView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
-          </Suspense>
+          <SearchView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
         </Route>
         <Route exact path="/advancedsearch">
-          <Suspense fallback={<div>Loading...</div>}>
-            <AdvancedSearchView
-              address={address}
-              tx={tx}
-              writeContracts={writeContracts}
-              readContracts={readContracts}
-            />
-          </Suspense>
+          <AdvancedSearchView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
         </Route>
-        <Route exact path={["/user", "/user/submissions", "/user/author", "/user/articles", "/user/notifications", "/user/publisher"]}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />
-          </Suspense>
+        <Route
+          exact
+          path={[
+            "/user",
+            "/user/submissions",
+            "/user/author",
+            "/user/articles",
+            "/user/notifications",
+            "/user/publisher",
+          ]}
+        >
+          <UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />
         </Route>
         <Route exact path="/debug">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Contract
-              name="TalentDaoToken"
-              price={price}
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-            />
-          </Suspense>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Contract
-              name="TalentDaoNftToken"
-              price={price}
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-            />
-          </Suspense>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Contract
-              name="TalentDaoManager"
-              price={price}
-              signer={userSigner}
-              provider={localProvider}
-              address={address}
-              blockExplorer={blockExplorer}
-              contractConfig={contractConfig}
-            />
-          </Suspense>
+          <Contract
+            name="TalentDaoToken"
+            price={price}
+            signer={userSigner}
+            provider={localProvider}
+            address={address}
+            blockExplorer={blockExplorer}
+            contractConfig={contractConfig}
+          />
+          <Contract
+            name="TalentDaoNftToken"
+            price={price}
+            signer={userSigner}
+            provider={localProvider}
+            address={address}
+            blockExplorer={blockExplorer}
+            contractConfig={contractConfig}
+          />
+          <Contract
+            name="TalentDaoManager"
+            price={price}
+            signer={userSigner}
+            provider={localProvider}
+            address={address}
+            blockExplorer={blockExplorer}
+            contractConfig={contractConfig}
+          />
         </Route>
         <Route exact path="/submit/:walletId">
-          <Suspense fallback={<div>Loading...</div>}>
-            <SubmitView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
-          </Suspense>
+          <SubmitView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
         </Route>
         <Route exact path="/termsofservice">
-          <Suspense fallback={<div>Loading...</div>}>
-            <TermsOfServiceView />
-          </Suspense>
+          <TermsOfServiceView />
         </Route>
         <Route exact path="/privacypolicy">
-          <Suspense fallback={<div>Loading...</div>}>
-            <PrivacyPolicyView />
-          </Suspense>
+          <PrivacyPolicyView />
         </Route>
         <Route path="/subgraph">
-          <Suspense fallback={<div>Loading...</div>}>
-            <SubgraphView
-              subgraphUri={props.subgraphUri}
-              tx={tx}
-              writeContracts={writeContracts}
-              mainnetProvider={mainnetProvider}
-            />
-          </Suspense>
+          <SubgraphView
+            subgraphUri={props.subgraphUri}
+            tx={tx}
+            writeContracts={writeContracts}
+            mainnetProvider={mainnetProvider}
+          />
         </Route>
         <Route path="/token">
-          <Suspense fallback={<div>Loading...</div>}>
-            <TokenView />
-          </Suspense>
+          <TokenView />
         </Route>
         <Route path="/governance">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Governance />
-          </Suspense>
+          <GovernanceView />
         </Route>
         <Route path="/request-feature">
-          <Suspense fallback={<div>Loading...</div>}>
-            <div>Request Feature</div>
-          </Suspense>
+          <div>Request Feature</div>
         </Route>
       </Switch>
 
@@ -371,18 +332,12 @@ function App(props) {
         <Col span={24}>
           {
             // if the local provider has a signer, let's show the faucet:
-            true ? (
-              <Suspense fallback={<div>Loading...</div>}>
-                <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} />
-              </Suspense>
-            ) : (
-              ""
-            )
+            true ? <Faucet localProvider={localProvider} price={price} ensProvider={mainnetProvider} /> : ""
           }
         </Col>
       </Row>
     </div>
   );
-}
+};
 
 export default App;

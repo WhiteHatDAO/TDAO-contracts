@@ -1,13 +1,11 @@
-import React, { Component, lazy, Suspense } from "react";
+import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import favImage from "../../assets/favourite.png";
 import nextImage from "../../assets/next.png";
 import prevImage from "../../assets/prev.png";
-
-// lazy load components
-const ArticleCard = lazy(() => import("./ArticleCard"));
+import { ArticleCard } from "../HelperComponents";
 
 class LatestArticles extends Component {
   constructor(props) {
@@ -89,9 +87,7 @@ class LatestArticles extends Component {
         <div className="relative roadmap_container">
           <Slider ref={c => (this.slider = c)} {...settings}>
             {this.props.articles.map((article_id, index) => (
-              <Suspense fallback={<div>Loading...</div>}>
-                <ArticleCard key={index} id={article_id}></ArticleCard>
-              </Suspense>
+              <ArticleCard key={index} id={article_id}></ArticleCard>
             ))}
           </Slider>
           <div className="md:hidden absolute top-1/2 left-4">

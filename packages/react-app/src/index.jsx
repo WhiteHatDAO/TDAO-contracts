@@ -2,14 +2,14 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import React from "react";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import App from "./App";
 import { ErrorBoundary } from "./components";
 import "./index.css";
 
 const themes = {
-  dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
-  light: `${process.env.PUBLIC_URL}/light-theme.css`,
+  dark: "./dark-theme.css",
+  light: "./light-theme.css",
 };
 
 const prevTheme = window.localStorage.getItem("theme");
@@ -25,9 +25,9 @@ ReactDOM.render(
   <ErrorBoundary>
     <ApolloProvider client={client}>
       <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
-        <BrowserRouter>
+        <HashRouter hashType="slash">
           <App subgraphUri={subgraphUri} />
-        </BrowserRouter>
+        </HashRouter>
       </ThemeSwitcherProvider>
     </ApolloProvider>
   </ErrorBoundary>,

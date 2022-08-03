@@ -1,22 +1,13 @@
 import axios from "axios";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import arrowRightImage from "../assets/ArrowRight.png";
 import authorImage from "../assets/author.png";
 import lineImage from "../assets/line.png";
 import partnershipImage from "../assets/partnership.png";
 import profileImage from "../assets/profile.png";
-// import Footer from "../components/HelperComponents/Footer";
-// import LatestArticles from "../components/HelperComponents/LatestArticles";
-// import Newsletter from "../components/HelperComponents/Newsletter";
-// import Splash from "../components/HelperComponents/Splash";
+import { Footer, LatestArticles, Newsletter, Splash } from "../components/HelperComponents";
 import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory } from "../utils/utils";
-
-// lazy load components
-const Footer = lazy(() => import("../components/HelperComponents/Footer"));
-const LatestArticles = lazy(() => import("../components/HelperComponents/LatestArticles"));
-const Newsletter = lazy(() => import("../components/HelperComponents/Newsletter"));
-const Splash = lazy(() => import("../components/HelperComponents/Splash"));
 
 const server = "https://tdao-api.herokuapp.com";
 
@@ -26,13 +17,10 @@ const server = "https://tdao-api.herokuapp.com";
  * @param {*} readContracts contracts from current chain already pre-loaded using ethers contract module. More here https://docs.ethers.io/v5/api/contract/contract/
  * @returns react component
  */
-function Home({ yourLocalBalance, readContracts, address }) {
+function Home({ address }) {
   const [articles, setArticles] = useState(null);
-  // you can also use hooks locally in your component of choice
   const getLatestArticle = async () => {
-    // const params = new URLSearchParams([["_id", '623a1674c84da1d9301ae19f']]);
     try {
-      console.log("Click event=============>");
       const articleResponse = await axios.get(`${server}/api/articles_latest`, {});
       if (articleResponse.data.success) {
         setArticles(articleResponse.data.data);
@@ -101,11 +89,7 @@ function Home({ yourLocalBalance, readContracts, address }) {
         </div>
 
         {/* Latest Articles Component Section */}
-        {articles && (
-          <Suspense fallback={<div>Loading</div>}>
-            <LatestArticles articles={articles} />
-          </Suspense>
-        )}
+        {articles && <LatestArticles articles={articles} />}
 
         {/* Featured Author & Updates Section  */}
         <div className="pt-16 grid grid-cols-1 xl:grid-cols-2">
@@ -231,15 +215,11 @@ function Home({ yourLocalBalance, readContracts, address }) {
         </div>
         {/* Newsletter Signup Component */}
         <div className="mt-10">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Newsletter />
-          </Suspense>
+          <Newsletter />
         </div>
 
         {/* Footer Component Section */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <Footer />
-        </Suspense>
+        <Footer />
       </div>
     </div>
   );

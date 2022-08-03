@@ -1,7 +1,6 @@
 import axios from "axios";
-import React, { lazy, Suspense, useEffect, useState } from "react";
-
-const NotificationCard = lazy(() => import("./NotificationCard.jsx"));
+import React, { useEffect, useState } from "react";
+import { NotificationCard } from "../HelperComponents";
 
 const server = "https://talentdao-api.herokuapp.com";
 
@@ -38,11 +37,7 @@ const Notifications = ({ address }) => {
       <div>
         {notifications.length > 0 ? (
           notifications.map((item, index) => {
-            return (
-              <Suspense fallback={<div>Loading Notifications...</div>}>
-                <NotificationCard key={index} state={item.state}></NotificationCard>
-              </Suspense>
-            );
+            return <NotificationCard key={index} state={item.state}></NotificationCard>;
           })
         ) : (
           <div>You have no Notifications</div>
