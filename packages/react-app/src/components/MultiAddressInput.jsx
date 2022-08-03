@@ -1,10 +1,7 @@
 import { Select } from "antd";
-import React, { lazy, Suspense, useCallback, useState } from "react";
-// import Blockie from "./Blockie";
 import { ethers } from "ethers";
-import { useMemo } from "react";
-
-const Blockie = lazy(() => import("./Blockie"));
+import React, { useCallback, useMemo, useState } from "react";
+import Blockie from "./Blockie";
 
 // probably we need to change value={toAddress} to address={toAddress}
 
@@ -50,9 +47,7 @@ export default function MultiAddressInput(props) {
       <Select.Option key={i.address} value={i.address}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ marginRight: "3px" }}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Blockie address={i.address} size={5} scale={3} />
-            </Suspense>
+            <Blockie address={i.address} size={5} scale={3} />
           </div>
           {i.ens ? i.ens : i.address?.substr(0, 5) + "..." + i.address?.substr(-4)}
         </div>
