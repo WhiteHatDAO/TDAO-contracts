@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { Suspense, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import arrowRightImage from "../assets/ArrowRight.png";
 import authorImage from "../assets/author.png";
 import lineImage from "../assets/line.png";
@@ -42,7 +42,7 @@ function Home({ address }) {
   const [authorLinkedin, setAuthorLinkedin] = useState("");
   const [authorCategories, setAuthorCategories] = useState([]);
   const [authorWalletId, setAuthorWalletId] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const init = async () => {
@@ -107,7 +107,7 @@ function Home({ address }) {
                   src={authorImageSrc}
                   alt="none"
                   className="rounded-xl w-full h-full cursor-pointer"
-                  onClick={() => history.push(`/author/${authorWalletId}`)}
+                  onClick={() => navigate(`/author/${authorWalletId}`)}
                 ></img>
               </div>
               <div className="flex flex-col items-start text-left">
@@ -116,7 +116,7 @@ function Home({ address }) {
                 <div className="pt-4 text-base xl:text-sm text-darkgray hidden md:block">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut </div> */}
                 <div
                   className="pt-2 text-3xl xl:text-4xl font-bold cursor-pointer"
-                  onClick={() => history.push(`/author/${authorWalletId}`)}
+                  onClick={() => navigate(`/author/${authorWalletId}`)}
                 >
                   {authorName}
                 </div>

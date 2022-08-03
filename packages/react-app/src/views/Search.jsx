@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import arrow from "../assets/arrowWhite.svg";
 import clear from "../assets/clear.svg";
 import info from "../assets/info.svg";
@@ -16,10 +16,16 @@ const Search = () => {
   const [sortField, setSortField] = useState("username");
   const [value, setValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-  const history = useHistory();
+  const navigate = useNavigate();
 
+  // todo: FIXME to work with navigate
   useEffect(() => {
-    const query = history.location.search.split("=")[1];
+    const query = navigate({
+      pathname: "",
+      search: createSearchParams({
+        equals: "=",
+      }).toString(),
+    });
     setValue(query);
     searchForQuery(query);
   }, []);
@@ -156,7 +162,7 @@ const Search = () => {
               </div>
               <div
                 className="w-full md:w-auto flex flex-col space-y-2 cursor-pointer"
-                onClick={() => history.push("/advancedsearch")}
+                onClick={() => navigate("/advancedsearch")}
               >
                 <div className="text-sm hidden md:flex flex-row items-center">
                   <div>Narrow search</div>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import illustrationImage from "../../assets/illustration.png";
 import { SubmissionCard } from "../HelperComponents";
 
@@ -10,8 +10,7 @@ const UserSubmissions = ({ address }) => {
   // const [toArticles, goToArticles] = useState(false);
   const [articles, setArticles] = useState([]);
 
-  const history = useHistory();
-  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getArticles = async () => {
@@ -39,7 +38,7 @@ const UserSubmissions = ({ address }) => {
             <div className="flex flex-row space-x-4">
               <div
                 className="ml-1 -mt-0.5 cursor-pointer text-lg text-primary"
-                onClick={() => history.push(`/user/publisher`)}
+                onClick={() => navigate(`/user/publisher`)}
               >
                 See Reviewers & Publishers
               </div>
@@ -67,7 +66,7 @@ const UserSubmissions = ({ address }) => {
           <div className="text-center text-base mb-6">Upload your next article, document on Talent DAO</div>
           <div
             className="w-1/5 self-center rounded-full text-lg bg-primary text-white text-center cursor-pointer px-4 py-4"
-            onClick={() => history.push(`/submit/${address}`)}
+            onClick={() => navigate(`/submit/${address}`)}
           >
             Make A Submission
           </div>

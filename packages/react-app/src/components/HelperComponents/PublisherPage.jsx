@@ -1,10 +1,10 @@
 import { Switch } from "antd";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PublisherCard, ReviewerCard } from "../HelperComponents";
 
 const PublisherPage = ({ address }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState();
   const [checked, setChecked] = useState(false);
 
@@ -24,7 +24,7 @@ const PublisherPage = ({ address }) => {
               fill="black"
             />
           </svg>
-          <div className="ml-2 -mt-1 font-bold cursor-pointer" onClick={() => history.push(`/user/submissions`)}>
+          <div className="ml-2 -mt-1 font-bold cursor-pointer" onClick={() => navigate(`/user/submissions`)}>
             Back
           </div>
         </div>

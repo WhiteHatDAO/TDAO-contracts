@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { dataURLtoFile } from "../../utils/utils";
 
 let file;
@@ -8,7 +8,7 @@ let source;
 export const AuthorCard = ({ author }) => {
   const [srcCover, setSrcCover] = useState(null);
   const [srcAuthor, setSrcAuthor] = useState(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!author) return;
@@ -34,7 +34,7 @@ export const AuthorCard = ({ author }) => {
           <div className="text-lg text-black">{author.bio}</div>
           <div
             className="rounded-xl border border-primary font-bold px-8 py-2 text-primary cursor-pointer"
-            onClick={() => history.push(`/author/${author.walletId}`)}
+            onClick={() => navigate(`/author/${author.walletId}`)}
           >
             Visit Page
           </div>

@@ -3,7 +3,7 @@ import "antd/dist/antd.css";
 import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -12,7 +12,7 @@ import { Transactor, Web3ModalSetup } from "./helpers";
 import { useStaticJsonRPC } from "./hooks";
 
 // Components
-import { Contract, Faucet, NetworkDisplay } from "./components";
+import { Faucet, NetworkDisplay } from "./components";
 import { Navbar } from "./components/HelperComponents";
 
 // Views
@@ -235,31 +235,42 @@ const App = props => {
         userMenuOpen={userMenuOpen}
         handleUserMenuOpen={handleUserMenuOpen}
       />
-      <Switch>
-        <Route exact path="/">
-          <HomeView address={address} />
-        </Route>
-        <Route exact path="/browse"></Route>
-        <Route exact path="/about">
-          <AboutView />
-        </Route>
-        <Route exact path="/contact">
-          <ContactView />
-        </Route>
-        <Route exact path="/author/:walletId">
-          <AuthorView tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address} />
-        </Route>
-        <Route exact path="/article/:id">
-          <ArticleView readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx} />
-        </Route>
-        <Route exact path="/search">
-          <SearchView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
-        </Route>
-        <Route exact path="/advancedsearch">
-          <AdvancedSearchView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
-        </Route>
+      <Routes>
+        <Route index element={<HomeView address={address} />}></Route>
+        <Route path="/browse"></Route>
+        <Route path="/about" element={<AboutView />}></Route>
+        <Route path="/contact" element={<ContactView />}></Route>
         <Route
-          exact
+          path="/author/:walletId"
+          element={
+            <AuthorView tx={tx} readContracts={readContracts} writeContracts={writeContracts} address={address} />
+          }
+        ></Route>
+        <Route
+          path="/article/:id"
+          element={
+            <ArticleView readContracts={readContracts} writeContracts={writeContracts} address={address} tx={tx} />
+          }
+        ></Route>
+        <Route
+          path="/search"
+          element={
+            <SearchView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
+          }
+        ></Route>
+        <Route
+          path="/advancedsearch"
+          element={
+            <AdvancedSearchView
+              address={address}
+              tx={tx}
+              writeContracts={writeContracts}
+              readContracts={readContracts}
+            />
+          }
+        ></Route>
+        {/* todo: break these out into individual routes for v6 
+        <Route
           path={[
             "/user",
             "/user/submissions",
@@ -268,11 +279,10 @@ const App = props => {
             "/user/notifications",
             "/user/publisher",
           ]}
-        >
-          <UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />
-        </Route>
-        <Route exact path="/debug">
-          <Contract
+          element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+        ></Route> */}
+        <Route path="/debug">
+          {/* <Contract
             name="TalentDaoToken"
             price={price}
             signer={userSigner}
@@ -298,35 +308,31 @@ const App = props => {
             address={address}
             blockExplorer={blockExplorer}
             contractConfig={contractConfig}
-          />
+          /> */}
         </Route>
-        <Route exact path="/submit/:walletId">
-          <SubmitView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
-        </Route>
-        <Route exact path="/termsofservice">
-          <TermsOfServiceView />
-        </Route>
-        <Route exact path="/privacypolicy">
-          <PrivacyPolicyView />
-        </Route>
-        <Route path="/subgraph">
-          <SubgraphView
-            subgraphUri={props.subgraphUri}
-            tx={tx}
-            writeContracts={writeContracts}
-            mainnetProvider={mainnetProvider}
-          />
-        </Route>
-        <Route path="/token">
-          <TokenView />
-        </Route>
-        <Route path="/governance">
-          <GovernanceView />
-        </Route>
-        <Route path="/request-feature">
-          <div>Request Feature</div>
-        </Route>
-      </Switch>
+        <Route
+          path="/submit/:walletId"
+          element={
+            <SubmitView address={address} tx={tx} writeContracts={writeContracts} readContracts={readContracts} />
+          }
+        ></Route>
+        <Route path="/termsofservice" element={<TermsOfServiceView />}></Route>
+        <Route path="/privacypolicy" element={<PrivacyPolicyView />}></Route>
+        <Route
+          path="/subgraph"
+          element={
+            <SubgraphView
+              subgraphUri={props.subgraphUri}
+              tx={tx}
+              writeContracts={writeContracts}
+              mainnetProvider={mainnetProvider}
+            />
+          }
+        ></Route>
+        <Route path="/token" element={<TokenView />}></Route>
+        <Route path="/governance" element={<GovernanceView />}></Route>
+        <Route path="/request-feature"></Route>
+      </Routes>
 
       <Row align="middle" gutter={[4, 4]}>
         <Col span={24}>

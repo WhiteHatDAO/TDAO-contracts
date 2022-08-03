@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   EditUserProfile,
   Notifications,
@@ -23,7 +23,7 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
   const [userConfig, setUserConfig] = useState(configUserType.none);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleMenuOpen = () => {
     setMenuOpen(false);
@@ -32,15 +32,15 @@ export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
 
   const handleConfigTypeChanged = type => {
     if (type === configUserType.submission) {
-      history.push("/user/submissions");
+      navigate("/user/submissions");
     } else if (type == configUserType.article) {
-      history.push("/user/articles");
+      navigate("/user/articles");
     } else if (type == configUserType.edit_profile) {
-      history.push("/user/author");
+      navigate("/user/author");
     } else if (type == configUserType.notifications) {
-      history.push("/user/notifications");
+      navigate("/user/notifications");
     } else if (type == configUserType.publisher) {
-      history.push("/user/publisher");
+      navigate("/user/publisher");
     }
 
     handleMenuOpen();

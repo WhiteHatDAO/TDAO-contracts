@@ -3,7 +3,7 @@ import { notification } from "antd";
 import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import mark from "../assets/best_mark.png";
 import check from "../assets/check.png";
 import linkedin from "../assets/linkedin.png";
@@ -14,7 +14,7 @@ import { dataURLtoFile, getAuthorData } from "../utils/utils";
 const server = "https://tdao-api.herokuapp.com";
 
 const Author = ({ tx, readContracts, writeContracts, address }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { walletId } = useParams();
   const [author, setAuthor] = useState(null);
   const [articles, setArticles] = useState([]);
