@@ -63,14 +63,13 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     }
 
     constructor(address owner_)
-        public
         ERC20("Talent DAO Token", "TALENT")
     {
         _setupRole(DEFAULT_ADMIN_ROLE, owner_);
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setupRole(MINTER_ROLE, _msgSender());
         // Mint some tokens... test....
-        mintTokensTo(owner_, 200000000 ether); // 200 Million
+        mintTokensTo(owner_, 200000000 ether);
         _revokeRole(MINTER_ROLE, _msgSender());
         transferOwnership(owner_);
     }
@@ -80,6 +79,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     */
     function setupMinterRole(address minter)
         public
+        onlyOwner
     {
         if(!hasRole(DEFAULT_ADMIN_ROLE, _msgSender())) revert WrongRole();
         _setupRole(MINTER_ROLE, minter);
@@ -90,6 +90,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     */
     function setupOperatorRole(address operator)
         public
+        onlyOwner
     {
         if(!hasRole(DEFAULT_ADMIN_ROLE, _msgSender())) revert WrongRole();
         _setupRole(OPERATOR_ROLE, operator);
@@ -110,6 +111,7 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     */
     function setupDistributorRole(address distributor)
         public
+        onlyOwner
     {
         if(hasRole(OPERATOR_ROLE, _msgSender()) || hasRole(DEFAULT_ADMIN_ROLE, _msgSender())) revert WrongRole();
         _setupRole(DISTRIBUTOR_ROLE, distributor);

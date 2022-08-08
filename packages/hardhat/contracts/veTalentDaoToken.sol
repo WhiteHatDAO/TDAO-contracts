@@ -99,7 +99,6 @@ contract veTalentToken is ERC20, Ownable, AccessControl, ERC20Burnable {
     (
         address _owner
     )
-        public
         ERC20("veTalent Reputation Token", "veTALENT")
         ERC20Burnable()
     {
