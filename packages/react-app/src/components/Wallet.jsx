@@ -2,19 +2,14 @@ import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from "@ant-
 import { Button, Modal, Spin, Tooltip, Typography } from "antd";
 import { ethers } from "ethers";
 import QR from "qrcode.react";
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Transactor } from "../helpers";
-// import Address from "./Address";
-// import AddressInput from "./AddressInput";
-// import Balance from "./Balance";
-// import EtherInput from "./EtherInput";
+import Address from "./Address";
+import AddressInput from "./AddressInput";
+import Balance from "./Balance";
+import EtherInput from "./EtherInput";
 
 const { Text, Paragraph } = Typography;
-
-const Address = lazy(() => import("./Address"));
-const AddressInput = lazy(() => import("./AddressInput"));
-const Balance = lazy(() => import("./Balance"));
-const EtherInput = lazy(() => import("./EtherInput"));
 
 /*
   ~ What it does? ~
