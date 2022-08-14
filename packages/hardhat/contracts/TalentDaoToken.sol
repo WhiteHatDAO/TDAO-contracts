@@ -8,10 +8,15 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+error WrongRole();
+error LowBalance();
+error PastDeadline();
+error ZeroAddress();
+error OnlyOwner();
+
 /** @title The TALENT token is the utility token of the Talent DAO
 *   @author jaxcoder
-*   @notice Handles voting and delegation of token voting rights and all other ERC20 functions
-*   @dev Contract is pretty straightforward ERC20 token contract with some governance.
+*   @dev Contract is pretty straightforward ERC20 token contract.
 */
 contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     using SafeERC20 for IERC20;
@@ -24,12 +29,6 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant DAO_ROLE = keccak256("DAO_ROLE");
     bytes32 public constant DISTRIBUTOR_ROLE = keccak256("DISTRIBUTOR_ROLE");
-
-    error WrongRole();
-    error LowBalance();
-    error PastDeadline();
-    error ZeroAddress();
-    error OnlyOwner();
 
     /// @notice Modifiers for Access Control
     modifier isPermittedMinter() {
@@ -126,13 +125,6 @@ contract TalentDaoToken is Ownable, AccessControl, ERC20 {
         isPermittedMinter
     {
         _mint(_to, _amount);
-    }
-
-    function mintTokens(uint256 _amount)
-        public
-        isPermittedMinter
-    {
-        _mint(msg.sender, _amount);
     }
 
     /// @notice Burn token from sender function
