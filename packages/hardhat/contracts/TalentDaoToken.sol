@@ -14,7 +14,7 @@ error PastDeadline();
 error ZeroAddress();
 error OnlyOwner();
 
-/** @title The TALENT token is the utility token of the Talent DAO
+/** @title The TALENT token is the token of the Talent DAO
 *   @author jaxcoder
 *   @dev Contract is pretty straightforward ERC20 token contract.
 */

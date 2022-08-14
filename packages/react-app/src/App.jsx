@@ -269,18 +269,31 @@ const App = props => {
             />
           }
         ></Route>
-        {/* todo: break these out into individual routes for v6 
         <Route
-          path={[
-            "/user",
-            "/user/submissions",
-            "/user/author",
-            "/user/articles",
-            "/user/notifications",
-            "/user/publisher",
-          ]}
+          path="/user"
           element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
-        ></Route> */}
+        >
+          <Route
+            path="/user/submissions"
+            element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+          ></Route>
+          <Route
+            path="/user/author"
+            element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+          ></Route>
+          <Route
+            path="/user/articles"
+            element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+          ></Route>
+          <Route
+            path="/user/notifications"
+            element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+          ></Route>
+          <Route
+            path="/user/publisher"
+            element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+          ></Route>
+        </Route>
         <Route path="/debug">
           {/* <Contract
             name="TalentDaoToken"

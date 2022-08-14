@@ -13,9 +13,9 @@ const configUserType = {
   none: -1,
   submission: 0,
   article: 1,
-  notifications: 4,
   edit_profile: 2,
   logout: 3,
+  notifications: 4,
   publisher: 5,
 };
 
