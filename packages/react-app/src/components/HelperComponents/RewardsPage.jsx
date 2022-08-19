@@ -4,9 +4,9 @@ import { RewardsCard, RewardsChart } from "../HelperComponents";
 
 const RewardsPage = ({ address }) => {
   const rewards = [
-    [{title: "$TALENT Earnings", amount: "40,000", width: "w-1/4"}],
-    [{title: "Estimated Rewards", amount: "40,000", width: "w-1/4"}],
-    [{title: "Staking Rewards", amount: "40,000", width: "w-1/2"}, {title: "Delegate Rewards", amount: "40,000"}]
+    [{title: "$TALENT Earnings", amount: "40,000", width: "w-1/2 md:w-1/4"}],
+    [{title: "Estimated Rewards", amount: "40,000", width: "w-1/2 md:w-1/4"}],
+    [{title: "Staking Rewards", amount: "40,000", width: "w-full md:w-1/2"}, {title: "Delegate Rewards", amount: "40,000"}]
   ];
 
   const data = [
@@ -55,16 +55,17 @@ const RewardsPage = ({ address }) => {
   return (
     <div className="flex flex-col p-8 bg-white space-y-4 h-screen">
         <div className="ml-1 -mt-1 font-bold cursor-pointer text-xl text-left flex">Rewards</div>
-        <div id='reward-card' className="flex flex-row space-x-5"> 
-            {
-            rewards.map((item, index) => {
-                return <RewardsCard key={index} data={item}></RewardsCard>;
-            })
-            }
+        <div id='reward-card' className="flex flex-col md:flex-row me:w-full md:space-x-5"> 
+          <div className="flex flex-row md:w-1/2  space-x-5">
+            <RewardsCard data={rewards[0]}></RewardsCard>
+            <RewardsCard data={rewards[1]}></RewardsCard>
+          </div>
+          <div className="flex flex-row md:w-1/2 ">
+            <RewardsCard data={rewards[2]}></RewardsCard>
+          </div>
+          
         </div>
         <RewardsChart data={data} width = {width}/> 
-        
-        
     </div>
 
   );
