@@ -7,6 +7,7 @@ import { WagmiConfig } from "wagmi";
 import App from "./App";
 import { ErrorBoundary } from "./components";
 import "./index.css";
+import { arweaveClient } from "./utils/graphqlClient";
 import client from "./utils/wagmi";
 
 const themes = {
@@ -16,20 +17,13 @@ const themes = {
 
 const prevTheme = window.localStorage.getItem("theme");
 
-const subgraphUri = "https://arweave.net/graphql";
-
-const apolloClient = new ApolloClient({
-  uri: subgraphUri,
-  cache: new InMemoryCache(),
-});
-
 ReactDOM.render(
   <ErrorBoundary>
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={arweaveClient}>
       <ThemeSwitcherProvider themeMap={themes} defaultTheme={prevTheme || "light"}>
         <WagmiConfig client={client}>
           <Router>
-            <App subgraphUri={subgraphUri} />
+            <App />
           </Router>
         </WagmiConfig>
       </ThemeSwitcherProvider>
