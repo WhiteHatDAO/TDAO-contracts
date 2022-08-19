@@ -22,3 +22,9 @@ export { default as SubmitFile } from "./SubmitFile";
 export { default as UserArticles } from "./UserArticles";
 export { default as UserConnect } from "./UserConnect";
 export { default as UserSubmissions } from "./UserSubmissions";
+export { default as ReputationPage } from "./ReputationPage";
+export { default as ReputationCard } from "./ReputationCard";
+export { default as RewardsPage } from "./RewardsPage";
+export { default as RewardsCard } from "./RewardsCard";
+export { default as RewardsChart } from "./RewardsChart";
+
