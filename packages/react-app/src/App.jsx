@@ -1,9 +1,9 @@
 import { Col, Row } from "antd";
 import "antd/dist/antd.css";
-import { useBalance, useContractLoader, useGasPrice, useOnBlock, useUserProviderAndSigner } from "eth-hooks";
+import { useContractLoader, useGasPrice, useUserProviderAndSigner } from "eth-hooks";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { ALCHEMY_KEY, NETWORKS } from "./constants";
 import externalContracts from "./contracts/external_contracts";
@@ -41,8 +41,8 @@ const initialNetwork = NETWORKS.localhost; // <------- select your target fronte
 // 😬 Sorry for all the console logging
 const DEBUG = true;
 const NETWORKCHECK = true;
-const USE_BURNER_WALLET = true; // toggle burner wallet feature
-const USE_NETWORK_SELECTOR = false;
+const USE_BURNER_WALLET = false; // toggle burner wallet feature
+const USE_NETWORK_SELECTOR = true;
 
 const web3Modal = Web3ModalSetup();
 
@@ -52,7 +52,7 @@ const providers = [`https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`, "https
 const App = props => {
   // specify all the chains your app is available on. Eg: ['localhost', 'mainnet', ...otherNetworks ]
   // reference './constants.js' for other networks
-  const networkOptions = [initialNetwork.name, "mainnet", "rinkeby"];
+  const networkOptions = [initialNetwork.name, "mainnet", "goerli"];
 
   const [injectedProvider, setInjectedProvider] = useState();
   const [address, setAddress] = useState();
