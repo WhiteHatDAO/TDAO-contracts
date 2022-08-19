@@ -8,6 +8,7 @@ import {
   UserConnect,
   UserSubmissions,
 } from "../components/HelperComponents";
+import { useAccount } from "wagmi";
 
 const configUserType = {
   none: -1,
@@ -19,11 +20,13 @@ const configUserType = {
   publisher: 5,
 };
 
-export default function User({ address, userMenuOpen, handleUserMenuOpen }) {
+export default function User({ userMenuOpen, handleUserMenuOpen }) {
   const [menuOpen, setMenuOpen] = useState(userMenuOpen);
   const [userConfig, setUserConfig] = useState(configUserType.none);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { address } = useAccount();
 
   const handleMenuOpen = () => {
     setMenuOpen(false);

@@ -1,6 +1,7 @@
 import { KeyOutlined, QrcodeOutlined, SendOutlined, WalletOutlined } from "@ant-design/icons";
 import { Button, Modal, Spin, Tooltip, Typography } from "antd";
 import { ethers } from "ethers";
+import { useAccount, useSigner } from "wagmi";
 import QR from "qrcode.react";
 import React, { useEffect, useState } from "react";
 import { Transactor } from "../helpers";
@@ -41,6 +42,9 @@ const { Text, Paragraph } = Typography;
 
 export default function Wallet(props) {
   const [signerAddress, setSignerAddress] = useState();
+  const { address } = useAccount();
+  const { data: signer } = useSigner();
+  console.log({ address, signer });
   useEffect(() => {
     async function getAddress() {
       if (props.signer) {
