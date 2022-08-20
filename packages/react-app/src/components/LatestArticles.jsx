@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import favImage from "../../assets/favourite.png";
-import nextImage from "../../assets/next.png";
-import prevImage from "../../assets/prev.png";
-import { ArticleCard } from "../HelperComponents";
+import favImage from "../assets/favourite.png";
+import nextImage from "../assets/next.png";
+import prevImage from "../assets/prev.png";
+import { ArticleCard } from "../components";
 
 class LatestArticles extends Component {
   constructor(props) {

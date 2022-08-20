@@ -7,7 +7,7 @@ import {
   UserArticles,
   UserConnect,
   UserSubmissions,
-} from "../components/HelperComponents";
+} from "../components";
 import { useAccount } from "wagmi";
 
 const configUserType = {

@@ -1,7 +1,7 @@
 import { Switch } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PublisherCard, ReviewerCard } from "../HelperComponents";
+import { PublisherCard, ReviewerCard } from "../components";
 
 const PublisherPage = ({ address }) => {
   const navigate = useNavigate();

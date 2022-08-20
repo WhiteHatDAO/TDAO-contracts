@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import article_back from "../../assets/article_back.png";
-import author_pro from "../../assets/author_pro.png";
+import article_back from "../assets/article_back.png";
+import author_pro from "../assets/author_pro.png";
 
 const SimilarArticleCard = ({ address, article }) => {
   const navigate = useNavigate();

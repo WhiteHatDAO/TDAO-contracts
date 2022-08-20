@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import authorimg from "../../assets/author.png";
-import etherImage from "../../assets/ethereum.png";
-import heartImage from "../../assets/heart.png";
-import talentImage from "../../assets/talent.png";
-import { dataURLtoFile } from "../../utils/utils";
+import authorimg from "../assets/author.png";
+import etherImage from "../assets/ethereum.png";
+import heartImage from "../assets/heart.png";
+import talentImage from "../assets/talent.png";
+import { dataURLtoFile } from "../utils/utils";
 
 const server = "https://talentdao-api.herokuapp.com";
 

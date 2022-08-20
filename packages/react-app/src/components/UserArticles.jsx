@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import illustrationImage from "../../assets/illustration.png";
-import { ArticleCard } from "./ArticleCard";
+import illustrationImage from "../assets/illustration.png";
+import { ArticleCard } from "../components";
 
 const UserArticles = ({ address }) => {
   const [articles, setArticles] = useState([]);

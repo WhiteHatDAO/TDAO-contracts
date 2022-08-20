@@ -1,33 +1,21 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import discord from "../../assets/discord.png";
-import divideImage from "../../assets/divide.png";
-import menuImage from "../../assets/menu.png";
-import menuIconImage from "../../assets/menu_icon.png";
-import profile from "../../assets/profile.png";
-import logo from "../../assets/talent-logo.png";
-import twitterImg from "../../assets/twitter.png";
-import { Account } from "../../components";
-import { getAuthorData } from "../../utils/utils";
+import { useAccount } from "wagmi";
+import discord from "../assets/discord.png";
+import divideImage from "../assets/divide.png";
+import menuImage from "../assets/menu.png";
+import menuIconImage from "../assets/menu_icon.png";
+import profile from "../assets/profile.png";
+import logo from "../assets/talent-logo.png";
+import twitterImg from "../assets/twitter.png";
+import { getAuthorData } from "../utils/utils";
 
-function Navbar({
-  useBurner,
-  address,
-  localProvider,
-  userProvider,
-  userSigner,
-  mainnetProvider,
-  price,
-  web3Modal,
-  loadWeb3Modal,
-  logoutOfWeb3Modal,
-  blockExplorer,
-  isContract,
-  userMenuOpen,
-  handleUserMenuOpen,
-}) {
+function Navbar({ userMenuOpen, handleUserMenuOpen }) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { address } = useAccount();
 
   const [show, setShow] = useState(false);
   const [navPanelOpen, setNavPanelOpen] = useState(false);
@@ -184,18 +172,7 @@ function Navbar({
               layout="fixed"
             />
           </div>
-          <Account
-            useBurner={useBurner}
-            address={address}
-            localProvider={localProvider}
-            userSigner={userSigner}
-            mainnetProvider={mainnetProvider}
-            price={price}
-            web3Modal={web3Modal}
-            loadWeb3Modal={loadWeb3Modal}
-            logoutOfWeb3Modal={logoutOfWeb3Modal}
-            blockExplorer={blockExplorer}
-          />
+          <ConnectButton />
         </div>
         <div className="xl:hidden" onClick={() => setNavPanelOpen(!navPanelOpen)}>
           <img src={menuIconImage} alt="menu icon" width={40} height={40} layout="fixed" />
@@ -263,18 +240,7 @@ function Navbar({
               layout="fixed"
             />
           </div>
-          <Account
-            useBurner={useBurner}
-            address={address}
-            localProvider={localProvider}
-            userSigner={userSigner}
-            mainnetProvider={mainnetProvider}
-            price={price}
-            web3Modal={web3Modal}
-            loadWeb3Modal={loadWeb3Modal}
-            logoutOfWeb3Modal={logoutOfWeb3Modal}
-            blockExplorer={blockExplorer}
-          />
+          <ConnectButton />
         </div>
       )}
     </div>

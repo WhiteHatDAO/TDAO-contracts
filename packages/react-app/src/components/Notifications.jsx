@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NotificationCard } from "../HelperComponents";
+import { NotificationCard } from "../components";
 
 const server = "https://talentdao-api.herokuapp.com";
 

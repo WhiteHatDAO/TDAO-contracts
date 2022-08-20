@@ -6,7 +6,7 @@ import authorImage from "../assets/author.png";
 import lineImage from "../assets/line.png";
 import partnershipImage from "../assets/partnership.png";
 import profileImage from "../assets/profile.png";
-import { Footer, LatestArticles, Newsletter, Splash } from "../components/HelperComponents";
+import { Footer, LatestArticles, Newsletter, Splash } from "../components";
 import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory } from "../utils/utils";
 
 const server = "https://tdao-api.herokuapp.com";
