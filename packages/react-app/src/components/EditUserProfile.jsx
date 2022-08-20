@@ -1,7 +1,7 @@
 import { Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { dataURLtoFile, toBase64 } from "../../utils/utils";
+import { dataURLtoFile, toBase64 } from "../utils/utils";
 
 const server = "https://talentdao-api.herokuapp.com";
 

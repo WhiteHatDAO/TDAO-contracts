@@ -1,6 +1,6 @@
-import handImage from "../../assets/hand.png";
-import stepImage from "../../assets/step.png";
-import technologyDataImage from "../../assets/technology-data.png";
+import handImage from "../assets/hand.png";
+import stepImage from "../assets/step.png";
+import technologyDataImage from "../assets/technology-data.png";
 
 function Newsletter() {
   return (

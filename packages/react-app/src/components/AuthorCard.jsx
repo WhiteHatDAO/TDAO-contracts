@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dataURLtoFile } from "../../utils/utils";
+import { dataURLtoFile } from "../utils/utils";
 
 let file;
 let source;

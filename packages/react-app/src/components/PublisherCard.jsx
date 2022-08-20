@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import userImage from "../../assets/author_pro.png";
-import profileImage from "../../assets/contact_join_us.png";
+import userImage from "../assets/author_pro.png";
+import profileImage from "../assets/contact_join_us.png";
 
 const PublisherCard = ({ article }) => {
   const [src, setSrc] = useState();

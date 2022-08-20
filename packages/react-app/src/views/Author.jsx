@@ -8,7 +8,7 @@ import mark from "../assets/best_mark.png";
 import check from "../assets/check.png";
 import linkedin from "../assets/linkedin.png";
 import twitter from "../assets/twitter.png";
-import { ArticleMintCard, AuthorMark, Footer } from "../components/HelperComponents";
+import { ArticleMintCard, AuthorMark, Footer } from "../components";
 import { dataURLtoFile, getAuthorData } from "../utils/utils";
 
 const server = "https://tdao-api.herokuapp.com";

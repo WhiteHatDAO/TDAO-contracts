@@ -2,7 +2,7 @@ import { notification } from "antd";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dataURLtoFile } from "../../utils/utils";
+import { dataURLtoFile } from "../utils/utils";
 
 const ArticleMintCard = ({ article, tx, writeContracts, readContracts, address }) => {
   const [coverImage, setCoverImage] = useState(null);

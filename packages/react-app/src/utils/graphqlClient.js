@@ -132,11 +132,10 @@ export function useFetchedSubgraphStatus() {
 }
 
 /** REPUTATION */
-export const FETCH_REPUTATION_BY_ADDRESS = gql`
-  query fetchReputationByAddress($address: string) {
-    
-  }
-`;
+// export const FETCH_REPUTATION_BY_ADDRESS = gql`
+//   query fetchReputationByAddress($address: string) {
+//   }
+// `;
 
 /** ARWEAVE */
 

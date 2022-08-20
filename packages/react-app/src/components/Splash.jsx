@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import earthImage from "../../assets/earth.png";
-import earth_mobileImage from "../../assets/earth_mobile.png";
-import searchImage from "../../assets/search.svg";
-import vector from "../../assets/Vector.png";
+import earthImage from "../assets/earth.png";
+import earth_mobileImage from "../assets/earth_mobile.png";
+import searchImage from "../assets/search.svg";
+import vector from "../assets/Vector.png";
 
 /* This example requires Tailwind CSS v2.0+ */
 export default function Splash({ address }) {

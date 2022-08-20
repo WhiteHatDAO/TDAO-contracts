@@ -1,7 +1,7 @@
 import { useState } from "react";
-import metamask from "../../assets/metamask.png";
-import party from "../../assets/party.svg";
-import wallet_connect from "../../assets/wallet_connect.png";
+import metamask from "../assets/metamask.png";
+import party from "../assets/party.svg";
+import wallet_connect from "../assets/wallet_connect.png";
 
 const UserConnect = () => {
   const [toTypeWallet, setToTypeWallet] = useState(false);
