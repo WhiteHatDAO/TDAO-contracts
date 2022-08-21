@@ -119,36 +119,16 @@ const App = ({ ...props }) => {
             path="/user/publisher"
             element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
           ></Route>
+          <Route
+            path="/user/rewards"
+            element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+          ></Route>
+          <Route
+            path="/user/reputation"
+            element={<UserView address={address} userMenuOpen={userMenuOpen} handleUserMenuOpen={handleUserMenuOpen} />}
+          ></Route>
         </Route>
-        <Route path="/debug">
-          {/* <Contract
-            name="TalentDaoToken"
-            price={price}
-            signer={userSigner}
-            provider={localProvider}
-            address={address}
-            blockExplorer={blockExplorer}
-            contractConfig={contractConfig}
-          />
-          <Contract
-            name="TalentDaoNftToken"
-            price={price}
-            signer={userSigner}
-            provider={localProvider}
-            address={address}
-            blockExplorer={blockExplorer}
-            contractConfig={contractConfig}
-          />
-          <Contract
-            name="TalentDaoManager"
-            price={price}
-            signer={userSigner}
-            provider={localProvider}
-            address={address}
-            blockExplorer={blockExplorer}
-            contractConfig={contractConfig}
-          /> */}
-        </Route>
+        <Route path="/debug"></Route>
         <Route
           path="/submit/:walletId"
           element={<SubmitView address={address} writeContracts={writeContracts} readContracts={readContracts} />}
