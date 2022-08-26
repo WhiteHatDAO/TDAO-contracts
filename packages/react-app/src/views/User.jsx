@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAccount } from "wagmi";
 import {
   EditUserProfile,
   Notifications,
   PublisherPage,
+  ReputationPage,
+  RewardsPage,
   UserArticles,
   UserConnect,
   UserSubmissions,
 } from "../components";
-import { useAccount } from "wagmi";
 
 const configUserType = {
   none: -1,
@@ -19,7 +21,7 @@ const configUserType = {
   notifications: 4,
   publisher: 5,
   reputation: 6,
-  rewards: 7
+  rewards: 7,
 };
 
 export default function User({ userMenuOpen, handleUserMenuOpen }) {
@@ -47,9 +49,9 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
     } else if (type == configUserType.publisher) {
       navigate("/user/publisher");
     } else if (type == configUserType.reputation) {
-      navigate('/user/reputation');
+      navigate("/user/reputation");
     } else if (type == configUserType.rewards) {
-      navigate('/user/rewards');
+      navigate("/user/rewards");
     }
 
     handleMenuOpen();
@@ -77,8 +79,8 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
       setUserConfig(configUserType.edit_profile);
     } else if (location.pathname.includes("/notifications")) setUserConfig(configUserType.notifications);
     else if (location.pathname.includes("/publisher")) setUserConfig(configUserType.publisher);
-    else if(location.pathname.includes("/reputation")) setUserConfig(configUserType.reputation);
-    else if(location.pathname.includes("/rewards")) setUserConfig(configUserType.rewards);
+    else if (location.pathname.includes("/reputation")) setUserConfig(configUserType.reputation);
+    else if (location.pathname.includes("/rewards")) setUserConfig(configUserType.rewards);
   }, [location.pathname, address]);
 
   const Menu = () => (
@@ -139,7 +141,6 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
         className="rounded-md bg-transparent hover:bg-gray px-8 py-2 flex flex-row items-center cursor-pointer text-lg"
         onClick={() => handleConfigTypeChanged(configUserType.reputation)}
       >
-        
         <svg width="35" height="35" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="pr-3">
           <path
             d="M20 7.24L12.81 6.62L10 0L7.19 6.63L0 7.24L5.46 11.97L3.82 19L10 15.27L16.18 19L14.55 11.97L20 7.24ZM10 13.4L6.24 15.67L7.24 11.39L3.92 8.51L8.3 8.13L10 4.1L11.71 8.14L16.09 8.52L12.77 11.4L13.77 15.68L10 13.4Z"
@@ -147,26 +148,20 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
           />
         </svg>
 
-        <div className={userConfig === configUserType.reputation ? "text-primary" : "text-lightgray"}>
-          Reputation
-        </div>
+        <div className={userConfig === configUserType.reputation ? "text-primary" : "text-lightgray"}>Reputation</div>
       </div>
       <div
         className="rounded-md bg-transparent hover:bg-gray px-8 py-2 flex flex-row items-center cursor-pointer text-lg"
         onClick={() => handleConfigTypeChanged(configUserType.rewards)}
       >
-        <svg width="35" height="35" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"  className="pr-3">
-          <path 
-            d="M0.25 0.25L3.4495 8.02C1.5325 9.211 0.25 11.3305 0.25 13.75C0.25 17.4715 3.27775 20.5 7 20.5C10.7222 20.5 13.75 17.4715 13.75 13.75C13.75 11.3313 12.4675 9.21175 10.5505 8.02L13.75 0.25H12.1285L9.1945 7.3735C8.69477 7.19946 8.17614 7.08541 7.6495 7.03375L10.4403 0.25H8.81875L6.00475 7.0825C5.59663 7.14225 5.19491 7.23967 4.80475 7.3735L1.8715 0.25H0.25ZM3.559 0.25L5.46475 4.8805L6.27625 2.91025L5.18125 0.25H3.559ZM7 8.5C9.89425 8.5 12.25 10.855 12.25 13.75C12.25 16.645 9.89425 19 7 19C4.10575 19 1.75 16.645 1.75 13.75C1.75 10.855 4.10575 8.5 7 8.5ZM7 10.8715L6.124 12.8365L4 13.069L5.59 14.497L5.14225 16.6045L7 15.5335L8.85775 16.606L8.41075 14.4985L10 13.0682L7.876 12.8358L7 10.8707V10.8715Z" 
+        <svg width="35" height="35" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="pr-3">
+          <path
+            d="M0.25 0.25L3.4495 8.02C1.5325 9.211 0.25 11.3305 0.25 13.75C0.25 17.4715 3.27775 20.5 7 20.5C10.7222 20.5 13.75 17.4715 13.75 13.75C13.75 11.3313 12.4675 9.21175 10.5505 8.02L13.75 0.25H12.1285L9.1945 7.3735C8.69477 7.19946 8.17614 7.08541 7.6495 7.03375L10.4403 0.25H8.81875L6.00475 7.0825C5.59663 7.14225 5.19491 7.23967 4.80475 7.3735L1.8715 0.25H0.25ZM3.559 0.25L5.46475 4.8805L6.27625 2.91025L5.18125 0.25H3.559ZM7 8.5C9.89425 8.5 12.25 10.855 12.25 13.75C12.25 16.645 9.89425 19 7 19C4.10575 19 1.75 16.645 1.75 13.75C1.75 10.855 4.10575 8.5 7 8.5ZM7 10.8715L6.124 12.8365L4 13.069L5.59 14.497L5.14225 16.6045L7 15.5335L8.85775 16.606L8.41075 14.4985L10 13.0682L7.876 12.8358L7 10.8707V10.8715Z"
             fill={userConfig === configUserType.rewards ? "#B41C2E" : "#929292"}
           />
         </svg>
 
-
-
-        <div className={userConfig === configUserType.rewards ? "text-primary" : "text-lightgray"}>
-          Rewards
-        </div>
+        <div className={userConfig === configUserType.rewards ? "text-primary" : "text-lightgray"}>Rewards</div>
       </div>
       <div
         className="rounded-md bg-transparent hover:bg-gray px-8 py-2 flex flex-row items-center cursor-pointer text-lg"
@@ -261,7 +256,7 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
               <div className="flex flex-col ">
                 <RewardsPage />
               </div>
-            ): (
+            ) : (
               <></>
             )}
           </div>
