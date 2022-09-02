@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContractWrite } from "wagmi";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
 import mark from "../assets/best_mark.png";
 import check from "../assets/check.png";
 import linkedin from "../assets/linkedin.png";
@@ -139,11 +139,13 @@ const Author = ({ tx, readContracts, writeContracts, address }) => {
   // Set up the contract values
 
   // Contract interactions
-  const { write: tipAuthor, isLoading, isSuccess } = useContractWrite({
+  const { config } = usePrepareContractWrite({
     addressOrName: "",
     contractInterface: [],
-    functionName: "",
+    functionName: "tipAuthor",
+    args: [],
   });
+  const { write: tipAuthor, isLoading, isSuccess } = useContractWrite(config);
 
   const tipAuthorTalent = async amount => {};
 
