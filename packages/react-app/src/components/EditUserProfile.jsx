@@ -3,7 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { dataURLtoFile, toBase64 } from "../utils/utils";
 
-const server = "https://talentdao-api.herokuapp.com";
+let server = "http://localhost:4001";
+if (process.env.NODE_ENV === "production") {
+  server = "https://tdao-api.herokuapp.com";
+}
 
 const EditUserProfile = ({ address }) => {
   const [name, setName] = useState("Edit Name");

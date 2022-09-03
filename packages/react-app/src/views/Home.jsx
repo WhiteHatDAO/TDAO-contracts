@@ -9,7 +9,10 @@ import profileImage from "../assets/profile.png";
 import { Footer, LatestArticles, Newsletter, Splash } from "../components";
 import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory } from "../utils/utils";
 
-const server = "https://tdao-api.herokuapp.com";
+let server = "http://localhost:4001";
+if (process.env.NODE_ENV === "production") {
+  server = "https://tdao-api.herokuapp.com";
+}
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use
@@ -174,6 +177,8 @@ function Home({ address }) {
               </div>
             </div>
           </div>
+          {/* DAO Updates Section */}
+          {/* todo: create a component for this */}
           <div className="mx-4 mt-4 md:mt-0 flex flex-col">
             <div className="text-3xl xl:text-4xl font-bold text-left">
               DAO Updates

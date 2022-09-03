@@ -5,7 +5,7 @@ import { ArticleCard } from "../components";
 
 const UserArticles = ({ address }) => {
   const [articles, setArticles] = useState([]);
-  const [articleNfts, setArticleNfts] = useState([]);
+  // const [articleNfts, setArticleNfts] = useState([]);
 
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const UserArticles = ({ address }) => {
     };
 
     getArticles();
-  }, [address]);
+  }, [address, articles]);
 
   return (
     <div className="my-8">
@@ -35,7 +35,7 @@ const UserArticles = ({ address }) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {articles.map((item, index) => {
-            return <ArticleCard article={item}></ArticleCard>;
+            return <ArticleCard key={index} article={item}></ArticleCard>;
           })}
         </div>
       )}

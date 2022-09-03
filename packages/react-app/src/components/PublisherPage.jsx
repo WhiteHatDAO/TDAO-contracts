@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PublisherCard, ReviewerCard } from "../components";
 
-const PublisherPage = ({ address }) => {
+const PublisherPage = () => {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState();
+  const [, setSelectedOption] = useState();
   const [checked, setChecked] = useState(false);
 
   const options = [{ name: "DeFi" }, { name: "DAO" }, { name: "Abstract Art" }, { name: "DeSci" }, { name: "NFT" }];

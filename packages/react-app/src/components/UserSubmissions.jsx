@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import illustrationImage from "../assets/illustration.png";
 import { SubmissionCard } from "../components";
 
-const server = "https://talentdao-api.herokuapp.com";
+let server = "http://localhost:4001";
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+  server = "https://tdao-api.herokuapp.com";
+}
 
 const UserSubmissions = ({ address }) => {
   // const [toArticles, goToArticles] = useState(false);

@@ -19,9 +19,9 @@ function Navbar({ userMenuOpen, handleUserMenuOpen }) {
 
   const [show, setShow] = useState(false);
   const [navPanelOpen, setNavPanelOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(userMenuOpen);
+  const [, setMenuOpen] = useState(userMenuOpen);
   const [twitter, setTwitter] = useState("");
-  const [linkedin, setLinkedin] = useState("");
+  // const [linkedin, setLinkedin] = useState("");
 
   const goToPage = locationPath => {
     setShow(false);

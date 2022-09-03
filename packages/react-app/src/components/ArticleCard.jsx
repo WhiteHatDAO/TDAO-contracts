@@ -7,7 +7,10 @@ import heartImage from "../assets/heart.png";
 import talentImage from "../assets/talent.png";
 import { dataURLtoFile } from "../utils/utils";
 
-const server = "https://talentdao-api.herokuapp.com";
+let server = "http://localhost:4001";
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+  server = "https://tdao-api.herokuapp.com";
+}
 
 export const ArticleCard = ({ id }) => {
   const navigate = useNavigate();

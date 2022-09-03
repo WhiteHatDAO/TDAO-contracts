@@ -25,7 +25,7 @@ const configUserType = {
 };
 
 export default function User({ userMenuOpen, handleUserMenuOpen }) {
-  const [menuOpen, setMenuOpen] = useState(userMenuOpen);
+  const [, setMenuOpen] = useState(userMenuOpen);
   const [userConfig, setUserConfig] = useState(configUserType.none);
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,17 +40,17 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
   const handleConfigTypeChanged = type => {
     if (type === configUserType.submission) {
       navigate("/user/submissions");
-    } else if (type == configUserType.article) {
+    } else if (type === configUserType.article) {
       navigate("/user/articles");
-    } else if (type == configUserType.edit_profile) {
+    } else if (type === configUserType.edit_profile) {
       navigate("/user/author");
-    } else if (type == configUserType.notifications) {
+    } else if (type === configUserType.notifications) {
       navigate("/user/notifications");
-    } else if (type == configUserType.publisher) {
+    } else if (type === configUserType.publisher) {
       navigate("/user/publisher");
-    } else if (type == configUserType.reputation) {
+    } else if (type === configUserType.reputation) {
       navigate("/user/reputation");
-    } else if (type == configUserType.rewards) {
+    } else if (type === configUserType.rewards) {
       navigate("/user/rewards");
     }
 
@@ -108,22 +108,10 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
         <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg" className="pr-3">
           <path
             d="M17.5 0C7.84 0 0 7.84 0 17.5C0 27.16 7.84 35 17.5 35C27.16 35 35 27.16 35 17.5C35 7.84 27.16 0 17.5 0ZM20.79 16.695L12.11 25.375L9.6425 22.9075L18.3225 14.2275L14.595 10.5L24.4825 10.5175L24.5 20.405L20.79 16.695Z"
-            fill={
-              userConfig === configUserType.submission || userConfig === configUserType.publisher
-                ? "#B41C2E"
-                : "#929292"
-            }
+            fill={userConfig === configUserType.submission ? "#B41C2E" : "#929292"}
           />
         </svg>
-        <div
-          className={
-            userConfig === configUserType.submission || userConfig === configUserType.publisher
-              ? "text-primary"
-              : "text-lightgray"
-          }
-        >
-          Submissions
-        </div>
+        <div className={userConfig === configUserType.submission ? "text-primary" : "text-lightgray"}>Submissions</div>
       </div>
       <div
         className="rounded-md bg-transparent hover:bg-gray px-8 py-2 flex flex-row items-center cursor-pointer text-lg"
@@ -232,12 +220,10 @@ export default function User({ userMenuOpen, handleUserMenuOpen }) {
               </div>
             ) : userConfig === configUserType.article ? (
               <div className="flex flex-col">
-                <p className="py-4 text-left text-lg text-darkgray font-bold">Articles</p>
                 <UserArticles address={address}></UserArticles>
               </div>
             ) : userConfig === configUserType.edit_profile ? (
               <div className="flex flex-col">
-                <p className="py-4 text-left text-lg text-darkgray font-bold">Edit Profile</p>
                 <EditUserProfile address={address}></EditUserProfile>
               </div>
             ) : userConfig === configUserType.notifications ? (

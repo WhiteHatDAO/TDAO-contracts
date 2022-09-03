@@ -2,7 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NotificationCard } from "../components";
 
-const server = "https://talentdao-api.herokuapp.com";
+let server = "http://localhost:4001";
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+  server = "https://tdao-api.herokuapp.com";
+}
 
 const Notifications = ({ address }) => {
   const [notifications, setNotifications] = useState([
@@ -28,7 +31,7 @@ const Notifications = ({ address }) => {
       }
     };
 
-    // getNotificationsForUser();
+    getNotificationsForUser();
   }, [address]);
 
   return (
