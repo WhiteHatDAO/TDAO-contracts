@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import illustrationImage from "../assets/illustration.png";
 import { SubmissionCard } from "../components";
+import { serverUrl } from "../utils/utils";
 
-let server = "http://localhost:4001";
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
-  server = "https://tdao-api.herokuapp.com";
-}
+let server = serverUrl();
 
 const UserSubmissions = ({ address }) => {
   // const [toArticles, goToArticles] = useState(false);

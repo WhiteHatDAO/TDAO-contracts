@@ -1,6 +1,5 @@
-import { notification, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import axios from "axios";
-import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 // import FileViewer from "react-file-viewer";
 import { pdfjs } from "react-pdf";
@@ -13,13 +12,10 @@ import author_pro from "../assets/author_pro.png";
 import ethereum from "../assets/ethereum.png";
 import matic from "../assets/matic.png";
 import { SimilarArticleCard } from "../components";
-import { dataURLtoFile, getAuthorData, readTextFile } from "../utils/utils";
+import { dataURLtoFile, getAuthorData, readTextFile, serverUrl } from "../utils/utils";
 pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
 
-let server = "http://localhost:4001";
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
-  server = "https://tdao-api.herokuapp.com";
-}
+let server = serverUrl();
 
 // const apiClient = new APIClient(
 // "https://lib.openlaw.io/api/v1/default",

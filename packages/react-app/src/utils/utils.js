@@ -1,8 +1,12 @@
 import axios from "axios";
 
 let server = "http://localhost:4001";
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
   server = "https://tdao-api.herokuapp.com";
+}
+
+export function serverUrl() {
+  return server;
 }
 
 export function dataURLtoFile(dataurl, filename) {

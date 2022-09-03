@@ -12,6 +12,7 @@ const UserArticles = ({ address }) => {
   useEffect(() => {
     const getArticles = () => {
       // the user articles will be IP NFT's
+      setArticles([]);
       console.log("Articles loading...", articles);
     };
 

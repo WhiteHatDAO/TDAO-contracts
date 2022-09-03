@@ -9,7 +9,7 @@ const UserConnect = () => {
   return (
     <div className="pt-4 flex flex-col">
       <div className="py-4 flex flex-row items-center">
-        <img src={party}></img>
+        <img src={party} alt="party"></img>
         <div className="text-6xl text-darkgray font-bold">Here we go</div>
       </div>
       <div className="rounded-2xl p-8 bg-white flex flex-col text-left space-y-4">

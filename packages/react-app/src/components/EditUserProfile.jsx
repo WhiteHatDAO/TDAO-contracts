@@ -1,12 +1,9 @@
 import { Spin } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { dataURLtoFile, toBase64 } from "../utils/utils";
+import { dataURLtoFile, serverUrl, toBase64 } from "../utils/utils";
 
-let server = "http://localhost:4001";
-if (process.env.NODE_ENV === "production") {
-  server = "https://tdao-api.herokuapp.com";
-}
+let server = serverUrl();
 
 const EditUserProfile = ({ address }) => {
   const [name, setName] = useState("Edit Name");

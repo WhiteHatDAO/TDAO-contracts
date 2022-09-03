@@ -5,6 +5,9 @@ import contact_rect from "../assets/contact_rect.png";
 import faqArrow from "../assets/faqArrow.png";
 import lineImage from "../assets/line.png";
 import { Footer } from "../components";
+import { serverUrl } from "../utils/utils";
+
+let server = serverUrl();
 
 const FAQStateType = {
   none: "",
@@ -48,7 +51,6 @@ const Contact = () => {
     if (name === "" || email === "" || message === "") return;
 
     try {
-      const server = "https://talentdao-api.herokuapp.com";
       const res = axios.post(server + "/api/contact", {
         name: name,
         email: email,

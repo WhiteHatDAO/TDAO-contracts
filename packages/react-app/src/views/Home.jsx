@@ -7,12 +7,9 @@ import lineImage from "../assets/line.png";
 import partnershipImage from "../assets/partnership.png";
 import profileImage from "../assets/profile.png";
 import { Footer, LatestArticles, Newsletter, Splash } from "../components";
-import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory } from "../utils/utils";
+import { dataURLtoFile, getBgColorForCategory, getTextColorForCategory, serverUrl } from "../utils/utils";
 
-let server = "http://localhost:4001";
-if (process.env.NODE_ENV === "production") {
-  server = "https://tdao-api.herokuapp.com";
-}
+let server = serverUrl();
 
 /**
  * web3 props can be passed from '../App.jsx' into your local view component for use

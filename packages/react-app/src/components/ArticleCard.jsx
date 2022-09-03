@@ -5,12 +5,9 @@ import authorimg from "../assets/author.png";
 import etherImage from "../assets/ethereum.png";
 import heartImage from "../assets/heart.png";
 import talentImage from "../assets/talent.png";
-import { dataURLtoFile } from "../utils/utils";
+import { dataURLtoFile, serverUrl } from "../utils/utils";
 
-let server = "http://localhost:4001";
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
-  server = "https://tdao-api.herokuapp.com";
-}
+let server = serverUrl();
 
 export const ArticleCard = ({ id }) => {
   const navigate = useNavigate();

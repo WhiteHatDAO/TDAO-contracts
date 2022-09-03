@@ -1,11 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NotificationCard } from "../components";
+import { serverUrl } from "../utils/utils";
 
-let server = "http://localhost:4001";
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
-  server = "https://tdao-api.herokuapp.com";
-}
+let server = serverUrl();
 
 const Notifications = ({ address }) => {
   const [notifications, setNotifications] = useState([

@@ -8,9 +8,9 @@ import check from "../assets/check.png";
 import linkedin from "../assets/linkedin.png";
 import twitter from "../assets/twitter.png";
 import { ArticleMintCard, AuthorMark, Footer } from "../components";
-import { dataURLtoFile, getAuthorData } from "../utils/utils";
+import { dataURLtoFile, getAuthorData, serverUrl } from "../utils/utils";
 
-const server = "https://tdao-api.herokuapp.com";
+let server = serverUrl();
 
 const Author = ({ tx, readContracts, writeContracts, address }) => {
   const navigate = useNavigate();
