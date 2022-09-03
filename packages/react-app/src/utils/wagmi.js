@@ -9,7 +9,7 @@ const alchemyId = process.env.ALCHEMY_ID;
 const infuraId = process.env.INFURA_ID;
 
 export const { chains, provider, webSocketProvider } = configureChains(
-  [chain.mainnet, chain.goerli, chain.polygonMumbai, chain.polygon, chain.optimism],
+  [chain.polygonMumbai, chain.goerli, chain.optimismGoerli],
   [
     jsonRpcProvider({
       rpc: chain => ({

@@ -31,8 +31,8 @@ contract TokenRecover is Ownable {
 
 /// @title Talent Stake Pool Contract
 /// @author Jaxcoder
-/// @notice Swaps Talent for veTalent and earn rewards on your Talent deposit
-/// @dev There is a 1:1 ratio on swaps
+/// @notice Swaps TALENT for veTalent and earn rewards on your TALENT deposit
+/// @dev There is a 1:1 ratio on swaps between TALENT and veTALENT
 // ReentrancyGuard, 
 contract TalentStaking is AccessControl, TokenRecover {
     using SafeERC20 for IERC20;
@@ -63,7 +63,7 @@ contract TalentStaking is AccessControl, TokenRecover {
     uint256 public TALENT_PER_BLOCK = 2 ether;
 
     // Bonus muliplier for early gtalent makers.
-    uint256 public constant BONUS_MULTIPLIER = 2;
+    uint256 public BONUS_MULTIPLIER = 2;
 
     // uint256 constant MAX_Talent_SUPPLY = 1000000000 ether; // 1 Billion
 
@@ -111,8 +111,11 @@ contract TalentStaking is AccessControl, TokenRecover {
     event SetFeeAddress(address indexed user, address indexed newAddress);
     event Entered(address indexed user, uint256 amount, uint256 timestamp);
     event Exited(address indexed user, uint256 amount, uint256 timestamp);
+    event RewardFeeUpdated(uint256 rewardFee);
+    event BonusEndBlockSet(uint256 bonusEndBlock);
+    event MultiplierSet(uint256 multiplier);
 
-        // ReentrancyGuard()
+    // ReentrancyGuard()
     constructor (
         uint256 _startBlock,
         uint256 _bonusEndBlock,
@@ -128,7 +131,7 @@ contract TalentStaking is AccessControl, TokenRecover {
         // ** add the talent/veTalent stake pool with 100 allocation,
         // this will be the only pool even though we have
         // the ability to add more. Who knows, the future is bright :)
-        addStakePool(10, _talentToken);
+        addStakePool(100, _talentToken);
 
         _setupRole(OPERATOR_ROLE, msg.sender);
         _setupRole(DAO_ROLE, msg.sender);
@@ -179,7 +182,7 @@ contract TalentStaking is AccessControl, TokenRecover {
     }
 
     /// @dev Return reward multiplier over the given _from to _to block.
-    function getMultiplier(uint256 _from, uint256 _to)
+    function getRewardMultiplier(uint256 _from, uint256 _to)
         public
         view
         returns (uint256)
@@ -193,8 +196,17 @@ contract TalentStaking is AccessControl, TokenRecover {
         }
     }
 
+    function setMultiplier(uint256 _newBonusMultiplier)
+        public
+        onlyOwner
+    {
+        BONUS_MULTIPLIER = _newBonusMultiplier;
+
+        emit MultiplierSet(BONUS_MULTIPLIER);
+    }
+
     /// @dev view funciton to see pending Talent on front-end
-    function pendingTalent(uint256 _pid, address _staker)
+    function pendingTalentRewards(uint256 _pid, address _staker)
         public
         view
         returns (uint256)
@@ -205,7 +217,7 @@ contract TalentStaking is AccessControl, TokenRecover {
         uint256 lpSupply = talentToken.balanceOf(address(this));
         
         if (block.number > pool.lastRewardBlock && lpSupply != 0) {
-            uint256 multiplier = getMultiplier(
+            uint256 multiplier = getRewardMultiplier(
                 pool.lastRewardBlock,
                 block.number
             );
@@ -221,7 +233,9 @@ contract TalentStaking is AccessControl, TokenRecover {
     }
 
     /// @dev updates the pool rewards values
-    function updatePool(uint256 _poolId) public {
+    function _updatePool(uint256 _poolId)
+        internal
+    {
         PoolInfo storage pool = pools[_poolId];
         if (block.number <= pool.lastRewardBlock) {
             return;
@@ -231,7 +245,7 @@ contract TalentStaking is AccessControl, TokenRecover {
             pool.lastRewardBlock = block.number;
             return;
         }
-        uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
+        uint256 multiplier = getRewardMultiplier(pool.lastRewardBlock, block.number);
         uint256 talentReward = (multiplier * (TALENT_PER_BLOCK * pool.allocationPoint)) / totalAllocationPoint;
         talentToken.mintTokensTo(address(this), talentReward);
         pool.accTalentPerShare = pool.accTalentPerShare + ((talentReward * 1e12) / lpSupply);
@@ -243,10 +257,10 @@ contract TalentStaking is AccessControl, TokenRecover {
         PoolInfo storage pool = pools[_poolId];
         StakerInfo storage user = stakerInfo[_poolId][msg.sender];
 
-        updatePool(_poolId);
+        _updatePool(_poolId);
         if (user.amount > 0) {
             uint256 pending = (user.amount * pool.accTalentPerShare) / 1e12 - user.rewardDebt;
-            safeTalentTransfer(msg.sender, pending);
+            _safeTalentTransfer(msg.sender, pending);
             console.log("Transferred ", pending, " PRHO rewards");
         }
 
@@ -271,17 +285,15 @@ contract TalentStaking is AccessControl, TokenRecover {
     function withdraw(uint256 _poolId, uint256 _amount) public {
         PoolInfo storage pool = pools[_poolId];
         StakerInfo storage user = stakerInfo[_poolId][msg.sender];
-        require(user.amount >= _amount, "withdraw: not good");
-        updatePool(_poolId);
+        require(user.amount >= _amount, "withdraw: not enough balance");
+        _updatePool(_poolId);
         uint256 pending = ((user.amount * pool.accTalentPerShare) / 1e12) - user.rewardDebt;
-        // take our 10% of the rewards
+        // todo: take our 10% of the rewards, do we want to do this and send to treasury?
         pending = (pending / (100)) * (90);
-        // send rewards to user
-        safeTalentTransfer(msg.sender, pending);
+        // send the _amount back to user
+        _safeTalentTransfer(msg.sender, _amount + pending);
         // burn _amount of veTalent
         veTalentToken.burnFrom(address(msg.sender), _amount);
-        // send the _amount back to user
-        safeTalentTransfer(msg.sender, _amount);
         // update struct
         user.amount = user.amount - (_amount);
         user.rewardDebt = (user.amount * pool.accTalentPerShare) / 1e12;
@@ -292,7 +304,9 @@ contract TalentStaking is AccessControl, TokenRecover {
     }
 
     /// @dev transfers Talent from contract if available and mints if not
-    function safeTalentTransfer(address _to, uint256 _amount) internal {
+    function _safeTalentTransfer(address _to, uint256 _amount)
+        internal
+    {
         uint256 talentBal = talentToken.balanceOf(address(this));
         if (_amount <= talentBal) {
             talentToken.transfer(_to, _amount);
@@ -361,7 +375,7 @@ contract TalentStaking is AccessControl, TokenRecover {
         staker.amount = 0;
         staker.rewardDebt = 0;
         veTalentToken.burnFrom(msg.sender, amount);
-        safeTalentTransfer(msg.sender, amount);
+        _safeTalentTransfer(msg.sender, amount);
 
         emit Withdraw(msg.sender, _poolId, amount);
     }
@@ -373,6 +387,8 @@ contract TalentStaking is AccessControl, TokenRecover {
         onlyOwner
     {
         bonusEndBlock = _bonusEndBlock;
+
+        emit BonusEndBlockSet(bonusEndBlock);
     }
 
     /// @dev sets a new reward fee in basis points
@@ -383,5 +399,7 @@ contract TalentStaking is AccessControl, TokenRecover {
     {
         require(_rewardFee > 0, "Must be greater than zero");
         rewardFee = _rewardFee;
+
+        emit RewardFeeUpdated(rewardFee);
     }
 }
