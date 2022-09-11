@@ -4,10 +4,6 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
 export default class AuthorMark extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const settings = {
       dots: false,

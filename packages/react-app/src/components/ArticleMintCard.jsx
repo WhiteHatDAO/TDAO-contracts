@@ -1,10 +1,8 @@
-import { notification } from "antd";
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dataURLtoFile } from "../utils/utils";
 
-const ArticleMintCard = ({ article, tx, writeContracts, readContracts, address }) => {
+const ArticleMintCard = ({ article }) => {
   const [coverImage, setCoverImage] = useState(null);
   const navigate = useNavigate();
 
@@ -15,30 +13,7 @@ const ArticleMintCard = ({ article, tx, writeContracts, readContracts, address }
   }, [article]);
 
   const mintIPNFT = async () => {
-    tx(
-      writeContracts?.TalentDaoManager?.mintArticleNFT(
-        address,
-        "https://myipfslocation.com",
-        ethers.utils.parseEther("10"),
-      ),
-      async update => {
-        console.log("📡 Transaction Update:", update);
-        if (update.status === 1) {
-          notification.open({
-            message: "Success",
-            description: "You have purchased an Article IP NFT 😍",
-            icon: "🚀",
-          });
-          // now to remove the item from this author...
-          changeAuthors();
-          // need to make sure the Arweave TxId follows the article
-        }
-      },
-    );
-  };
-
-  const changeAuthors = async () => {
-    //
+    // todo:
   };
 
   return (

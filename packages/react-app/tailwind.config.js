@@ -19,8 +19,8 @@ module.exports = {
       black: "#000",
     },
     fontFamily: {
-      'mont': ["Montserrat", "ui-sans-serif", "system-ui"],
-    }
+      mont: ["Montserrat", "ui-sans-serif", "system-ui"],
+    },
   },
   plugins: [
     // require("@tailwindcss/forms"),

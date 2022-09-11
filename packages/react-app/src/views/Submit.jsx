@@ -1,11 +1,12 @@
-import { notification } from "antd";
 import axios from "axios";
-import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { sendTransacton } from "../utils/arweave";
+import { serverUrl } from "../utils/utils";
 
-const Submit = ({ address, tx, writeContracts, readContracts }) => {
+let server = serverUrl();
+
+const Submit = () => {
   const [selectedManuscriptFile, setSelectedManuscriptFile] = useState(null);
   const [authors, setAuthors] = useState([]);
   const [selectedArticleCover, setSelectedArticleCover] = useState();
@@ -81,8 +82,6 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
 
     if (isError) return;
 
-    const server = "https://tdao-api.herokuapp.com/";
-
     const articleFile = selectedManuscriptFile
       ? {
           filename: selectedManuscriptFile.name,
@@ -130,7 +129,6 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
       console.log(res);
       if (res.status === 200) {
         // clear the form and send to the creators/authors profile pag
-
       }
     } catch (e) {
       console.log(e);
@@ -150,26 +148,7 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
   };
 
   const submitOnChain = async arweaveHash => {
-    await tx(
-      writeContracts &&
-        writeContracts.TalentDaoManager &&
-        writeContracts.TalentDaoManager.addArticle(
-          address,
-          arweaveHash,
-          "ipfs meta data pointer",
-          ethers.utils.parseEther("10"),
-        ),
-      async update => {
-        console.log("📡 Transaction Update:", update);
-        if (update.status === 1) {
-          notification.open({
-            message: "Article is now onchain",
-            description: "You have submitted your article== 😍",
-            icon: "🚀",
-          });
-        }
-      },
-    );
+    // todo: 
   };
 
   useEffect(() => {
@@ -179,10 +158,6 @@ const Submit = ({ address, tx, writeContracts, readContracts }) => {
     preview.src = src;
     preview.style.display = "block";
   }, [selectedArticleCover]);
-
-  useEffect(() => {
-    console.log("ETH Address: ", address);
-  }, [address]);
 
   return (
     <div className="" style={{ backgroundImage: "linear-gradient(#fff, #EEEE" }}>

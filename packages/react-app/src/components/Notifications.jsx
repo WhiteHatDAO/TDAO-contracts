@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NotificationCard } from "../components";
+import { serverUrl } from "../utils/utils";
 
-const server = "https://talentdao-api.herokuapp.com";
+let server = serverUrl();
 
 const Notifications = ({ address }) => {
   const [notifications, setNotifications] = useState([
@@ -28,7 +29,7 @@ const Notifications = ({ address }) => {
       }
     };
 
-    // getNotificationsForUser();
+    getNotificationsForUser();
   }, [address]);
 
   return (

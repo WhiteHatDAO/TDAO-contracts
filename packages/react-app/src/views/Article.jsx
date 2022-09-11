@@ -1,21 +1,22 @@
-import { notification, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import axios from "axios";
-import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 // import FileViewer from "react-file-viewer";
 import { pdfjs } from "react-pdf";
 // import { Document, Page } from "react-pdf";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { useParams } from "react-router-dom";
+import { useAccount } from "wagmi";
 import article_back from "../assets/article_back.png";
 import author_pro from "../assets/author_pro.png";
 import ethereum from "../assets/ethereum.png";
 import matic from "../assets/matic.png";
 import { SimilarArticleCard } from "../components";
-import { dataURLtoFile, getAuthorData, readTextFile } from "../utils/utils";
+import { dataURLtoFile, getAuthorData, readTextFile, serverUrl } from "../utils/utils";
 pdfjs.GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
 
-const server = "https://tdao-api.herokuapp.com/";
+let server = serverUrl();
+
 // const apiClient = new APIClient(
 // "https://lib.openlaw.io/api/v1/default",
 // {
@@ -34,7 +35,7 @@ const tabType = {
   author: "authors",
 };
 
-const Article = ({ readContracts, writeContracts, address, tx }) => {
+const Article = () => {
   const [tab, setTab] = useState(tabType.detail);
   const [article, setArticle] = useState(null);
   const [author, setAuthor] = useState(null);
@@ -47,6 +48,8 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   const [fileData, setFileData] = useState({});
   const [fileId, setFileId] = useState();
   const [template, setTemplate] = useState();
+
+  const { address } = useAccount();
 
   function onDocumentLoadedSuccess({ numPages }) {
     setNumPages(numPages);
@@ -70,18 +73,23 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
   };
 
   const getAuthor = async () => {
-    const params = new URLSearchParams([["walletId", address]]);
-    const data = getAuthorData(params);
-    if (data !== null) {
-      setAuthor(data);
+    try {
+      const params = new URLSearchParams([["walletId", address]]);
+      const data = getAuthorData(params);
+      if (data !== null) {
+        setAuthor(data);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
   useEffect(() => {
     getArticle();
     getAuthor();
-  }, [id]);
+  }, [address]);
 
+  // loads the article data on page load
   useEffect(() => {
     if (!article) return;
     var file = dataURLtoFile(article?.body?.data, article?.body?.filename);
@@ -97,38 +105,19 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
     setCoverImage(coverSrc);
   }, [article]);
 
+  // todo: what is this doing?
   useEffect(() => {
     if (!author) return;
     // var file = dataURLtoFile(author?.)
   }, [author]);
 
+  // todo: contract call to mint an article
   const mintArticle = async () => {
-    // mint the article
     console.log("Mint clicked: ", article);
-    await tx(
-      writeContracts &&
-        writeContracts.TalentDaoNftToken &&
-        writeContracts.TalentDaoNftToken.mintNFTForArticle(
-          address,
-          "https://myipfsuri.com/",
-          ethers.utils.parseEther("1"),
-        ),
-      async update => {
-        console.log("📡 Transaction Update:", update);
-        if (update.status === 1) {
-          notification.open({
-            message: "Article NFT Purchased",
-            description: "Your NFT has been transferred to your wallet 😍",
-            icon: "🚀",
-          });
-        }
-      },
-    );
   };
 
   const scrollTop = () => {
     document.documentElement.scrollTo({
-      // @ts-ignore
       top: 0,
       behavior: "smooth",
     });
@@ -308,10 +297,10 @@ const Article = ({ readContracts, writeContracts, address, tx }) => {
 
           <div className="hidden lg:block my-8 max-w-screen-lg mx-auto text-lg text-left">{articleText}</div>
           <div className="pb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <SimilarArticleCard address={address}></SimilarArticleCard>
-            <SimilarArticleCard address={address}></SimilarArticleCard>
-            <SimilarArticleCard address={address}></SimilarArticleCard>
-            <SimilarArticleCard address={address}></SimilarArticleCard>
+            <SimilarArticleCard />
+            <SimilarArticleCard />
+            <SimilarArticleCard />
+            <SimilarArticleCard />
           </div>
         </div>
       )}
