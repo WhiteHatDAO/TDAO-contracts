@@ -37,4 +37,38 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+
+
+<script>
+  (function(d, s) {
+    var js = d.createElement(s),
+      sc = d.getElementsByTagName(s)[0];
+    js.src = "https://paywall.unlock-protocol.com/static/unlock.latest.min.js";
+    sc.parentNode.insertBefore(js, sc);
+  }(document, "script"));
+</script>
+
+<script>
+  var unlockProtocolConfig = {
+    "network": 4, // Network ID (1 is for mainnet, 4 for rinkeby, 100 for xDai, etc)
+    "locks": {
+      "0xD9e80db9122B6fA329408E385E5A1e088b9B649e": {
+        "name": "TDAO Members"
+      }
+    },
+    "icon": "https://unlock-protocol.com/static/images/svg/unlock-word-mark.svg",
+    "callToAction": {
+      "default": "Please unlock TalentDAO!"
+    }
+  }
+</script>
+
+<h1>TalentDAO</h1>
+<p class="unlock-content locked">TalentDao is currently locked 🔒 </p>
+<p class="unlock-content unlocked">TalentDao is currently unlocked 🎉</p>
+<p class="unlock-content locked" onclick="window.unlockProtocol && window.unlockProtocol.loadCheckoutModal()"><button class="button">
+    Unlock!
+  </button></p>
+
+
 </html>
